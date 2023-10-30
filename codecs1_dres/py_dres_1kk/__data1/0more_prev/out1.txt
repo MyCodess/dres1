@@ -1,0 +1,9 @@
+---binary-layer-accessed-through buffer attrib of the text-stream:
+xx
+yy
+zz
+--- decoded-bytes-into-string:
+aa
+bb
+cc
+-----------

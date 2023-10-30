@@ -1,0 +1,14 @@
+Windows Registry Editor Version 5.00
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\OEMInformation]
+
+“Logo”=”C:\\WINDOWS\\oem\\MyLogo1.bmp”
+
+“Manufacturer”=”My-Firm-1”
+
+“Model”=”Windows 10 Pro 21H1”
+
+“SupportHours”=”9am to 5pm ET M-F”
+
+“SupportURL”=”https://MySite-1.com”
+

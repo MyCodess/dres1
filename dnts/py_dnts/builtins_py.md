@@ -1,0 +1,70 @@
+__________  builtins / ......... _________________________________
+##________________________________________  ___________________________
+
+
+#####  ==========  docs:
+	pydoc  builtins  ##--bzw. help (builtins)
+	!! see RefDocs : The Python Standard Library : Built-in Functions , Built-in Constants, Built-in Types, ... !! https://docs.python.org/3/library/functions.html , ....
+##________________________________________  ___________________________
+
+
+#####  ==========  inq/listings of builtins :
+	- import builtins ;  dir (builtins)    ##--dir() without param, does not list the names of built-in functions and variables, but shows all other names in the current scope !
+	- import builtins ;  print(str(dir(builtins)).replace(", ","\n"))   ##--each in one line ! so with new-lines instead "," !
+	- dir(__builtins__) ; ##only attrib-names
+	- print (__builtins__.__dict__) ;  ##attrib-names + values, as dict !  bzw:
+	- printDictBeauty1 (__builtins__.__dict__) ##--1kk-func printDictBeauty1 to printout DICTs
+	- import sys ; sys.builtin_module_names   ##-??(also py-3.x? is from py-2.x :) listing  of all modules that are compiled into this Python interpreter. 
+##________________________________________  ___________________________
+
+
+#####  ==========  keywords-builtin :
+	pydoc  keyword ;
+	import keyword ;   keyword.kwlist ;
+	help() ; keywords
+##________________________________________  ___________________________
+
+
+#####  ==========  operators_builtin (+-*&...):
+
+	_______:  precedence of builtin-Operators:
+	-! pydoc  EXPRESSIONS
+	-! pydoc  OPERATORS (bzw. pydoc "%"/"&"/"*"/'<>'/... which shows section: Operator precedence) /OR in the interpreter:  help('*') ...
+	-! refDocs_LangRef : 6.17. Operator precedence : https://docs.python.org/3/reference/expressions.html#operator-precedence
+	---
+	Operators of the same precedence-level  group left to right,  EXCEPT for exponentiation, which groups from right to left.
+
+	_______:  ** (power/exponentiation):
+	x**0 = 1 (!so also:  0**0 = 1 ) , so 5**0 = 1  !
+	0**3 = 0 	
+
+	_______:  Mapping Operators to Functions (eg: a ** b   same-as:   pow(a, b)) :
+	-! see docsRF_stdLib-- table:  Mapping Operators to Functions :
+	-  import operator  ;  operator. ... ;   eg: a // b  :  floordiv(a, b)   ;   a & b  :  and_(a, b) ; ...
+
+	_______:  
+##________________________________________  ___________________________
+
+
+#####  ==========  "inf"/infinity, NAN (not a number), ... :
+	- "inf" : how much is that??:  sys.float_info   :  information about the precision and internal representation of floating point numbers for the machine on which your program is running is available in sys.float_info.
+##________________________________________  ___________________________
+
+
+#####  ==========  stdin/stdout/stderr :
+
+	_______:  pydoc sys:
+	sys.stdin -- standard input file object; used by input()
+	sys.stdout -- standard output file object; used by print()
+	sys.stderr -- standard error object; used for error messages
+
+	_______:  stdin / read-in from stdin / user-inputs :
+	input()              ##--built-in function ; eg  data = input("Please enter the message:\n")
+	sys.stdin            ##--eg:  for line in sys.stdin: print(line.rstrip())
+	fileinput.input()    ##--eg:  for fileinput_line in fileinput.input():  prin(fileinput_line.rstrip())
+
+	_______:  
+##________________________________________  ___________________________
+
+
+#####  ==========  

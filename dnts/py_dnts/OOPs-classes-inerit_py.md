@@ -1,0 +1,270 @@
+________________ Classes/Objects/methods/... in py: ___________________________
+-! pydoc  CLASSES , ATTRIBUTEMETHODS, CALLABLEMETHODS, ...
+##________________________________________  ___________________________
+
+
+
+#####  ==========  instances-builtins-initialization-procedure:
+    
+    - see:  https://realpython.com/python-metaclasses/#custom-metaclasses  :
+    When the interpreter encounters x = Foo(), then:
+    1-  __call__() method of Foo’s parent class is called. __call__() method in turn invokes the following:
+    2-  __new__()
+    3-  __init__()
+    - ! nts: If Foo does not define __new__() and __init__(), default methods are inherited from Foo’s ancestry. But if Foo does define these methods, they override those from the ancestry, which allows for customized behavior when instantiating Foo.
+    - ! classesTreeDiagrams generation,...:  sphinx.ext.inheritance_diagram ,  sphinx.ext.graphviz
+##________________________________________  ___________________________
+
+
+#####  ==========  "CLASS-Vars  <--->  Obj-Vars ! class-Static-Vars access+assignments :
+
+	_______:  -- !!TRICKY!: DIFF: read-OR-write access to Class-vars through the instance !! , !! see devres1kk:  cl1_classVar_instanceCounter.py :
+	---!! obj1.CVAR1 reads the class-attrib C1.CVAR1
+	---!! BUT write-access : obj1.CVAR1 = 5 creates a NEW instance-atrib !!
+	---!! so obj1.CVAR1 += 2 which is basically obj1.CVAR1 = obj1.CVAR1 +1 : reads the class-var CVAR1 (read-access), then creates a new instance-attrib CVAR1 (due to write-acces), and then adds two to it !!
+	---!! so obj1.CVAR1 read-access: reads the class-var! obj1.CVAR1 = 20 : creates a new instance-var and leaves the class-var UNchanged!
+	---!!WATCH: so DIFF  by write-access:  obj1.CVAR1 = 20   and   obj1.__class__.CVAR1 = 20 !! the first creates new instance-var, the second modifies the class-var !
+	---!! from-inside-a-class-method to access the classvar, do:  type(self).CVAR1  /OR directly classname: C1.CVAR1 !
+	---!! by read-acces both are the same, IF there is NO instance-attrib CVAR1 ! so then both access the class-var CVAR1 !!
+
+	_______:  --
+    !! DIFF: Obj-read-access-to-CLASS-Vars <---> Obj-WRITE-access-to-CLASS-Vars :  by obj1.cvar1=30 the CLASS-Var cvar1 will NOT be addressed, but the  object obj1 gets a new Instance-attrib as cvar1 !! C1.var=3 will change classe1-var-value !!
+    !! be careful, if you want to change a class attribute, you have to do it with the notation ClassName.AttributeName.
+    Otherwise, you will create a new instance variable. We demonstrate this in the following example
+
+	_______:  -- class static attribs:
+	- accessing class static attribs of obj1:  type(self).classVar1 /OR  self.__class__.classVar1
+##________________________________________  ___________________________
+
+
+#####  ==========  inheritance-Allg: subclassing-Allg:
+
+	_______:  ! Allg-Rule in py-Inheritance:
+	- Allg: basically as a general rule: in contrast to java, any subclass-method overrides the baseclass-method, WITHOUT implicitly calling the overridden-baseclass-method ! incl. __init__/__del__ !
+	if gewuenscht, then the baseclass-method must be called explicitly as eg super().__del__() , ... !
+	basically ANY  method in a subclass (incl. __init__) will OVERWRITES the one in the upperclasses WITHOUT implicitly invoking them!! including __init__/__del__ !
+	so if desired, then have to EXPLICITELY call the overwritten upperclass method !!
+	so even the __init() in a subclass will NOT automatically call the uperclass __init__()  !! if desired, then call it explicitely, as super().__init__() !
+	-!  most specific version must be taken first and then least specific (generic) version the last! :
+	so if c->B->A : class D1(A,C) does NOt work! mro-error! but D2(C,A) ok ! ##-->  class D1(A,C) results in:  TypeError: Cannot create a consistent method resolution order (MRO) for bases
+
+	_______:  comparing objects :
+	-! Object type comparisons should always use isinstance(o1, c1) instead of comparing type(o1) directly (due to subclassing) !! see: PEP-8 !
+
+	_______:  override  methods of baseclass in subclass:
+	-! DIFF:   Distinction between Overwriting, Overloading and Overriding  : see python-course.eu/python3_inheritance.php.html  !
+	- overriding the bsseclass-method in a subclass will NOT automatically calls the baseclass one!! the subclass-method can call it with BaseClass1.method1() /OR super().method1 !!
+		!! this is valid also for constructors/destructors methods  __init__(self) , __del__(self) !!
+##________________________________________  ___________________________
+
+
+#####  ==========  inheritance: `__init__(self) , __del__(self) by :  __init__()/__del__() in subclasses  (de-/constructors in subclasses)`  : 
+	https://docs.python.org/3/reference/datamodel.html#basic-customization
+
+	_______:  as all other methods: definig a method in a subclass overrides the one in the baseclass WITHOUT calling it implicitely! so:
+	the __init__ /__del__  of the derived-/subclass does NOT automatically calls the one of the base-/upper-class, if the subclass has defined its own __init__/__del__ !
+	except if there is NO subclass-__init__ defined at all, so then the super().__init__() wille be executed as default !
+	__init__ may ONLY return None (if at all!) !! better, just no explicit return !!
+	RefDocs-- https://docs.python.org/3/reference/datamodel.html#basic-customization :
+	the derived class’s __init__() method, if any, must explicitly call it to ensure proper initialization of the base class part of the instance ! /OR just NOT defining ANY __init__ method (then the first baseclass-init will be called automaticallay) !
+
+	_______:  so if the derived CLASS:
+	- does NOT have its own constructor, then the first-found-__init__ of a superclass is invoked IMPLICITLY/automatically during class creation;
+	- has its own constructor, then a superclass constructor has to be invoked EXPLICITLY.
+
+	_______:  req:
+	- __init__  may NOT return any values/obj !! ("return None" is OK! but not needed!) 
+	- __init__ is just a normal method and can be again from other class methods (BUT should NOT be! makes no sense!
+
+	_______:  __new__() :  https://docs.python.org/3/reference/datamodel.html#basic-customization :
+	you do not need to use/know it (except for MetaClasses,...), but just for info:
+	by creating any new instance: first object.__new__(cls1[,self, ...]) is executed and then cls1.__init__(self) !
+	for initialization/creation of any obj1=cls1() : first object.__new__(cls[, ...]) is Called to create a new instance of class. The return value of __new__() should be the new object instance (usually an instance of cls).
+##________________________________________  ___________________________
+
+
+#####  ==========  inheritance:  super() / MRO :
+
+	_______:  see also:
+	see here extra nts for MRO in multiple-inheritance nts !
+	! RefDocsStdLibs--Built-in-Functions : class super
+	! RefDocsTuts--9.5.1. Multiple Inheritance :
+	https://itecnote.com/tecnote/python-calling-parent-class-__init__-with-multiple-inheritance-whats-the-right-way/
+	see guide to using super() [https://rhettinger.wordpress.com/2011/05/26/super-considered-super/]  /RefDocs
+
+	_______:  super() in multiple-inheritance :
+	-!! super() : works based on MRO and so modifies a bit the Allg-rule of left-to-right--each-to-top ! so basically then: any child-class-method beore any parent-method in the tree, even if not direct ancestor or the Parent more left located! 
+	  see also pyCookBk-3ed--8.7. Calling a Method on a Parent Class  + https://rhettinger.wordpress.com/2011/05/26/super-considered-super/
+
+	_______:  super() Allg-nts:
+	-! super()  is called on INSTANCE level, NOT on class-level ! super() is something you call in an instance method, not at class level.
+	- super().method1()    accesing method1 of the base-class from subclass-object
+	-!WATCH.  NOT needed the "self" param in super().method1() !! super() function creates a context in which you don't have to pass the self argument to the method being invoked !
+	so: either:   super().__init__()  /OR:  BaseClass1.__init__(self) ; BUT these two calls are NOT identical! see nts below for mro() !
+	- super() and MRO:  see here below nts! changes a bit the basic rule of: left-to-right--each-to-top!
+	-! baseclass-methods-call  by super().xxx, as in :  super().__init__()  bzw.  super().__del__() ##-!! self param is implicitly forwarded !
+
+	_______:  arguments/call of super():  class super([type[, object-or-type]])    /RefDocsStdLibs--Built-in-Functions : class super :
+	super().method(arg) inside a class definition  same.as ==  super(C, self).method(arg)
+	so:  class C(B): def method(self, arg): super().method(arg)  #--same.as:  super(C, self).method(arg)
+	The zero argument form only works inside a class definition, as the compiler fills in the necessary details to correctly retrieve the class being defined, as well as accessing the current instance for ordinary methods. /RefDocs
+	aside from the zero argument form, super() is NOT limited to use inside methods.
+	The object-or-type determines the method resolution order to be searched. The search starts from the class right AFTER the type (excluding the type) :
+	For example, if __mro__ of object-or-type is D -> B -> C -> A -> object and the value of type is B, then super() searches C -> A -> object.
+	super() is syntactic sugar for super(Child, self), or more generally, super(type(self), self). Since there is no self where you're using it on class-level, it doesn't work. So, super() requires an instance to work on !.
+	- miliple-bases then eg:   super(Class1).method1()
+
+	_______:  mro() in multi-inh. :
+	mro() nachvollziehen:  so for C1.mro() . just write down all classes from left-to-right--and-each-first-to-Top, and then take the repeated ones out except its last entry !  devres/cl1_inhMulti_3-mro2-super.py
+	-! how super() finds the called methods (based on mro() listin)?:
+	For example, if __mro__ of object-or-type is D -> B -> C -> A -> object and the value of type is B, then super() searches C -> A -> object.
+	- mro linerization procedure:
+	"good head": most specific version must be taken first and then least specific (generic) version. So, calling process() from A, which is super class of C, is not correct as C is a direct super class of D. That means C is more specific than A. So method must come from C and not from A.
+	This is where Python applies a simple rule that says (known as good head question) when in MRO we have a super class before subclass then it must be removed from that position in MRO.
+	- C1.mro() :  shows the final MRO-order-listing to find methods for C1-instances! it shows the linearisation of C1-Class-Tree!
+	  MRO  is based on the "C3 superclass linearisation" algorithm. This is called a linearisation, because the tree structure is broken down into a linear order. The mro method can be used to create this list! /python-course.eu/python3_multiple_inheritance.php.html
+
+	_______:  recommend (NOT-RefDocs / controverse):  classes whose base class is object should not call super().__init__() ! but controverse! :
+	This also means that you should never write a class that inherits from object and doesn't have an __init__ method.
+	Not defining a __init__ method at all has the same effect as calling super().__init__().
+	If your class inherits directly from object, make sure to add an empty constructor like so:
+	class Base(object): def __init__(self): pass
+	see https://itecnote.com/tecnote/python-calling-parent-class-__init__-with-multiple-inheritance-whats-the-right-way/
+	try cl1_inhMulti_2-mro2-super.py and comment in/out the suoer() in A and check the Diff !!
+	- there is anyway a difference if the A(object) calls super() or not!! if yes, then the seach for the called method goes further in the MRO-line in all classes up to the object!
+	1kk:   so , it is really what expected by multiple-inh., oder!?!? try py_dres_1kk/OOPs-classes-inh1/cl1_inhMulti_2-mro2-super.py  and comment-in/out the super() line in A !
+##________________________________________  ___________________________
+
+
+#####  ==========  inheritance: multiple-inheritance/multiple-subclassing / MRO (Method Resolution Order in python-3):
+
+    _______:  !! DIFF:
+	-! there is a differnce if using super.m1() /OR BaseClass1.m1() in  subclass1(BaseClass1, BaseClass2) !
+	the direct baseclass call of BaseClass1.m1() is much easier to follow/understand, strait ahead for method-search based on left-to-right--each-to-top, but less maintainable  than
+	super.m1() which is MRO based to find the m1() in the inh-tree in RUNTIME !!
+	in a single-inh then super() can also be easy and strait-ahead !
+	! do not use super() in most-top-baseclass which subclasses the object directly as BaseClass1(object) !
+	the procedure of super() in multiple-inh (mro-based) is UNIQUE to python and NOT similar at all with java/C++ !
+
+	_______:  Allg-Rule  /RefDocsTuts--9.5.1. Multiple Inheritance :
+	For most purposes, in the simplest cases, you can think of the search for attributes inherited from a parent class as depth-first, left-to-right, not searching twice in the same class where there is an overlap in the hierarchy. Thus, if an attribute is not found in DerivedClassName, it is searched for in Base1, then (recursively) in the base classes of Base1, and if it was not found there, it was searched for in Base2, and so on. if: class DerivedClassName(Base1, Base2, Base3) ...!
+	BUT: the using super() changes this rule a bit dynamically and works based on mro() linearization !
+	-!! ANY method with the same name in the whole-inh-tree MUST have the same SYNTAX (params/arguments) ! otherwise bad-style and the classes NOT suitable for multiple-inh !! esp. if using super() !:
+	Good design dictates that such implementations have the same calling signature in every case (because the order of calls is determined at runtime). RefDocs  
+
+	_______:  
+	http://www.srikanthtechnologies.com/blog/python/mro.aspx  ,  python-course.eu/python3_multiple_inheritance.php.html :
+	- Method-Search-Order is governed by two rules:  
+	left-to-right  and  then  each-one-to-the-TOP !   but exception: "good head" bzw. super() works based on MRO/tree-linerization and so modifies a bit this rule:
+
+	_______:  super() / mro() in multiple-inheritance :  see here extra nts-section for super() !
+##________________________________________  ___________________________
+
+
+#####  ==========  Querying-objects /-classes :
+
+    _______:  objects-quering:
+	- type(obj1)    :  its class
+	- dir (obj1) 	:  names in the direct scope of obj1
+	- obj1.__dict__ : object’s (writable) attributes Dictionary.
+	--- classes-quering:
+	- dir(class1)  : its attributes, and RECURSIVELY the attributes of its bases/upper-classes , dir(str)
+##________________________________________  ___________________________
+
+
+#####  ==========  classMethods, staticMethods ,  @classmethod <--->  @staticmethod  :
+	- see:  https://www.python-course.eu/python3_class_and_instance_attributes.php#Class-Methods
+
+	_______:  ! DIFF: classmethod  <--->  staticmethod :  classmethod gets an impicit "self"-first-param to the CLASS and are defined also as "def cl-method1(cls)", similar to __init__(self) for objects/instances ! staticmethods NOT ! :
+	- Staticmethods shouldn't be confused with class methods. Like static methods class methods are not bound to instances, but unlike static methods class methods are bound to a class. The first parameter of a class method is a reference to a class, i.e. a class object
+	- both can be called via an instance /OR the class name.
+	- classmethods  are often used, where we have static methods, which have to call other static methods. To do this, we would have to hard code the class name, if we had to use static methods. This is a problem, if we are in a use case, where we have inherited classes.
+	- classmethods are used also for factorys !
+	---
+##________________________________________  ___________________________
+
+
+#####  ==========  `__repr__ , __str__` :
+	-! see  python-course.eu/python3_object_oriented_programming.php.html
+	- always must ba able to create new obj by repr, so :  obj2 = eval(repr(obj1)) with type(obj1) == type(obj2)  ##so means also always must:  type(obj1) == eval(repr(obj1))
+
+	_______:  
+	__str__  : for End-User-Presentations:  is always the right choice, if the output should be for the end user or in other words, if it should be nicely printed.
+	__repr__ : for Developers/Coding     :  on the other hand is used for the internal representation of an object (developers or Coding). The output of __repr__ should be - if feasible - a string which can be parsed by the python interpreter. The result of this parsing is in an equal object. That is, the following should be true for an object "o":  o == eval(repr(o))
+	--
+	1- If a class has a __str__ method, the method will be used for an instance x of that class, if either the function str is applied to it or if it is used in a print function. __str__ will not be used, if repr is called, or if we try to output the value directly in an interactive Python shell.
+	2- Otherwise, if a class has only the __repr__ method and no __str__ method, __repr__ will be applied in the situations, where __str__ would be applied, if it were available.
+##________________________________________  ___________________________
+
+
+#####  ==========  private members / name-Mangling :
+
+	-!! see  dres/codecs1_dres/py_dres_1kk/OOPs-classes-inh1/cl1_nameMangling_isinstance_hasattr.py
+	- name mangling:  the private member __x1 of the class C1 (bzw. of its instance obj1) is just basically renamed/managled to _C__x1 !
+	so it is basically noch accessible by: __obj1._C1_x1 ! but do not do it !
+	-!!BUT  name-Mangling will NOT work if you add an instance variable outside the class code !
+	-!! private-methods can be called ONLY through an instance+name-Mangling, as: o1._C1__m1() ! not through the class itself!
+##________________________________________  ___________________________
+
+
+#####  ==========  property(), @property decorator, properties/props :
+
+	_______:  ! see 
+	docsRF- Built-in Functions --> property()
+	pyCookBK-3ed--8.6. Creating Managed Attributes
+	Bklein_Tuts_py/HTMLs-BKlein-python_tutorial_1WE_1DW/Tut2-OOP_Py-Htmls-BKlein/03-Properties-vs-getters-and-setters.html
+
+	_______:  @property decorator:
+	-!! see dres_1kk:  props1.py , propsxxxx.py !
+	--- nts-prop-decorator + eg :
+	- here a typical/standard usage:
+	class C1:
+    def __init__(self, p1): self.x1= p1
+    @property
+    def x1(self): return self.__x1
+    @x1.setter
+    def x1(self, p1): self.__x1 = p1+10 
+	- nts to the eg:
+	!!THE tag which defines/initilizes a pror of a class is ONLY "@property" tag !! and so the property/attrib defined here is called "x1" ! and NOT __x1, or _x1, ...!
+	then the defined prop has the same name as under "@property" tag (here "x1") !! which internally is defined as _<classname>__<propName> (here: _C1__x1 ) !
+	the rest are only options as: @x1.setter , @x1.deleter , or initialising in __init__ , ....
+	the ACCESS (read/write) to this prop, outside its @tagged-funcs (: setter/getter/deleter), MUST be ONLY through prop-name self.x1 !! and NOT self.__x1 or self._C1__x1, ...!!
+	by accessing to the prop x1 through self._C1__x1 (instead self.x1) the prop-getter/setter will NOT be executed !! (umgangen!)
+	inside its @tagged-funcs (: setter/getter/deleter) you must use your defined var, usu. __<prop-name-defined-by the "@property" decorator> ,
+	as here: __x1  !otherwise by using eg self.x1 you get into endless-recursions !! (but it does NOT have to be called that way, it could also be _x1 or __y2, ...! depends on your property-requirements!)
+	---
+
+	_______:  
+	- two ways, same:  builtin-func  property()  /OR  @-decorator:  @property [ + @x1.setter + @x1.deleter ]
+	-! only the @property tag esteblishes x1 as a property, which also the getter-func ! eg (@property def x1(self): return self.__x1 )
+	- readOnly-prop creating : see exp docsRF- Built-in Functions --> property()
+##________________________________________  ___________________________
+
+
+#####  ==========  Metaclasses, Dynamicallyi/Runtime-Creating Classes with type(3-params):
+
+    _______:  see:
+    - ! see: https://realpython.com/python-metaclasses/#defining-a-class-dynamically
+	- python-course.eu/oop/dynamically-creating-classes-with-type.php.html
+	- pydoc type  ;  type(className, superClasses, attributesDict)  ; 
+    _______:  eg metaclasses:
+    - eg: INT2 = type ("INT2", (int,) , {"a1": 11, "a2": 22}) ;  in1 = INT2() ;  type (in1) ; in1.a1 ; ...
+	- eg: A = type("A", (), {"var1": 5}) ; a1=A(); print(a1.var1) ;
+    - Foo = type('Foo', (), {}) ; x = Foo() ;
+    - Bar = type('Bar', (Foo,), dict(attr=100)) ; x = Bar(); x.attr ;
+    - --eg with funcs/inits/..., see https://realpython.com/python-metaclasses/#custom-metaclasses  :
+    - eg with functions:  def f1(obj): ...; Foo=type("Foo", (), {"func1": f1})
+    - eg gleich with inits:  def f1(obj): ...; Foo=type("Foo", (), {"__init__": f1})
+##________________________________________  ___________________________
+
+
+#####  ==========  ABCs / Abstract Base Classes :
+	pydoc  abc
+	/python-course.eu/oop/the-abc-of-abstract-base-classes.php.html
+
+	_______:  
+	eg/syntax :  from abc import ABC, abstractmethod ; clacc abs1(ABC): ...; @abstractmethod ;  def abs_method1(self):  pass /OR basic-common-implementaion ; ....; NOW a subclass of abs1 MUST implement abs_method1 (NOT-declaring as @abstractmethod any more!) !
+	A class that is derived from an abstract class (extended ABC or its subclasses) cannot be instantiated unless all of its abstract methods are overridden/implemented.
+	An abstract method (declared with @abstractmethod) can have an basic-implementation in the abstract class! Even if they are implemented, designers of subclasses will be forced to override the implementation. Like in other cases of "normal" inheritance, the abstract method can be invoked with super() call mechanism. This enables providing some basic functionality in the abstract method, which can be enriched by the subclass implementation.
+##________________________________________  ___________________________
+

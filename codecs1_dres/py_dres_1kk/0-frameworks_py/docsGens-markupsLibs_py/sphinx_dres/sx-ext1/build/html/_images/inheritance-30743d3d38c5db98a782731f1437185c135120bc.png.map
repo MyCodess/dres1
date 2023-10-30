@@ -1,0 +1,16 @@
+<map id="inheritanceb726db86d1" name="inheritanceb726db86d1">
+<area shape="rect" id="node1" title="A formatter suitable for formatting a number of records." alt="" coords="5,396,172,421"/>
+<area shape="rect" id="node2" title="A handler class which writes formatted logging records to disk files." alt="" coords="635,274,763,299"/>
+<area shape="rect" id="node3" title="A handler class which writes logging records, appropriately formatted," alt="" coords="441,274,589,299"/>
+<area shape="rect" id="node4" title="Filter instances are used to perform arbitrary filtering of LogRecords." alt="" coords="43,298,135,324"/>
+<area shape="rect" id="node5" title="A base class for loggers and handlers which allows them to share" alt="" coords="37,347,140,373"/>
+<area shape="rect" id="node7" title="Handler instances dispatch logging events to specific destinations." alt="" coords="253,322,360,348"/>
+<area shape="rect" id="node9" title="Instances of the Logger class represent a single logging channel. A" alt="" coords="256,371,358,397"/>
+<area shape="rect" id="node6" title="Formatter instances are used to convert a LogRecord to text." alt="" coords="30,249,148,275"/>
+<area shape="rect" id="node12" title="This handler does nothing. It&#39;s intended to be used to avoid the" alt="" coords="450,322,580,348"/>
+<area shape="rect" id="node8" title="A LogRecord instance represents an event being logged." alt="" coords="26,200,151,226"/>
+<area shape="rect" id="node15" title="A root logger is not that different to any other logger, except that" alt="" coords="451,371,579,397"/>
+<area shape="rect" id="node10" title="An adapter for loggers which makes it easier to specify contextual" alt="" coords="16,152,161,177"/>
+<area shape="rect" id="node11" title="There is [under normal circumstances] just one Manager instance, which" alt="" coords="33,103,145,128"/>
+<area shape="rect" id="node14" title="PlaceHolder instances are used in the Manager logger hierarchy to take" alt="" coords="22,5,155,31"/>
+</map>

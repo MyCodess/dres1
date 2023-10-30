@@ -1,0 +1,105 @@
+_________________ Kernel-params, sysctl, ... ____________________________________________
+##________________________________________  ___________________________
+
+
+#####  ==========  docs-WPS--kernel_parameters :
+-!!  https://wiki.archlinux.org/index.php/Kernel_parameters
+-!!  https://wiki.archlinux.org/index.php/Sysctl   ,    https://en.wikipedia.org/wiki/sysctl
+-  https://www.kernel.org/doc/Documentation/admin-guide/kernel-parameters.txt
+-  https://www.kernel.org/doc/html/latest/admin-guide/kernel-parameters.html   : listing!
+-  https://www.kernel.org/doc/html/latest/  ,  https://www.wiki.kernel.org/  , https://www.kernel.org/
+##________________________________________  ___________________________
+
+
+#####  ==========  Kernel_parameters-setup/syntax/ :
+
+	_______:  setting kernel-params :
+
+	_______:  three ways to pass options to the kernel and thus control its behaviour:       https://wiki.archlinux.org/index.php/Kernel_parameters  :
+	1- When building the kernel. See Kernel#Compilation for details.
+	2- When starting the kernel (usually, when invoked from a boot loader). (eg params in grub.cfg)
+	3- At runtime (through the files in /proc and /sys). See sysctl for details.
+	---!!--DIFF:   persistent-setting  <-->  one-time-setting--only-for-current-booted-system !!  :
+		modifying   /etc/sysctl.d/*  (persistent)   <-->   writing to procfs-files /proc/sys/kernel/...  (aswith:  echo xxx > /proc/sys/kernel/yyy )  bzw.  sysctl param1=value1 ; see below also!
+		Settings can be changed through file manipulation or using the sysctl utility. For example, to 
+		- temporarily/NON-persistently enable the magic SysRq key:    sysctl kernel.sysrq=1    /OR    echo "1" > /proc/sys/kernel/sysrq ;
+		- persistently, To preserve changes between reboots, add or modify the appropriate lines in /etc/sysctl.d/99-sysctl.conf or another applicable parameter file in /etc/sysctl.d/.
+
+	_______:  Parameters-Synatx-nts:
+	- Parameters either have the format parameter or parameter=value  ; they  are case-SENSITIVE !!
+	-! the LAST parameter processed may override EARLIER ones. For example, parameters in a /usr/lib/sysctl.d/50-default.conf will be overriden by equal parameters in /etc/sysctl.d/50-default.conf and any configuration file processed later from both directories. 
+	- Kernel parameters can be set either temporarily by editing the boot entry in the boot loader's boot selection menu, or by modifying the boot loader's configuration file. 
+	-!! LAST parameter-setting overwrites the previous/earlier parameter-settings/-values , also by sysctl-configs !
+
+	_______:  ! https://wiki.archlinux.org/index.php/Kernel_parameters   : most common params:
+	--Parameter 	--Description :
+	root= 	Root filesystem.
+	rootflags= 	Root filesystem mount options.
+	ro 	Mount root device read-only on boot (default1).
+	rw 	Mount root device read-write on boot.
+	initrd= 	Specify the location of the initial ramdisk.
+	init= 	Run specified binary instead of /sbin/init (symlinked to systemd in Arch) as init process.
+	init=/bin/sh 	Boot to shell.
+	systemd.unit= 	Boot to a specified target.
+	resume= 	Specify a swap device to use when waking from hibernation.
+	nomodeset 	Disable Kernel mode setting.
+	zswap.enabled 	Enable Zswap.
+	panic= 	Time before automatic reboot on kernel panic.
+	debug 	Enable kernel debugging (events log level).
+	mem= 	Force usage of a specific amount of memory to be used.
+	maxcpus= 	Maximum number of processors that an SMP kernel will bring up during bootup.
+	selinux= 	Disable or enable SELinux at boot time.
+	netdev= 	Network devices parameters.
+	video=<videosetting> 	Override framebuffer video defaults.
+
+	_______:  
+##________________________________________  ___________________________
+
+
+#####  ==========  configs of kernel-params , sysctl, ... :
+
+	_______:  docs/WPs:
+	-!!  https://wiki.archlinux.org/index.php/Sysctl   ,    https://en.wikipedia.org/wiki/sysctl
+	-!! man sysctl ,  man sysctl.d
+	- sysctl is a tool for examining and changing kernel parameters at runtime. sysctl is implemented in procfs, the virtual process file system at /proc/. 
+
+	_______:  configs of kernel-params by boot-loader (so 2.approach):
+	Kernel parameters (by boot-loader ) can be set either temporarily by editing the boot entry in the boot loader's boot selection menu, or 
+	permanently by modifying the boot loader's configuration file ( edit /boot/grub/grub.cfg  bzw.  /etc/default/grub and then grub-mkconfig ...).
+
+	_______:  config-fiels of sysctl bzw. for /proc :
+	-!!  https://wiki.archlinux.org/index.php/Sysctl#Configuration  :
+	-!  /etc/sysctl.d/*.conf  ( also /usr/lib/sysctl.d/*.conf )
+	- /etc/sysctl.conf was earlier also main-user-adaption-configfile , but now it is replaced by /etc/sysctl.d/99-sysctl.conf  bzw. they are linked together!
+	- nts-archLx:   From version 207 and 21x, systemd only applies settings from /etc/sysctl.d/*.conf and /usr/lib/sysctl.d/*.conf. If you had customized /etc/sysctl.conf, you need to rename it as /etc/sysctl.d/99-sysctl.conf. If you had e.g. /etc/sysctl.d/foo, you need to rename it to /etc/sysctl.d/foo.conf.  https://wiki.archlinux.org/index.php/Sysctl
+	-!! sequence-/precedence of parameters-setting.sysctl:  The sysctl preload/configuration file can be created at /etc/sysctl.d/99-sysctl.conf. For systemd, /etc/sysctl.d/ and /usr/lib/sysctl.d/ are drop-in directories for kernel sysctl parameters. The naming and source directory decide the order of processing, which is important since the last parameter processed may override earlier ones. For example, parameters in a /usr/lib/sysctl.d/50-default.conf will be overriden by equal parameters in /etc/sysctl.d/50-default.conf and any configuration file processed later from both directories. https://wiki.archlinux.org/index.php/Sysctl#Configuration
+	- in ubuntu some final config-files  are obv. in  /etc/default/ (as for keyboard-mappint in /etc/default/keyboard , ...) and not as described in http://0pointer.de/blog/projects/the-new-configuration-files
+
+	_______:  manually (re)loading sysctl-files:
+	- load all configuration files manually:   sysctl --system  ##which will also output the applied hierarchy.
+	- A single parameter file can also be loaded explicitly with :    sysctl --load=filename.conf
+##________________________________________  ___________________________
+
+
+#####  ==========  procfs : /proc and Kernel_parameters :
+	-! booted-up-params-query of your last booted-OS:   cat /proc/cmdline 
+	-! /proc/sys/kernel/  :  all-infos to current kernel/system-running as : osrelease , hostname, version, ....
+	-! mapping kernel-params <--> procfs-entries :   eg. the kernel.sysrq parameter refers to the file /proc/sys/kernel/sysrq on the file system. The sysctl --all command can be used to display all currently available values. The parameters available are those listed under /proc/sys/ !
+##________________________________________  ___________________________
+
+
+#####  ==========  qkys/faqs-kernel-params, nts :
+	- current/bootUP-loaded-kernel-params (eg of grub.cfg) ?? :  cat /proc/cmdline  ##--see https://wiki.archlinux.org/index.php/kernel_parameters , https://wiki.archlinux.org/index.php/Procfs
+	-! /proc/xxxx !! : There are many files under /proc which provide a lot of information about the system as well as the kernel. https://wiki.archlinux.org/index.php/Procfs
+	-  /proc/xxx  : Virtual filesystem providing process and kernel information as files. In Linux, corresponds to a procfs mount. Generally, automatically generated and populated by the system, on the fly.  https://en.wikipedia.org/wiki/Filesystem_Hierarchy_Standard
+	- The options of loadable modules can be set via .conf files in /etc/modprobe.d/. See Kernel module#Using files in /etc/modprobe.d/.
+	- All kernel parameters are case-SENSITIVE.
+##________________________________________  ___________________________
+
+
+#####  ==========  arx-kernel-nts:
+	- The Arch Linux installation medium uses Syslinux for BIOS systems, and systemd-boot for UEFI systems.
+##________________________________________  ___________________________
+
+
+#####  ==========  

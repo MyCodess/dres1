@@ -1,0 +1,70 @@
+__________ Disks, Partitiotions, USB-Medias, /dev-dir, dev-mapper, USB, hal, block-devices, disk-devices-binding /dev-tree, multipath, raw-devs,...  __________
+##________________________________________  ___________________________
+
+
+#####  ==========  docs-WPs:
+-!!  https://wiki.archlinux.org/index.php/Partitioning
+##________________________________________  ___________________________
+
+
+#####  ==========  HDs/ExtHDs/USB-Devs/mounts/MTP/All-Block-Devices/attached-devices/...:
+
+	_______:  HDs-allg-dnts:
+	-!!free-space-up-to-first-Part-in-MBR (ArX-wiki):   Master Boot Record (MBR) specific instructions :  Usually the post-MBR gap (after the 512 byte MBR region and before the start of the first partition) in many MBR partitioned systems is 31 KiB when DOS compatibility cylinder alignment issues are satisfied in the partition table. However a post-MBR gap of about 1 to 2 MiB is recommended to provide sufficient room for embedding GRUB's core.img (FS#24103). It is advisable to use a partitioning tool that supports 1 MiB partition alignment to obtain this space as well as to satisfy other non-512-byte-sector issues (which are unrelated to embedding of core.img).  https://wiki.archlinux.org/index.php/GRUB#Master_Boot_Record_(MBR)_specific_instructions
+	- Capacity of HDD?: multiplying the number of cylinders by the number of heads by the number of sectors by the number of bytes/sector (WikiPedia)
+
+	_______:  tools/cmds/utils-HDs-parts-medias:
+	-!! listing:   https://wiki.archlinux.org/index.php/Partitioning#Tools
+	- partprobe - inform the OS of partition table changes  (eg after re-labling/renaming/repartioning/... )
+	- gdisk instead of fdisk for also GPT/UEFI (can read also MBR)  ... /OR parted ;  https://www.rodsbooks.com/gdisk/
+	- blkid : dev-IDs, UUID, labels,.....
+		- blkid -L  :  filesystem of an unknown block-device?
+	- hwinfo  ; bzw only disk-IDs:  hwinfo --disk --short
+		- hwinfo --disk 
+	- lsblk  : lists information about all available or the specified block devices.  --> good-tree-listing of all HDs /USB-Sticks/ExtHDs/...
+		- lsblk -f -o +SIZE,MODEL
+	- infos attached block devices (HDs,...), its UUID,filesystem,label,..: blkid -L ; see man blkid
+	- udisksctl / udisk
+	- UUID query:   ls -al /dev/disk/by-uuid/
+	-! lspci	: see all connected devices to PCIs
+	-! see all e2fsprogs tools !   e2fsprogs.sourceforge.net.
+	- which hard disks are on your system : /proc/ide and in /proc/scsi.
+
+	_______:  MTP-USB-mounted-devices, which are NOT over "mount" but by filemanager with MTP/PTP/...:
+	- mouned in  $XDG_RUNTIME_DIR/... , eg the TAB1-GN8 on x13-ubt  in /run/user/1501/gvfs/mtp:host=%5Busb%3A002%2C039%5D/
+	- finding with:   usb-devices  | grepi samsung  -B 4
+	- Lx/ubt:  man mtp-tools ; pkgssg mtp
+	- mounting writable in fstab (working rsync, find, ...):  sudo apt-get   install  jmtpfs ; man jmtpfs ; ....
+
+	_______:  USB-Devs:
+	-!  llinpath usb -->  lsusb, usb-devices, ...
+	- /usr/bin/usb-devices
+	- ls -l /dev/disk/by-id/*usb*  --> shown only devices.... ; more infos with lsusb
+	- lsusb -t
+	-!! UUID and info about device: /lib/udev/vol_id  /dev/sdb1
+	- check:  cat /proc/filesystems  to see/check:  usbdevfs and usbfs
+	- /dev/usb : device nodes
+	- /proc/bus/usb : check mount to see: usbdevfs none /proc/bus/usb  (if not there can be mounted as: mount -t usbdevfs none /proc/bus/usb)
+	- usb modules/drivers FC2 in /lib/modules/2.6.8-1.521/kernel/drivers/usb/host
+		- uhci-hcd.ko : USB Universal Host Controller Interface driver (boot loaded; general)
+		- ehci-hcd.ko : USB 2.0 'Enhanced' Host Controller (EHCI) Driver
+		- ohci-hcd.ko : USB 1.1 'Open' Host Controller (OHCI) Driver
+
+	_______:  Labels for Parts/HDs:
+	There are at least 6 separate command line tools used to label a partition - the program used depends on the partition's filesystem type:
+	For FAT16 and FAT32 partitions, use mlabel from the mtools package.
+	For NTFS partitions, use ntfslabel from the ntfs-3g package.
+	For ext2, ext3, or ext4 partitions, use e2label.
+	For JFS partitions, use jfs_tune.
+	For ReiserFS (v3) partitions, use reiserfstune.
+	For XFS partitions, use xfs_admin
+	see https://help.ubuntu.com/community/RenameUSBDrive
+##________________________________________  ___________________________
+
+
+#####  ==========  device-mappers:
+	dmsetup info
+	dmsetup ls
+	dmsetup status
+	dmsetup deps
+--########################### olds: ##############################################

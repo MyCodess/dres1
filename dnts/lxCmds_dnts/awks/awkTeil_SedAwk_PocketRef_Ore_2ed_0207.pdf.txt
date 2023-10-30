@@ -1,0 +1,1090 @@
+-kk: pdftotext -f 20 SedAwk_PocketRef_Ore_2ed_0207.pdf  awk_ore.txt
+	pagebreaks ==  "^L"
+##________________________________________  ___________________________
+
+
+#####  ==========  
+1.5 The awk Programming Language
+awk is a pattern-matching program for processing files, especially when they are databases. The new
+version of awk, called nawk, provides additional capabilities. (It really isn't so new. The additional
+features were added in 1984, and it was first shipped with System V Release 3.1 in 1987.
+Nevertheless, the name was never changed on many systems.) Every modern Unix system comes
+with a version of new awk, and its use is recommended over old awk. The GNU version of awk, called
+gawk, implements new awk and provides a number of additional features.
+Different systems vary in what new and old awk are called. Some have oawk and awk, for the old and
+new versions, respectively. Others have awk and nawk. Still others only have awk, which is the new
+version. This example shows what happens if your awk is the old one:
+$ awk 1 /dev/null
+awk: syntax error near line 1
+awk: bailing out near line 1
+awk will exit silently if it is the new version.
+Items described here as "common extensions" are often available in different versions of new awk, as
+well as in gawk, but should not be used if strict portability of your programs is important to you.
+The freely available versions of awk described in Section 1.6 all implement new awk. Thus, references
+in the following text such as "nawk only," apply to all versions. gawk has additional features.
+With original awk, you can:
+·
+Think of a text file as made up of records and fields in a textual database
+·
+Perform arithmetic and string operations
+·
+Use programming constructs such as loops and conditionals
+·
+Produce formatted reports
+With nawk, you can also:
+·
+Define your own functions
+·
+Execute Unix commands from a script
+·
+Process the results of Unix commands
+20
+This document was created by an unregistered ChmMagic, please go to http://www.bisenter.com to register it. Thanks
+·
+Process command-line arguments more gracefully
+·
+Work more easily with multiple input streams
+·
+Flush open output files and pipes (with the latest Bell Laboratories version of awk)
+In addition, with GNU awk (gawk), you can:
+·
+Use regular expressions to separate records, as well as fields
+·
+Skip to the start of the next file, not just the next record
+·
+Perform more powerful string substitutions
+·
+Sort arrays
+·
+Retrieve and format system time values
+·
+Use octal and hexadecimal constants in your program
+·
+Do bit manipulation
+·
+Internationalize your awk programs, allowing strings to be translated into a local language at
+runtime
+·
+Perform two-way I/O to a coprocess
+·
+Open a two-way TCP/IP connection to a socket
+·
+Dynamically add built-in functions
+·
+Profile your awk programs
+1.5.1 Command-Line Syntax
+The syntax for invoking awk has two forms:
+awk [ options] ' script' var= value file(s)
+awk [ options] -f scriptfile var= value file(s)
+You can specify a script directly on the command line, or you can store a script in a scriptfile and
+specify it with -f. nawk allows multiple -f scripts. Variables can be assigned a value on the command
+line. The value can be a string or numeric constant, a shell variable ($name), or a command
+substitution (`cmd `), but the value is available only after the BEGIN statement is executed.
+21
+.
+This document was created by an unregistered ChmMagic, please go to http://www.bisenter.com to register it. Thanks
+awk operates on one or more files. If none are specified (or if - is specified), awk reads from the
+standard input.
+The recognized options are:
+-F fs
+Set the field separator to fs. This is the same as setting the built-in variable FS. Original awk
+only allows the field separator to be a single character. nawk allows fs to be a regular
+expression. Each input line, or record, is divided into fields by white space (spaces or TABs)
+or by some other user-definable field separator. Fields are referred to by the variables $1 ,
+$2 ,..., $n. $0 refers to the entire record.
+-v var = value
+Available in nawk only. Assign a value to variable var. This allows assignment before the
+script begins execution.
+For example, to print the first three (colon-separated) fields of each record on separate lines:
+awk -F: '{ print $1; print $2; print $3 }' /etc/passwd
+Numerous examples are shown later in the Section 1.5.4.3 section.
+1.5.2 Important gawk Options
+Besides the standard command-line options, gawk has a large number of additional options. This
+section lists those that are of most value in day-to-day use. Any unique abbreviation of these options
+is acceptable.
+--dump-variables [= file]
+When the program has finished running, print a sorted list of global variables, their types,
+and final values to file. The default is awkvars.out.
+--gen-po
+Read the awk program and print all strings marked as translatable to standard output in the
+form of a GNU gettext Portable Object file. See Section 1.5.14 for more information.
+--help
+Print a usage message to standard error and exit.
+--lint[=fatal]
+22
+.
+This document was created by an unregistered ChmMagic, please go to http://www.bisenter.com to register it. Thanks
+Enable checking of nonportable or dubious constructs, both when the program is read, and
+as it runs. With an argument of fatal, lint warnings become fatal errors.
+--non-decimal-data
+Allow octal and hexadecimal data in the input to be recognized as such. This option is not
+recommended; use strtonum( ) in your program, instead.
+--profile [= file]
+With gawk, put a "prettyprinted" version of the program in file. Default is awkprof.out. With
+pgawk (see Section 1.5.3), put the profiled listing of the program in file.
+--posix
+Turn on strict POSIX compatibility, in which all common and gawk-specific extensions are
+disabled.
+--source=' program text'
+Use program text as the awk source code. Use this option with -f to mix command-line
+programs with awk library files.
+--traditional
+Disable all gawk-specific extensions, but allow common extensions (e.g., the ** operator for
+exponentiation).
+--version
+Print the version of gawk on standard error and exit.
+1.5.3 Profiling with pgawk
+When gawk is built and installed, a separate program named pgawk (profiling gawk) is built and
+installed with it. The two programs behave identically; however, pgawk runs more slowly since it keeps
+execution counts for each statement as it runs. When it is done, it automatically places an execution
+profile of your program in a file named awkprof.out. (You can change the filename with the --profile
+option.)
+The execution profile is a "prettyprinted" version of your program with execution counts listed in the left
+margin. For example, after running this program:
+$ pgawk '/bash$/ { nusers++ }
+> END { print nusers, "users use Bash." }' /etc/passwd
+23
+This document was created by an unregistered ChmMagic, please go to http://www.bisenter.com to register it. Thanks
+.
+16 users use Bash.
+the execution profile looks like this:
+# gawk profile, created Wed Nov 1 14:34:38 2000
+# Rule(s)
+35 /bash$/ { # 16
+16
+nusers++
+}
+# END block(s)
+END {
+1
+print nusers, "users use Bash."
+}
+If sent SIGUSR1, pgawk prints the profile and an awk function call stack trace, and then keeps going.
+Multiple SIGUSR1 signals may be sent; the profile and trace will be printed each time. This facility is
+useful if your awk program appears to be looping, and you want to see if something unexpected is
+being executed.
+If sent SIGHUP, pgawk prints the profile and stack trace, and then exits.
+1.5.4 Patterns and Procedures
+awk scripts consist of patterns and procedures:
+pattern { procedure }
+Both are optional. If pattern is missing, { procedure } is applied to all lines. If { procedure } is missing,
+the matched line is printed.
+1.5.4.1 Patterns
+A pattern can be any of the following:
+/regular expression/
+relational expression
+pattern-matching expression
+BEGIN
+END
+24
+This document was created by an unregistered ChmMagic, please go to http://www.bisenter.com to register it. Thanks
+.
+·
+Expressions can be composed of quoted strings, numbers, operators, function calls,
+user-defined variables, or any of the predefined variables described later in Section 1.5.5.
+·
+Regular expressions use the extended set of metacharacters and are described earlier in
+Section 1.3.
+·
+The ^ and $ metacharacters refer to the beginning and end of a string (such as the fields),
+respectively, rather than the beginning and end of a line. In particular, these metacharacters
+will not match at a newline embedded in the middle of a string.
+·
+Relational expressions use the relational operators listed in the section Section 1.5.6 later in
+this book. For example, $2 > $1 selects lines for which the second field is greater than the
+first. Comparisons can be either string or numeric. Thus, depending on the types of data in
+$1 and $2 , awk will do either a numeric or a string comparison. This can change from one
+record to the next.
+·
+Pattern-matching expressions use the operators ~ (match) and !~ (don't match). See
+Section 1.5.6 later in this book.
+·
+The BEGIN pattern lets you specify procedures that will take place before the first input line
+is processed. (Generally, you process the command line and set global variables here.)
+·
+The END pattern lets you specify procedures that will take place after the last input record is
+read.
+·
+In nawk, BEGIN and END patterns may appear multiple times. The procedures are merged
+as if there had been one large procedure.
+Except for BEGIN and END, patterns can be combined with the Boolean operators || (or), && (and),
+and ! (not). A range of lines can also be specified using comma-separated patterns:
+pattern,pattern
+1.5.4.2 Procedures
+Procedures consist of one or more commands, function calls, or variable assignments, separated by
+newlines or semicolons, and are contained within curly braces. Commands fall into five groups:
+·
+Variable or array assignments
+·
+Input/output commands
+·
+Built-in functions
+·
+Control-flow commands
+25
+This document was created by an unregistered ChmMagic, please go to http://www.bisenter.com to register it. Thanks
+·
+User-defined functions (nawk only)
+1.5.4.3 Simple pattern-procedure examples
+Print first field of each line:
+{ print $1 }
+Print all lines that contain pattern:
+/pattern/
+Print first field of lines that contain pattern:
+/pattern/ { print $1 }
+Select records containing more than two fields:
+NF > 2
+Interpret input records as a group of lines up to a blank line. Each line is a single field:
+BEGIN { FS = "\n"; RS = "" }
+Print fields 2 and 3 in switched order, but only on lines whose first field matches the string URGENT:
+$1 ~ /URGENT/ { print $3, $2 }
+Count and print the number of pattern found:
+/pattern/ { ++x }
+END { print x }
+Add numbers in second column and print total:
+{ total += $2 }
+END { print "column total is", total}
+Print lines that contain less than 20 characters:
+length($0) < 20
+Print each line that begins with Name: and that contains exactly seven fields:
+NF == 7 && /^Name:/
+26
+.
+This document was created by an unregistered ChmMagic, please go to http://www.bisenter.com to register it. Thanks
+Print the fields of each record in reverse order, one per line:
+{
+for (i = NF; i >= 1; i--)
+print $i
+}
+1.5.5 Built-in Variables
+All awk variables are included in nawk. All nawk variables are included in gawk.
+Version
+Variable
+Description
+Current filename.
+Field separator (a space).
+NF
+Number of fields in current record.
+NR
+Number of the current record.
+OFMT
+Output format for numbers ("%.6g") and for conversion to string.
+OFS
+Output field separator (a space).
+ORS
+Output record separator (a newline).
+RS
+Record separator (a newline).
+$0
+Entire input record.
+$n
+nawk
+FILENAME
+FS
+awk
+nth field in current record; fields are separated by FS.
+ARGC
+Number of arguments on the command line.
+ARGV
+An array containing the command-line arguments, indexed from 0 to
+ARGC - 1.
+CONVFMT
+ENVIRON
+An associative array of environment variables.
+FNR
+Like NR, but relative to the current file.
+RLENGTH
+Length of the string matched by match( ) function.
+RSTART
+First position in the string matched by match( ) function.
+SUBSEP
+gawk
+String conversion format for numbers ("%.6g"). (POSIX)
+Separator character for array subscripts ("\034").
+ARGIND
+Index in ARGV of current input file.
+Controls binary I/O for input and output files. Use values of 1, 2, or 3 for
+BINMODE
+input, output, or both kinds of files, respectively. Set on the command line
+to affect standard input, standard output, and standard error.
+ERRNO
+A string indicating the error when a redirection fails for getline or if close(
+) fails.
+27
+.
+This document was created by an unregistered ChmMagic, please go to http://www.bisenter.com to register it. Thanks
+FIELDWIDTHS
+IGNORECASE
+LINT
+PROCINFO
+RT
+TEXTDOMAIN
+A space-separated list of field widths to use for splitting up the record,
+instead of FS.
+When true, all regular expression matches, string comparisons, and
+index( ) ignore case.
+Dynamically controls production of "lint" warnings. With a value of "fatal",
+lint warnings become fatal errors.
+An array containing information about the process, such as real and
+effective UID numbers, process ID number, and so on.
+The text matched by RS, which can be a regular expression in gawk.
+The text domain (application name) for internationalized messages
+("messages").
+1.5.6 Operators
+The following table lists the operators, in order of increasing precedence, that are available in awk:
+Symbol
+Meaning
+[2]
+= += -= *= /= %= ^= **=
+Assignment.
+?:
+C conditional expression (nawk only).
+||
+Logical OR (short-circuit).
+&&
+Logical AND (short-circuit).
+in
+Array membership (nawk only).
+~ !~
+Match regular expression and negation.
+< <= > >= != ==
+Relational operators.
+(blank)
+Concatenation.
++-
+Addition, subtraction.
+*/%
+Multiplication, division, and modulus (remainder).
++-!
+Unary plus and minus, and logical negation.
+^ **
+Exponentiation.
+++ --
+Increment and decrement, either prefix or postfix.
+$
+Field reference.
+[2]
+[2]
+While ** and **= are common extensions, they are not part of POSIX awk.
+1.5.7 Variable and Array Assignment
+28
+This document was created by an unregistered ChmMagic, please go to http://www.bisenter.com to register it. Thanks
+Variables can be assigned a value with an = sign. For example:
+FS = ","
+Expressions using the operators listed in the previous table can be assigned to variables.
+Arrays can be created with the split( ) function (described later), or they can simply be named in an
+assignment statement. Array elements can be subscripted with numbers (array[1] , ..., array[n ]) or
+with strings. Arrays subscripted by strings are called associative arrays. (In fact, all arrays in awk are
+associative; numeric subscripts are converted to strings before using them as array subscripts.
+Associative arrays are one of awk's most powerful features.)
+For example, to count the number of widgets you have, you could use the following script:
+Count widgets
+{ print count["widget"] } Print the count
+/widget/ { count["widget"]++ }
+END
+You can use the special for loop to read all the elements of an associative array:
+for (item in array)
+process array[item]
+The index of the array is available as item, while the value of an element of the array can be
+referenced as array[item].
+You can use the operator in to test that an element exists by testing to see if its index exists (nawk
+only). For example:
+if (index in array)
+...
+tests that array[index] exists, but you cannot use it to test the value of the element referenced by
+array[index].
+You can also delete individual elements of the array using the delete statement (nawk only).
+1.5.7.1 Escape sequences
+Within string and regular expression constants, the following escape sequences may be used:
+Sequence
+Meaning
+\a
+Alert (bell)
+\b
+Backspace
+29
+.
+This document was created by an unregistered ChmMagic, please go to http://www.bisenter.com to register it. Thanks
+\f
+Form feed
+\n
+Newline
+\r
+Carriage return
+\t
+TAB
+\v
+Vertical tab
+\\
+Literal backslash
+\nnn
+Octal value nnn
+\xnn
+Hexadecimal value nn
+\"
+Literal double quote (in strings).
+\/
+Literal slash (in regular expressions).
+The \x escape sequence is a common extension, but it is not part of
+POSIX awk.
+1.5.8 Octal and Hexadecimal Constants in gawk
+gawk allows you to use octal and hexadecimal constants in your program source code. The form is as
+in C: octal constants start with a leading 0, and hexadecimal constants with a leading 0x or 0X. The
+hexadecimal digits a-f may be in either upper- or lowercase.
+$ gawk 'BEGIN { print 042, 42, 0x42 }'
+34 42 66
+Use the strtonum( ) function to convert octal or hexadecimal input data into numerical values.
+1.5.9 User -Defined Functions
+nawk allows you to define your own functions. This makes it easy to encapsulate sequences of steps
+that need to be repeated into a single place, and re-use the code from anywhere in your program.
+The following function capitalizes each word in a string. It has one parameter, named input, and five
+local variables, which are written as extra parameters:
+# capitalize each word in a string
+function capitalize(input, result, words, n, i, w)
+{
+result = ""
+n = split(input, words, " ")
+30
+.
+.
+This document was created by an unregistered ChmMagic, please go to http://www.bisenter.com to register it. Thanks
+for (i = 1; i <= n; i++) {
+w = words[i]
+w = toupper(substr(w, 1, 1)) substr(w, 2)
+if (i > 1)
+result = result " "
+result = result w
+}
+return result
+}
+# main program, for testing
+{ print capitalize($0) }
+With this input data:
+A test line with words and numbers like 12 on it.
+this program produces:
+A Test Line With Words And Numbers Like 12 On It.
+For user-defined functions, no space is allowed between the function
+name and the left parenthesis when the function is called.
+1.5.10 Group Listing of awk Functions and Commands
+awk functions and commands may be classified as in the following table. For descriptions and
+examples of how to use these commands, see Section 1.5.13.
+Function type
+All awk versions
+nawk
+exp
+atan2
+int
+cos
+log
+rand
+sqrt
+Arithmetic
+gawk
+sin
+srand
+String
+index
+gsub
+asort
+length
+match
+gensub
+split
+sub
+strtonum
+sprintf
+tolower
+31
+.
+This document was created by an unregistered ChmMagic, please go to http://www.bisenter.com to register it. Thanks
+toupper
+break
+do /while
+continue
+Control flow
+return
+exit
+for
+if/else
+while
+[3]
+Input/output
+next
+close
+fflush
+Processing
+print
+getline
+nextfile
+delete
+extension
+[3]
+printf
+Programming
+function
+system
+[3]
+Also in Bell Labs awk.
+The following functions are specific to gawk:
+Function type
+Functions
+and
+lshift
+rshift
+compl
+or
+xor
+Time
+mktime
+strftime
+systime
+Translation
+bindtextdomain
+dcgettext
+dcngettext
+Bit manipulation
+1.5.11 Coprocesses and Sockets with gawk
+gawk allows you to open a two-way pipe to another process, called a coprocess. This is done with the
+|& operator used with getline and print or printf.
+print database command |& "db_server"
+"db_server" |& getline response
+If the command used with |& is a filename beginning with /inet/, gawk opens a TCP/IP connection. The
+filename should be of the following form:
+/inet/protocol/lport/hostname/rport
+The parts of the filename are:
+32
+This document was created by an unregistered ChmMagic, please go to http://www.bisenter.com to register it. Thanks
+protocol
+One of tcp, udp, or raw, for TCP, UDP, or raw IP sockets, respectively. Note: raw is
+currently reserved but unsupported.
+lport
+The local TCP or UPD port number to use. Use 0 to let the operating system pick a port.
+hostname
+The name or IP address of the remote host to connect to.
+rport
+The port (application) on the remote host to connect to. A service name (e.g., tftp) is looked
+up using the C getservbyname( ) function.
+1.5.12 Implementation Limits
+Many versions of awk have various implementation limits, on things such as:
+·
+Number of fields per record
+·
+Number of characters per input record
+·
+Number of characters per output record
+·
+Number of characters per field
+·
+Number of characters per printf string
+·
+Number of characters in literal string
+·
+Number of characters in character class
+·
+Number of files open
+·
+Number of pipes open
+·
+The ability to handle 8-bit characters and characters that are all zero (ASCII NUL)
+gawk does not have limits on any of the above items, other than those imposed by the machine
+architecture and/or the operating system.
+33
+.
+This document was created by an unregistered ChmMagic, please go to http://www.bisenter.com to register it. Thanks
+1.5.13 Alphabetical Summary of awk Functions and Commands
+The following alphabetical list of keywords and functions includes all that are available in awk and
+nawk. nawk includes all old awk functions and keywords, plus some additional ones (marked as N ).
+Extensions that aren't part of POSIX awk but that are in both gawk and the Bell Laboratories awk are
+marked as E . Cases where gawk has extensions are marked as G . Items that aren't marked with a
+symbol are available in all versions.
+Command
+Description
+and(expr1, expr2) G
+and
+Return the bitwise AND of expr1 and expr2, which should be values that fit in a C
+unsigned long.
+asort(src [,dest]) G
+asort
+Sort the array src, destructively replacing the indexes with values from one to the
+number of elements in the array. If dest is supplied, copy src to dest and sort dest,
+leaving src unchanged. Returns the number of elements in src.
+atan2(y, x) N
+atan2
+Return the arctangent of y/x in radians.
+bindtextdomain( dir [,domain]) G
+bindtextdomain
+Look in directory dir for message translation files for text domain domain (default:
+value of TEXTDOMAIN). Returns the directory where domain is bound.
+break
+break
+Exit from a while, for, or do loop.
+close(expr) N
+close(expr, how) G
+In most implementations of awk, you can only have up to ten files open
+close
+simultaneously and one pipe. Therefore, nawk provides a close( ) function that
+allows you to close a file or a pipe. It takes the same expression that opened the
+pipe or file as an argument. This expression must be identical, character by
+character, to the one that opened the file or pipe—even whitespace is significant.
+In the second form, close one end of either a TCP/IP socket or a two-way pipe to a
+coprocess. how is a string, either "from" or "to". Case does not matter.
+34
+.
+This document was created by an unregistered ChmMagic, please go to http://www.bisenter.com to register it. Thanks
+compl(expr) G
+compl
+Return the bitwise complement of expr, which should be a value that fits in a C
+unsigned long.
+continue
+continue
+Begin next iteration of while, for, or do loop.
+cos(x) N
+cos
+Return the cosine of x, an angle in radians.
+dcgettext(str [, dom [,cat]]) G
+dcgettext
+Return the translation of str for the text domain dom in message category cat.
+Default text domain is value of TEXTDOMAIN. Default category is
+"LC_MESSAGES".
+dcngettext(str1, str2, num [, dom [,cat]]) G
+dcngettext
+If num is one, return the translation of str1 for the text domain dom in message
+category cat. Otherwise return the translation of str2. Default text domain is value
+of TEXTDOMAIN. Default category is "LC_MESSAGES". For gawk 3.1.1 and
+later.
+delete array[element] N
+delete
+delete array E
+Delete element from array. The brackets are typed literally. The second form is a
+common extension, which deletes all elements of the array in one shot.
+do
+statement
+do
+while
+(expr)
+N
+Looping statement. Execute statement, then evaluate expr and if true, execute
+statement again. A series of statements must be put within braces.
+exit [expr]
+exit
+Exit from script, reading no new input. The END procedure, if it exists, will be
+executed. An optional expr becomes awk's return value.
+exp
+exp(x)
+35
+.
+This document was created by an unregistered ChmMagic, please go to http://www.bisenter.com to register it. Thanks
+x
+Return exponential of x (e ).
+extension(lib, init) G
+extension
+Dynamically load the shared object file lib, calling the function init to initialize it.
+Return the value returned by the init function. This function allows you to add new
+built-in functions to gawk. See Effective awk Programming, Third Edition, for the
+details.
+fflush([output-expr]) E
+fflush
+Flush any buffers associated with open output file or pipe output-expr.
+gawk extends this function. If no output-expr is supplied, it flushes standard output.
+If output-expr is the null string (""), it flushes all open files and pipes.
+for(init-expr;test-expr;incr-expr)
+statement
+C-style looping construct. init-expr assigns the initial value of a counter variable.
+for
+test-expr is a relational expression that is evaluated each time before executing
+the statement. When test-expr is false, the loop is exited. incr-expr is used to
+increment the counter variable after each pass. All of the expressions are optional.
+A missing test-expr is considered to be true. A series of statements must be put
+within braces.
+for (item in array)
+statement
+for
+Special loop designed for reading associative arrays. For each element of the
+array, the statement is executed; the element can be referenced by array [item ].
+A series of statements must be put within braces.
+function name(parameter-list){N
+statements
+}
+function
+Create name as a user-defined function consisting of awk statements that apply to
+the specified list of parameters. No space is allowed between name and the left
+parenthesis when the function is called.
+gensub(regex, str, how [, target]) G
+gensub
+General substitution function. Substitute str for matches of the regular expression
+regex in the string target. If how is a number, replace the howth match. If it is g or
+G, substitute globally. If target is not supplied, $0 is used. Return the new string
+value. The original target is not modified. (Compare with gsub and sub.)
+36
+.
+This document was created by an unregistered ChmMagic, please go to http://www.bisenter.com to register it. Thanks
+getline
+getline [var][< file]N
+command | getline[var]N
+command |& getline[var]G
+Read next line of input. Original awk does not support the syntax to open multiple
+input streams or use a variable.
+The second form reads input from file and the third form reads the output of
+getline
+command. All forms read one record at a time, and each time the statement is
+executed it gets the next record of input. The record is assigned to $0 and is
+parsed into fields, setting NF, NR, and FNR. If var is specified, the result is
+assigned to var and $0 and NF are not changed. Thus, if the result is assigned to
+a variable, the current record does not change. getline is actually a function and it
+returns 1 if it reads a record successfully, 0 if end-of-file is encountered, and -1 if
+for some reason it is otherwise unsuccessful.
+The fourth form reads the output from coprocess command. See Section 1.5.11
+for more information.
+gsub(regex, str [, target]) N
+gsub
+Globally substitute str for each match of the regular expression regex in the string
+target. If target is not supplied, defaults to $0 . Return the number of substitutions.
+if (condition)
+statement1
+[else
+statement2]
+if
+If condition is true, do statement1, otherwise do statement2 in optional else
+clause. The condition can be an expression using any of the relational operators
+< , <=, ==, !=, >=, or > , as well as the array membership operator in, and the
+pattern-matching operators ~ and !~ (e.g., if ($1 ~ /[Aa].*/)). A series of
+statements must be put within braces. Another if can directly follow an else in
+order to produce a chain of tests or decisions.
+index(str, substr)
+index
+Return the position (starting at 1) of substr in str, or zero if substr is not present in
+str.
+int(x)
+int
+Return integer value of x by truncating any fractional part.
+37
+.
+This document was created by an unregistered ChmMagic, please go to http://www.bisenter.com to register it. Thanks
+length( [arg])
+length
+Return length of arg, or the length of $0 if no argument.
+log(x)
+log
+Return the natural logarithm (base e) of x.
+lshift(expr, count) G
+lshift
+Return the result of shifting expr left by count bits. Both expr and count should be
+values that fit in a C unsigned long.
+match( str,regex)N
+match( str,regex [,array])G
+Function that matches the pattern, specified by the regular expression regex, in
+the string str and returns either the position in str where the match begins, or 0 if
+match
+no occurrences are found. Sets the values of RSTART and RLENGTH to the
+start and length of the match, respectively.
+If array is provided, gawk puts the text that matched the entire regular expression
+in array[0] , the text that matched the first parenthesized subexpression in array[1] ,
+the second in array[2] , and so on.
+mktime(timespec) G
+mktime
+Turns timespec (a string of the form "YYYY MM DD HH MM SS [DST] "
+representing a local time) into a time-of-day value in seconds since midnight,
+January 1, 1970, UTC.
+next
+next
+Read next input line and start new cycle through pattern/procedures statements.
+nextfile E
+nextfile
+Stop processing the current input file and start new cycle through
+pattern/procedures statements, beginning with the first record of the next file.
+or(expr1, expr2) G
+or
+Return the bitwise OR of expr1 and expr2, which should be values that fit in a C
+unsigned long.
+print [ output-expr[ , ...]] [ dest-expr ]
+print
+Evaluate the output-expr and direct it to standard output followed by the value of
+ORS. Each comma-separated output-expr is separated in the output by the value
+of OFS. With no output-expr, print $0 . The output may be redirected to a file or
+38
+.
+This document was created by an unregistered ChmMagic, please go to http://www.bisenter.com to register it. Thanks
+pipe via the dest-expr, which is described in the section Section 1.5.13.1 following
+this table.
+printf(format [, expr-list ]) [ dest-expr ]
+An alternative output statement borrowed from the C language. It has the ability to
+printf
+produce formatted output. It can also be used to output data without automatically
+producing a newline. format is a string of format specifications and constants.
+expr-list is a list of arguments corresponding to format specifiers. As for print,
+output may be redirected to a file or pipe. See the section Section 1.5.13.2
+following this table for a description of allowed format specifiers.
+rand( ) N
+rand
+Generate a random number between 0 and 1. This function returns the same
+series of numbers each time the script is executed, unless the random number
+generator is seeded using srand( ).
+return [expr] N
+return
+Used within a user-defined function to exit the function, returning value of
+expression. The return value of a function is undefined if expr is not provided.
+rshift(expr, count) G
+rshift
+Return the result of shifting expr right by count bits. Both expr and count should be
+values that fit in a C unsigned long.
+sin(x) N
+sin
+Return the sine of x, an angle in radians.
+split(string, array [, sep])
+split
+Split string into elements of array array[1] ,...,array[n ]. Return the number of array
+elements created. The string is split at each occurrence of separator sep. If sep is
+not specified, FS is used.
+sprintf( format [, expressions])
+sprintf
+Return the formatted value of one or more expressions, using the specified format.
+Data is formatted but not printed. See the section Section 1.5.13.2 following this
+table for a description of allowed format specifiers.
+sqrt(arg)
+sqrt
+Return square root of arg.
+srand
+srand([expr]) N
+39
+This document was created by an unregistered ChmMagic, please go to http://www.bisenter.com to register it. Thanks.
+Use optional expr to set a new seed for the random number generator. Default is
+the time of day. Return value is the old seed.
+strftime([format [,timestamp]]) G
+Format timestamp according to format. Return the formatted string. The timestamp
+strftime
+is a time-of-day value in seconds since midnight, January 1, 1970, UTC. The
+format string is similar to that of sprintf. If timestamp is omitted, it defaults to the
+current time. If format is omitted, it defaults to a value that produces output similar
+to that of the Unix date command.
+strtonum(expr) G
+strtonum
+Return the numeric value of expr, which is a string representing an octal, decimal,
+or hexadecimal number in the usual C notations. Use this function for processing
+nondecimal input data.
+sub(regex, str [, target]) N
+sub
+Substitute str for first match of the regular expression regex in the string target. If
+target is not supplied, defaults to $0 . Return 1 if successful; otherwise.
+substr( string, beg [, len])
+substr
+Return substring of string at beginning position beg (counting from 1), and the
+characters that follow to maximum specified length len. If no length is given, use
+the rest of the string.
+system(command) N
+Function that executes the specified command and returns its exit status. The
+status of the executed command typically indicates success or failure. A value of 0
+system
+means that the command executed successfully. A nonzero value indicates a
+failure of some sort. The documentation for the command you're running will give
+you the details.
+The output of the command is not available for processing within the awk script.
+Use command | getline to read the output of a command into the script.
+systime( ) G
+systime
+Return a time-of-day value in seconds since midnight, January 1, 1970, UTC.
+tolower(str) N
+tolower
+Translate all uppercase characters in str to lowercase and return the new string.
+40
+[4]
+This document was created by an unregistered ChmMagic, please go to http://www.bisenter.com to register it. Thanks
+toupper(str) N
+toupper
+Translate all lowercase characters in str to uppercase and return the new string.
+[4]
+while (condition)
+statement
+while
+Do statement while condition is true (see if for a description of allowable
+conditions). A series of statements must be put within braces.
+xor(expr1, expr2) G
+xor
+Return the bitwise XOR of expr1 and expr2, which should be values that fit in a C
+unsigned long.
+[4]
+Very early versions of nawk don't support tolower() and toupper(). However, they are now part of the
+POSIX specification for awk.
+1.5.13.1 Output redirections
+For print and printf, dest-expr is an optional expression that directs the output to a file or pipe.
+> file
+Directs the output to a file, overwriting its previous contents.
+>> file
+Appends the output to a file, preserving its previous contents. In both of these cases, the file
+will be created if it does not already exist.
+| command
+Directs the output as the input to a system command.
+|& command
+Directs the output as the input to a coprocess. gawk only.
+Be careful not to mix > and >> for the same file. Once a file has been opened with > , subsequent
+output statements continue to append to the file until it is closed.
+Remember to call close( ) when you have finished with a file, pipe, or coprocess. If you don't,
+eventually you will hit the system limit on the number of simultaneously open files.
+41
+.
+This document was created by an unregistered ChmMagic, please go to http://www.bisenter.com to register it. Thanks
+1.5.13.2 printf formats
+Format specifiers for printf and sprintf have the following form:
+%[posn$][ flag][width][.precision]letter
+The control letter is required. The format conversion control letters are given in the following table:
+Character
+Description
+c
+ASCII character.
+d
+Decimal integer.
+i
+Decimal integer. (Added in POSIX)
+e
+Floating-point format ([-]d.precision e[+-]dd).
+E
+Floating-point format ([-]d.precision E[+-]dd).
+f
+Floating-point format ([-]ddd.precision).
+g
+e or f conversion, whichever is shortest, with trailing zeros removed.
+G
+E or f conversion, whichever is shortest, with trailing zeros removed.
+o
+Unsigned octal value.
+s
+String.
+u
+Unsigned decimal value.
+x
+Unsigned hexadecimal number. Uses a-f for 10 to 15.
+X
+Unsigned hexadecimal number. Uses A-F for 10 to 15.
+%
+Literal %.
+gawk allows you to provide a positional specifier after the % (posn$). A positional specifier is an
+integer count followed by a $. The count indicates which argument to use at that point. Counts start at
+one, and don't include the format string. This feature is primarily for use in producing translations of
+format strings. For example:
+$ gawk 'BEGIN { printf "%2$s, %1$s\n", "world", "hello" }'
+hello, world
+The optional flag is one of the following:
+Character
+Description
+-
+Left-justify the formatted value within the field.
+space
+Prefix positive values with a space and negative values with a minus.
++
+Always prefix numeric values with a sign, even if the value is positive.
+42
+.
+This document was created by an unregistered ChmMagic, please go to http://www.bisenter.com to register it. Thanks
+Use an alternate form:
+%o has a preceding 0
+#
+%x and %X are prefixed with 0x and 0X, respectively
+%e, %E , and %f always have a decimal point in the result
+%g and %G do not have trailing zeros removed
+Pad output with zeros, not spaces. This only happens when the field width is wider than
+0
+the converted result. This flag applies to all output formats, even non-numeric ones.
+The optional width is the minimum number of characters to output. The result will be padded to this
+size if it is smaller. The 0 flag causes padding with zeros; otherwise, padding is with spaces.
+The precision is optional. Its meaning varies by control letter, as shown in this table:
+Conversion
+Precision means
+%d, %i, %o, %u, %x, %X
+The minimum number of digits to print.
+%e, %E , %f
+The number of digits to the right of the decimal point.
+%g, %G
+The maximum number of significant digits.
+%s
+The maximum number of characters to print.
+1.5.14 Internationalization with gawk
+You can internationalize your programs if you use gawk. This consists of choosing a text domain for
+your program, marking strings that are to be translated and, if necessary, using the bindtextdomain(
+), dcgettext( ), and dcngettext( ) functions.
+Localizing your program consists of extracting the marked strings, creating translations, and compiling
+and installing the translations in the proper place. Full details are given in Effective awk Programming,
+Third Edition.
+The internationalization features in gawk use GNU gettext. You may need to install these tools to
+create translations if your system doesn't already have them. Here is a very brief outline of the steps
+involved:
+1.
+Set TEXTDOMAIN to your text domain in a BEGIN block:
+BEGIN { TEXTDOMAIN = "whizprog" }
+2.
+Mark all strings to be translated by prepending a leading underscore:
+43
+.
+This document was created by an unregistered ChmMagic, please go to http://www.bisenter.com to register it. Thanks
+3.
+4.
+printf(_"whizprog: can't open /dev/telepath (%s)\n",
+dcgettext(ERRNO)) > "/dev/stderr"
+Extract the strings with the --gen-po option:
+$ gawk --gen-po -f whizprog.awk > whizprog.pot
+5.
+6.
+Copy the file for translating, and make the translations:
+$ cp whizprog.pot esperanto.po
+$ ed esperanto.po
+7.
+Use the msgfmt program from GNU gettext to compile the translations. The binary format
+allows fast lookup of the translations at runtime. The default output is a file named
+messages.
+8.
+$ msgfmt esperanto.po
+$ mv messages esperanto.mo
+9.
+Install the file in the standard location. This is usually done at program installation. The
+location can vary from system to system.
+That's it! gawk will automatically find and use the translated messages, if they exist.
+44
+.
+This document was created by an unregistered ChmMagic, please go to http://www.bisenter.com to register it. Thanks
+1.6 Additional Resources
+This section lists resources for further exploration.
+1.6.1 Source Code
+This following URLs indicate where to get source code for GNU sed, four freely available versions of
+awk, and GNU gettext.
+ftp://ftp.gnu.org/gnu/sed/sed-3.02.tar.gz
+The Free Software Foundation's version of sed. The somewhat older version, 2.05, is also
+available.
+http://cm.bell-labs.com/~bwk
+Brian Kernighan's home page, with links to the source code for the latest version of awk
+from Bell Laboratories.
+ftp://ftp.freefriends.org/arnold/Awkstuff/mawk1.3.3.tar.gz
+Michael Brennan's mawk. A very fast, very robust version of awk.
+ftp://ftp.gnu.org/gnu/gawk/gawk-3.1.1.tar.gz
+The Free Software Foundation's version of awk, called gawk.
+http://awka.sourceforge.net
+The home page for awka, a translator that turns awk programs into C, compiles the
+generated C, and then links the object code with a library that performs the core awk
+functions.
+ftp://ftp.gnu.org/gnu/gettext/gettext-0.11.2.tar.gz
+The source code for GNU gettext. Get this if you need to produce translations for your awk
+programs that use gawk.
+1.6.2 Books
+1.
+Dale Dougherty, Arnold Robbins, sed & awk, Second Edition (Sebastopol, Calif.: O'Reilly &
+Associates, 1997).
+45
+.
+This document was created by an unregistered ChmMagic, please go to http://www.bisenter.com to register it. Thanks
+2.
+Alfred V. Aho, Brian W. Kernighan, Peter J. Weinberger, The AWK Programming Language
+(Reading, Mass.: Addison Wesley, 1988).
+3.
+Arnold Robbins, Effective awk Programming, Third Edition (Sebastopol, Calif.: O'Reilly &
+Associates, 2001).
+4.
+Brian W. Kernighan, Rob Pike, The Unix Programming Environment (Englewood Cliffs, N.J.:
+Prentice-Hall, 1984).
+5.
+Arnold Robbins, Unix In A Nutshell, Third Edition (Sebastopol, Calif.: O'Reilly & Associates,
+1999).
+6.
+Jon Bentley, Programming Pearls, Second Edition (Reading, Mass.: Addison Wesley,
+2000).
+7.
+Jon Louis Bentley, More Programming Pearls: Confessions of a Coder (Reading, Mass.:
+Addison Wesley, 1988).
+46
+.

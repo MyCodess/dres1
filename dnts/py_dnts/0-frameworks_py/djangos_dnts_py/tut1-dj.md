@@ -1,0 +1,54 @@
+________________________ Django-Tut-RefDocs-try1 (partly) _____________________
+/:230106  :  setup1_arx1 :  - admin-app:  adm1 + adm1
+
+
+#####  ==========  Tut-Part-1 /_230108  :
+mkdircd  /up1/prjs/py1/wks/django1  ;
+
+	_______:  prj1-tree-creation   :
+django-admin   startproject  mysite  ##--creates prj1-std-tree    mysite/...
+checkit: cdlla mysite/  &&  python manage.py runserver  #-->check on :  http://127.0.0.1:8000/
+
+	_______:  app1-tree-creation...:
+cd ./mysite   ## /up1/mnt/VARUfs/varu/varau/prjs/py1/wks/django1/mysite/mysite
+python manage.py    startapp  polls    ##--from the same DIR as manage.py : generate again APP-std-treeC under our prj1 !
+
+	_______:  view-creation +  app1_urls-integration into the prj1 (urls.py):
+- writing first view/page for the app:  vi ./polls/views.py  ##.... add http-response to it ! 
+- URL-mapping for the app to be shown:   vi  ./polls/urls.py  ##--To create a URLconf in the polls directory, create a file called urls.py.
+- URl-including in the root-URLConf : vi mysite/urls.py  ##-> include ./polls/urls.py there !
+	========== Tut-Part-2 /_230108  :
+
+	_______:  - DB-setup/chk :
+[u1@2209arx mysite]$ python  manage.py  migrate   ##--creating basic-DB-structure, yet without our app (poll)
+	- (vi settings.py for timezone)
+
+	_______:  Model-creation (objects-models for OR-mapping):
+- vi ./polls/models.py      #-add Q+Choice code ; creating Objects-Model ! OR-map
+
+	_______:  app1-model-integration into prj1:
+- settings: add app:  vi  mysite/settings.py  : INSTALLED_APPS = [ 'polls.apps.PollsConfig', ...]
+[u1@2209arx mysite]$ python manage.py makemigrations polls   ##--creates-object-models in  ./polls/migrations/0001_initial.py
+	-checks: just see the SQL-stmts which will be generated for DB:  $ python manage.py sqlmigrate polls 0001
+	The sqlmigrate command doesn’t actually run the migration on your database - instead, it prints it to the screen so that you can see what SQL Django thinks is required.
+- check if all ok?:    python manage.py check;
+
+	_______:  app1-mode-to-DB-tables (writing model into DB as tables,....):
+python  manage.py   migrate   ##-writes model to DB and creates tables/indexes/....
+	#-!so: "migrate"  synchronizes the changes you made to your (objects-)models with the schema in the database. : so creates DB-tables from py-code
+
+	_______:  nts : if model changes, then three steps: 
+	- Change your models (in ./polls/models.py).
+	- create migration-classes with:  python  manage.py  makemigrations
+	- write to DB :  python  manage.py  migrate
+
+	_______:  
+################################### coll/npads/... : ######################################################
+##________________________________________  ___________________________
+
+
+#####  ==========  tree of django-dir: cd  /home/u1/.local/lib/python3.10/site-packages/django &&  tree -d  -I "*locale*|*__pycache__*"
+##________________________________________  ___________________________
+
+
+#####  ==========  

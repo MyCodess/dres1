@@ -1,0 +1,5 @@
+_____________________________ setup-tree-upp/evv-_1coll, just qukys ... ____________________________
+
+--- varau-tree: 
+ cdupp ; cd ./t1 ; mkdircd varu/varau ; mkdir  0tr appsvar develsvar dwsvar prjsvar prjs py1var syysvar tests tmp unp1 wks usersvar
+

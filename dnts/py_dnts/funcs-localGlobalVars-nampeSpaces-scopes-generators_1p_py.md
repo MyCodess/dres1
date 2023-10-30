@@ -1,0 +1,176 @@
+_______________ funcs, local/nonlocal/global-vars, scopes, namespaces, ..._________________
+============================================================================================
+
+
+#####  ==========  DIFFs / DEFs Allg-Funcs:
+    _______:  DIFF :    func1(...)   <--->  func1  :
+    - call/execute a func as  func1(...)   <--->    pointer/reference to a func (NOT-executed) as  func1  :
+    1.  f1 = func1(...)  :  is just norma call/full-execution of func1() and the first return-statement-value inseide func1() will be assigned to the f1 ! whereas:
+    2-  f1 = func1  :   func1 will NOT be executed yet! f1 is then ONLY a pointer to func1() ! now func1() can be EXECUTED/called either with  f1(...)  /OR func1(...) ! both SAME !
+    - eg: >>> print        ##-:  <built-in function print>
+    - eg: >>> print (12)   ##-:  12
+    - eg: >>> f1 = print ; f1(12)    ##-:  12   ; also works:   >>> help(f1) ... ;  /OR:  >>> f1.__name__   ##-: 'print'
+##________________________________________  ___________________________
+
+
+#####  ==========  variables-types/scopes, DEFs:  local/global/nonlocal-VARs, scopes :
+	_______:  see:
+	-!  codecs1_dres/py_dres_1k/funcsVars_global_local_nameSpacesScopes.py  !
+	https://www.python-course.eu/python3_global_vs_local_variables.php
+	https://www.python-course.eu/python3_functions.php#Local-and-Global-Variables-in-Functions
+	py_1coll_devres_1kk/funcsVars_global_local.py
+
+	_______:  3 Scopes of Python :
+	- "global"   / globals()["xx"]    :  In the main part of the script. By default, this already contains the built-ins. You can access all global variables with globals()
+	- "nonlocal" / (for nested-funcs) :  the outer function, if this is a nested function
+	- "local"    / locals()["xx"]     :  Within the current function. You can access all local variables with locals() . Within the main script, locals() == globals()
+
+	_______:  !! DIFF   var-write-acces/var-assignments   <--->    var-read-acces  scopes :
+	-!! write-acces/var-assignments  "="  in funcs :  ANY var-assignment x=... is "local", except it is explicitly declared as "global"/"nonlocal" !!
+	  so inside a func x=1 just defines a NEW var "x" and assigns 1 to it and ignores ANY global/nonlocal x vars! except if it is declares with global/nonlocal !!
+	- read-acces:  seaches for var-name just from lowest to the top scope and take the first one found !
+
+	_______:  !! The scope of a variable is defined at compile-time !! NOT at run-time !! so it means:
+	x=1 ; def f1(): { print (x); x = 2 ; }  #---> UnboundLocalError: local variable 'x' referenced before assignment !
+	x=1 ; def f1(): { x = 2 ; print (x); }  #---> OK.
+	- same as:
+	xs = [] ; def foo():  xs = xs + [42]  #--->  UnboundLocalError: local variable 'xs' # referenced before assignment! because is assignment : xs=xs+[42]
+	xs = [] ; def foo(): xs.append(42)    #--->  OK!  this calls a function of xs. It never assigns a value to xs. 
+	When Python parses the assignment xs = ... , the xs is assigned the local scope. But in the local scope, xs does not exist before xs = xs + [42] is executed. Hence the error.
+
+	_______:  nts/descp var-types/scopes :
+	- Each module has its own private symbol table, which is used as the global symbol table by all functions defined in the module.
+	- Thus, the author of a module can use global variables in the module without worrying about accidental clashes with a user’s global variables.
+	A variable defined or assigned value inside of a function is local unless it is explicitly marked as global.
+	In other words, we can refer/read-access to a variable name in any enclosing scope, but
+	we can only rebind variable names in the local scope by assigning to it or in the module-global scope by using a global declaration.
+	Any variable which is changed or created, so write-access, inside a function is local, if it hasn't been declared as a global variable.
+	To tell Python, that we want to use the global variable, we have to explicitly state this by using the keyword global !!
+	A variable can't be both local and global inside a function.
+	---
+	- "nonlocal" is basically for nested-funcs, to access the upper-/enclosing-/nesting-func-vars! otherwise alle vars in the nested func are either local or global, but not from the upper-func !
+##________________________________________  ___________________________
+
+
+#####  ==========  CONSTANTS (conventions/ways/...):
+
+    - ! https://realpython.com/python-constants/#defining-your-own-constants-in-python  :
+    - NO-strict-Constants basically in Py !! but convention: UPPERCASE vars with [A-Z_]
+    - Typing "Final" : forcing CONSTANTS with mypy/static-checkers since py-3.8 by using type-annotation "Final" :
+        - eg: MAX_SPEED: Final[int] = 300 ;  ALLOWED_BUILTINS: Final[tuple[str, ...]] = ("sum", "max", "min", "abs") ;
+        - !! BUT changing their values generates ONLY a mypy-error, NOT a python-interpreter-error! so python still accepts its new assignment !
+        - see https://realpython.com/python-constants/#type-annotating-constants
+    - CONSTANTS defining in your prj (usu. methods/alternatives):
+        1-in the same module
+        2-extra/dedicated module for your whole app/prj
+        3-config-txt-file (.cfg/.ini/.txt), then using configparser ; pydoc configparser
+        4-ENV-vars :
+        - see https://realpython.com/python-constants/#handling-your-constants-in-a-real-world-project
+    - builtin-CONSTANTS see https://realpython.com/python-constants/#built-in-constants
+    - string-CONSTANTS  : pydoc string
+
+    _______:  real-CONSTANTS definitions (un-changable) tricks/methods in py:
+    - !! https://realpython.com/python-constants/#defining-strict-constants-in-python  :
+    - real-CONSTANTS with defining the __slots__ attribute of a class for CONSTANTS-values! 
+    - using @property vars without set() methods, instead normal variables !
+##________________________________________  ___________________________
+
+
+#####  ==========  lambda :
+	- def:     "lambda" operator  creates small + anonymous/noname + throw-away/einweg functions !
+	- syntax:  "lambda"  <argument_list>  ":"  <expression> ; eg:  lambda x,y,z : x+y-z  ; so is same-as:  def f1(x,y,z): return x+y-z ;
+	- usage:   mainly used in combination with the functions filter(), map() and reduce().
+		- argument list: comma separated, without () and the 
+		- return-value / expression:  is an arithmetic expression using these arguments, whose end-result is automatically !returned"!
+		- You can assign the function to a variable to give it a name.
+	- eg:  sum1 = lambda x, y : x + y ;    sum1(3,4) ##==same-as: def sum1(x,y):  return x + y ; sum(3,4)   ##--see below by map(), filter(), ...
+	- calling a lambda-func directly on-place of definition, eg:  (lambda x: 2**x)(3)
+
+
+#####  ==========  starOP / "func-pointer"/-references:
+	-!! pointer/reference to a func keeps its vars-values/-scopes between sveral cals (depending if a var is local/nonlocal/global/... )! see dres_1kk !!
+##________________________________________  ___________________________
+
+
+#####  ==========  scopes/namespaces:
+	_______:  Ref-dc: 9.2. Python Scopes and Namespaces :
+	At any time during execution, there are 3 or 4 nested scopes whose namespaces are directly accessible:
+	4-the innermost scope, which is searched first, contains the local names (eg nested-funcs)
+	3-the scopes of any enclosing functions, which are searched starting with the nearest enclosing scope, contains non-local, but also non-global names
+	2-the next-to-last scope contains the current module’s global names
+	1-the outermost scope (searched last) is the namespace containing built-in names
+##________________________________________  ___________________________
+
+
+#####  ==========  arguments/parameters passing :       see docsRF_Tut:  4.7. More on Defining Functions !
+    _______:  nts/...:
+    - !! the CORE idea/point of python argument passing is that: "Python uses a mechanism, which is known as "Call-by-Object" (or "Call by Object Reference"), so :
+	- immutable arguments are always call-by-value  <-->  mutable arguments are call-by-reference !
+
+	_______:  defaut values:  see docsRF_Tut--4.7.1. Default Argument Values :
+	-!! thee default value is evaluated only once, and COMPILE-time !! AND at the point of function definition !! so :
+		i = 5 , def f(arg=i): print(arg) , i = 6 , f() #---> will print: 5
+		BUT This makes a difference when the default is a mutable object such as a list, dictionary, or instances of most classes.
+
+	_______:  positional-/keyword-/mixed-arguments-passing see docsRF_Tut:  4.7. More on Defining Functions !
+
+	_______:  keyword arguments :
+	- as def f1 (pos1, pos2, kw1=20, kw2=22 ).
+	- keyword arguments ALWAYS AFTER  positional arguments !
+	- No argument may receive a value more than once.
+	- **kw argument, as in: def f1(p1,  **kw1)  /OR  def f1(p1, *tup1, **kw1)  :
+		- kw1 receives a dictionary  containing all keyword arguments except for those corresponding to a formal parameter.
+		- **kw1  may be combined with a formal parameter of the form *name  which receives a tuple containing the positional arguments beyond the formal parameter list. (*name must occur before **kw1 )
+
+	_______:  positional-/-keyword-params-syntax (/, bzw. *, tokens in formal-param-listing):    def f(pos1, pos2, /, pos_or_kwd, *, kwd1, kwd2):
+	- no-restrictions/no-matter:   if /,  and *, are not present in the function definition, arguments may be passed to a function by position or by keyword.
+	- Positional-Only Parameters:  def f1(p1, p2, /)  ##-so Positional-only parameters are placed before a / (forward-slash). The / is used to logically separate the positional-only parameters from the rest of the parameters. If there is no / in the function definition, there are no positional-only parameters.
+	- Keyword-Only Parameters:     def f1(*, p1, p2 )  ##-so place an * in the arguments list just before the first keyword-only parameter.
+	- mixed:  def combined_example(pos_only, /, standard/pos-or-kw, *, kwd_only): ... ;
+
+	_______:  Arbitrary Argument Lists , with (..., *args-tuple):   
+	- eg:  def f1 (p1, p2, *args, kw1=20)
+	- Any formal parameters which occur after the *args parameter are ‘keyword-only’ arguments, so NO positional any more!
+##________________________________________  ___________________________
+
+
+#####  ==========  return values of funcs:
+	-! ALL funcs return a value!!  "None" is automatically returned (bulitin-feature) if a func exits without returning anything specific value !
+##________________________________________  ___________________________
+
+
+#####  ==========  Libs/functools-module/-StdLibs/... :
+	- pydoc  functools
+    - ! RefDocs-StdLib--FUNCTIONAL PROGRAMMING MODULES
+##________________________________________  ___________________________
+
+
+#####  ==========  generators / yield :   ========================================
+	_______:  see/nts:
+    - ! see dres !
+	- see /python-course.eu/python3_generators.php.html  + docsRF_Tut: 9.8. Iterators + 9.9. Generators
+    - see https://python.astrotech.io/advanced/generator/
+    --- nts:
+    - a generator is just a function contaninig "yield" ! and then: it behaves like an "iterator" ! so it returns a sequence of values each time the next() is called on it ! (in a loop, the lopp calls next() implicitely for you!)
+    - calling a generator: 1- manually: by next(gen1) + handle StopIteration-Excep! 2- in a loop (loop manages it all!)
+	- A "return" statement inside of a generator is equivalent to raise StopIteration() ! since Python 3.3, generators can also use return statements, but a generator still needs at least one yield statement to be a generator! !
+    --- DEFs / DIFFs / VOCABs of generators! :
+    - "Generator-Function":  the function containing "yield"
+    - "Generator-Object"  :  (is the iteration-pointer): Generator-Function returns a Generator-Object by eg: go1 = gen1(5) ! it is basically the "iterator"! you can iterate over the Generator-Object or call next() on it ...!
+    - you do the whole work basically with the Generator-Object (iteration-pointer)! So a generator function returns an generator object that is iterable !
+    - eg: def gen1(n): yield n; is the Generator-Function! and then with g1= gen1(3); then g1 is the Generator-Object! so print(next(g1)); /OR for ii in g1: print(ii); ...  
+
+	_______:  Generator Comprehension :
+	- DEF:  a generator comprehension returns a generator (instead of a list in list-compr.) ! so you can use next() or iterate on it whereby keeping the latest status!
+	- syntax:  (...)   (instead [...] in list-comprehension) !so, it is like a list comprehension but with parentheses instead of (square) brackets ! 
+    - eg-loop:      g1 = (x for x in range(0,3));  for ii in g1: print (ii, end=" , ")  
+	- eg-manually:  g1 = (x for x in range(0,3));  next(g1) ; ...; next(g1) ; ....
+
+    _______:  "yield from" :
+    - "yield from g"  ==  for v in g: yield v 
+
+	_______:  send-to-generator / yield as expression (so on the right side of "=" ):
+	- def gen1(z): x = yield "y"   :  by calling gen1_call= gen1() ; gen1_call.send("val1") /OR next(gen1_call("val1")) : then its return-value is "y" and x = "val1" !
+	so yield on the right side: forwads the call-parameter to the x and returns the value mentioned in yield statement!! see devres + python-course.eu/advanced-python/generators-iterators.php.html ! 
+##________________________________________  ___________________________
+

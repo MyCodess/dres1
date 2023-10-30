@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>autodoc1 &mdash; Sphinx-Extensions-eg1  documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Sphinx-Extensions-eg1
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../usage1.html">1. Usage:</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../rst-eg1_qref-docutils.html">2. reStructuredText examples :</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ext1/autodoc1.html">3. autodoc-eg1 (own-module)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ext1/autodoc2.html">4. autodoc-eg2 (Std-Lib)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ext1/autosummary1.html">5. autosummary-eg1 :</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ext1/doctest1_ext_spx.html">6. doctest-sphinx-eg1 :</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ext1/classesTree_diagram-eg1.html">7. classesTree_diagram-eg1 (inheritance_diagram)</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Sphinx-Extensions-eg1</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Module code</a></li>
+      <li class="breadcrumb-item active">autodoc1</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for autodoc1</h1><div class="highlight"><pre>
+<span></span>
+
+<div class="viewcode-block" id="f1">
+<a class="viewcode-back" href="../ext1/autodoc1.html#autodoc1.f1">[docs]</a>
+<span class="k">def</span> <span class="nf">f1</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    - this f1 docs example !</span>
+<span class="sd">    - this f1 docs example !</span>
+<span class="sd">    - this f1 docs example !</span>
+<span class="sd">    - this f1 docs example !</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">+</span> <span class="mi">10</span></div>
+
+
+<div class="viewcode-block" id="f2">
+<a class="viewcode-back" href="../ext1/autodoc1.html#autodoc1.f2">[docs]</a>
+<span class="k">def</span> <span class="nf">f2</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    - this f2() returns just int(param1) - 10</span>
+<span class="sd">    - this f2() returns just int(param1) - 10</span>
+<span class="sd">    - this f2() returns just int(param1) - 10</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">-</span> <span class="mi">10</span></div>
+
+    
+<span class="c1">##__  if __name__ == &quot;__main__&quot;: import doctest; doctest.testmod()</span>
+
+
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">docstring-testingsQA :</span>
+<span class="sd">------------------------------</span>
+
+<span class="sd">- call a docstring-tests-module as:</span>
+<span class="sd">- python -m doctest  &lt;mod1&gt; [-v]    ##--then NOT needed  the last lines here as __main__ for doctest-mod-call ! shows ONLY failed-tests without -v ! /OR</span>
+<span class="sd">- python &lt;myname1&gt;  [-v]            ##--then it requires the last lines here as __main__ for doctest-mod-call ! shows ONLY failed-tests without -v !</span>
+<span class="sd">- &quot;-v&quot;  : shows ALSO the passed/not-failed test-caese!! WATCH: NOT: python -v ... !! but -v is for the doctest-module!</span>
+<span class="sd">- just change an expected result below and WATCH the failed test result !!</span>
+
+<span class="sd">testingsQA1-routines here for the module itself:</span>
+<span class="sd">______________________________________________________</span>
+
+<span class="sd">    &gt;&gt;&gt; f1(f2(20.3))</span>
+<span class="sd">    20</span>
+<span class="sd">    &gt;&gt;&gt; f2(f1(20.3))</span>
+<span class="sd">    40</span>
+<span class="sd">    &gt;&gt;&gt; f1(20.3) + f2(20.3) == 20+20 == 40</span>
+<span class="sd">    True</span>
+<span class="sd">    &gt;&gt;&gt; f1(20.3) - f2(20.3) == 20</span>
+<span class="sd">    True</span>
+<span class="sd">    &gt;&gt;&gt; for ii in 10,20,-30: f1(ii)-f2(ii) == 20</span>
+<span class="sd">    ... </span>
+<span class="sd">    True</span>
+<span class="sd">    True</span>
+<span class="sd">    True</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, au1.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

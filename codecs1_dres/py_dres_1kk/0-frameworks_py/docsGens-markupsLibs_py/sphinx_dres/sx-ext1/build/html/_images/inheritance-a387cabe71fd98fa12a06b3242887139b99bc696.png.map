@@ -1,0 +1,9 @@
+<map id="inheritance66f86dc38a" name="inheritance66f86dc38a">
+<area shape="rect" id="node5" title="This unifies bytes and bytearray." alt="" coords="608,45,747,66"/>
+<area shape="rect" id="node6" title="All the operations on a read&#45;only sequence." alt="" coords="402,85,538,107"/>
+<area shape="rect" id="node22" title="All the operations on a read&#45;write sequence." alt="" coords="591,85,764,107"/>
+<area shape="rect" id="node18" title="A set is a finite, iterable container." alt="" coords="417,166,523,188"/>
+<area shape="rect" id="node20" title="A Mapping is a generic container for associating key/value" alt="" coords="405,126,534,147"/>
+<area shape="rect" id="node23" title="A mutable set is a finite, iterable container." alt="" coords="606,166,749,188"/>
+<area shape="rect" id="node21" title="A MutableMapping is a generic container for associating" alt="" coords="594,126,760,147"/>
+</map>

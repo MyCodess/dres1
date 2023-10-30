@@ -1,0 +1,59 @@
+#!/usr/bin/perl
+
+##### Named Parameters for subs and new-methods with Anonymous-Hash:  perlByExp4ed/ch14lev1sec2.html : Example 14.8. + .9 :
+# must put module in extra file!
+
+# User of Employee.pm--See Example 14.9 for module
+use Employee;
+use warnings;
+use strict;
+my($name, $extension, $address, $basepay, $employee);
+print "Enter the employee's name. ";
+chomp($name=<STDIN>);
+print "Enter the employee's phone extension. ";
+chomp($extension=<STDIN>);
+print "Enter the employee's address. ";
+chomp($address=<STDIN>);
+print "Enter the employee's basepay. ";
+chomp($basepay=<STDIN>);
+
+# Passing parameters as a hash
+$employee = Employee->new( "Name"=>$name,
+	"Address"=>$address,
+	"Extension"=>$extension,
+	"PayCheck"=>$basepay,
+);
+print "\nThe statistics for $name are: \n";
+
+$employee->get_stats;
+
+
+######################## module --> must extra file: ##############
+# Module Employee.pm--See Example 14.8 to use this module.
+package Employee;
+use Carp;
+sub new {
+	my $class = shift;
+	my(%params)=@_;   # Receiving the hash that was passed
+	my $objptr={
+		"Name"=>$params{"Name"} || croak("No name assigned"),
+		"Extension"=>$params{"Extension"},
+		"Address"=>$params{"Address"},
+		"PayCheck"=>$params{"PayCheck"} ||
+		croak("No pay assigned"),
+		((defined $params{"IdNum"})?("IdNum"=>$params{"IdNum"}):
+			("IdNum"=>"Employee's id was not provided!"
+			)),
+
+	};
+	return bless($objptr,$class);
+}
+sub get_stats{
+	my $self=shift;
+	while( ($key, $value)=each %$self){
+		print $key, " = ", $value, "\n";
+	}
+	print "\n";
+}
+1;
+#####################################################################

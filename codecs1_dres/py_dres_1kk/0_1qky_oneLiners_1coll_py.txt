@@ -1,0 +1,41 @@
+___________ oneLiners/quickies/..._1coll_py : ____________________
+
+#####  ==========  lx_cmdlines_py :
+	_______:  dummy-testData-textfile  for-chks generating, 10-lines [0-9 pos.]  x  10-columns/chars (inkl. invisible EOL/\n ) [1-10 pos.] :
+	- for ((ii=0; ii<10 ; ii++ )); do echo -e "$ii -456789"; done >|  0data1/txt1.txt.1org
+	  /OR so ... : for ((ii=0; ii<10 ; ii++ )); do echo -e "$ii -$(($ii+10))--$(($ii+20))"; done >|  0data1/txt1.txt.1org
+	-!! 2-digits-seq (prefix-0  if ii < 10) :
+	for (( ii=1 ; ii <= 20 ; ii++ )); do if (( $ii<10 )) ; then echo "0${ii}"; else echo "${ii}"; fi ; done
+________________________________________  ___________________________
+
+
+#####  ==========  strings-qkys:
+	- reversing a string:   s1[::-1]  bzw.  s1[-1::-1]  ##--slicing from the END to the beginning !
+	- reversing a list  :   l1[::-1]  bzw.  l1[-1::-1]  ##--slicing from the END to the beginning !
+________________________________________  ___________________________
+
+
+#####  ==========  filenames/dirnames/pathes/ ... (os) :
+	_______:  module-name/path (eg if called as __main__) ,  "get current file name python":
+	- module-filename--if-called-directly  ##-(without suffix):   module_file_name = os.path.basename(__file__)  ##-(.removesuffix(".py")
+	--- codegrepper.com :
+	# Option 1: Works for Python 3.4 +
+	from pathlib import Path
+	Path(__file__).name		# ScriptName.py
+	Path(__file__).stem		# ScriptName
+	# Option 2: use `os` library
+	import os
+	os.path.basename(__file__)							# ScriptName.py
+	os.path.splitext(os.path.basename(__file__))[0]		# ScriptName
+
+
+#####  ==========  lists/dicts/tuples/sequences onliners,tricks...:
+	- dict-from-lists:   converting 2-lists (keys1, values1) into a-dict:    dict(zip(keys1, values1))
+	- dict-from-string:  dic1=eval("{...: ..., ....}")  ##--exp-from-web-json-response:   resp1 = requests.get('https://api.github.com') ; dic1 = eval(resp1.text)
+________________________________________  ___________________________
+
+
+#####  ==========  subclasses / tree-classes / hierarchy/ ...:
+	- all subclasses of a cls sorted by name:  for ii in sorted(tuple.__subclasses__(), key=lambda x: x.__name__): print (ii)
+________________________________________  ___________________________
+

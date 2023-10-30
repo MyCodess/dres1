@@ -1,0 +1,11 @@
+##--see:  https://www.dataquest.io/blog/unit-tests-python/  /:230924  :  
+## call eg:
+
+##--I- reuires main() method there with calling unittest.main ...:
+PYTHONPATH=./src:./tests:$PYTHONPATH  python   ./tests/test_my_calculations.py
+
+## /OR: then not needed main() method there :
+PYTHONPATH=./src:./tests:$PYTHONPATH  python -m unittest  -v  ./tests/*    ##--/OR only a single module: ./tests/test_my_calculations.py #-/OR: tests.test_my_calculations
+
+##--/OR run only one test-method of the testClass:
+PYTHONPATH=./src:./tests:$PYTHONPATH  python -m unittest -v  tests.test_my_calculations.TestCalculations.test_diff

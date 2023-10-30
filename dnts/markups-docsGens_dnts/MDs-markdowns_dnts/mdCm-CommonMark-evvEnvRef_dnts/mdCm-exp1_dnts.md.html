@@ -1,0 +1,136 @@
+<h1>CommonMark example-1</h1>
+<h2>Headings (Style-1, two levels):</h2>
+<h1>A first-level heading</h1>
+<h2>A second-level heading</h2>
+<hr>
+<h2>Headings (Style-2):</h2>
+<h1>A first-level heading</h1>
+<h2>A second-level heading</h2>
+<h3>A third-level heading</h3>
+<h4>A 4.-level heading</h4>
+<h5>A 5.-level heading</h5>
+<h6>A 6.-level heading</h6>
+<hr>
+<h2>Formatting: chars/fonts/..., inline formattings :</h2>
+<p>--- inline formattings:</p>
+<ul>
+<li><em>italic-text</em> , <em>italic-text</em></li>
+<li><strong>bold-text</strong> , <strong>bold-text</strong></li>
+<li><em><strong>bold + italic text</strong></em>  ,  <em><strong>bold + italic text</strong></em></li>
+<li><strong>bold and then <em>italic</em> text</strong>  ,  <strong>bold and then <em>italic</em> text</strong></li>
+<li>~~strikethrough~~</li>
+<li><sub>subscript text</sub></li>
+<li>horizontal rule : three or more hyphens (-), asterisks (*), or underscores (_).</li>
+<li>ESC / escaping chars with backslash, as:  * , ` , _ , etc.</li>
+</ul>
+<!-- CommonMark examples-ref-1 -->
+<p>--- inline formattings unparsed/source (as above):</p>
+<pre><code>- _italic-text_ , *italic-text*
+- __bold-text__ , **bold-text**
+- ___bold + italic text___  ,  ***bold + italic text***
+- __bold and then _italic_ text__  ,  **bold and then *italic* text**
+- ~~strikethrough~~
+- &lt;sub&gt;subscript text&lt;/sub&gt;
+&lt;!-- CommonMark examples-ref-1 --&gt;
+</code></pre>
+<p>--- <strong>Hard line breaks</strong> (as in html:  BR) :</p>
+<p>preserved line-breaks in normal/inline-text-blocks (in code-blocks are line breaks anyway preserved!):<br>
+either two-spaces /OR a backslash <code>\</code> at the end of the line, as:</p>
+<p>aa bb<br>
+cc dd</p>
+<p>aa bb<br>
+cc dd</p>
+<hr>
+<h2>Blockquotes (Citations) &quot;&gt;&quot; :</h2>
+<ul>
+<li>You represent any blockquote/citation by preceding the first line of the block quote with a greater-than sign or angle bracket (&gt;).</li>
+</ul>
+<p>Text that is not a quote</p>
+<blockquote>
+<p>Text that is a quote
+and gon on here!</p>
+</blockquote>
+<blockquote>
+<p>and further ...</p>
+</blockquote>
+<hr>
+<h2>codes-inline , code-blocks:</h2>
+<p>--- <strong>inline code</strong>  with <strong>backtick</strong>  as: <code>git commit -a -m</code></p>
+<p>--- <strong>Indented code blocks</strong> :</p>
+<pre><code>code line-1
+code line-2 &lt;...&gt;
+code line-3
+</code></pre>
+<ul>
+<li>An indented code block is composed of one or more indented chunks separated by blank lines:</li>
+<li>basically: simply indentation, but outside any listings/enumerations/...! so <strong>standalone</strong>-indentation will be parsed as it is (line breaks preserved,...)!</li>
+</ul>
+<p>--- <strong>Fenced code blocks</strong> : A code fence is a sequence of at least three consecutive backtick characters (`) or tildes (~):</p>
+<pre><code>git status
+git add
+git commit
+</code></pre>
+<p>---- <strong>code-blocks</strong> with <strong>syntax highlighting</strong> per lang:</p>
+<ul>
+<li>??not-in-spec!! works?? <strong>code-blocks</strong> with <strong>syntax highlighting</strong> per lang:</li>
+<li>use ```<lang> for highlighting, as:</li>
+</ul>
+<pre><code class="language-javascript">
+if (isAwesome){
+
+ return true
+
+}
+
+</code></pre>
+<hr>
+<h2>Links:</h2>
+<ul>
+<li>web-links:  This site was built using <a href="https://pages.github.com/">GitHub Pages</a></li>
+<li>relative links (own repo):  Links starting with / will be relative to the repository root. You can use all relative link operands, such as ./ and ../.</li>
+<li>images-inserting:  <img src="../images/img1.png" alt="img1">  ##-:NO-space-between-link-parts!</li>
+</ul>
+<hr>
+<h2>lists:</h2>
+<h5>--- unordered list:</h5>
+<ul>
+<li>preceding one or more lines of text with -, *, or + (but NOT-mixing them!) , as:</li>
+<li>item</li>
+<li>item</li>
+<li>item</li>
+</ul>
+<hr>
+<h5>--- ordered list:</h5>
+<ul>
+<li>use just [No.] ...</li>
+<li>only the FIRST item number is relevant for numbering! subsequent numbers are ignored!, as:</li>
+</ul>
+<ol start="4">
+<li>item</li>
+<li>item</li>
+<li>item</li>
+</ol>
+<hr>
+<h5>--- nested list:</h5>
+<ol>
+<li>First list item<ul>
+<li>First nested list item<ul>
+<li>Second nested list item</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>First list item<ul>
+<li>First nested list item</li>
+<li>Second nested list item</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h5>--- task list:</h5>
+<ul>
+<li>[x] #739</li>
+<li>[ ] https://github.com/octo-org/octo-repo/issues/740</li>
+<li>[ ] Add delight to the experience when all tasks are complete :tada:</li>
+</ul>
+<hr>

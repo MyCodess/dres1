@@ -1,0 +1,151 @@
+
+========== ========== ========== 20230727-074435 : =====================__________
+/up1/media/tx_RF/tx_RF/t3_RF/PacksBigs_RF/MsWins_Pkgs_RF
+total 1792
+drwxrwxr-x 5 u1 gu1 131072 2021-02-11 13:54 200400-Win10_2004_DE_x64-ISOs/
+drwxrwxr-x 3 u1 gu1 131072 2021-02-11 13:59 200400-Win10_2004_EN_x64-ISOs/
+drwxrwxr-x 4 u1 gu1 131072 2021-02-11 13:46 200800-CT_NotfallWin2020/
+drwxrwxr-x 3 u1 gu1 131072 2021-02-11 13:46 200800-CT_WImage-2008/
+drwxrwxr-x 2 u1 gu1 131072 2022-07-11 15:58 220700-CT_NofallWin11-2022/
+drwxrwxr-x 2 u1 gu1 131072 2022-09-03 09:27 220700-CT-NotfallWin-2022/
+drwxrwxr-x 2 u1 gu1 131072 2022-07-18 19:43 220700-Utils-Win10-X17/
+drwxrwxr-x 4 u1 gu1 131072 2022-07-19 17:32 220700-Win10_ISO_21H2/
+drwxrwxr-x 3 u1 gu1 131072 2022-07-17 01:06 220700-Win11_ISO_21H2_Utils_DWs/
+drwxrwxr-x 3 u1 gu1 131072 2022-08-31 13:07 220800-Utils-CT-NotfallWin2022/
+drwxrwxr-x 4 u1 gu1 131072 2022-08-20 00:25 Images1/
+drwxrwxr-x 2 u1 gu1 131072 2022-08-29 13:44 Images1_tr/
+drwxrwxr-x 2 u1 gu1 131072 2022-07-17 12:08 NVidias_All/
+-rw-rw-r-- 1 u1 gu1  27652 2020-08-11 19:39 Win10ToGo_RUFUs_conf-ub128--2008.png
+
+========== ========== ========== 20230727-074502 : =====================__________
+-rw-rw-r-- 1 u1 gu1  27652 2020-08-11 19:39 Win10ToGo_RUFUs_conf-ub128--2008.png
+
+200400-Win10_2004_DE_x64-ISOs:
+total 512
+drwxrwxr-x 2 u1 gu1 131072 2021-02-11 13:54 Rufus_3_11--2008_DW/
+drwxrwxr-x 2 u1 gu1 131072 2021-02-11 13:47 Win10-ISO-x64-DE-Education_DW-200810/
+drwxrwxr-x 2 u1 gu1 131072 2021-02-11 13:52 Win10-ISO-x64-DE-Entp_DW-200810/
+-rw-rw-r-- 1 u1 gu1  27652 2020-08-11 19:39 Win10ToGo_RUFUs-ub128.png
+
+200400-Win10_2004_EN_x64-ISOs:
+total 15432960
+drwxrwxr-x 2 u1 gu1     131072 2021-02-11 13:59 Rufus-311/
+-rw-rw-r-- 1 u1 gu1      26256 2020-08-24 16:31 Rufus-Configs-Win10b_SetupUSB-EN-International-2004-UB8GB_SilberHellIntenso200824.png
+-rw-rw-r-- 1 u1 gu1 5266956288 2020-08-24 15:51 Win10_2004_EnglishInternational_x64.iso
+-rw-rw-r-- 1 u1 gu1 5268953088 2020-08-21 13:09 Win10_2004_English_x64.iso
+-rw-rw-r-- 1 u1 gu1       8940 2020-08-24 15:56 Win10-En_1DW-200821.txt
+-rw-rw-r-- 1 u1 gu1 5266956288 2020-08-21 13:55 wrongSHA256--Win10_2004_EnglishInternational_x64.iso
+
+200800-CT_NotfallWin2020:
+total 4994176
+drwxrwxr-x 2 u1 gu1     131072 2021-02-11 13:45 200827-createdISO1_ctNotWin/
+drwxrwxr-x 4 u1 gu1     131072 2021-02-11 13:46 _CP__CT_NotfallWin_dc/
+-rw-rw-r-- 1 u1 gu1    1523366 2020-08-26 18:28 ct-FAQ-Notfall-Windows 2020_1WE.html
+-rw-rw-r-- 1 u1 gu1    1904909 2020-08-26 18:27 ct-Notfall-Windows2020_1WE.html
+-rw-rw-r-- 1 u1 gu1  281181912 2020-08-26 18:03 ctnotwin20.zip
+-rw-rw-r-- 1 u1 gu1 4828940288 2020-08-27 11:19 WIn10_Eval_CTNotfallWin2020_x64_DE--19041.264.200511-0456.vb_release_svc_refresh_CLIENTENTERPRISEEVAL_OEMRET_x64FRE_de-de.iso
+
+200800-CT_WImage-2008:
+total 384
+drwxrwxr-x 2 u1 gu1 131072 2021-02-11 13:46 _CP__CT_WImage_dc/
+-rw-rw-r-- 1 u1 gu1   2010 2020-08-31 10:27 00nts-wimage1-vo17-win10-CT-200831.txt
+-rw-rw-r-- 1 u1 gu1   2119 2020-08-31 03:03 imaging-cloning-VHDs-CT_WImage-win10-dnts.txt
+
+220700-CT_NofallWin11-2022:
+total 5248512
+-rw-rw-r-- 1 u1 gu1      13631 2022-07-11 16:50 00nts-CT-NotfallWin11-2022.txt
+-rw-rw-r-- 1 u1 gu1 5049528320 2022-07-11 16:19 22000.194.210913-1444.co_release_svc_refresh_CLIENTENTERPRISEEVAL_OEMRET_x64FRE_de-de.iso
+-rw-rw-r-- 1 u1 gu1  324757107 2022-07-11 16:16 Bausatz--ctnotwin22.zip
+
+220700-CT-NotfallWin-2022:
+total 317312
+-rw-rw-r-- 1 u1 gu1      1003 2022-07-20 12:56 00dw-nts-CT-NotfallWin.txt
+-rw-rw-r-- 1 u1 gu1 324757107 2022-07-20 12:52 ctnotwin22.zip
+
+220700-Utils-Win10-X17:
+total 877056
+-rw-rw-r-- 1 u1 gu1   1290308 2022-07-18 15:32 7z2201.exe
+-rw-rw-r-- 1 u1 gu1   3852912 2022-08-03 20:23 AnyDesk.exe
+-rw-rw-r-- 1 u1 gu1       191 2022-07-18 00:48 CapsLock-disable-Win10.txt.reg
+-rw-rw-r-- 1 u1 gu1   2289864 2022-07-23 20:08 EasyBCD-2.4.exe
+-rw-rw-r-- 1 u1 gu1    709805 2022-07-18 17:07 explorerPP_1.3.5_x64.zip
+-rw-rw-r-- 1 u1 gu1 198115536 2022-07-18 16:00 foxitpdfreader120_l10n_setup_prom.exe
+-rw-rw-r-- 1 u1 gu1   3769880 2022-07-18 16:58 IrfanView--iview460_x64_setup.exe
+-rw-rw-r-- 1 u1 gu1 118314496 2022-07-18 00:27 iridiumbrowser-2022.04.100.0-x64.msi
+-rw-rw-r-- 1 u1 gu1 347869184 2022-07-18 16:47 LibreOffice_7.3.4_Win_x64.msi
+-rw-rw-r-- 1 u1 gu1   4532632 2022-07-18 01:45 Notepadpp.8.4.3.installer.x64.exe
+-rw-rw-r-- 1 u1 gu1   7380480 2022-07-18 12:38 openshellsetup_4_4_170.exe
+-rw-rw-r-- 1 u1 gu1  47459678 2022-07-18 16:58 sysinternalssuite.zip
+-rw-rw-r-- 1 u1 gu1  23992762 2022-07-18 16:32 testdisk-7.2-wip.win64.zip
+-rw-rw-r-- 1 u1 gu1   9400904 2022-07-18 16:25 TreeSizeFreeSetup.exe
+-rw-rw-r-- 1 u1 gu1    989184 2022-07-23 20:10 visualbcd_0.9.3.1.msi
+-rw-rw-r-- 1 u1 gu1  83237776 2022-07-18 15:14 Vivaldi.5.3.2679.68.x64.exe
+-rw-rw-r-- 1 u1 gu1  43524776 2022-07-18 15:47 vlc-3.0.17.4-win64.exe
+
+220700-Win10_ISO_21H2:
+total 5780352
+drwxrwxr-x 3 u1 gu1     131072 2022-07-19 17:32 rufus1/
+drwxrwxr-x 3 u1 gu1     131072 2022-07-19 15:24 tools_1p/
+-rw-rw-r-- 1 u1 gu1       5347 2022-07-17 17:11 00nts-win10_iso_21H2_dw.txt
+-rw-rw-r-- 1 u1 gu1     441525 2022-07-17 17:06 dw-Windows10-ISO-21H2-DE-220717.pdf
+-rw-rw-r-- 1 u1 gu1   19463448 2022-07-19 19:48 MediaCreationTool21H2-Win10.exe
+-rw-rw-r-- 1 u1 gu1 5898584064 2022-07-17 17:03 Win10_21H2_German_x64.iso
+
+220700-Win11_ISO_21H2_Utils_DWs:
+total 5482624
+drwxrwxr-x 3 u1 gu1     131072 2022-07-16 15:37 __CPs__/
+-rw-rw-r-- 1 u1 gu1     730025 2022-07-16 15:10 00-DW_Win11_DE-220716.pdf
+-rw-rw-r-- 1 u1 gu1      21196 2022-07-16 15:15 00-DW_Win11_DE-220716.txt
+-rw-rw-r-- 1 u1 gu1     731714 2022-07-16 16:03 00-DW_Win11_EN-220716-Info.pdf
+-rw-rw-r-- 1 u1 gu1        371 2022-07-16 17:59 0nts-win11s.txt
+-rw-rw-r-- 1 u1 gu1        259 2022-07-13 19:32 CT-2126_128--HardwareCheck_bypass.reg
+-rw-rw-r-- 1 u1 gu1    9760456 2022-07-16 15:01 MediaCreationToolW11.exe
+-rw-rw-r-- 1 u1 gu1    1392712 2022-07-16 15:55 rufus-3.19.exe
+-rw-rw-r-- 1 u1 gu1    1392712 2022-07-16 15:55 rufus-3.19p.exe
+-rw-rw-r-- 1 u1 gu1    1980174 2022-07-17 00:25 Rufus-FAQ_1WE.html
+-rw-rw-r-- 1 u1 gu1 5578770432 2022-07-16 16:10 Win11_German_x64v1-ver_21H2_DE.iso
+-rw-rw-r-- 1 u1 gu1    4174040 2022-07-16 15:00 Windows11-InstallationAssistant.exe
+-rw-rw-r-- 1 u1 gu1   14278656 2022-07-16 14:55 WindowsPCHealthCheckSetup.msi
+
+220800-Utils-CT-NotfallWin2022:
+total 330496
+drwxrwxr-x 10 u1 gu1    131072 2022-08-30 15:21 0-Progs2-portable_noSetup/
+-rw-rw-r--  1 u1 gu1     17203 2022-08-31 13:18 0-CT-Utils-NotfallWin2022-Listing__CP__.txt
+-rw-rw-r--  1 u1 gu1   1575742 2022-08-29 17:23 7z2201-x64.exe
+-rw-rw-r--  1 u1 gu1    141864 2022-08-29 14:57 bluescreenview_setup.exe
+-rw-rw-r--  1 u1 gu1  50502592 2022-08-30 15:11 CCleaner--tooLaut--ccsetup603.exe
+-rw-rw-r--  1 u1 gu1   3381144 2022-08-29 17:29 cpu-z_2.01-en.zip
+-rw-rw-r--  1 u1 gu1   6217423 2022-08-29 17:41 CrystalDiskInfo8_17_6.zip
+-rw-rw-r--  1 u1 gu1 107439552 2022-08-29 15:43 EaseUS_Data_Recovery_Wizard_Free--DRW15.6B1_Free.exe
+-rw-rw-r--  1 u1 gu1    111412 2022-08-29 15:01 fulleventlogview-x64.zip
+-rw-rw-r--  1 u1 gu1   7495936 2022-08-30 14:40 GPU-Z.2.47.0.exe
+-rw-rw-r--  1 u1 gu1    218129 2022-08-30 15:20 h2testw_1.4.zip
+-rw-rw-r--  1 u1 gu1  35747636 2022-08-30 14:47 hdsentinel_setup.zip
+-rw-rw-r--  1 u1 gu1    642632 2022-08-30 14:51 hdtune_255.exe
+-rw-rw-r--  1 u1 gu1  10217856 2022-08-30 14:57 hwi_726.exe
+-rw-rw-r--  1 u1 gu1   9835473 2022-08-30 14:57 hwi_726-portable.zip
+-rw-rw-r--  1 u1 gu1   1836177 2022-08-30 15:01 hwmonitor_1.46.zip
+-rw-rw-r--  1 u1 gu1   9443012 2022-08-29 16:42 keyfinder.zip
+-rw-rw-r--  1 u1 gu1  47206568 2022-08-29 16:52 Linux_Reader.exe
+-rw-rw-r--  1 u1 gu1   1886256 2022-08-30 15:27 SeachFIles--Everything-1.4.1.1018.x64-Setup.exe
+-rw-rw-r--  1 u1 gu1   1804183 2022-08-30 15:27 SeachFIles--Everything-1.4.1.1018.x64.zip
+-rw-rw-r--  1 u1 gu1     79173 2022-08-29 17:09 shadowcopyview-x64.zip
+-rw-rw-r--  1 u1 gu1   7470040 2022-08-29 15:18 SumatraPDF-3.4.6-64-install.exe
+-rw-rw-r--  1 u1 gu1  21537703 2022-08-29 17:19 testdisk-7.1.win.zip
+-rw-rw-r--  1 u1 gu1    645729 2022-08-29 15:12 windirstat1_1_2_setup.exe
+-rw-rw-r--  1 u1 gu1   6576473 2022-08-29 15:16 wiztree_4_10_portable.zip
+-rw-rw-r--  1 u1 gu1   4501864 2022-08-29 15:16 wiztree_4_10_setup.exe
+
+Images1:
+total 7754112
+drwxrwxr-x 2 u1 gu1     131072 2022-08-21 21:17 __CP__nts--220700-DISM-Wimagings-X17/
+drwxrwxr-x 2 u1 gu1     131072 2022-08-22 15:47 logs-images1/
+-rw-rw-r-- 1 u1 gu1 7939881780 2022-07-26 23:16 220725-Win10-X17-HD1P2-offline1.wim
+
+Images1_tr:
+total 8145920
+-rw-rw-r-- 1 u1 gu1 8341339063 2022-07-24 12:13 220724-Win10-X17-HD1P2.wim
+
+NVidias_All:
+total 425216
+-rw-rw-r-- 1 u1 gu1 435407592 2022-07-17 00:18 Xps17-GeForce_GT_445M-NVidia--381.65-notebook-win10-64bit-international-whql.exe

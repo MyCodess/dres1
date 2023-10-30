@@ -1,0 +1,1213 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>4. autodoc-eg2 (Std-Lib) &mdash; Sphinx-Extensions-eg1  documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="5. autosummary-eg1 :" href="autosummary1.html" />
+    <link rel="prev" title="3. autodoc-eg1 (own-module)" href="autodoc1.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Sphinx-Extensions-eg1
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../usage1.html">1. Usage:</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../rst-eg1_qref-docutils.html">2. reStructuredText examples :</a></li>
+<li class="toctree-l1"><a class="reference internal" href="autodoc1.html">3. autodoc-eg1 (own-module)</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">4. autodoc-eg2 (Std-Lib)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#module-unittest">4.1. autodoc of unittest :</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#unittest.FunctionTestCase"><code class="docutils literal notranslate"><span class="pre">FunctionTestCase</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#unittest.FunctionTestCase.setUp"><code class="docutils literal notranslate"><span class="pre">FunctionTestCase.setUp()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#unittest.FunctionTestCase.shortDescription"><code class="docutils literal notranslate"><span class="pre">FunctionTestCase.shortDescription()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#unittest.FunctionTestCase.tearDown"><code class="docutils literal notranslate"><span class="pre">FunctionTestCase.tearDown()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#unittest.IsolatedAsyncioTestCase"><code class="docutils literal notranslate"><span class="pre">IsolatedAsyncioTestCase</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#unittest.IsolatedAsyncioTestCase.debug"><code class="docutils literal notranslate"><span class="pre">IsolatedAsyncioTestCase.debug()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#unittest.IsolatedAsyncioTestCase.enterAsyncContext"><code class="docutils literal notranslate"><span class="pre">IsolatedAsyncioTestCase.enterAsyncContext()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#unittest.SkipTest"><code class="docutils literal notranslate"><span class="pre">SkipTest</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#unittest.TestCase"><code class="docutils literal notranslate"><span class="pre">TestCase</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#unittest.TestCase.addClassCleanup"><code class="docutils literal notranslate"><span class="pre">TestCase.addClassCleanup()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#unittest.TestCase.addCleanup"><code class="docutils literal notranslate"><span class="pre">TestCase.addCleanup()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#unittest.TestCase.addTypeEqualityFunc"><code class="docutils literal notranslate"><span class="pre">TestCase.addTypeEqualityFunc()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#unittest.TestCase.assertAlmostEqual"><code class="docutils literal notranslate"><span class="pre">TestCase.assertAlmostEqual()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#unittest.TestCase.assertCountEqual"><code class="docutils literal notranslate"><span class="pre">TestCase.assertCountEqual()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#unittest.TestCase.assertDictContainsSubset"><code class="docutils literal notranslate"><span class="pre">TestCase.assertDictContainsSubset()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#unittest.TestCase.assertEqual"><code class="docutils literal notranslate"><span class="pre">TestCase.assertEqual()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#unittest.TestCase.assertFalse"><code class="docutils literal notranslate"><span class="pre">TestCase.assertFalse()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#unittest.TestCase.assertGreater"><code class="docutils literal notranslate"><span class="pre">TestCase.assertGreater()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#unittest.TestCase.assertGreaterEqual"><code class="docutils literal notranslate"><span class="pre">TestCase.assertGreaterEqual()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#unittest.TestCase.assertIn"><code class="docutils literal notranslate"><span class="pre">TestCase.assertIn()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#unittest.TestCase.assertIs"><code class="docutils literal notranslate"><span class="pre">TestCase.assertIs()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#unittest.TestCase.assertIsInstance"><code class="docutils literal notranslate"><span class="pre">TestCase.assertIsInstance()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#unittest.TestCase.assertIsNone"><code class="docutils literal notranslate"><span class="pre">TestCase.assertIsNone()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#unittest.TestCase.assertIsNot"><code class="docutils literal notranslate"><span class="pre">TestCase.assertIsNot()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#unittest.TestCase.assertIsNotNone"><code class="docutils literal notranslate"><span class="pre">TestCase.assertIsNotNone()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#unittest.TestCase.assertLess"><code class="docutils literal notranslate"><span class="pre">TestCase.assertLess()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#unittest.TestCase.assertLessEqual"><code class="docutils literal notranslate"><span class="pre">TestCase.assertLessEqual()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#unittest.TestCase.assertListEqual"><code class="docutils literal notranslate"><span class="pre">TestCase.assertListEqual()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#unittest.TestCase.assertLogs"><code class="docutils literal notranslate"><span class="pre">TestCase.assertLogs()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#unittest.TestCase.assertMultiLineEqual"><code class="docutils literal notranslate"><span class="pre">TestCase.assertMultiLineEqual()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#unittest.TestCase.assertNoLogs"><code class="docutils literal notranslate"><span class="pre">TestCase.assertNoLogs()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#unittest.TestCase.assertNotAlmostEqual"><code class="docutils literal notranslate"><span class="pre">TestCase.assertNotAlmostEqual()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#unittest.TestCase.assertNotEqual"><code class="docutils literal notranslate"><span class="pre">TestCase.assertNotEqual()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#unittest.TestCase.assertNotIn"><code class="docutils literal notranslate"><span class="pre">TestCase.assertNotIn()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#unittest.TestCase.assertNotIsInstance"><code class="docutils literal notranslate"><span class="pre">TestCase.assertNotIsInstance()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#unittest.TestCase.assertNotRegex"><code class="docutils literal notranslate"><span class="pre">TestCase.assertNotRegex()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#unittest.TestCase.assertRaises"><code class="docutils literal notranslate"><span class="pre">TestCase.assertRaises()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#unittest.TestCase.assertRaisesRegex"><code class="docutils literal notranslate"><span class="pre">TestCase.assertRaisesRegex()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#unittest.TestCase.assertRegex"><code class="docutils literal notranslate"><span class="pre">TestCase.assertRegex()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#unittest.TestCase.assertSequenceEqual"><code class="docutils literal notranslate"><span class="pre">TestCase.assertSequenceEqual()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#unittest.TestCase.assertSetEqual"><code class="docutils literal notranslate"><span class="pre">TestCase.assertSetEqual()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#unittest.TestCase.assertTrue"><code class="docutils literal notranslate"><span class="pre">TestCase.assertTrue()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#unittest.TestCase.assertTupleEqual"><code class="docutils literal notranslate"><span class="pre">TestCase.assertTupleEqual()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#unittest.TestCase.assertWarns"><code class="docutils literal notranslate"><span class="pre">TestCase.assertWarns()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#unittest.TestCase.assertWarnsRegex"><code class="docutils literal notranslate"><span class="pre">TestCase.assertWarnsRegex()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#unittest.TestCase.debug"><code class="docutils literal notranslate"><span class="pre">TestCase.debug()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#unittest.TestCase.doClassCleanups"><code class="docutils literal notranslate"><span class="pre">TestCase.doClassCleanups()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#unittest.TestCase.doCleanups"><code class="docutils literal notranslate"><span class="pre">TestCase.doCleanups()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#unittest.TestCase.enterClassContext"><code class="docutils literal notranslate"><span class="pre">TestCase.enterClassContext()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#unittest.TestCase.enterContext"><code class="docutils literal notranslate"><span class="pre">TestCase.enterContext()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#unittest.TestCase.fail"><code class="docutils literal notranslate"><span class="pre">TestCase.fail()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#unittest.TestCase.failureException"><code class="docutils literal notranslate"><span class="pre">TestCase.failureException</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#unittest.TestCase.setUp"><code class="docutils literal notranslate"><span class="pre">TestCase.setUp()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#unittest.TestCase.setUpClass"><code class="docutils literal notranslate"><span class="pre">TestCase.setUpClass()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#unittest.TestCase.shortDescription"><code class="docutils literal notranslate"><span class="pre">TestCase.shortDescription()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#unittest.TestCase.skipTest"><code class="docutils literal notranslate"><span class="pre">TestCase.skipTest()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#unittest.TestCase.subTest"><code class="docutils literal notranslate"><span class="pre">TestCase.subTest()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#unittest.TestCase.tearDown"><code class="docutils literal notranslate"><span class="pre">TestCase.tearDown()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#unittest.TestCase.tearDownClass"><code class="docutils literal notranslate"><span class="pre">TestCase.tearDownClass()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#unittest.TestLoader"><code class="docutils literal notranslate"><span class="pre">TestLoader</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#unittest.TestLoader.discover"><code class="docutils literal notranslate"><span class="pre">TestLoader.discover()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#unittest.TestLoader.getTestCaseNames"><code class="docutils literal notranslate"><span class="pre">TestLoader.getTestCaseNames()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#unittest.TestLoader.loadTestsFromModule"><code class="docutils literal notranslate"><span class="pre">TestLoader.loadTestsFromModule()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#unittest.TestLoader.loadTestsFromName"><code class="docutils literal notranslate"><span class="pre">TestLoader.loadTestsFromName()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#unittest.TestLoader.loadTestsFromNames"><code class="docutils literal notranslate"><span class="pre">TestLoader.loadTestsFromNames()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#unittest.TestLoader.loadTestsFromTestCase"><code class="docutils literal notranslate"><span class="pre">TestLoader.loadTestsFromTestCase()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#unittest.TestLoader.sortTestMethodsUsing"><code class="docutils literal notranslate"><span class="pre">TestLoader.sortTestMethodsUsing()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#unittest.TestLoader.suiteClass"><code class="docutils literal notranslate"><span class="pre">TestLoader.suiteClass</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#unittest.TestResult"><code class="docutils literal notranslate"><span class="pre">TestResult</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#unittest.TestResult.addError"><code class="docutils literal notranslate"><span class="pre">TestResult.addError()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#unittest.TestResult.addExpectedFailure"><code class="docutils literal notranslate"><span class="pre">TestResult.addExpectedFailure()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#unittest.TestResult.addFailure"><code class="docutils literal notranslate"><span class="pre">TestResult.addFailure()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#unittest.TestResult.addSkip"><code class="docutils literal notranslate"><span class="pre">TestResult.addSkip()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#unittest.TestResult.addSubTest"><code class="docutils literal notranslate"><span class="pre">TestResult.addSubTest()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#unittest.TestResult.addSuccess"><code class="docutils literal notranslate"><span class="pre">TestResult.addSuccess()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#unittest.TestResult.addUnexpectedSuccess"><code class="docutils literal notranslate"><span class="pre">TestResult.addUnexpectedSuccess()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#unittest.TestResult.printErrors"><code class="docutils literal notranslate"><span class="pre">TestResult.printErrors()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#unittest.TestResult.startTest"><code class="docutils literal notranslate"><span class="pre">TestResult.startTest()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#unittest.TestResult.startTestRun"><code class="docutils literal notranslate"><span class="pre">TestResult.startTestRun()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#unittest.TestResult.stop"><code class="docutils literal notranslate"><span class="pre">TestResult.stop()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#unittest.TestResult.stopTest"><code class="docutils literal notranslate"><span class="pre">TestResult.stopTest()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#unittest.TestResult.stopTestRun"><code class="docutils literal notranslate"><span class="pre">TestResult.stopTestRun()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#unittest.TestResult.wasSuccessful"><code class="docutils literal notranslate"><span class="pre">TestResult.wasSuccessful()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#unittest.TestSuite"><code class="docutils literal notranslate"><span class="pre">TestSuite</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#unittest.TestSuite.debug"><code class="docutils literal notranslate"><span class="pre">TestSuite.debug()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#unittest.TextTestResult"><code class="docutils literal notranslate"><span class="pre">TextTestResult</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#unittest.TextTestResult.addError"><code class="docutils literal notranslate"><span class="pre">TextTestResult.addError()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#unittest.TextTestResult.addExpectedFailure"><code class="docutils literal notranslate"><span class="pre">TextTestResult.addExpectedFailure()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#unittest.TextTestResult.addFailure"><code class="docutils literal notranslate"><span class="pre">TextTestResult.addFailure()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#unittest.TextTestResult.addSkip"><code class="docutils literal notranslate"><span class="pre">TextTestResult.addSkip()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#unittest.TextTestResult.addSubTest"><code class="docutils literal notranslate"><span class="pre">TextTestResult.addSubTest()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#unittest.TextTestResult.addSuccess"><code class="docutils literal notranslate"><span class="pre">TextTestResult.addSuccess()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#unittest.TextTestResult.addUnexpectedSuccess"><code class="docutils literal notranslate"><span class="pre">TextTestResult.addUnexpectedSuccess()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#unittest.TextTestResult.printErrors"><code class="docutils literal notranslate"><span class="pre">TextTestResult.printErrors()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#unittest.TextTestResult.startTest"><code class="docutils literal notranslate"><span class="pre">TextTestResult.startTest()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#unittest.TextTestRunner"><code class="docutils literal notranslate"><span class="pre">TextTestRunner</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#unittest.TextTestRunner.resultclass"><code class="docutils literal notranslate"><span class="pre">TextTestRunner.resultclass</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#unittest.TextTestRunner.run"><code class="docutils literal notranslate"><span class="pre">TextTestRunner.run()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#unittest.addModuleCleanup"><code class="docutils literal notranslate"><span class="pre">addModuleCleanup()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#unittest.doModuleCleanups"><code class="docutils literal notranslate"><span class="pre">doModuleCleanups()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#unittest.enterModuleContext"><code class="docutils literal notranslate"><span class="pre">enterModuleContext()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#unittest.main"><code class="docutils literal notranslate"><span class="pre">main</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#unittest.skip"><code class="docutils literal notranslate"><span class="pre">skip()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#unittest.skipIf"><code class="docutils literal notranslate"><span class="pre">skipIf()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#unittest.skipUnless"><code class="docutils literal notranslate"><span class="pre">skipUnless()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="autosummary1.html">5. autosummary-eg1 :</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doctest1_ext_spx.html">6. doctest-sphinx-eg1 :</a></li>
+<li class="toctree-l1"><a class="reference internal" href="classesTree_diagram-eg1.html">7. classesTree_diagram-eg1 (inheritance_diagram)</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Sphinx-Extensions-eg1</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active"><span class="section-number">4. </span>autodoc-eg2 (Std-Lib)</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/ext1/autodoc2.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="autodoc-eg2-std-lib">
+<h1><span class="section-number">4. </span>autodoc-eg2 (Std-Lib)<a class="headerlink" href="#autodoc-eg2-std-lib" title="Link to this heading"></a></h1>
+<section id="module-unittest">
+<span id="autodoc-of-unittest"></span><h2><span class="section-number">4.1. </span>autodoc of unittest :<a class="headerlink" href="#module-unittest" title="Link to this heading"></a></h2>
+<p>Python unit testing framework, based on Erich Gamma’s JUnit and Kent Beck’s
+Smalltalk testing framework (used with permission).</p>
+<p>This module contains the core framework classes that form the basis of
+specific test cases and suites (TestCase, TestSuite etc.), and also a
+text-based utility class for running the tests and reporting the results</p>
+<blockquote>
+<div><p>(TextTestRunner).</p>
+</div></blockquote>
+<p>Simple usage:</p>
+<blockquote>
+<div><p>import unittest</p>
+<dl class="simple">
+<dt>class IntegerArithmeticTestCase(unittest.TestCase):</dt><dd><dl class="simple">
+<dt>def testAdd(self):  # test method names begin with ‘test’</dt><dd><p>self.assertEqual((1 + 2), 3)
+self.assertEqual(0 + 1, 1)</p>
+</dd>
+<dt>def testMultiply(self):</dt><dd><p>self.assertEqual((0 * 10), 0)
+self.assertEqual((5 * 8), 40)</p>
+</dd>
+</dl>
+</dd>
+<dt>if __name__ == ‘__main__’:</dt><dd><p>unittest.main()</p>
+</dd>
+</dl>
+</div></blockquote>
+<p>Further information is available in the bundled documentation, and from</p>
+<blockquote>
+<div><p><a class="reference external" href="http://docs.python.org/library/unittest.html">http://docs.python.org/library/unittest.html</a></p>
+</div></blockquote>
+<p>Copyright (c) 1999-2003 Steve Purcell
+Copyright (c) 2003-2010 Python Software Foundation
+This module is free software, and you may redistribute it and/or modify
+it under the same terms as Python itself, so long as this copyright message
+and disclaimer are retained in their original form.</p>
+<p>IN NO EVENT SHALL THE AUTHOR BE LIABLE TO ANY PARTY FOR DIRECT, INDIRECT,
+SPECIAL, INCIDENTAL, OR CONSEQUENTIAL DAMAGES ARISING OUT OF THE USE OF
+THIS CODE, EVEN IF THE AUTHOR HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH
+DAMAGE.</p>
+<p>THE AUTHOR SPECIFICALLY DISCLAIMS ANY WARRANTIES, INCLUDING, BUT NOT
+LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+PARTICULAR PURPOSE.  THE CODE PROVIDED HEREUNDER IS ON AN “AS IS” BASIS,
+AND THERE IS NO OBLIGATION WHATSOEVER TO PROVIDE MAINTENANCE,
+SUPPORT, UPDATES, ENHANCEMENTS, OR MODIFICATIONS.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="unittest.FunctionTestCase">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">unittest.</span></span><span class="sig-name descname"><span class="pre">FunctionTestCase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">testFunc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">setUp</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tearDown</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/unittest/case.html#FunctionTestCase"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#unittest.FunctionTestCase" title="Link to this definition"></a></dt>
+<dd><p>A test case that wraps a test function.</p>
+<p>This is useful for slipping pre-existing test functions into the
+unittest framework. Optionally, set-up and tidy-up functions can be
+supplied. As with TestCase, the tidy-up (‘tearDown’) function will
+always be called if the set-up (‘setUp’) function ran successfully.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="unittest.FunctionTestCase.setUp">
+<span class="sig-name descname"><span class="pre">setUp</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/unittest/case.html#FunctionTestCase.setUp"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#unittest.FunctionTestCase.setUp" title="Link to this definition"></a></dt>
+<dd><p>Hook method for setting up the test fixture before exercising it.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="unittest.FunctionTestCase.shortDescription">
+<span class="sig-name descname"><span class="pre">shortDescription</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/unittest/case.html#FunctionTestCase.shortDescription"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#unittest.FunctionTestCase.shortDescription" title="Link to this definition"></a></dt>
+<dd><p>Returns a one-line description of the test, or None if no
+description has been provided.</p>
+<p>The default implementation of this method returns the first line of
+the specified test method’s docstring.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="unittest.FunctionTestCase.tearDown">
+<span class="sig-name descname"><span class="pre">tearDown</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/unittest/case.html#FunctionTestCase.tearDown"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#unittest.FunctionTestCase.tearDown" title="Link to this definition"></a></dt>
+<dd><p>Hook method for deconstructing the test fixture after testing it.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="unittest.IsolatedAsyncioTestCase">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">unittest.</span></span><span class="sig-name descname"><span class="pre">IsolatedAsyncioTestCase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">methodName</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'runTest'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/unittest/async_case.html#IsolatedAsyncioTestCase"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#unittest.IsolatedAsyncioTestCase" title="Link to this definition"></a></dt>
+<dd><dl class="py method">
+<dt class="sig sig-object py" id="unittest.IsolatedAsyncioTestCase.debug">
+<span class="sig-name descname"><span class="pre">debug</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/unittest/async_case.html#IsolatedAsyncioTestCase.debug"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#unittest.IsolatedAsyncioTestCase.debug" title="Link to this definition"></a></dt>
+<dd><p>Run the test without collecting errors in a TestResult</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="unittest.IsolatedAsyncioTestCase.enterAsyncContext">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">enterAsyncContext</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cm</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/unittest/async_case.html#IsolatedAsyncioTestCase.enterAsyncContext"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#unittest.IsolatedAsyncioTestCase.enterAsyncContext" title="Link to this definition"></a></dt>
+<dd><p>Enters the supplied asynchronous context manager.</p>
+<p>If successful, also adds its __aexit__ method as a cleanup
+function and returns the result of the __aenter__ method.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="unittest.SkipTest">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">unittest.</span></span><span class="sig-name descname"><span class="pre">SkipTest</span></span><a class="reference internal" href="../_modules/unittest/case.html#SkipTest"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#unittest.SkipTest" title="Link to this definition"></a></dt>
+<dd><p>Raise this exception in a test to skip it.</p>
+<p>Usually you can use TestCase.skipTest() or one of the skipping decorators
+instead of raising this directly.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="unittest.TestCase">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">unittest.</span></span><span class="sig-name descname"><span class="pre">TestCase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">methodName</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'runTest'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/unittest/case.html#TestCase"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#unittest.TestCase" title="Link to this definition"></a></dt>
+<dd><p>A class whose instances are single test cases.</p>
+<p>By default, the test code itself should be placed in a method named
+‘runTest’.</p>
+<p>If the fixture may be used for many test cases, create as
+many test methods as are needed. When instantiating such a TestCase
+subclass, specify in the constructor arguments the name of the test method
+that the instance is to execute.</p>
+<p>Test authors should subclass TestCase for their own tests. Construction
+and deconstruction of the test’s environment (‘fixture’) can be
+implemented by overriding the ‘setUp’ and ‘tearDown’ methods respectively.</p>
+<p>If it is necessary to override the __init__ method, the base class
+__init__ method must always be called. It is important that subclasses
+should not change the signature of their __init__ method, since instances
+of the classes are instantiated automatically by parts of the framework
+in order to be run.</p>
+<p>When subclassing TestCase, you can set these attributes:
+* failureException: determines which exception will be raised when</p>
+<blockquote>
+<div><p>the instance’s assertion methods fail; test methods raising this
+exception will be deemed to have ‘failed’ rather than ‘errored’.</p>
+</div></blockquote>
+<ul class="simple">
+<li><dl class="simple">
+<dt>longMessage: determines whether long messages (including repr of</dt><dd><p>objects used in assert methods) will be printed on failure in <em>addition</em>
+to any explicit message passed.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>maxDiff: sets the maximum length of a diff in failure messages</dt><dd><p>by assert methods using difflib. It is looked up as an instance
+attribute so can be configured by individual tests if required.</p>
+</dd>
+</dl>
+</li>
+</ul>
+<dl class="py method">
+<dt class="sig sig-object py" id="unittest.TestCase.addClassCleanup">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">addClassCleanup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">function</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">/</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/unittest/case.html#TestCase.addClassCleanup"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#unittest.TestCase.addClassCleanup" title="Link to this definition"></a></dt>
+<dd><p>Same as addCleanup, except the cleanup items are called even if
+setUpClass fails (unlike tearDownClass).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="unittest.TestCase.addCleanup">
+<span class="sig-name descname"><span class="pre">addCleanup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">function</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">/</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/unittest/case.html#TestCase.addCleanup"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#unittest.TestCase.addCleanup" title="Link to this definition"></a></dt>
+<dd><p>Add a function, with arguments, to be called when the test is
+completed. Functions added are called on a LIFO basis and are
+called after tearDown on test failure or success.</p>
+<p>Cleanup items are called even if setUp fails (unlike tearDown).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="unittest.TestCase.addTypeEqualityFunc">
+<span class="sig-name descname"><span class="pre">addTypeEqualityFunc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">typeobj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">function</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/unittest/case.html#TestCase.addTypeEqualityFunc"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#unittest.TestCase.addTypeEqualityFunc" title="Link to this definition"></a></dt>
+<dd><p>Add a type specific assertEqual style function to compare a type.</p>
+<p>This method is for use by TestCase subclasses that need to register
+their own type equality functions to provide nicer error messages.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>typeobj: The data type to call this function on when both values</dt><dd><p>are of the same type in assertEqual().</p>
+</dd>
+<dt>function: The callable taking two arguments and an optional</dt><dd><p>msg= argument that raises self.failureException with a
+useful error message when the two arguments are not equal.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="unittest.TestCase.assertAlmostEqual">
+<span class="sig-name descname"><span class="pre">assertAlmostEqual</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">first</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">second</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">places</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/unittest/case.html#TestCase.assertAlmostEqual"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#unittest.TestCase.assertAlmostEqual" title="Link to this definition"></a></dt>
+<dd><p>Fail if the two objects are unequal as determined by their
+difference rounded to the given number of decimal places
+(default 7) and comparing to zero, or by comparing that the
+difference between the two objects is more than the given
+delta.</p>
+<p>Note that decimal places (from zero) are usually not the same
+as significant digits (measured from the most significant digit).</p>
+<p>If the two objects compare equal then they will automatically
+compare almost equal.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="unittest.TestCase.assertCountEqual">
+<span class="sig-name descname"><span class="pre">assertCountEqual</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">first</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">second</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/unittest/case.html#TestCase.assertCountEqual"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#unittest.TestCase.assertCountEqual" title="Link to this definition"></a></dt>
+<dd><p>Asserts that two iterables have the same elements, the same number of
+times, without regard to order.</p>
+<blockquote>
+<div><blockquote>
+<div><dl class="simple">
+<dt>self.assertEqual(Counter(list(first)),</dt><dd><p>Counter(list(second)))</p>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="simple">
+<dt>Example:</dt><dd><ul class="simple">
+<li><p>[0, 1, 1] and [1, 0, 1] compare equal.</p></li>
+<li><p>[0, 0, 1] and [0, 1] compare unequal.</p></li>
+</ul>
+</dd>
+</dl>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="unittest.TestCase.assertDictContainsSubset">
+<span class="sig-name descname"><span class="pre">assertDictContainsSubset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">subset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dictionary</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/unittest/case.html#TestCase.assertDictContainsSubset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#unittest.TestCase.assertDictContainsSubset" title="Link to this definition"></a></dt>
+<dd><p>Checks whether dictionary is a superset of subset.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="unittest.TestCase.assertEqual">
+<span class="sig-name descname"><span class="pre">assertEqual</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">first</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">second</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/unittest/case.html#TestCase.assertEqual"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#unittest.TestCase.assertEqual" title="Link to this definition"></a></dt>
+<dd><p>Fail if the two objects are unequal as determined by the ‘==’
+operator.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="unittest.TestCase.assertFalse">
+<span class="sig-name descname"><span class="pre">assertFalse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">expr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/unittest/case.html#TestCase.assertFalse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#unittest.TestCase.assertFalse" title="Link to this definition"></a></dt>
+<dd><p>Check that the expression is false.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="unittest.TestCase.assertGreater">
+<span class="sig-name descname"><span class="pre">assertGreater</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/unittest/case.html#TestCase.assertGreater"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#unittest.TestCase.assertGreater" title="Link to this definition"></a></dt>
+<dd><p>Just like self.assertTrue(a &gt; b), but with a nicer default message.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="unittest.TestCase.assertGreaterEqual">
+<span class="sig-name descname"><span class="pre">assertGreaterEqual</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/unittest/case.html#TestCase.assertGreaterEqual"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#unittest.TestCase.assertGreaterEqual" title="Link to this definition"></a></dt>
+<dd><p>Just like self.assertTrue(a &gt;= b), but with a nicer default message.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="unittest.TestCase.assertIn">
+<span class="sig-name descname"><span class="pre">assertIn</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">member</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">container</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/unittest/case.html#TestCase.assertIn"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#unittest.TestCase.assertIn" title="Link to this definition"></a></dt>
+<dd><p>Just like self.assertTrue(a in b), but with a nicer default message.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="unittest.TestCase.assertIs">
+<span class="sig-name descname"><span class="pre">assertIs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">expr1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expr2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/unittest/case.html#TestCase.assertIs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#unittest.TestCase.assertIs" title="Link to this definition"></a></dt>
+<dd><p>Just like self.assertTrue(a is b), but with a nicer default message.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="unittest.TestCase.assertIsInstance">
+<span class="sig-name descname"><span class="pre">assertIsInstance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cls</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/unittest/case.html#TestCase.assertIsInstance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#unittest.TestCase.assertIsInstance" title="Link to this definition"></a></dt>
+<dd><p>Same as self.assertTrue(isinstance(obj, cls)), with a nicer
+default message.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="unittest.TestCase.assertIsNone">
+<span class="sig-name descname"><span class="pre">assertIsNone</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/unittest/case.html#TestCase.assertIsNone"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#unittest.TestCase.assertIsNone" title="Link to this definition"></a></dt>
+<dd><p>Same as self.assertTrue(obj is None), with a nicer default message.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="unittest.TestCase.assertIsNot">
+<span class="sig-name descname"><span class="pre">assertIsNot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">expr1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expr2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/unittest/case.html#TestCase.assertIsNot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#unittest.TestCase.assertIsNot" title="Link to this definition"></a></dt>
+<dd><p>Just like self.assertTrue(a is not b), but with a nicer default message.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="unittest.TestCase.assertIsNotNone">
+<span class="sig-name descname"><span class="pre">assertIsNotNone</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/unittest/case.html#TestCase.assertIsNotNone"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#unittest.TestCase.assertIsNotNone" title="Link to this definition"></a></dt>
+<dd><p>Included for symmetry with assertIsNone.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="unittest.TestCase.assertLess">
+<span class="sig-name descname"><span class="pre">assertLess</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/unittest/case.html#TestCase.assertLess"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#unittest.TestCase.assertLess" title="Link to this definition"></a></dt>
+<dd><p>Just like self.assertTrue(a &lt; b), but with a nicer default message.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="unittest.TestCase.assertLessEqual">
+<span class="sig-name descname"><span class="pre">assertLessEqual</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/unittest/case.html#TestCase.assertLessEqual"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#unittest.TestCase.assertLessEqual" title="Link to this definition"></a></dt>
+<dd><p>Just like self.assertTrue(a &lt;= b), but with a nicer default message.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="unittest.TestCase.assertListEqual">
+<span class="sig-name descname"><span class="pre">assertListEqual</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">list1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">list2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/unittest/case.html#TestCase.assertListEqual"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#unittest.TestCase.assertListEqual" title="Link to this definition"></a></dt>
+<dd><p>A list-specific equality assertion.</p>
+<dl>
+<dt>Args:</dt><dd><p>list1: The first list to compare.
+list2: The second list to compare.
+msg: Optional message to use on failure instead of a list of</p>
+<blockquote>
+<div><p>differences.</p>
+</div></blockquote>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="unittest.TestCase.assertLogs">
+<span class="sig-name descname"><span class="pre">assertLogs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">logger</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">level</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/unittest/case.html#TestCase.assertLogs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#unittest.TestCase.assertLogs" title="Link to this definition"></a></dt>
+<dd><p>Fail unless a log message of level <em>level</em> or higher is emitted
+on <em>logger_name</em> or its children.  If omitted, <em>level</em> defaults to
+INFO and <em>logger</em> defaults to the root logger.</p>
+<p>This method must be used as a context manager, and will yield
+a recording object with two attributes: <cite>output</cite> and <cite>records</cite>.
+At the end of the context manager, the <cite>output</cite> attribute will
+be a list of the matching formatted log messages and the
+<cite>records</cite> attribute will be a list of the corresponding LogRecord
+objects.</p>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">assertLogs</span><span class="p">(</span><span class="s1">&#39;foo&#39;</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="s1">&#39;INFO&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">cm</span><span class="p">:</span>
+    <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s1">&#39;foo&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;first message&#39;</span><span class="p">)</span>
+    <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s1">&#39;foo.bar&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;second message&#39;</span><span class="p">)</span>
+<span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">cm</span><span class="o">.</span><span class="n">output</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;INFO:foo:first message&#39;</span><span class="p">,</span>
+                             <span class="s1">&#39;ERROR:foo.bar:second message&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="unittest.TestCase.assertMultiLineEqual">
+<span class="sig-name descname"><span class="pre">assertMultiLineEqual</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">first</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">second</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/unittest/case.html#TestCase.assertMultiLineEqual"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#unittest.TestCase.assertMultiLineEqual" title="Link to this definition"></a></dt>
+<dd><p>Assert that two multi-line strings are equal.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="unittest.TestCase.assertNoLogs">
+<span class="sig-name descname"><span class="pre">assertNoLogs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">logger</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">level</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/unittest/case.html#TestCase.assertNoLogs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#unittest.TestCase.assertNoLogs" title="Link to this definition"></a></dt>
+<dd><p>Fail unless no log messages of level <em>level</em> or higher are emitted
+on <em>logger_name</em> or its children.</p>
+<p>This method must be used as a context manager.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="unittest.TestCase.assertNotAlmostEqual">
+<span class="sig-name descname"><span class="pre">assertNotAlmostEqual</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">first</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">second</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">places</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/unittest/case.html#TestCase.assertNotAlmostEqual"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#unittest.TestCase.assertNotAlmostEqual" title="Link to this definition"></a></dt>
+<dd><p>Fail if the two objects are equal as determined by their
+difference rounded to the given number of decimal places
+(default 7) and comparing to zero, or by comparing that the
+difference between the two objects is less than the given delta.</p>
+<p>Note that decimal places (from zero) are usually not the same
+as significant digits (measured from the most significant digit).</p>
+<p>Objects that are equal automatically fail.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="unittest.TestCase.assertNotEqual">
+<span class="sig-name descname"><span class="pre">assertNotEqual</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">first</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">second</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/unittest/case.html#TestCase.assertNotEqual"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#unittest.TestCase.assertNotEqual" title="Link to this definition"></a></dt>
+<dd><p>Fail if the two objects are equal as determined by the ‘!=’
+operator.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="unittest.TestCase.assertNotIn">
+<span class="sig-name descname"><span class="pre">assertNotIn</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">member</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">container</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/unittest/case.html#TestCase.assertNotIn"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#unittest.TestCase.assertNotIn" title="Link to this definition"></a></dt>
+<dd><p>Just like self.assertTrue(a not in b), but with a nicer default message.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="unittest.TestCase.assertNotIsInstance">
+<span class="sig-name descname"><span class="pre">assertNotIsInstance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cls</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/unittest/case.html#TestCase.assertNotIsInstance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#unittest.TestCase.assertNotIsInstance" title="Link to this definition"></a></dt>
+<dd><p>Included for symmetry with assertIsInstance.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="unittest.TestCase.assertNotRegex">
+<span class="sig-name descname"><span class="pre">assertNotRegex</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unexpected_regex</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/unittest/case.html#TestCase.assertNotRegex"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#unittest.TestCase.assertNotRegex" title="Link to this definition"></a></dt>
+<dd><p>Fail the test if the text matches the regular expression.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="unittest.TestCase.assertRaises">
+<span class="sig-name descname"><span class="pre">assertRaises</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">expected_exception</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/unittest/case.html#TestCase.assertRaises"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#unittest.TestCase.assertRaises" title="Link to this definition"></a></dt>
+<dd><p>Fail unless an exception of class expected_exception is raised
+by the callable when invoked with specified positional and
+keyword arguments. If a different type of exception is
+raised, it will not be caught, and the test case will be
+deemed to have suffered an error, exactly as for an
+unexpected exception.</p>
+<p>If called with the callable and arguments omitted, will return a
+context object used like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="n">SomeException</span><span class="p">):</span>
+    <span class="n">do_something</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>An optional keyword argument ‘msg’ can be provided when assertRaises
+is used as a context object.</p>
+<p>The context manager keeps a reference to the exception as
+the ‘exception’ attribute. This allows you to inspect the
+exception after the assertion:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="n">SomeException</span><span class="p">)</span> <span class="k">as</span> <span class="n">cm</span><span class="p">:</span>
+    <span class="n">do_something</span><span class="p">()</span>
+<span class="n">the_exception</span> <span class="o">=</span> <span class="n">cm</span><span class="o">.</span><span class="n">exception</span>
+<span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">the_exception</span><span class="o">.</span><span class="n">error_code</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="unittest.TestCase.assertRaisesRegex">
+<span class="sig-name descname"><span class="pre">assertRaisesRegex</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">expected_exception</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expected_regex</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/unittest/case.html#TestCase.assertRaisesRegex"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#unittest.TestCase.assertRaisesRegex" title="Link to this definition"></a></dt>
+<dd><p>Asserts that the message in a raised exception matches a regex.</p>
+<dl>
+<dt>Args:</dt><dd><p>expected_exception: Exception class expected to be raised.
+expected_regex: Regex (re.Pattern object or string) expected</p>
+<blockquote>
+<div><p>to be found in error message.</p>
+</div></blockquote>
+<p>args: Function to be called and extra positional args.
+kwargs: Extra kwargs.
+msg: Optional message used in case of failure. Can only be used</p>
+<blockquote>
+<div><p>when assertRaisesRegex is used as a context manager.</p>
+</div></blockquote>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="unittest.TestCase.assertRegex">
+<span class="sig-name descname"><span class="pre">assertRegex</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expected_regex</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/unittest/case.html#TestCase.assertRegex"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#unittest.TestCase.assertRegex" title="Link to this definition"></a></dt>
+<dd><p>Fail the test unless the text matches the regular expression.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="unittest.TestCase.assertSequenceEqual">
+<span class="sig-name descname"><span class="pre">assertSequenceEqual</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">seq1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seq2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seq_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/unittest/case.html#TestCase.assertSequenceEqual"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#unittest.TestCase.assertSequenceEqual" title="Link to this definition"></a></dt>
+<dd><p>An equality assertion for ordered sequences (like lists and tuples).</p>
+<p>For the purposes of this function, a valid ordered sequence type is one
+which can be indexed, has a length, and has an equality operator.</p>
+<dl>
+<dt>Args:</dt><dd><p>seq1: The first sequence to compare.
+seq2: The second sequence to compare.
+seq_type: The expected datatype of the sequences, or None if no</p>
+<blockquote>
+<div><p>datatype should be enforced.</p>
+</div></blockquote>
+<dl class="simple">
+<dt>msg: Optional message to use on failure instead of a list of</dt><dd><p>differences.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="unittest.TestCase.assertSetEqual">
+<span class="sig-name descname"><span class="pre">assertSetEqual</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">set1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">set2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/unittest/case.html#TestCase.assertSetEqual"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#unittest.TestCase.assertSetEqual" title="Link to this definition"></a></dt>
+<dd><p>A set-specific equality assertion.</p>
+<dl>
+<dt>Args:</dt><dd><p>set1: The first set to compare.
+set2: The second set to compare.
+msg: Optional message to use on failure instead of a list of</p>
+<blockquote>
+<div><p>differences.</p>
+</div></blockquote>
+</dd>
+</dl>
+<p>assertSetEqual uses ducktyping to support different types of sets, and
+is optimized for sets specifically (parameters must support a
+difference method).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="unittest.TestCase.assertTrue">
+<span class="sig-name descname"><span class="pre">assertTrue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">expr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/unittest/case.html#TestCase.assertTrue"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#unittest.TestCase.assertTrue" title="Link to this definition"></a></dt>
+<dd><p>Check that the expression is true.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="unittest.TestCase.assertTupleEqual">
+<span class="sig-name descname"><span class="pre">assertTupleEqual</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tuple1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tuple2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/unittest/case.html#TestCase.assertTupleEqual"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#unittest.TestCase.assertTupleEqual" title="Link to this definition"></a></dt>
+<dd><p>A tuple-specific equality assertion.</p>
+<dl>
+<dt>Args:</dt><dd><p>tuple1: The first tuple to compare.
+tuple2: The second tuple to compare.
+msg: Optional message to use on failure instead of a list of</p>
+<blockquote>
+<div><p>differences.</p>
+</div></blockquote>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="unittest.TestCase.assertWarns">
+<span class="sig-name descname"><span class="pre">assertWarns</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">expected_warning</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/unittest/case.html#TestCase.assertWarns"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#unittest.TestCase.assertWarns" title="Link to this definition"></a></dt>
+<dd><p>Fail unless a warning of class warnClass is triggered
+by the callable when invoked with specified positional and
+keyword arguments.  If a different type of warning is
+triggered, it will not be handled: depending on the other
+warning filtering rules in effect, it might be silenced, printed
+out, or raised as an exception.</p>
+<p>If called with the callable and arguments omitted, will return a
+context object used like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">assertWarns</span><span class="p">(</span><span class="n">SomeWarning</span><span class="p">):</span>
+    <span class="n">do_something</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>An optional keyword argument ‘msg’ can be provided when assertWarns
+is used as a context object.</p>
+<p>The context manager keeps a reference to the first matching
+warning as the ‘warning’ attribute; similarly, the ‘filename’
+and ‘lineno’ attributes give you information about the line
+of Python code from which the warning was triggered.
+This allows you to inspect the warning after the assertion:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">assertWarns</span><span class="p">(</span><span class="n">SomeWarning</span><span class="p">)</span> <span class="k">as</span> <span class="n">cm</span><span class="p">:</span>
+    <span class="n">do_something</span><span class="p">()</span>
+<span class="n">the_warning</span> <span class="o">=</span> <span class="n">cm</span><span class="o">.</span><span class="n">warning</span>
+<span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">the_warning</span><span class="o">.</span><span class="n">some_attribute</span><span class="p">,</span> <span class="mi">147</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="unittest.TestCase.assertWarnsRegex">
+<span class="sig-name descname"><span class="pre">assertWarnsRegex</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">expected_warning</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expected_regex</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/unittest/case.html#TestCase.assertWarnsRegex"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#unittest.TestCase.assertWarnsRegex" title="Link to this definition"></a></dt>
+<dd><p>Asserts that the message in a triggered warning matches a regexp.
+Basic functioning is similar to assertWarns() with the addition
+that only warnings whose messages also match the regular expression
+are considered successful matches.</p>
+<dl>
+<dt>Args:</dt><dd><p>expected_warning: Warning class expected to be triggered.
+expected_regex: Regex (re.Pattern object or string) expected</p>
+<blockquote>
+<div><p>to be found in error message.</p>
+</div></blockquote>
+<p>args: Function to be called and extra positional args.
+kwargs: Extra kwargs.
+msg: Optional message used in case of failure. Can only be used</p>
+<blockquote>
+<div><p>when assertWarnsRegex is used as a context manager.</p>
+</div></blockquote>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="unittest.TestCase.debug">
+<span class="sig-name descname"><span class="pre">debug</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/unittest/case.html#TestCase.debug"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#unittest.TestCase.debug" title="Link to this definition"></a></dt>
+<dd><p>Run the test without collecting errors in a TestResult</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="unittest.TestCase.doClassCleanups">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">doClassCleanups</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/unittest/case.html#TestCase.doClassCleanups"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#unittest.TestCase.doClassCleanups" title="Link to this definition"></a></dt>
+<dd><p>Execute all class cleanup functions. Normally called for you after
+tearDownClass.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="unittest.TestCase.doCleanups">
+<span class="sig-name descname"><span class="pre">doCleanups</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/unittest/case.html#TestCase.doCleanups"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#unittest.TestCase.doCleanups" title="Link to this definition"></a></dt>
+<dd><p>Execute all cleanup functions. Normally called for you after
+tearDown.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="unittest.TestCase.enterClassContext">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">enterClassContext</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cm</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/unittest/case.html#TestCase.enterClassContext"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#unittest.TestCase.enterClassContext" title="Link to this definition"></a></dt>
+<dd><p>Same as enterContext, but class-wide.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="unittest.TestCase.enterContext">
+<span class="sig-name descname"><span class="pre">enterContext</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cm</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/unittest/case.html#TestCase.enterContext"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#unittest.TestCase.enterContext" title="Link to this definition"></a></dt>
+<dd><p>Enters the supplied context manager.</p>
+<p>If successful, also adds its __exit__ method as a cleanup
+function and returns the result of the __enter__ method.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="unittest.TestCase.fail">
+<span class="sig-name descname"><span class="pre">fail</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/unittest/case.html#TestCase.fail"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#unittest.TestCase.fail" title="Link to this definition"></a></dt>
+<dd><p>Fail immediately, with the given message.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="unittest.TestCase.failureException">
+<span class="sig-name descname"><span class="pre">failureException</span></span><a class="headerlink" href="#unittest.TestCase.failureException" title="Link to this definition"></a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">AssertionError</span></code></p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="unittest.TestCase.setUp">
+<span class="sig-name descname"><span class="pre">setUp</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/unittest/case.html#TestCase.setUp"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#unittest.TestCase.setUp" title="Link to this definition"></a></dt>
+<dd><p>Hook method for setting up the test fixture before exercising it.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="unittest.TestCase.setUpClass">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">setUpClass</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/unittest/case.html#TestCase.setUpClass"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#unittest.TestCase.setUpClass" title="Link to this definition"></a></dt>
+<dd><p>Hook method for setting up class fixture before running tests in the class.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="unittest.TestCase.shortDescription">
+<span class="sig-name descname"><span class="pre">shortDescription</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/unittest/case.html#TestCase.shortDescription"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#unittest.TestCase.shortDescription" title="Link to this definition"></a></dt>
+<dd><p>Returns a one-line description of the test, or None if no
+description has been provided.</p>
+<p>The default implementation of this method returns the first line of
+the specified test method’s docstring.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="unittest.TestCase.skipTest">
+<span class="sig-name descname"><span class="pre">skipTest</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">reason</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/unittest/case.html#TestCase.skipTest"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#unittest.TestCase.skipTest" title="Link to this definition"></a></dt>
+<dd><p>Skip this test.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="unittest.TestCase.subTest">
+<span class="sig-name descname"><span class="pre">subTest</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg=&lt;object</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**params</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/unittest/case.html#TestCase.subTest"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#unittest.TestCase.subTest" title="Link to this definition"></a></dt>
+<dd><p>Return a context manager that will return the enclosed block
+of code in a subtest identified by the optional message and
+keyword parameters.  A failure in the subtest marks the test
+case as failed but resumes execution at the end of the enclosed
+block, allowing further test code to be executed.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="unittest.TestCase.tearDown">
+<span class="sig-name descname"><span class="pre">tearDown</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/unittest/case.html#TestCase.tearDown"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#unittest.TestCase.tearDown" title="Link to this definition"></a></dt>
+<dd><p>Hook method for deconstructing the test fixture after testing it.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="unittest.TestCase.tearDownClass">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">tearDownClass</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/unittest/case.html#TestCase.tearDownClass"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#unittest.TestCase.tearDownClass" title="Link to this definition"></a></dt>
+<dd><p>Hook method for deconstructing the class fixture after running all tests in the class.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="unittest.TestLoader">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">unittest.</span></span><span class="sig-name descname"><span class="pre">TestLoader</span></span><a class="reference internal" href="../_modules/unittest/loader.html#TestLoader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#unittest.TestLoader" title="Link to this definition"></a></dt>
+<dd><p>This class is responsible for loading tests according to various criteria
+and returning them wrapped in a TestSuite</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="unittest.TestLoader.discover">
+<span class="sig-name descname"><span class="pre">discover</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">start_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pattern</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'test*.py'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">top_level_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/unittest/loader.html#TestLoader.discover"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#unittest.TestLoader.discover" title="Link to this definition"></a></dt>
+<dd><p>Find and return all test modules from the specified start
+directory, recursing into subdirectories to find them and return all
+tests found within them. Only test files that match the pattern will
+be loaded. (Using shell style pattern matching.)</p>
+<p>All test modules must be importable from the top level of the project.
+If the start directory is not the top level directory then the top
+level directory must be specified separately.</p>
+<p>If a test package name (directory with ‘__init__.py’) matches the
+pattern then the package will be checked for a ‘load_tests’ function. If
+this exists then it will be called with (loader, tests, pattern) unless
+the package has already had load_tests called from the same discovery
+invocation, in which case the package module object is not scanned for
+tests - this ensures that when a package uses discover to further
+discover child tests that infinite recursion does not happen.</p>
+<p>If load_tests exists then discovery does <em>not</em> recurse into the package,
+load_tests is responsible for loading all tests in the package.</p>
+<p>The pattern is deliberately not stored as a loader attribute so that
+packages can continue discovery themselves. top_level_dir is stored so
+load_tests does not need to pass this argument in to loader.discover().</p>
+<p>Paths are sorted before being imported to ensure reproducible execution
+order even on filesystems with non-alphabetical ordering like ext3/4.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="unittest.TestLoader.getTestCaseNames">
+<span class="sig-name descname"><span class="pre">getTestCaseNames</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">testCaseClass</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/unittest/loader.html#TestLoader.getTestCaseNames"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#unittest.TestLoader.getTestCaseNames" title="Link to this definition"></a></dt>
+<dd><p>Return a sorted sequence of method names found within testCaseClass</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="unittest.TestLoader.loadTestsFromModule">
+<span class="sig-name descname"><span class="pre">loadTestsFromModule</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">module</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pattern</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kws</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/unittest/loader.html#TestLoader.loadTestsFromModule"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#unittest.TestLoader.loadTestsFromModule" title="Link to this definition"></a></dt>
+<dd><p>Return a suite of all test cases contained in the given module</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="unittest.TestLoader.loadTestsFromName">
+<span class="sig-name descname"><span class="pre">loadTestsFromName</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/unittest/loader.html#TestLoader.loadTestsFromName"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#unittest.TestLoader.loadTestsFromName" title="Link to this definition"></a></dt>
+<dd><p>Return a suite of all test cases given a string specifier.</p>
+<p>The name may resolve either to a module, a test case class, a
+test method within a test case class, or a callable object which
+returns a TestCase or TestSuite instance.</p>
+<p>The method optionally resolves the names relative to a given module.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="unittest.TestLoader.loadTestsFromNames">
+<span class="sig-name descname"><span class="pre">loadTestsFromNames</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">names</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/unittest/loader.html#TestLoader.loadTestsFromNames"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#unittest.TestLoader.loadTestsFromNames" title="Link to this definition"></a></dt>
+<dd><p>Return a suite of all test cases found using the given sequence
+of string specifiers. See ‘loadTestsFromName()’.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="unittest.TestLoader.loadTestsFromTestCase">
+<span class="sig-name descname"><span class="pre">loadTestsFromTestCase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">testCaseClass</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/unittest/loader.html#TestLoader.loadTestsFromTestCase"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#unittest.TestLoader.loadTestsFromTestCase" title="Link to this definition"></a></dt>
+<dd><p>Return a suite of all test cases contained in testCaseClass</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="unittest.TestLoader.sortTestMethodsUsing">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">sortTestMethodsUsing</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#unittest.TestLoader.sortTestMethodsUsing" title="Link to this definition"></a></dt>
+<dd><p>Return -1 if x &lt; y, 0 if x == y and 1 if x &gt; y</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="unittest.TestLoader.suiteClass">
+<span class="sig-name descname"><span class="pre">suiteClass</span></span><a class="headerlink" href="#unittest.TestLoader.suiteClass" title="Link to this definition"></a></dt>
+<dd><p>alias of <a class="reference internal" href="#unittest.TestSuite" title="unittest.suite.TestSuite"><code class="xref py py-class docutils literal notranslate"><span class="pre">TestSuite</span></code></a></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="unittest.TestResult">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">unittest.</span></span><span class="sig-name descname"><span class="pre">TestResult</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stream</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">descriptions</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbosity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/unittest/result.html#TestResult"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#unittest.TestResult" title="Link to this definition"></a></dt>
+<dd><p>Holder for test result information.</p>
+<p>Test results are automatically managed by the TestCase and TestSuite
+classes, and do not need to be explicitly manipulated by writers of tests.</p>
+<p>Each instance holds the total number of tests run, and collections of
+failures and errors that occurred among those test runs. The collections
+contain tuples of (testcase, exceptioninfo), where exceptioninfo is the
+formatted traceback of the error that occurred.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="unittest.TestResult.addError">
+<span class="sig-name descname"><span class="pre">addError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">test</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">err</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/unittest/result.html#TestResult.addError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#unittest.TestResult.addError" title="Link to this definition"></a></dt>
+<dd><p>Called when an error has occurred. ‘err’ is a tuple of values as
+returned by sys.exc_info().</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="unittest.TestResult.addExpectedFailure">
+<span class="sig-name descname"><span class="pre">addExpectedFailure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">test</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">err</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/unittest/result.html#TestResult.addExpectedFailure"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#unittest.TestResult.addExpectedFailure" title="Link to this definition"></a></dt>
+<dd><p>Called when an expected failure/error occurred.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="unittest.TestResult.addFailure">
+<span class="sig-name descname"><span class="pre">addFailure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">test</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">err</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/unittest/result.html#TestResult.addFailure"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#unittest.TestResult.addFailure" title="Link to this definition"></a></dt>
+<dd><p>Called when an error has occurred. ‘err’ is a tuple of values as
+returned by sys.exc_info().</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="unittest.TestResult.addSkip">
+<span class="sig-name descname"><span class="pre">addSkip</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">test</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reason</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/unittest/result.html#TestResult.addSkip"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#unittest.TestResult.addSkip" title="Link to this definition"></a></dt>
+<dd><p>Called when a test is skipped.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="unittest.TestResult.addSubTest">
+<span class="sig-name descname"><span class="pre">addSubTest</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">test</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subtest</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">err</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/unittest/result.html#TestResult.addSubTest"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#unittest.TestResult.addSubTest" title="Link to this definition"></a></dt>
+<dd><p>Called at the end of a subtest.
+‘err’ is None if the subtest ended successfully, otherwise it’s a
+tuple of values as returned by sys.exc_info().</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="unittest.TestResult.addSuccess">
+<span class="sig-name descname"><span class="pre">addSuccess</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">test</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/unittest/result.html#TestResult.addSuccess"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#unittest.TestResult.addSuccess" title="Link to this definition"></a></dt>
+<dd><p>Called when a test has completed successfully</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="unittest.TestResult.addUnexpectedSuccess">
+<span class="sig-name descname"><span class="pre">addUnexpectedSuccess</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">test</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/unittest/result.html#TestResult.addUnexpectedSuccess"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#unittest.TestResult.addUnexpectedSuccess" title="Link to this definition"></a></dt>
+<dd><p>Called when a test was expected to fail, but succeed.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="unittest.TestResult.printErrors">
+<span class="sig-name descname"><span class="pre">printErrors</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/unittest/result.html#TestResult.printErrors"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#unittest.TestResult.printErrors" title="Link to this definition"></a></dt>
+<dd><p>Called by TestRunner after test run</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="unittest.TestResult.startTest">
+<span class="sig-name descname"><span class="pre">startTest</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">test</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/unittest/result.html#TestResult.startTest"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#unittest.TestResult.startTest" title="Link to this definition"></a></dt>
+<dd><p>Called when the given test is about to be run</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="unittest.TestResult.startTestRun">
+<span class="sig-name descname"><span class="pre">startTestRun</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/unittest/result.html#TestResult.startTestRun"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#unittest.TestResult.startTestRun" title="Link to this definition"></a></dt>
+<dd><p>Called once before any tests are executed.</p>
+<p>See startTest for a method called before each test.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="unittest.TestResult.stop">
+<span class="sig-name descname"><span class="pre">stop</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/unittest/result.html#TestResult.stop"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#unittest.TestResult.stop" title="Link to this definition"></a></dt>
+<dd><p>Indicates that the tests should be aborted.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="unittest.TestResult.stopTest">
+<span class="sig-name descname"><span class="pre">stopTest</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">test</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/unittest/result.html#TestResult.stopTest"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#unittest.TestResult.stopTest" title="Link to this definition"></a></dt>
+<dd><p>Called when the given test has been run</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="unittest.TestResult.stopTestRun">
+<span class="sig-name descname"><span class="pre">stopTestRun</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/unittest/result.html#TestResult.stopTestRun"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#unittest.TestResult.stopTestRun" title="Link to this definition"></a></dt>
+<dd><p>Called once after all tests are executed.</p>
+<p>See stopTest for a method called after each test.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="unittest.TestResult.wasSuccessful">
+<span class="sig-name descname"><span class="pre">wasSuccessful</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/unittest/result.html#TestResult.wasSuccessful"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#unittest.TestResult.wasSuccessful" title="Link to this definition"></a></dt>
+<dd><p>Tells whether or not this result was a success.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="unittest.TestSuite">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">unittest.</span></span><span class="sig-name descname"><span class="pre">TestSuite</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tests</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">()</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/unittest/suite.html#TestSuite"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#unittest.TestSuite" title="Link to this definition"></a></dt>
+<dd><p>A test suite is a composite test consisting of a number of TestCases.</p>
+<p>For use, create an instance of TestSuite, then add test case instances.
+When all tests have been added, the suite can be passed to a test
+runner, such as TextTestRunner. It will run the individual test cases
+in the order in which they were added, aggregating the results. When
+subclassing, do not forget to call the base class constructor.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="unittest.TestSuite.debug">
+<span class="sig-name descname"><span class="pre">debug</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/unittest/suite.html#TestSuite.debug"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#unittest.TestSuite.debug" title="Link to this definition"></a></dt>
+<dd><p>Run the tests without collecting errors in a TestResult</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="unittest.TextTestResult">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">unittest.</span></span><span class="sig-name descname"><span class="pre">TextTestResult</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stream</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">descriptions</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbosity</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/unittest/runner.html#TextTestResult"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#unittest.TextTestResult" title="Link to this definition"></a></dt>
+<dd><p>A test result class that can print formatted text results to a stream.</p>
+<p>Used by TextTestRunner.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="unittest.TextTestResult.addError">
+<span class="sig-name descname"><span class="pre">addError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">test</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">err</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/unittest/runner.html#TextTestResult.addError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#unittest.TextTestResult.addError" title="Link to this definition"></a></dt>
+<dd><p>Called when an error has occurred. ‘err’ is a tuple of values as
+returned by sys.exc_info().</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="unittest.TextTestResult.addExpectedFailure">
+<span class="sig-name descname"><span class="pre">addExpectedFailure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">test</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">err</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/unittest/runner.html#TextTestResult.addExpectedFailure"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#unittest.TextTestResult.addExpectedFailure" title="Link to this definition"></a></dt>
+<dd><p>Called when an expected failure/error occurred.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="unittest.TextTestResult.addFailure">
+<span class="sig-name descname"><span class="pre">addFailure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">test</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">err</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/unittest/runner.html#TextTestResult.addFailure"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#unittest.TextTestResult.addFailure" title="Link to this definition"></a></dt>
+<dd><p>Called when an error has occurred. ‘err’ is a tuple of values as
+returned by sys.exc_info().</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="unittest.TextTestResult.addSkip">
+<span class="sig-name descname"><span class="pre">addSkip</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">test</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reason</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/unittest/runner.html#TextTestResult.addSkip"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#unittest.TextTestResult.addSkip" title="Link to this definition"></a></dt>
+<dd><p>Called when a test is skipped.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="unittest.TextTestResult.addSubTest">
+<span class="sig-name descname"><span class="pre">addSubTest</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">test</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subtest</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">err</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/unittest/runner.html#TextTestResult.addSubTest"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#unittest.TextTestResult.addSubTest" title="Link to this definition"></a></dt>
+<dd><p>Called at the end of a subtest.
+‘err’ is None if the subtest ended successfully, otherwise it’s a
+tuple of values as returned by sys.exc_info().</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="unittest.TextTestResult.addSuccess">
+<span class="sig-name descname"><span class="pre">addSuccess</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">test</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/unittest/runner.html#TextTestResult.addSuccess"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#unittest.TextTestResult.addSuccess" title="Link to this definition"></a></dt>
+<dd><p>Called when a test has completed successfully</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="unittest.TextTestResult.addUnexpectedSuccess">
+<span class="sig-name descname"><span class="pre">addUnexpectedSuccess</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">test</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/unittest/runner.html#TextTestResult.addUnexpectedSuccess"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#unittest.TextTestResult.addUnexpectedSuccess" title="Link to this definition"></a></dt>
+<dd><p>Called when a test was expected to fail, but succeed.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="unittest.TextTestResult.printErrors">
+<span class="sig-name descname"><span class="pre">printErrors</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/unittest/runner.html#TextTestResult.printErrors"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#unittest.TextTestResult.printErrors" title="Link to this definition"></a></dt>
+<dd><p>Called by TestRunner after test run</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="unittest.TextTestResult.startTest">
+<span class="sig-name descname"><span class="pre">startTest</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">test</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/unittest/runner.html#TextTestResult.startTest"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#unittest.TextTestResult.startTest" title="Link to this definition"></a></dt>
+<dd><p>Called when the given test is about to be run</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="unittest.TextTestRunner">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">unittest.</span></span><span class="sig-name descname"><span class="pre">TextTestRunner</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stream</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">descriptions</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbosity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">failfast</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">buffer</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resultclass</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">warnings</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tb_locals</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/unittest/runner.html#TextTestRunner"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#unittest.TextTestRunner" title="Link to this definition"></a></dt>
+<dd><p>A test runner class that displays results in textual form.</p>
+<p>It prints out the names of tests as they are run, errors as they
+occur, and a summary of the results at the end of the test run.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="unittest.TextTestRunner.resultclass">
+<span class="sig-name descname"><span class="pre">resultclass</span></span><a class="headerlink" href="#unittest.TextTestRunner.resultclass" title="Link to this definition"></a></dt>
+<dd><p>alias of <a class="reference internal" href="#unittest.TextTestResult" title="unittest.runner.TextTestResult"><code class="xref py py-class docutils literal notranslate"><span class="pre">TextTestResult</span></code></a></p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="unittest.TextTestRunner.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">test</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/unittest/runner.html#TextTestRunner.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#unittest.TextTestRunner.run" title="Link to this definition"></a></dt>
+<dd><p>Run the given test case or test suite.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="unittest.addModuleCleanup">
+<span class="sig-prename descclassname"><span class="pre">unittest.</span></span><span class="sig-name descname"><span class="pre">addModuleCleanup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">function</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">/</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/unittest/case.html#addModuleCleanup"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#unittest.addModuleCleanup" title="Link to this definition"></a></dt>
+<dd><p>Same as addCleanup, except the cleanup items are called even if
+setUpModule fails (unlike tearDownModule).</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="unittest.doModuleCleanups">
+<span class="sig-prename descclassname"><span class="pre">unittest.</span></span><span class="sig-name descname"><span class="pre">doModuleCleanups</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/unittest/case.html#doModuleCleanups"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#unittest.doModuleCleanups" title="Link to this definition"></a></dt>
+<dd><p>Execute all module cleanup functions. Normally called for you after
+tearDownModule.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="unittest.enterModuleContext">
+<span class="sig-prename descclassname"><span class="pre">unittest.</span></span><span class="sig-name descname"><span class="pre">enterModuleContext</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cm</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/unittest/case.html#enterModuleContext"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#unittest.enterModuleContext" title="Link to this definition"></a></dt>
+<dd><p>Same as enterContext, but module-wide.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="unittest.main">
+<span class="sig-prename descclassname"><span class="pre">unittest.</span></span><span class="sig-name descname"><span class="pre">main</span></span><a class="headerlink" href="#unittest.main" title="Link to this definition"></a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">TestProgram</span></code></p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="unittest.skip">
+<span class="sig-prename descclassname"><span class="pre">unittest.</span></span><span class="sig-name descname"><span class="pre">skip</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">reason</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/unittest/case.html#skip"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#unittest.skip" title="Link to this definition"></a></dt>
+<dd><p>Unconditionally skip a test.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="unittest.skipIf">
+<span class="sig-prename descclassname"><span class="pre">unittest.</span></span><span class="sig-name descname"><span class="pre">skipIf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">condition</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reason</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/unittest/case.html#skipIf"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#unittest.skipIf" title="Link to this definition"></a></dt>
+<dd><p>Skip a test if the condition is true.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="unittest.skipUnless">
+<span class="sig-prename descclassname"><span class="pre">unittest.</span></span><span class="sig-name descname"><span class="pre">skipUnless</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">condition</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reason</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/unittest/case.html#skipUnless"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#unittest.skipUnless" title="Link to this definition"></a></dt>
+<dd><p>Skip a test unless the condition is true.</p>
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="autodoc1.html" class="btn btn-neutral float-left" title="3. autodoc-eg1 (own-module)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="autosummary1.html" class="btn btn-neutral float-right" title="5. autosummary-eg1 :" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, au1.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

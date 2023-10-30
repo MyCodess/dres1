@@ -1,0 +1,24 @@
+_________________ coll cmds/PS1s/... ___________________________________
+exit 3
+
+#####  ==========  evv-devpc1 :
+- source "C:\Users\DKX8H1N\ofc1\bin\setevv1.sh"
+- cyg-bashrc:  source  "${USERPROFILE}\\ofc1\\bin\\setevv1.sh"   ##--/OR use:  HOMEPATH
+- evv-org: source ${HOME}/up1/.ev13/etc/profile.sh
+raw/org:   source   ~/up1/.ev13/etc/profile.sh
+
+#####  ==========  evv-stdpc1 :
+.  H:\up1\ev1\bin\prof1.ps1
+.  H:\up1\ev1\bin\funcs1.ps1
+
+#####  ==========  VIMs:
+export  VIMINIT="source   C:\\Progs2\\Vim\\vimrc"
+export  GVIMINIT="source  C:\\Progs2\\Vim\\gvimrc"
+set pythonthreehome=/c/Progs2/Py3  ; set  pythonthreedll==/c/Progs2/Py3/python311.dll
+"--- qckys:
+tab sball   "all buffers into tabs !
+
+#####  ==========  
+
+#####  ==========  
+

@@ -1,0 +1,84 @@
+_________ py-basics: (builtins-) syntaxs / ops /atoms/ stmts / expressions / loops / if-else/ ....: _____________
+
+#####  ==========  see/nts:
+
+	_______:  ! REFs:
+	- py.REF here is "Python 3.9.5, last updated Mai 2021
+	-! pydoc  BASICMETHODS , COMPARISON , ATTRIBUTEMETHODS, CALLABLEMETHODS, SEQUENCEMETHODS, MAPPINGMETHODS, NUMBERMETHODS, CLASSES
+	-! pydoc  lambda, or, and, not, in, is, BOOLEAN, COMPARISON, BITWISE, SHIFTING, BINARY, FORMATTING, POWER, UNARY, ATTRIBUTES, SUBSCRIPTS, SLICINGS, CALLS, TUPLES, LISTS, DICTIONARIES
+##________________________________________  ___________________________
+
+
+#####  ==========  Loops:
+
+	_______:  ! NEVER  modify the loop-iteration-var-list/array/hash (list being iterated over), inside the loop!! istead use its shallow-copy:
+	so if a an array, then instead
+	for x in list1:    ; ..., a[5]="newValue", ...;  #do:
+	for x in list1[:]: ; ....   #  a[:] makes a shallow copy of a for the iteration !!
+	--> see tut.ref--4.2 for Statements
+##________________________________________  ___________________________
+
+
+#####  ==========  docstring ,  codes-dcumentaions :
+    - !  PEP 257 – Docstring Conventions
+
+	_______:  docstring for classes/funcs/modules/... , xx.__doc__ :
+	- firstline: """<starting.with.CAPITAL.letter>...<end.with.period> + second.line-blank + rest.docs ... + """
+	- indentation: first non-blank line after the first line of the string determines the amount of indentation for the entire documentation string.
+	- printing out the docstring, eg:  print my_function.__doc__
+##________________________________________  ___________________________
+
+
+#####  ==========  true/false/null/... -values :
+    - see pyRefDocs/html/library/stdtypes.html#truth-value-testing :
+
+	_______:  "false" are:
+	zero of any numeric type, for example, 0, 0L, 0.0...
+	empty sequence, for example, '', (), []
+	None / False /
+	empty mapping, for example, {}
+	instances of false returend by __nonzero__()
+##________________________________________  ___________________________
+
+
+#####  ==========  vars-assignments :
+
+	_______:  
+    -! see:  https://www.oreilly.com/library/view/python-cookbook/0596001673/ch17s02.html
+    -! DIFF : var1 is None   <--->  var1 is not-defined/not-declared :
+	var1 is None :  so it has no value assigend, but IS already defined/declared, so it IS in __dict__ of the module/class ! eg as:  var1 ;##/OR: var1 = None ;
+	var1 is not-defined  :  not-yet-defined! (so also no value anyway!)! so it is NOT in __dict__ of the module/class !
+
+	_______:  default-value-assignments to vars, depending on if its value is None /OR if not-defined yet :
+	--- to a None-var1 (so already defined var1, but its value is None , so var1 == None true) :
+		- long-if-form:  var1 = None ; if var1 is None: var1 = 4  ##-/OR shorties:
+		- var1 = 4 if var1 is None else var1    #-/OR:
+		- var1 = var1 or 4
+	--- to a not-yet-defined-var1 (so is not even None!):
+		- try:  var1 ; except NameError: var1 = 10 ; ##--bad-style!?!?
+##________________________________________  ___________________________
+
+
+#####  ==========  comparisions :
+	-!! see pydoc COMPARISON (bzw. pydoc is ,...) !!
+##________________________________________  ___________________________
+
+
+#####  ==========  dunder methods / overwriting Std-Operations (+-/...) / magic-methods ....:
+
+	überschreiben/redefine der builtin Operations (+*/-><=...) for eigene Classen/Objects  (double-underscore-method /dunder-methods as __add__, ...):
+	pydoc builtins  :  corresponding funcs are there! as __add__ , __truediv__ , __mul__ ,  __iadd__ , ...
+	pydoc operator ;
+	/python-course.eu/oop/magic-methods.php.html
+	RedDocsStdLibs:   operator — Standard operators as functions
+	https://github.com/python/cpython/tree/3.10/Lib/operator.py
+##________________________________________  ___________________________
+
+
+
+#####  ==========  Ellipsis / "..." :
+    - ! https://realpython.com/python-ellipsis/
+    - ! https://realpython.com/python-constants/#built-in-constants
+##________________________________________  ___________________________
+
+

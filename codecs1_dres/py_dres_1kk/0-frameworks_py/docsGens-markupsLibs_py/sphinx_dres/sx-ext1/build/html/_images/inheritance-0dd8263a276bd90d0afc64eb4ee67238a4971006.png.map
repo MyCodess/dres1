@@ -1,0 +1,11 @@
+<map id="inheritance34fb42e76a" name="inheritance34fb42e76a">
+<area shape="rect" id="node1" href="autodoc2.html#unittest.IsolatedAsyncioTestCase" target="_top" title="unittest.async_case.IsolatedAsyncioTestCase" alt="" coords="254,183,545,209"/>
+<area shape="rect" id="node2" href="autodoc2.html#unittest.TestCase" target="_top" title="A class whose instances are single test cases." alt="" coords="27,227,184,253"/>
+<area shape="rect" id="node3" href="autodoc2.html#unittest.FunctionTestCase" target="_top" title="A test case that wraps a test function." alt="" coords="296,233,503,260"/>
+<area shape="rect" id="node4" href="autodoc2.html#unittest.SkipTest" target="_top" title="Raise this exception in a test to skip it." alt="" coords="30,164,181,191"/>
+<area shape="rect" id="node5" href="autodoc2.html#unittest.TestResult" target="_top" title="Holder for test result information." alt="" coords="22,107,189,133"/>
+<area shape="rect" id="node6" href="autodoc2.html#unittest.TextTestResult" target="_top" title="A test result class that can print formatted text results to a stream." alt="" coords="301,107,498,133"/>
+<area shape="rect" id="node7" href="autodoc2.html#unittest.TextTestRunner" target="_top" title="A test runner class that displays results in textual form." alt="" coords="5,56,206,83"/>
+<area shape="rect" id="node8" title="A simple test suite that doesn&#39;t provide class or module shared fixtures." alt="" coords="13,5,198,32"/>
+<area shape="rect" id="node9" href="autodoc2.html#unittest.TestSuite" target="_top" title="A test suite is a composite test consisting of a number of TestCases." alt="" coords="322,5,477,32"/>
+</map>

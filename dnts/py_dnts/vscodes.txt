@@ -1,0 +1,24 @@
+____________________ VSCode -py+... ____________________________________________
+
+
+
+#####  ==========  
+	- ! code  --help
+	- !! Command Palette :  Ctrl+Shift+P
+	--- 
+##________________________________________  ___________________________
+
+
+#####  ==========  settings:
+
+	_______:  USER-settings:
+	"C:\Users\a1\AppData\Roaming\Code"  ( +??  ~/.vscode/  )
+	"C:\Users\a1\AppData\Roaming\Code\User\settings.json"
+	--- keybindings /keymaps/ key.shortcuts/hotkeys:
+	-! sometimes the default keyboard-shortcuts in Help/Online-Guides/... are obv. für US-Keyboard !?
+	ctrl-k ctrl-s  : open keyboard shortcuts
+	- keyBindings-user:  "C:\Users\a1\AppData\Roaming\Code\User\keybindings.json"
+
+
+##________________________________________  ___________________________
+

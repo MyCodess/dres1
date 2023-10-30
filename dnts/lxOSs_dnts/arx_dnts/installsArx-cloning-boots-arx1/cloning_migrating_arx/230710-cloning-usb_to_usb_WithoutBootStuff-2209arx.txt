@@ -1,0 +1,123 @@
+========== /:230710 :  arx-clone, USB128-to-usb128, attached to Lv13-older-arx1 , all to USB-3.0 !
+target-syys /NEW : /dev/sdb
+source_RF-syys   : /dev/sdc
+target was already ready partitioned and bootable! so only cp -a ...; (also OS-part was already formatted with mkfs.ext4 -cc ... !)
+[u1@2209arx nps]$ date
+Mon 10 Jul 2023 10:10:41 PM CEST
+---
+[u1@2209arx nps]$ lsblk1
+NAME             FSTYPE FSVER LABEL       UUID                                 FSAVAIL FSUSE% MOUNTPOINTS       SIZE TYPE
+
+- boot-syys : boooted from an older arx-usb (u1@2209arx, attached to USB3-Lv13) :
+/dev/sda                                                                                                      114.6G disk
+├─/dev/sda1                                                                                                     100M part
+├─/dev/sda2      vfat   FAT32 ESP1        4361-3230                               2.6G    12% /boot               3G part
+├─/dev/sda3      ext4   1.0   2209ARX_P   8eadf68b-ed69-4dfe-948a-9fe297645142   36.6G    20% /home              50G part
+│                                                                                             /up1/mnt/VARUfs        
+│                                                                                             /                      
+└─/dev/sda4      exfat  1.0   T1FS_P      67FF-921F                              38.8G    37% /up1/mnt/T1fs    61.5G part
+
+- target-syys  /new (attached to USB-c--Lv13):
+/dev/sdb                                                                                                      114.6G disk
+├─/dev/sdb1                                                                                                     100M part
+├─/dev/sdb2      vfat   FAT32 ESP1        67A4-F1EE                                                               3G part
+├─/dev/sdb3      ext4   1.0   2209ARX_P   b556c4a6-b8b5-4640-ab76-86f0ce77500a                                   50G part
+└─/dev/sdb4      exfat  1.0   T1FS_P      77FB-B7D0                                                            61.5G part
+
+- source_RF-syys (u1@2209arx, attached to USB3-Lv13) :
+/dev/sdc                                                                                                      114.6G disk
+├─/dev/sdc1                                                                                                     100M part
+├─/dev/sdc2      vfat   FAT32 ESP1        639C-5755                                                               3G part
+├─/dev/sdc3      ext4   1.0   2004ARX_P   4f332637-b304-4fbb-853d-68073ee4bdd9                                   50G part
+└─/dev/sdc4      exfat  1.0   T1FS_P      EBFE-7889                                                            61.5G part
+
+- HDD-Lv13 (nothing !)
+/dev/nvme0n1                                                                                                  238.5G disk
+├─/dev/nvme0n1p1 vfat   FAT32 SYSTEM_DRV  BEAB-F39A                                                             260M part
+├─/dev/nvme0n1p2                                                                                                 16M part
+├─/dev/nvme0n1p3 ntfs         Windows-SSD D008AE0B08ADF0A0                                                     78.1G part
+├─/dev/nvme0n1p4 exfat  1.0   T1FS_P_HD1  E1FF-3DA8                                                           159.1G part
+└─/dev/nvme0n1p5 ntfs         WINRE_DRV   5AB8AF2DB8AF071B                                                     1000M part
+[u1@2209arx nps]$ 
+
+========== mkfs of new target: (extra vorher gemacht! ready!)
+mkfs.vfat  -v -n ESP1   -i 67A4F1EE  -c  /dev/sdb2  ##--the param of  -i / UUID/Volume-ID  must be WITHOUT "-", so ONLY hex! 
+fsck.fat  -p  -v -V /dev/sdb2
+-
+mkfs.exfat   -L  T1FS_P   /dev/sdb4
+tune.exfat   -I  0x77FBB7D0  /dev/sdb4##--!!-the param to -I MUST: start with 0x (for Hex) AND NO "-" !
+fsck.exfat -p -v  /dev/sdb4
+-
+date;  mkfs.ext4  -L  2209ARX_P  -v  -c -U b556c4a6-b8b5-4640-ab76-86f0ce77500a   /dev/sdb3 ; date   ##--ca. 20 min ! with -cc last time ca. 5 hours done (on x17?) !
+--!!:
+NO grub-instal ...! needed!?!? due to formatting /dev/sdb2 !? really not!
+
+========== CPs + conf:
+--- boot /sdb2
+root@2209arx ~]# echoline1date  boot-sdb2
+[root@2209arx ~]# mount         /dev/sdb2  /mnt/t1
+[root@2209arx ~]# mount  -o ro /dev/sdc2  /mnt/s1
+[root@2209arx ~]# date;  cp -a /mnt/s1  /mnt/t1/ ; date
+Mon 10 Jul 2023 11:04:33 PM CEST
+Mon 10 Jul 2023 11:05:02 PM CEST
+[root@2209arx ~]# 3sync 
+[root@2209arx ~]# umount /mnt/s1
+[root@2209arx ~]# mvi /mnt/t1/s1/*  /mnt/t1/
+[root@2209arx ~]# rmdir /mnt/t1/s1/
+[root@2209arx ~]# sed -i-$($cuds)  -e "s@639C-5755@67A4-F1EE@g"  -e "s@4f332637-b304-4fbb-853d-68073ee4bdd9@b556c4a6-b8b5-4640-ab76-86f0ce77500a@g"  -e "s@EBFE-7889@77FB-B7D0@g"  /mnt/t1/grub/grub.cfg
+[root@2209arx ~]# diff /mnt/t1/grub/grub.cfg  /mnt/t1/grub/grub.cfg-$($cuds)
+101,102c101,102
+< set  uid1_cu_grub_root=67A4-F1EE
+< set  uid2_cu_lx_root=b556c4a6-b8b5-4640-ab76-86f0ce77500a
+---
+> set  uid1_cu_grub_root=639C-5755
+> set  uid2_cu_lx_root=4f332637-b304-4fbb-853d-68073ee4bdd9
+[root@2209arx ~]# 3sync 
+[root@2209arx ~]# umount /mnt/t1/
+[root@2209arx ~]# echoline1dateend  boot-sdb2
+
+--- OS /sdb3 :
+root@2209arx ~]# echoline1date  OS-syys-sdb3
+[root@2209arx ~]# mountg sdb ;  mountg sdc
+[root@2209arx ~]# mount       /dev/sdb3  /mnt/t1
+[root@2209arx ~]# mount  -o ro /dev/sdc3  /mnt/s1
+[root@2209arx ~]# date;  cp -a /mnt/s1  /mnt/t1/ ; date  ##--> ca. 20 Min / 11 GB
+Mon 10 Jul 2023 11:21:25 PM CEST
+Mon 10 Jul 2023 11:43:12 PM CEST
+[root@2209arx ~]# 3sync 
+root@2209arx ~]# df -h /mnt/t1/
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/sdb3        49G   11G   37G  23% /mnt/t1
+[root@2209arx ~]# umount /mnt/s1
+[root@2209arx ~]# mv /mnt/t1/s1/*  /mnt/t1/
+[root@2209arx ~]# rmdir /mnt/t1/s1/
+[root@2209arx ~]# vi /mnt/t1/00-ThisMedia-500a.txt  ##--> put mkfs output in it as hist/log !
+root@2209arx ~]# sed -i-$($cuds)  -e "s@639C-5755@67A4-F1EE@g"  -e "s@4f332637-b304-4fbb-853d-68073ee4bdd9@b556c4a6-b8b5-4640-ab76-86f0ce77500a@g"  -e "s@EBFE-7889@77FB-B7D0@g"   /mnt/t1/etc/fstab 
+[root@2209arx ~]# diff  /mnt/t1/etc/fstab  /mnt/t1/etc/fstab-$($cuds)
+[root@2209arx ~]# 3sync 
+[root@2209arx ~]# umount /mnt/t1/
+[root@2209arx ~]# echoline1dateend  OS-syys-sdb3
+
+--- T1 /sdb4 :
+root@2209arx ~]# echoline1date  T1FS-sdb4
+[root@2209arx ~]# mountg sdb ;  mountg sdc
+[root@2209arx ~]# mount       /dev/sdb4  /mnt/t1
+[root@2209arx ~]# mount  -o ro /dev/sdc4  /mnt/s1
+[root@2209arx ~]# date;  cp -a /mnt/s1/t1_RF/  /mnt/t1/ ; date  ##--> ca. 20 Min / 17 GB
+Tue 11 Jul 2023 12:11:08 AM CEST
+Tue 11 Jul 2023 12:31:20 AM CEST
+[root@2209arx ~]# df -h /mnt/t1/
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/sdb4        62G   17G   46G  27% /mnt/t1
+[root@2209arx ~]# 3sync
+[root@2209arx ~]# vi /mnt/t1/t1_RF/00-ThisMedia-77FB-B7D0.txt  ##--> put mkfs outputs + cp log there for hist/protocol !
+[root@2209arx ~]# umount /mnt/t1
+[root@2209arx ~]#  echoline1dateend  T1FS-sdb4
+==================== __1END__ 20230711-004413 ============__________
+---> put the whole root-terminal-protocoll in a log file!
+
+==========
+==========
+==========
+
+

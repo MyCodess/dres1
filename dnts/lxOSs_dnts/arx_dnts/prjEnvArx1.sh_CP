@@ -1,0 +1,31 @@
+#!/bin/bash
+
+##--I-handy quickies settings fro prj-cu1 : arx1:
+##========================== Prof2: =============================================
+set -a
+USAGE1="source  ${myname11} ; ... eg prjArx1_terms1 ;"
+myname11="${0##*/}"
+
+################################ prjProf-part: ###################################################
+##========== DIRs-prjArx1_cu1:
+prjArx1_id1=arx1
+prjArx1_dnts_DP="${lxNtsDP}/arx-dnts/"
+prjArx1_nps_DP="$npsOsDP"
+prjArx1_wk_DP="${usersVarWorksDP}/arx-wk1/"
+prjArx1_var_DP="${usersVarAllDP}/arx_var"  ##--for now ok! if more/bigger then extra !?
+prjArx1_dc_DP="/up1/w/docs/LxSy-dc/ArX-dc/"
+##--- sys-uue-Dirs: really belongs to   ./users/env_arx1.sh , but for now ok:
+export  mirrors1DP="${packsOsDP}/mirror1/"
+##---	prev 1903 short usb-install:
+#	/up1/t1/lag/nps-cpd-2tx_RF/190310-nps-cpd-to-tx_RF/ArchLinux-dw-190314/
+#	/up1/varu/varau/wks/arx-wk1/1903s-arx1/
+##---
+
+################################ prjEnv-part: ###################################################
+##========================== ENV2:  =============================================
+alias prjArx1_terms1="gnome-terminal -t  ${prjArx1_id1}  --tab --working-directory=${uueBinDP}  --tab  --working-directory=${usersT1DP}  --tab --working-directory=${mirrors1DP}  --tab  --working-directory=${mirrors1DP}  --tab --working-directory=${tosoDP}"  
+alias prjArx1_terms2="gnome-terminal -t  ${prjArx1_id1}  --tab --working-directory=${uueBinDP}  --tab  --working-directory=${prjArx1_dnts_DP}  --tab --working-directory=${lxNtsDP}  --tab  --working-directory=${prjArx1_wk_DP}  --tab --working-directory=${prjArx1_var_DP}"  
+
+set +a
+echo "______________________ 1Done ${myname11} prjEnvArx1.sh _________________ ";
+

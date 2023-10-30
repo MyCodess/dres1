@@ -1,0 +1,119 @@
+______________ pacmans qckys onlines shorties nps ....
+#- see https://wiki.archlinux.org/index.php/Pacman , https://wiki.archlinux.org/index.php/Pacman/Tips_and_tricks , https://wiki.archlinux.org/index.php/Pacman/Rosetta
+##________________________________________  ___________________________
+
+
+#####  ==========  Allg/DEFs/DIFFs/...-nts :
+-!! DIFF /Vocabs:     allPkgs : remote-/Repos-/Syn-Packages, so all pkgs in Repos/online    <-->  insPkgs : localy-/installed-/System-pkgs  : currently installed on the system
+- DEF:  DBs are local core.db , extra.db ... in  /var/lib/pacman/
+
+	_______:  
+- dry/simulation : -p  ;   To inhibit the -S, -U and -R actions, -p can be used !
+- ALlg: ALL-pkg-cmds are just the same as for a single pkg, BUT just with NO-pkg-params ! as pacman -Q  : listing/queryin all installed-pkgs !
+- Disabling signature checking:  vi /etc/pacman.conf  ##--and uncomment the following line under [options]: SigLevel = Never
+
+	_______:  DIRs-defaults/cu:
+-!! pacman -v   :  printout ALL current pacman-DIRs as conf/cache/Root/DB/... !
+##________________________________________  ___________________________
+
+
+#####  ==========  installing/DWs new pkgs: ==========================================##
+
+    - !! globbing / "*pkg*" of pacman-installs:  pacman -Sy  $( pacman -Ss   sphinxcontrib | grep -i -E "^[a-z]" | grep -v -F "[installed]" | sed -e 's/ .*//' ) ; ##--globbing/wildcards is not integrated in pacman-cmds !
+    - !! always first refresh local databases:   pacman  -Sy .... ;  so update/upgrade the system:   -Syu  , and NOT -Su !!
+    - Download-Only a package without installing it: 	  pacman  -Sw  xxx
+    - Install a 'local' package that is not from a remote repository (e.g. the package is from the AUR):    pacman -U /path/to/package/package_name-version.pkg.tar.xz
+    - Install a 'remote' package (not from a repository stated in pacman's configuration files):            pacman -U http://www.example.com/repo/example.pkg.tar.xz
+    -! wildcard/regex installs, eg all video-drivers :   pacman -Syu   $(pacman -Ss -q | grep xf86-video)
+      so To install a list of packages with regex (see this forum thread): # pacman -S $(pacman -Ssq package_regex)   ##--https://wiki.archlinux.org/index.php/pacman#Installing_specific_packages
+    -! re-download-only all-installed-pkgs into the system-cache /var/cache/pacman/pkg :  pacman -Qqn | pacman -Sw -
+    -! installing-pkgs-from-a-file-listingPkgs:  pacman -S --needed  -  < pkglist1.txt
+
+        _______:  
+    - AUR pkgs insalls: tar -xzvf xxx.tgz ;  makepkg  -si ;   ##Installs-AUR-package
+##________________________________________  ___________________________
+
+
+#####  ==========  cache managing/clening/...: ===============================================##
+/var/cache/pacman/pkg
+deleting pac-cache:  man  paccache
+except currently-installed-pkgs, delete the rest of pac-cache (older/obsol/prev/... pkgs):  pacman -Sc bzw.  -Scc #-delete-all/more
+##________________________________________  ___________________________
+
+
+#####  ==========  updates/upgrades for installed-pkgs:=======================================##
+- Lists packages which have an update available.: 	pacman -Qu
+##________________________________________  ___________________________
+
+
+#####  ==========  uninstall /Remove /cleanup pkgs : =======================================##
+- recursive uninstall, including its exclusive dependencies :  pacman  -Rs     /OR more -Rc for cascading (!carefull!!)
+-! cleanup pkgs, Removing unused packages (orphans), recursively removing orphans and their configuration files:   pacman -Qtdq | pacman -Rns -  ##--see https://wiki.archlinux.org/index.php/Pacman/Tips_and_tricks#Removing_unused_packages_(orphans)
+##________________________________________  ___________________________
+
+
+#####  ==========  reverse-files-query /search-files-reverse (from-file-to-pkg)  : =====##
+- which Repo-/remote-package   Owns/provides/includes the file: 	pacman -F  /path/to/file     ## vorher Sync the files database:  pacman -Fy
+- which installed-package      Owns/provides/includes the file: 	pacman -Qo /path/to/file
+##________________________________________  ___________________________
+
+
+#####  ==========  allPkgs-search/query/listings , remote-pkgs/-Repos : ============================================##
+
+	_______:  !! basically all cmds here: with-no-param then is all-pks (the listings also contains if "installed" or not!! ! as:
+-! search in ALL-remote-pkgs  in names + repo + oneLiner-/short-descp for xxx  	  :  	pacman  -Ss  xxx      ##--eg:  pacman -Ss  "web browser"
+-! search in ALL-remote-pkgs  in names + repo + oneLiner-/shorter-descp for xxx only names. good for scripting)  	:  	pacman  -Ss -q  xxx      ##--eg:  pacman -Ss  "web browser"
+- show the full-descp/infos for package xxx : 	pacman -Si xxx
+- show the files-listing of a remote package xxx:  pacman -Fl  xxx
+- for a certain Repository, list ALL-pkgs. So show  Pkg-names of only Repo xxx 	:  	pacman  -Sl  xxx    ##--eg:  pacman -Sl  extra
+
+	_______:  AllPkgs  (so the same cmds above without any params, then for allPkgs):
+- list for ALL-remote-pkgs names + repo + oneLiner-/short-descp :  	pacman -Ss
+- list for ALL-remote-pkgs names + repo + oneLiner-/shorter-descp (only names. good for scripting) :  	pacman -Ss -q
+- list for ALL-remote-pkgs full-descp/infos 	: 	pacman  -Si
+- list for ALL-remote-pkgs full-files-listing 	: 	pacman  -Fl    ##--works?? wird huge! not needed!
+- list for ALL-remote-pkgs only names + repo  	:  	pacman  -Sl
+- List all packages in the package group named group: pacman -Sg group
+- 
+##________________________________________  ___________________________
+
+
+#####  ==========  insPkgs-search/query/listings , local-installed-pkgs/-Repos : =================================##
+--  all-installed-pkgs-listing eg for a newSyssSetup/migration ,see https://wiki.archlinux.org/index.php/Migrate_installation_to_new_hardware :  List of installed packages
+	$ pacman -Qqen > pkglist.txt      ##--native packages form sync-DBs (core+extra+community) explicitly installed
+	$ pacman -Qqem > pkglist_aur.txt  ##--foreign/AUR packages form NON-sync-DBs (so manually from AUR or rpm-files,..., so all-non-syncables!)
+	-! eg:  re-DW/new-DW of all-explicitly-instPkgs from sync-repos (so NOT AUR/ manually-DW /rpm-local-pkgs,...; so only from repos in /etc/pacman.conf !):  pacman -Qqen | pacman -Sw - ##--see https://wiki.archlinux.org/index.php/Migrating_between_architectures
+-!! uue-modified-system-confing-files :
+	listing all uue-modified-system-confing-files in /etc ... :  pacman -Qii | grep  "^MODIFIED"  |  sed 's:MODIFIED\s*::'   ##--/OR  pacman -Qii | grep  "^MODIFIED"  |  sed 's:[^/]*::'
+	backup  all uue-modified-system-confing-files in /etc ... :  tar -czvf  "${sysTgStatsConfigsDP}/$($cudts)_systemModifieds_${sysTg}.tgz"  $(pacman -Qii | grep  "^MODIFIED"  |  sed 's:MODIFIED\s*::') ;
+-! search local-pkgs in name/descp for xxx :  	pacman -Qs [xxx as regex]    ##--in name, description, short description.
+-  list an  installed/local-pkgs (names):	pacman -Q  xxx
+-  list all installed/local-pkgs (names):   	pacman -Q    ##--list ALL-remote-pkgs only-names:   pacman -Sl
+-! list all installed/local-pkgs (names) from certain Repo, eg extra:  	paclist  extra  ##--same as :   pacman -Sl extra | grepi installed  ;
+-! List packages by regex: pacman -Qs regex
+- infos/descp of a local-pkg:  			pacman -Qi xxx
+-! infos/descp of ALL loc-pkg:  		pacman -Qi
+- files-listing of a loc-pkg:   		pacman -Ql xxx
+- files-listing of ALL loc-pkg:   		pacman -Ql
+- List packages that are installed but are not available in any installation source (anymore).	pacman -Qm
+- List packages not required by any other package	pacman -Qt   ##--!!-does NOT mean useless!! means just independent! no-other-pkg reuires them!  also man/gvim/firefox/...  are so! 
+- List packages installed automatically (as dependencies)}}	pacman -Qd   ##--opposite to explicitly :  -Qe
+- List all explicitly installed packages: pacman -Qe 
+- List all foreign packages (typically manually downloaded and installed or packages removed from the repositories): pacman -Qm
+-!! find all modified-config-files (eg to backup them):
+	1kk:  pacman -Qii | grep  "^MODIFIED"
+	arx:  pacman -Qii | awk '/^MODIFIED/ {print $2}'   ##--see  https://wiki.archlinux.org/index.php/Pacman/Tips_and_tricks#Listing_changed_backup_files
+##________________________________________  ___________________________
+
+
+#####  ==========  local packag-files handling : =============================================================##
+- install a local pkg on the PC-filesystem:  pacman -U   pkg1.xz
+- Updates package(s) with local packages and uses the installation sources to resolve dependencies:    pacman -U   pkg1.xz
+- Query a local-/file-package  :  pacman -Qp xxx ; its files-listing:  -Qpl  ; ints infos -Qpi , ...
+- unpack/Extract a package:	tar -Jxvf	xxxx
+##________________________________________  ___________________________
+
+
+#####  ==========  dependencies .... =====================================================================##
+- which packages  are required/needed by this pkg xxx ! so xxx need them :    remote:   pacman -Si  xxx   ##localy:  pacman -Qi   xxx
+- which packages  require/need  this pkg xxx ! so they need xxx          :    remote:   pacman -Sii xxx   ##localy:  pacman -Qii  xxx

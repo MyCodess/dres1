@@ -1,0 +1,41 @@
+__________ NWs-Allg mainly IPv4! for specials IPv6 see extra dnts here! __________________________________
+##________________________________________  ___________________________
+
+
+#####  ==========  DIRs/static-configs of NWs :
+	- RHEL/CentOS/Fedora:  /etc/sysconfig/network-scripts/  ##eg:  vi /etc/sysconfig/network-scripts/ifcfg-eth0
+	- Ubuntu/Debian/Mint:  /etc/network/interfaces
+	- ls /sys/class/net/  :: interface-names! as in:  ip -br link  #bzw. link /OR iw de for wireless , ..
+##________________________________________  ___________________________
+
+
+#####  ==========  Private-Subnets-IPv4 :
+
+	_______:  WiPe , https://en.wikipedia.org/wiki/Private_network :
+RFC1918-name	IP address range	Number of addresses	Largest CIDR block (subnet mask)	Host ID size	Mask bits	Classful description[Note 1]
+24-bit block	10.0.0.0 – 10.255.255.255	16777216	10.0.0.0/8 (255.0.0.0)	24 bits	8 bits	single class A network
+20-bit block	172.16.0.0 – 172.31.255.255	1048576	172.16.0.0/12 (255.240.0.0)	20 bits	12 bits	16 contiguous class B networks
+16-bit block	192.168.0.0 – 192.168.255.255	65536	192.168.0.0/16 (255.255.0.0)	16 bits	16 bits	256 contiguous class C networks
+
+	_______:  private subnets :
+- Private IP addresses in IPv4:  10.0.0.0/8, 172.16.0.0/12, and 192.168.0.0/16 ranges !
+- subnets exp (in class-C)  _1kk , 2chk:
+	255.255.255.0 option is /24  with 255 members.
+	subnet described with a /25 in CIDR 255.255.255.128 with 128 members in je two subnets, so represents half of a /24 in address space.
+	255.255.255.192 is a /26 ,with four subnets je 64 members
+	Finally, 255.255.0.0 is a /16.  (class-B)
+- There are 1,048,576 IP addresses in the 172.16.0.0 private range. There are 16,777,216 in the 10.0.0.0 range and 65,536 in the 192.168.0.0 range. 
+##________________________________________  ___________________________
+
+
+#####  ==========  Classes-/Categories-IPv4:
+
+	_______:  WiPe, https://en.wikipedia.org/wiki/Classful_network  
+Under classful network addressing, the 32-bit IPv4 address space was partitioned into 5 classes (A-E) as shown in the following tables.
+Classes: 
+Class		Leading bits	Size of network number bit field	Size of rest bit field	Number of networks	Addresses per network	Total addresses in class	Start address	End address	Default subnet mask in dot-decimal notation	CIDR notation
+Class A		0		8	24	128 (27)	16,777,216 (224)	2,147,483,648 (231)	0.0.0.0	127.255.255.255[a]	255.0.0.0	/8
+Class B		10		16	16	16,384 (214)	65,536 (216)	1,073,741,824 (230)	128.0.0.0	191.255.255.255	255.255.0.0	/16
+Class C		110		24	8	2,097,152 (221)	256 (28)	536,870,912 (229)	192.0.0.0	223.255.255.255	255.255.255.0	/24
+Class D 	(multicast)	1110	not defined	not defined	not defined	not defined	268,435,456 (228)	224.0.0.0	239.255.255.255	not defined	not defined
+Class E 	(reserved)	1111	not defined	not defined	not defined	not defined	268,435,456 (228)	240.0.0.0	255.255.255.255[b]	not defined	not defined

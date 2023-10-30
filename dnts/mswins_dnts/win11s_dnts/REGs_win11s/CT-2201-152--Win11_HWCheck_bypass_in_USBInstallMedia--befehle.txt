@@ -1,0 +1,35 @@
+############################## c’t  1/2022, S. 152 , Axel Vahldiek, Dauerhaft geöffnet, Hardware­ prüfung aus Windows-11-Setup-Medium entfernen : softlinks: ct.de/yuaa , https://ftp.heise.de/ct/listings/2022/01/befehle.txt , https://www.heise.de/select/ct/2022/1/softlinks/yuaa :
+#####============ nts: see the article for details! here only grob/short :
+##-- Target:  Win11-Installation-Media contains a small WinPE for very first GUIs/Boot in <USB-Media>\Sources\Boot.wim ! you want to edit the REG of  WinPE-on-USB-install-media in H:\Sources\Boot.wim to bypass the HW-check!
+#1- start your local WIn10/win7
+#2- attach your Win11-USB-Installation-Media (eg. created with Rufus OR MCT), here supposed mounted as H:\
+#3- on any local-NTFS-Part of your Win10 create a DIR/mont-point to mount Win11-WinPE-Image (Boot.wim); here supposed F:\Temp\Mount !
+#4- mount usb-WINPE H:\Sources\Boot.wim  to your mount-point F:\Temp\Mount
+#5- load its REG + edit + save it + unmount !
+##---------
+##-- here rename H: and F: to yours !
+##-- H: your USB-Stick-win11-install-media mounted to windows
+##-- F: local-NTFS-Part on your running win10/win7/... which contains a mountpoint for boot.wim on USB ! ein beliebiges locales NTFS-Part, which is mounted to local-win as F: and you generated a mount-point-DIR to mount the Boot.wim, eg. as F:\Temp\Mount !
+##-- Achtung: NOT editing the USB-Win-Installtion BUT its WinPE-start-Windows (contained in  <USB-Media>\Sources\Boot.wim))
+##-- in the small Boot.wim there are two WInPE images. That is why /Index:2 in the folowing mount command! (so taken the second one!))
+##-- ISO erzeugen tun wir jetzt nicht ! USB-Media ist ausreichend! so not needed ADK,... !
+#####===============================================================
+
+Dism  /Mount-Image  /ImageFile:H:\Sources\Boot.wim  /Index:2  /MountDir:F:\Temp\Mount
+
+Reg Load HKLM\Bootwim F:\Temp\Mount\Windows\System32\config\System
+
+Reg Add HKLM\Bootwim\Setup\LabConfig /v BypassTPMCheck /d 1 /f
+Reg Add HKLM\Bootwim\Setup\LabConfig /v BypassRAMCheck /d 1 /f
+Reg Add HKLM\Bootwim\Setup\LabConfig /v BypassSecureBootCheck /d 1 /f
+
+Reg Unload HKLM\Bootwim
+
+Dism /UnMount-Image /MountDir:F:\Temp\Mount /Commit
+
+Dism /Cleanup-MountPoints
+Dism /Cleanup-Wim
+
+#########----# nur für ISO erforderlich, setzt ADK voraus: -----------------
+cd "%ProgramFiles(x86)%\Windows Kits\10\Assessment and Deployment Kit\Deployment Tools\amd64\oscdimg"
+Oscdimg -m -o -u2 -udfver102 -bootdata:2#p0,e,bH:\boot\etfsboot.com#pEF,e,bH:\efi\microsoft\boot\efisys.bin H: F:\Temp\Windows11.iso

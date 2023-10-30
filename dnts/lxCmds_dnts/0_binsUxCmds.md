@@ -1,0 +1,203 @@
+__________ ux-cmds-allg for all cmds if not extra nts __________
+##________________________________________  ___________________________
+
+
+#####  ==========  search in compressed files (find/grep in gzip/zip/tgz/.... files):
+	--- grep in compressed files (file.contents):
+	- grepmail - search (compressed)-unix-mailboxes for mail matching a regular expression
+	- zipgrep - search files in a ZIP archive for lines matching a pattern (is a shell script of egrep+unzip) 
+	- zmore / zless : viewing/paging compressed files ; so zless xxx.tgz | grep yyy
+	- zgrep / zegrep / zfgrep : grep-versions for compressed files
+	- recursively extract/unzip all the zip files and the zips contained within them: while [ "`find . -type f -name '*.zip' | wc -l`" -gt 0 ]; do find -type f -name "*.zip" -exec unzip -- '{}' \; -exec rm -- '{}' \;; done
+	--- find in compressed files (file.names):
+	- klar simplest way: eg tar -tvf xxx.tgz | grep -i yyy ;  #/OR with zipinfo
+##________________________________________  ___________________________
+
+
+#####  ==========  greps:
+	-! all VARs-setting in a string:   grepi -E "^[^ ]*="  ./sc1.sh
+##________________________________________  ___________________________
+
+
+#####  ==========  search in web:
+	- grep in web:  lynx -dump http://example.com/ | grep 'xxx\|yyy'
+##________________________________________  ___________________________
+
+
+#####  ==========  text-modifications (replacing,...; also see extra sed/awk stuff; here mainly text-adaptions by unix-cmds):
+	- duplicated-lines in a file (the repeated line is printed n time):
+		while read ll1 ; do cc1=$(grep -c "$ll1" ./links.txt); (( $cc1 > 1)) && echo "$cc1  $ll1" ; done < ./links.txt
+##________________________________________  ___________________________
+
+
+#####  ==========  mail:
+	- sending:
+		- mail -t "test1"  aa1@bb.de .... ctrl-D  /OR with <<EEE
+##________________________________________  ___________________________
+
+
+#####  ==========  xwin:
+	- xhost +  : opening diplay for all!
+##________________________________________  ___________________________
+
+
+#####  ==========  allg.cmds/misc:
+	- cat: cat > newFile  :Since cat without an argument reads from the standard input, this will just wait for the user to type a message and end it with the end-of-text character CTRL-D.
+	- deleting filenames with strange names: ls -il (see the inode) ,and then:  find . -inum <inode-of-file> -exec rm {} \;
+	- echo: foe new lines (\n) in echo use -e eg: echo -e "aa \n bb\n cc" ; -e: recognizw escape sequences; if using echo without " then \\n :
+		- must use a double backslash if you don't surround the string that contains them with quotes; otherwise, the shell itself "steals" a backslash before passing the arguments to echo. (bash-book-7.2.1)
+	- ftp tools: wget, gftp,
+
+	_______:  date:
+	date --set='2010-06-20 16:20:25'
+
+	_______:  signals/kill/...:
+	-! Signals-Descp:    man -s 7 signal (suse-111)
+	-! signals-listing:  kill -l
+	- docs: UPT-3ed: 35.17 ;
+	- MANs:  man -s 7 signal /OR man -s 3HEAD signal (Solaris); man trap , man exit
+	- killing all my processes. kill -KILL -1  (process ID -1 in many systems stands for all processes with your user ID)
+	- http://www.cybermagician.co.uk/technet/unixsignals.htm
+    - man trap, exit,...
+	- Signal-Nr   Signal-Name     Explanation
+		0   EXIT         exit command
+		1   HUP      When session disconnected
+		2   INT      Interrupt — often CTRL-c
+		3   QUIT         Quit — often CTRL-\
+		9   KILL         Kill, often used as a way to stop an errant program (it cannot be caught, so don't bother to trap it)
+		15  TERM         From kill command
+	- in root.sh: trap '...' 0 1 2 3 15
+
+	_______:  info pages browsing (mainly emacs shortcuts; help with h , help-index with ?):
+	-! vocabulary: by browsing differentiate between node,menu,screen,sequence-level:
+	- last/next-page in the sequence: ]/[ or del/space ; last/next-node-(level): p/n ; last-screen-seen: l ; for a linear browsing use ]/[ ; lasti(upper)-menu-point: u
+	- page-forwards/backwards: space/del or backspace ; beginning/end-of-current-node: b/e ; redisplay: ctl+l; closing-window: ctl+x 0,
+	- menus/cross-references: * at start of the line.; last(upper)-menu-point: u ; go-to-menu-points in the current page: TAB (goto-previous-menupoint: ESC-tab) or f+menuName(caseINsens.)/TAB-compl.  or f+tab for a menu-list ; go-to-menu-point-cmdLine: m (m+space show-items; completetion-in-cmdLine: tab; cancel: ctl+g); goback-to-last-page(not last menu level): l ; goback-to-last-menu-level: u ;
+	- cancel: ctl+g ,
+
+	_______:  wget (!!man-page is NOT complete manual !! see info wget , eg -e robots=off , also esp. for -e options and .wgetrc,...):
+	- ignore robots.txt : wget -e robots=off [--wait 1 ?if.needed?.KK] http://your.site.here/ ---> see faq-doc http://addictivecode.org/FrequentlyAskedQuestions
+	- site-recursive-dw for local-offline-browsing:
+		- wget --output-file=0dw.log --restrict-file-names=windows,nocontrol --no-directories  --html-extension --recursive --level=3 --convert-links --page-requisites --no-parent --relative  --user-agent="Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.7.3) Gecko/20040922" http://....
+		-  --user-agent="Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.7.3) Gecko/20040922"  /OR win:  --user-agent="Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.6a) , true"
+		- wget -r -k -p "$1"
+	- ftp-dw files with wget eg: wget -g on -c "ftp://xxx.yyy/*fonts*.rpm"
+
+	_______:  chmod:
+	- setgid/unsetgid: chmod g+s/g-s (or with digit 2xxx, eg chmod 2775 dir1 ; for both gid and uid: 6xxx)
+	- setuid/unsetuid: chmod u+s/u-s (or with digit 4xxx, eg chmod 4775 dir1 ; for both gid and uid: 6xxx)
+
+	_______:  ?? ctags
+	- last try: ctags --extra=+q --excmd=number --fields=+i  -R -f ./j2se_142_02_f.ctags  $JAVA_HOME/src
+	- (use  --excmd=number for not-changable libs as jdk or j2ee-libs; but not for the current project):
+	-   --extra=+q --excmd=number
+##________________________________________  ___________________________
+
+
+#####  ==========  XMLs:
+
+	_______:  parsers/validator and more:
+	- xmllint (also validator; package libxml2): xmllint -nonet --valid  --noblanks --format  ejb-jar.xml  (--noout ----dtdvalid  or --help)
+	- XMLStarlet package: xml val ...
+	- well-fromed: xmlwf,
+
+	_______:  cmd-XML:
+	--- XMLStarlet:
+		-  xml <command> --help
+	- do:  xml<TAB>
+
+	_______:  formatters:
+	- xmllint --format ...
+	- xml fo ...
+
+	_______:  configs/settings:
+	-- xmlcatalog:
+		- adding new entry as URI-mapping/proxy/redirecting and creating a new catalog file /devel/etc/xml/xmlcatalog:
+			xmlcatalog --noout --create --add  rewriteSystem "http://java.sun.com/dtd/"  /devel/etc/xml/dtds/sun/ /devel/etc/xml/xmlcatalog
+		- just ading new URI-mapping entry: xmlcatalog --noout --add rewriteSystem "http://www.bea.com/servers/wls810/dtd/"  /devel/etc/xml/dtds/wls81/ /devel/etc/xml/xmlcatalog
+		- or adding entries just by editing catalog file like:
+			<rewriteSystem systemIdStartString="http://java.sun.com/dtd/" rewritePrefix="/devel/etc/xml/dtds/sun/"/>
+			<rewriteSystem systemIdStartString="http://www.bea.com/servers/wls810/dtd/" rewritePrefix="/devel/etc/xml/dtds/wls81/"/>
+		- and then exporting XML_CATALOG_FILES="/devel/etc/xml/xmlcatalog /etc/xml/catalog" ; export XML_CATALOG_FILES
+		- default config file: /etc/xml/catalog
+		- man xmlcatalog (in xml-common package)
+
+	_______:  links/tools:
+	-- from xmlwf:
+		      http://www.hcrc.ed.ac.uk/~richard/xml-check.html
+       http://www.stg.brown.edu/service/xmlvalid/
+       http://www.scripting.com/frontier5/xml/code/xmlValidator.html
+       http://www.xml.com/pub/a/tools/ruwf/check.html
+		SEE ALSO
+       The Expat home page:        http://www.libexpat.org/
+       The W3 XML specification:   http://www.w3.org/TR/REC-xml
+##________________________________________  ___________________________
+
+
+#####  ==========  terminals, xterm, ...:
+	- man terminfo, tput, term,
+	- tput :initialize a terminal or query terminfo database; eg. tput init :initializes term values;  tput longname :printout term longname
+##________________________________________  ___________________________
+
+
+#####  ==========  regular expression:
+	- posix-list of [:...:] in: man tr
+##________________________________________  ___________________________
+
+
+#####  ==========  charcodes, ascii, unicode, hex,,...:
+- showkey -a	:show entered char in decimal/ascii/hexacode
+
+	_______:  hex-edit/convert
+	- xxd (in vim-package): creates a hex dump of a given file or standard input. eg: echo aaaa | xxd
+	- hexdump : transforming the input-data/file according to the format strings specified by the -e and -f options ; eg: echo aaa | hexdump 
+	- hexedit
+##________________________________________  ___________________________
+
+
+#####  ==========  text formatters/ string/text replacing, manipulating in files:
+- uniq : delete/filter adjacent uniq lines; delete duplicated adjacent lines in input file
+	:ONLY adjacent!! otherwise use in vim:  :sort -u  /OR:  sort file | uniq -d
+- fmt
+- in the current dir, in all *.html file replce xxx with yyy:
+	for i in *.html; do sed -e 's@xxx@yyy/@g' $i > _tmp ; mv _tmp $i ;done
+##________________________________________  ___________________________
+
+
+#####  ==========  processes, ps, ...:
+- for each proccess: ll /proc/<PID>/exe links to the command (usu.)
+- lsof : ls all open files by user/process/service/... ; see man-examples
+	-lsof i :631 :who owns the process listening on port 631
+	-lsof -u u1 : list all open files by u1
+	-lsof -p  456,789 : list all open files by proccesses with PID 456 or 789
+- fuser -n ... - identify processes using files/sockets/ports/tcp/...., eg.:
+	- identify the tcp process listening on port 631: fuser -vn tcp 631 ; -n: Select a different name space (so not files) as: tcp/udfp/
+ 	- fuser -km /home : kills all processes accessing the file system /home in any way.
+	- if fuser -s /dev/ttyS1; then :; else something; fi invokes something if no other process is using /dev/ttyS1.
+	- fuser -v 631/tcp /OR: -v ipp/tcp : shows all processes at the (local) TELNET port.
+- ps -f : show process-tree
+##________________________________________  ___________________________
+
+
+#####  ==========  permissions:
+- finding all files with SUID or GUID set: find / -type f \( -perm -04000 -o -perm -02000 \)
+##________________________________________  ___________________________
+
+
+#####  ==========  Dos2Unix text conversion variants (CR-LF <--> LF)
+
+	_______:  codes/numbers:
+	- <CR> carrage-return: ^M  13 0015 0x0D  (dec/oct/hex)
+	- <LF> linefeed:           10 0012 0x0A
+- EOL pc <--> ux:
+	- octal:    pc-eol: \012\015$    <-->  ux-eol: \012$
+	- decimal:  pc-eol: \10\13$      <-->  ux-eol: \10$
+	- hex.:     pc-eol: \0x0A\0x0D$  <-->  ux-eol: \0x0A$
+	- so:
+		- in Ux: only LF = ascii 10 = octal \012 = hex \x0A  ;
+		- in Win: CR-LF = ascit 10+13 = octal \012\015 = hex  \x0A\x0D
+- converting (in gnu tr/sed/.. versions instead of hex/oct you can? use \r==<CR> , \n==<LF> but obviously only in awk??):
+	- cmdLine:  dos2unix or dos2ux command
+	- tr -d '\015' < pc.file  > ux.file ; eg. for all files in DIR: for i in *; do tr -d  '\015' < "$i" > _tmpFile ; mv _tmpFile "$i"; done  (see upt-1.8)
+	- VI:  :%s/^M$//g     whereas for "^M"  do "Ctrl-V + Ctrl-M"
+	- sed: sed 's/\x0D$//' dosFIle > uxFile /OR: sed 's/^M$//'   dosFIle > uxFile  (^M == Ctrl-V Enter /OR Ctrl-V Ctrl-M ) ; for more varioations with sed see sed-pement/dos

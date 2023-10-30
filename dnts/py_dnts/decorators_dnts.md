@@ -1,0 +1,56 @@
+decorators_py
+====================================================
+
+
+#####  ==========  docs/URLs/see :
+
+    - see dres1kk !
+    - ! _RF:  https://realpython.com/primer-on-python-decorators/
+    - python-course.eu/advanced-python/decorators-decoration.php.html :
+    - RefDocsRef--8.7. Function definitions :
+    - eg see:   https://realpython.com/primer-on-python-decorators/#a-few-real-world-examples
+##________________________________________  ___________________________
+
+
+#####  ==========  DEFs /nts :
+
+    - eg:  def   deco1(func1): ....inner-func/wrapper1() ... return wrapper1  :
+    - what is a decorator/deco1?:  is just a regular Python function (a callable-object), which takes as input-parameter a function/func1 ! as:  def deco1(func1): ... ! decorators wrap a function (parameter func1), modifying its behavior withOUT modifying ý the func1 itself!
+    - why a decorator?:    a decorator as deco1(func1) adds additional features to the final/target-func (func1) withOUT modifying/touching the final-func1 ! deco1 ONLY wrapps the func1 and does something before/after its call ! see dres-exp ! 
+    - usu. the decorator has also an inner-func (wrapper-func), which wrapps the final-to-be-decorated-func !
+    - the return value of the decorator itself is usu. a pointer to the inner-wrapper1-func ! a pointer, so withOUT "()" ! so as: return wrapper1 ##--NOT wrapper1() !!
+    - th "@"-syntax is just a sytactic-sugar for the above usage, which can be also done manually without @-syntax (see dreskk) !
+##________________________________________  ___________________________
+
+
+#####  ==========  tpl1 for decorators :
+
+    - https://realpython.com/primer-on-python-decorators/#a-few-real-world-examples :
+    def decorator(func):
+        def wrapper_decorator(*args, **kwargs):
+            # Do something before
+            value = func(*args, **kwargs)
+            # Do something after
+            return value
+        return wrapper_decorator
+##________________________________________  ___________________________
+
+
+#####  ==========  Multiple decorators applied to one target-func:
+
+    RefDocsRef--8.7. Function definitions :
+    Multiple decorators are applied in nested fashion. For example, the following code
+    @f1(arg)
+    @f2
+    def func(): pass
+    is roughly equivalent to
+    def func(): pass
+    func = f1(arg)(f2(func))
+    except that the original function is not temporarily bound to the name func.
+##________________________________________  ___________________________
+
+
+############################  1coll/... :  #######################################################
+#####  ==========  
+##________________________________________  ___________________________
+

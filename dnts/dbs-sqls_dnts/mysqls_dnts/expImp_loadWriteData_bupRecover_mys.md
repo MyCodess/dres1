@@ -1,0 +1,186 @@
+________________ export/import, Load data into DB, write data into file, read/write csv-/text-files, backup/recovery .... mysql  _______________
+##________________________________________  ___________________________
+
+
+#####  ==========  output-piping/saving/paging/ to file,....
+	1- shell-piping:   shell> mysql db_name < script.sql > output.tab  ##see man mysql
+		OR 1.b-  mysql -e "SELECT ..." > file_name to generate the file on the client host.
+	2- tee-option in mysql: --tee=out.log  cmdline-option bzw.  mysql>tee out.log (disableing in mysql with "notee" bzw. "\t" after statement):   mysql  --tee=tables1.log ...
+	  or just \T as in mysql> \Tout1.log #and then notee if needed ... #and then notee if needed ...
+	3- pager-mysql:  mysql> pager cat > /tmp/log.txt  /OR  mysql> pager less -n -i -S  (disabling just with "pager")#- see ref--4.5.1.2 ... mysql — The MySQL Command-Line Tool
+	4- SELECT ... INTO OUTFILE / DUMPFILE 'file_name' :  To write data from a table to a file!  ref--CH.13.2.9.1. SELECT ... INTO Syntax
+		quickly dump a table to a text file on the SERVER-machine (locally or mounted! due to path!)
+		if remotely / client maschine, then use method.1 , as : mysql -e "SELECT ..." > file_name 
+	5-!!  TAB.seperated.dumps with mysqldump: see below nts!
+##________________________________________  ___________________________
+
+
+#####  ==========  input/readin data from files, cmdline-sqls...: (slso see section "LOAD DATA" for non-sql-input-files!)
+	-! see
+		- man mysql  bzw. mysql --help
+		- ref--ch.3.3.3
+		- ref--ch.3.5. Using mysql in Batch Mode
+		- ref--ch.4.5.1.5. Executing SQL Statements from a Text File
+		- man mysql --> EXECUTING SQL STATEMENTS FROM A TEXT FILE
+	- batch-mode/-B is for mysql.client reading from sql-files3.5. Using mysql in Batch Mode	
+	--- sql.input.files (not only data as csv-files!):
+		- shell-piping:   shell> mysql db_name < script.sql > output.tab  ##see man mysql
+		- source:   mysql>  source  <filepath>   ##bzw.  mysql> \. file_name
+		- cmd-param for exec:  shell>  mysql ... -e "SELECT VERSION(), CURRENT_DATE, now(), user();"
+		- mysqlimport : a command-line interface to the LOAD DATA INFILE SQL statement.  ##see 4.5.5. mysqlimport — A Data Import Program
+	--- data-in-text-input-files / LOAD DATA (no sqls, just eg csv-data,...) : --> see here nts-section for load data
+##________________________________________  ___________________________
+
+
+#####  ==========  load data into (also almost same rules for:  SELECT ... INTO OUTFILE):        
+	--- see
+		- ref--13.2.6. LOAD DATA INFILE Syntax
+		-! mysql> help load data
+		- also here nts for mysqlimport (which is an interface to LOAD DATA INFILE)!!
+		- see mysql.ref--CH.3.3.3. Loading Data into a Table , and ref--CH.13.2.6. LOAD DATA INFILE Syntax :
+	-! privs: user need FILE granted to use select outfile!!: root >  GRANT FILE ON *.* TO 'rdb'@'%';
+	--- descp/syntax:
+		- LOAD DATA INFILE statement reads rows from a text file into a table at a very high speed
+		- To load the text file pet.txt into the pet table, use this statement:
+		mysql> LOAD DATA LOCAL INFILE '/path/pet.txt' INTO TABLE pet;
+		for windows (for windows.files add: LINES TERMINATED BY '\r\n'; ):
+		mysql> LOAD DATA LOCAL INFILE '/path/pet.txt' INTO TABLE pet LINES TERMINATED BY '\r\n';
+	--- usu. steps eg:
+		SET  foreign_key_checks = 0;
+		LOAD DATA INFILE 'persondata.txt' REPLACE  INTO TABLE persondata FIELDS TERMINATED BY '\t'  ENCLOSED BY '"' LINES STARTING BY "-- " IGNORE 2 LINES (col1,col2,...) SET column3 = CURRENT_TIMESTAMP ;
+		SET  foreign_key_checks = 1;
+    --- defaults:
+		If you specify no FIELDS or LINES clause, the defaults are the same as if you had written this:
+		FIELDS TERMINATED BY '\t' ENCLOSED BY '' ESCAPED BY '\\' LINES TERMINATED BY '\n' STARTING BY ''
+		-- so in clear text for defaults:
+		Look for line boundaries at newlines.
+		Do not skip over any line prefix.
+		Break lines into fields at tabs.
+		Do not expect fields to be enclosed within any quoting characters.
+		Interpret characters preceded by the escape character “\” as escape sequences. For example, “\t”, “\n”, and “\\” signify tab, newline, and backslash, respectively.
+    --- more usefull flags:
+		LINES STARTING BY 'xxx' : skip over the prefix and anything before it (delete it), . also insert ONLY lines containing by xxx ! and ignore lines NOT containing xxx !
+		- charset:  show variables like '%char%'; load data ....  CHARACTER SET 'utf8' ...
+##________________________________________  ___________________________
+
+
+#####  ==========  TAB-seperated exp/imp of a databse (esp. fast for big DBs):
+	---! see:
+		-  ref--2.11.5. Copying MySQL Databases to Another Machine :
+		-! ref--6.4.3. Dumping Data in Delimited-Text Format with mysqldump
+	- export from local server to TAB-files:
+		mkdir DUMPDIR ;  chmod 777 DUMPDIR ;  mysqldump --tab=DUMPDIR db_name
+		see man mysqldump :
+		Produce tab-separated text-format data files. For each dumped table, mysqldump creates a tbl_name.sql file that contains the CREATE TABLE statement that creates the table, and the server writes a tbl_name.txt file that contains its data. The option value is the directory in which to write the files.
+	- import into remote server:
+		cp/transfer the files in the DUMPDIR directory to some corresponding directory on the target machine.
+		on target machine:
+		mysqladmin create db_name
+		cat DUMPDIR/*.sql | mysql db_name
+		mysqlimport db_name DUMPDIR/*.txt
+##________________________________________  ___________________________
+
+
+#####  ==========  export / mysqldump 
+	--- see:
+		-  ref--4.5.4 : mysqldump : A Database Backup Program +  Section 6.4.4, “Reloading Delimited-Text Format Backups”.
+		-! ref--6.4. Using mysqldump for Backups
+		- mysqldump  --help
+	--- output-types of mysqldump:    see 6.4. Using mysqldump for Backups :
+		-!! mysqldump produces two types of output, depending on whether the --tab option is given:
+		1- Without --tab, mysqldump writes SQL statements to the standard output. This output consists of CREATE statements to create dumped objects (databases, tables, stored routines, and so forth), and INSERT statements to load data into tables. The output can be saved in a file and reloaded later using mysql to recreate the dumped objects. Options are available to modify the format of the SQL statements, and to control which objects are dumped.
+		2- With --tab, mysqldump produces two output files for each dumped table. The server writes one file as tab-delimited text, one line per table row. This file is named tbl_name.txt in the output directory. The server also sends a CREATE TABLE statement for the table to mysqldump, which writes it as a file named tbl_name.sql in the output directory.
+	--- db-dump (whole schema/DB), eg:
+		- mysqldump -v -h ${MYSQL_HOST} -P ${MYSQL_PORT} -u ${MYSQL_USER} -p${MYSQL_PW}  -B ${DBNAME} > ${DBNAME}.dump.sql
+		- mysqldump --all-databases > dump.sql
+		- mysqldump --databases db1 db2 db3 > dump.sql
+		-! The --databases option causes all names on the command line to be treated as database names. Without this option, mysql- dump treats the first name as a database name and those following as table names.
+		-! With --all-databases or --databases, mysqldump writes CREATE DATABASE and USE statements prior to the dumpoutput for each database. 
+		-  --add-drop-database if wanted to drop the DB before importing.
+	--- db-copy.2-to-same-server (eg for testing,....):
+		-! see ref--6.4.5.1. Making a Copy of a Database :
+		shell> mysqldump db1 > dump.sql
+		shell> mysqladmin create db2
+		shell> mysql db2 < dump.sql
+		-!! Do not use --databases on the mysqldump command line because that causes USE db1 to be included in the dump file, which overrides the effect of naming db2 on the mysql command line.
+	--- db-copy-to-another-server:
+		-!see 6.4.5.2. Copy a Database from one Server to Another :
+		On Server 1:   shell> mysqldump --databases db1 > dump.sql
+		Copy the dump file from Server 1 to Server 2.
+		On Server 2:  shell> mysql < dump.sql
+		-! Use of --databases with the mysqldump command line causes the dump file to include CREATE DATABASE and USE statements
+	--- table-dump:
+		-see ref--6.4.5.4. Dumping Table Definitions and Content Separately
+		- mysqldump test t1 t3 t7 > dump.sql
+		- ONLY table-data:         mysqldump --no-create-info test > dump-data.sql
+		- ONLY table-definition:   mysqldump --no-data test > dump-defs.sql
+	- TAB-/tsv-export-files:  see extra section here!
+	-! config/options.file:  [mysqldump] and [client] groups of an option file, eg ~/.my.cnf
+	-! current options-values?? :  mysqldump  --help
+	---!! usefull params/options (except --opt which is a group of useful params and is default):  see Table 4.5. mysqldump Options :
+		-!! params-order IS important! the LAST param is most in effect!! so options are processed first to last.
+		-! use/see --opt (is default) for a collection of best params!! 
+		--opt (is default): Shorthand for --add-drop-table --add-locks --create-options --disable-keys --extended- insert --lock-tables --quick --set-charset.
+		--compact (good short lesbar!): enables the --skip-add-drop-table -- skip-add-locks --skip-comments  --skip-disable-keys -- skip-set-charset options.
+		--complete-insert , -c  : include column names by insert-statement
+		--dump-date  (with --comments , then timestamp will be added to the dump)
+		--replace  : Write REPLACE statements rather than INSERT statements.
+		--result-file=file_name , -r  : instead piping
+		-  -v : verbose
+		-! ONLY structure (create db / table ! no data! NO insert stmts!):  -d, --no-data 
+		-! ONLY data (no create db/table...! ONLY insert-stmts...): --no-create-db , -n  bzw.  --no-create-info , -t
+		-! locking!:  --single-transaction option and the --lock-tables [297] option are mutually exclusive because LOCK TABLES causes any pending transactions to be committed implicitly.
+		- XML-output:  --xml , -X  :Write dump output as well-formed XML.
+		-! TAB.seperated-output files /.tsv: --tab=path , -T path : Produce tab-separated text-format data files. For each dumped table, mysqldump creates a tbl_name.sql file
+		   that contains the CREATE TABLE statement that creates the table, and the server writes a tbl_name.txt file that contains its data.
+		   ! The option value is the directory in which to write the files.
+		   ! should be used only when mysqldump is run on the same machine as the mysqld server.
+	---! exp / use-cases /common use of mysqldump: see [304]:
+		shell> mysqldump db_name > backup-file.sql
+		You can load the dump file back into the server like this:
+		shell> mysql db_name < backup-file.sql
+		Or like this:
+		shell> mysql -e "source /path-to-backup/backup-file.sql" db_name
+		mysqldump is also very useful for populating databases by copying data from one MySQL server to another:
+		shell> mysqldump --opt db_name | mysql --host=remote_host -C db_name
+		It is possible to dump several databases with one command:
+		shell> mysqldump --databases db_name1 [db_name2 ...] > my_databases.sql
+		To dump all databases, use the --all-databases [294] option:
+		shell> mysqldump --all-databases > all_databases.sql
+		For InnoDB tables, mysqldump provides a way of making an online backup:
+		shell> mysqldump --all-databases --single-transaction > all_databases.sql
+##________________________________________  ___________________________
+
+
+#####  ==========  import / mysqlimport
+	— A Data Import Program  : see 4.5.5. : basically an interface to "load data infile"
+	- mysqlimport  --help
+	- mysqlimport provides a command-line interface to the LOAD DATA INFILE SQL statement!
+	- readin/import the dump file:   shell> mysql < dumpfile
+	-! config/options.file:  [mysqlimport] and [client] groups of an option file, eg ~/.my.cnf
+	--- readin the dump file from mysqldump:
+		- see  ref--6.4.2. Reloading SQL-Format Backups , alternatives:
+		1- shell> mysql  <  dumpfile
+		2- mysql> source dump.sql
+		3- shell> mysqladmin create db1 ;  shell> mysql db1 < dump.sql
+	---! usefull params: 
+		-! --delete [307] delete [307] Empty the table before importing the text file
+		-! --columns=column_list [307], -c column_list This option takes a comma-separated list of column names as its value. The order of the column names indicates how to match data file columns with table columns.
+		-! --fields-terminated-by=... [307], --fields-enclosed-by=... [307]
+		--lock-tables [297], -l
+		--replace : new rows replace existing rows that have the same unique key value.
+--########################################### backup/recovery: #########################################
+##________________________________________  ___________________________
+
+
+#####  ==========  see
+	-! ref--Chapter 6. Backup and Recovery
+	-! mysqldump, mysqlhotcopy, and other MySQL backup programs can be found in Chapter 4, MySQL Programs.
+##________________________________________  ___________________________
+
+
+#####  ==========  types of backups:
+	- physical (cp, tar...)  <-->  logical  (mysqldump,...)
+	- online  <-->  offline
+	- local   <-->  remote
+	- full    <-->  incremental

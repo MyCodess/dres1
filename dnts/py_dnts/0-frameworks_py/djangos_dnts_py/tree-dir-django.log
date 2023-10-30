@@ -1,0 +1,184 @@
+
+##- basically pkgs+modulesi+static-stuff(img/fonts/htmls/locale/...) of django (DIRs-structure):
+cd  /home/u1/.local/lib/python3.10/site-packages/django &&  tree -d  -I "*locale*|*__pycache__*"  > tree-dir-django.log
+========== /_230116 :  
+.
+├── apps
+├── conf
+│   ├── app_template
+│   │   └── migrations
+│   ├── project_template
+│   │   └── project_name
+│   └── urls
+├── contrib
+│   ├── admin
+│   │   ├── migrations
+│   │   ├── static
+│   │   │   └── admin
+│   │   │       ├── css
+│   │   │       │   └── vendor
+│   │   │       │       └── select2
+│   │   │       ├── fonts
+│   │   │       ├── img
+│   │   │       │   └── gis
+│   │   │       └── js
+│   │   │           ├── admin
+│   │   │           └── vendor
+│   │   │               ├── jquery
+│   │   │               ├── select2
+│   │   │               │   └── i18n
+│   │   │               └── xregexp
+│   │   ├── templates
+│   │   │   ├── admin
+│   │   │   │   ├── auth
+│   │   │   │   │   └── user
+│   │   │   │   ├── edit_inline
+│   │   │   │   ├── includes
+│   │   │   │   └── widgets
+│   │   │   └── registration
+│   │   ├── templatetags
+│   │   └── views
+│   ├── admindocs
+│   │   └── templates
+│   │       └── admin_doc
+│   ├── auth
+│   │   ├── handlers
+│   │   ├── management
+│   │   │   └── commands
+│   │   ├── migrations
+│   │   └── templates
+│   │       ├── auth
+│   │       │   └── widgets
+│   │       └── registration
+│   ├── contenttypes
+│   │   ├── management
+│   │   │   └── commands
+│   │   └── migrations
+│   ├── flatpages
+│   │   ├── migrations
+│   │   └── templatetags
+│   ├── gis
+│   │   ├── admin
+│   │   ├── db
+│   │   │   ├── backends
+│   │   │   │   ├── base
+│   │   │   │   ├── mysql
+│   │   │   │   ├── oracle
+│   │   │   │   ├── postgis
+│   │   │   │   └── spatialite
+│   │   │   └── models
+│   │   │       └── sql
+│   │   ├── forms
+│   │   ├── gdal
+│   │   │   ├── prototypes
+│   │   │   └── raster
+│   │   ├── geoip2
+│   │   ├── geos
+│   │   │   └── prototypes
+│   │   ├── management
+│   │   │   └── commands
+│   │   ├── serializers
+│   │   ├── sitemaps
+│   │   ├── static
+│   │   │   └── gis
+│   │   │       ├── css
+│   │   │       ├── img
+│   │   │       └── js
+│   │   ├── templates
+│   │   │   └── gis
+│   │   │       ├── admin
+│   │   │       └── kml
+│   │   └── utils
+│   ├── humanize
+│   │   └── templatetags
+│   ├── messages
+│   │   └── storage
+│   ├── postgres
+│   │   ├── aggregates
+│   │   ├── fields
+│   │   ├── forms
+│   │   ├── jinja2
+│   │   │   └── postgres
+│   │   │       └── widgets
+│   │   └── templates
+│   │       └── postgres
+│   │           └── widgets
+│   ├── redirects
+│   │   └── migrations
+│   ├── sessions
+│   │   ├── backends
+│   │   ├── management
+│   │   │   └── commands
+│   │   └── migrations
+│   ├── sitemaps
+│   │   ├── management
+│   │   │   └── commands
+│   │   └── templates
+│   ├── sites
+│   │   └── migrations
+│   ├── staticfiles
+│   │   └── management
+│   │       └── commands
+│   └── syndication
+├── core
+│   ├── cache
+│   │   └── backends
+│   ├── checks
+│   │   ├── compatibility
+│   │   └── security
+│   ├── files
+│   ├── handlers
+│   ├── mail
+│   │   └── backends
+│   ├── management
+│   │   └── commands
+│   ├── serializers
+│   └── servers
+├── db
+│   ├── backends
+│   │   ├── base
+│   │   ├── dummy
+│   │   ├── mysql
+│   │   ├── oracle
+│   │   ├── postgresql
+│   │   └── sqlite3
+│   ├── migrations
+│   │   └── operations
+│   └── models
+│       ├── fields
+│       ├── functions
+│       └── sql
+├── dispatch
+├── forms
+│   ├── jinja2
+│   │   └── django
+│   │       └── forms
+│   │           ├── errors
+│   │           │   ├── dict
+│   │           │   └── list
+│   │           ├── formsets
+│   │           └── widgets
+│   └── templates
+│       └── django
+│           └── forms
+│               ├── errors
+│               │   ├── dict
+│               │   └── list
+│               ├── formsets
+│               └── widgets
+├── http
+├── middleware
+├── template
+│   ├── backends
+│   └── loaders
+├── templatetags
+├── test
+├── urls
+├── utils
+│   └── translation
+└── views
+    ├── decorators
+    ├── generic
+    └── templates
+
+178 directories

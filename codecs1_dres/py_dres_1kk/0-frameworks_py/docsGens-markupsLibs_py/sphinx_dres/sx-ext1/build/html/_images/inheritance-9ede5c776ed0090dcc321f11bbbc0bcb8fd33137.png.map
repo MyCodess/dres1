@@ -1,0 +1,7 @@
+<map id="inheritanceba0410f29f" name="inheritanceba0410f29f">
+<area shape="rect" id="node1" title="Helper class that provides a standard way to create an ABC using" alt="" coords="52,208,127,235"/>
+<area shape="rect" id="node2" title="Metaclass for defining Abstract Base Classes (ABCs)." alt="" coords="38,157,141,184"/>
+<area shape="rect" id="node3" title="A decorator indicating abstract classmethods." alt="" coords="6,107,173,133"/>
+<area shape="rect" id="node4" title="A decorator indicating abstract properties." alt="" coords="19,56,160,83"/>
+<area shape="rect" id="node5" title="A decorator indicating abstract staticmethods." alt="" coords="5,5,174,32"/>
+</map>

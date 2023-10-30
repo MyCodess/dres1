@@ -1,0 +1,189 @@
+__________________ systemD ... _____________________________________________
+##________________________________________  ___________________________
+
+
+#####  ==========  docs/WPs:
+-!!  https://wiki.archlinux.org/index.php/Systemd   ( + https://wiki.archlinux.org/index.php/Category:Init )
+-    https://www.freedesktop.org/wiki/Software/systemd/
+-  man systemd  systemctl /systemd/systemd.service(5) .. ;    
+-  systemctl help  <unit>    ##--eg  systemctl help  bluetooth.service  ##--obv. same as man ...
+-! try .  man systemd<TAB> !!
+- llinpath systemd ;   llinpath ctl ;  pacman -Qs  systemd ;
+##________________________________________  ___________________________
+
+
+#####  ==========  DEFs ... :
+	- DEF:  units:  Units can be, for example, services (.service), mount points (.mount), devices (.device) or sockets (.socket).
+##________________________________________  ___________________________
+
+
+#####  ==========  DIRs-systemd     !!--->  https://wiki.archlinux.org/index.php/Systemd :
+	--- DIRs:
+	/etc/systemd/system/:   your/administrator/apps modified units
+	/usr/lib/systemd/system/  (bzw. without /usr/ ):  unmodified units provided by installed packages
+	- The available unit files and their configs can be seen in /usr/lib/systemd/system/ and /etc/systemd/system/ (the latter takes precedence).
+##________________________________________  ___________________________
+
+
+#####  ==========  show/listings ALL units ... with systemctl-listings (with a <param1> can be used also for each unit):
+	--- All-units-listings:
+	- RUNNING units listing: 	systemctl   #/OR   systemctl  list-units    ##--so cu-LOADED-and-ACTIVE units !       see also its nts at the end !
+	- LOADED  units listing:   	systemctl  --all                            ##--so cu-LOADED (inkl. ACTIVE + INACTIVE) units! see also its nts at the end !
+	- FAILED  units listing:  	systemctl  --failed
+	- INSTALLED/ALL units listing:	systemctl   list-unit-files             ##--show all INSTALLED unit files: cu-loaded + not-loaded,... !
+		The available unit files can be seen in /usr/lib/systemd/system/ and /etc/systemd/system/ (the latter takes precedence).
+	- system/proce-status :  systemctl  status ;
+##________________________________________  ___________________________
+
+
+#####  ==========  query/show/listings/infos  certain  unit ... with systemctl-listings:
+
+	_______:  systemd itself props show:
+	-  systemctl show  ##--show the properties of the systemctl service itself !
+	-  systemctl show  --property=UnitPath    ##--shows the full DIRs-listing, but the main ones are (listed from lowest to highest precedence):
+		it shows:  UnitPath=/etc/systemd/system.control /run/systemd/system.control /run/systemd/transient /etc/systemd/system /run/systemd/system /run/systemd/generator /lib/systemd/system /run/systemd/generator.late
+	- systemctl show  : without params, show all props of systemctl including UnitPath prop!
+
+	_______:  certain service show:
+	-! systemctl show  --all  systemd-journald.service   ##--show all final properties/settings of the service
+	-  systemctl show  systemd-journald.service  --property=SystemMaxUse,Compress,...   ##show only certain properties of ...
+	-! systemd-analyze cat-config systemd/journald.conf  ##display the full config of eg systemd/journald.conf
+
+	_______:  state-based show:
+	systemctl --type=service/mount/timer/path/...
+	systemctl list-units --state failed
+	systemctl list-units --state failed --type timer
+
+	_______:  cat unit files:
+	-! systemctl cat NetworkManager.service    ##--shows-the-unit-service-start-file! so you do not need to find the file location/Path of the service-file !
+	- systemctl  cat  systemd-journald
+	-! systemd-analyze cat-config systemd/journald.conf  ##--shows its current config files and params!
+
+	_______:  dependencies:
+	systemctl  list-dependencies ##--shows a tree for all units!
+	systemctl  list-dependencies systemd-journald.service
+##________________________________________  ___________________________
+
+
+#####  ==========  Units--using/reading:
+	- man   systemd.unit 
+	- systemctl help <unitX>   ##--usu same as man ... ; bzw. the "Docs:..."   entry of systemctl  status   <unit> 
+	- systemctl  help/start/stop/restart/enable/reenable/disable/reload/daemon-reload/mask/unmask/enable --now/cat/edit/....  <unitX>
+	- systemctl cat unitX  : to view the content of a unit file and all associated drop-in snippets
+	- "@"  in unit-names means: it is generated from a template ! e.g. name1@string1.service  means:the unit's actual file name does NOT contain the string1 part (e.g. name1@.service). string1 is called the "instance identifier" and the template-file was invoked with this param as:  name1@.service  <string1> !
+	- A package may offer units for different purposes. If you just installed a package, pacman -Qql package | grep -Fe .service -e .socket can be used to check and find them.
+##________________________________________  ___________________________
+
+
+#####  ==========  Units--Editing/Writing own units:
+	-!! https://wiki.archlinux.org/index.php/Systemd#Writing_unit_files
+	-! man  systemd.unit(5)  ,  systemd.service(5)
+	--- editing/modifying unitX:
+	(not recommended. do better add-config-files by "Drop-in-files", since: replacement units will keep on being used even if Pacman updates the original units in the future. This method makes system maintenance more difficult ... see https://wiki.archlinux.org/index.php/Systemd#Writing_unit_files
+	- To replace/re-define the unit file /usr/lib/systemd/system/unit, create the file /etc/systemd/system/unit and reenable the unit to update the symlinks.
+	- /OR Alternatively, run:  systemctl edit --full unit 
+	--- Drop-in-files for unitX to modify its configs:
+	- to create drop-in files for the unit file /usr/lib/systemd/system/unit, create the directory /etc/systemd/system/unit.d/ and place .conf files there to override or add new options. systemd will parse and apply these files on top of the original unit. see arx-systemd
+	--- Revert to vendor version:
+	- To revert any changes to a unit made using systemctl edit do: # systemctl revert unitX
+##________________________________________  ___________________________
+
+
+#####  ==========  Admins-systemd :
+	- Check if any systemd services have entered in a failed state:     systemctl --failed
+	---- remote-systems:
+	-! ssh-capable/integriert is systemctl command : "systemctl -H user@host.xx  ... " switchs to control a systemd instance on a remote machine. This will use SSH to connect to the remote systemd instance.
+##________________________________________  ___________________________
+
+
+#####  ==========  boots-targets, SysV-init-runlevels: 1/3-5/GUI/... in systemd: "target" :
+	-!! see  https://wiki.archlinux.org/index.php/Systemd#Change_default_target_to_boot_into
+	- listing of targets:   systemctl  list-units  --type=target   ; sysV-init-runlevels are in systemd "target"s !!    
+	- boot-cmds:    systemctl   halt, poweroff, reboot, suspend, hibernate, hybrid-sleep, default, rescue  ##--if other users logged-in, it asks fro root-pw !
+	- man   systemd.target(5)
+	--- Mapping between SysV runlevels and systemd targets    :   https://wiki.archlinux.org/index.php/Systemd#Mapping_between_SysV_runlevels_and_systemd_targets  :
+		SysV Runlevel	systemd Target	Notes
+		0	runlevel0.target, poweroff.target	Halt the system.
+		1, s, single	runlevel1.target, rescue.target	Single user mode.
+		2, 4	runlevel2.target, runlevel4.target, multi-user.target	User-defined/Site-specific runlevels. By default, identical to 3.
+		3	runlevel3.target, multi-user.target	Multi-user, non-graphical. Users can usually login via multiple consoles or via the network.
+		5	runlevel5.target, graphical.target	Multi-user, graphical. Usually has all the services of runlevel 3 plus a graphical login.
+		6	runlevel6.target, reboot.target	Reboot
+		emergency	emergency.target	Emergency shell
+	--- show/listing current default target (boot-runlevel):
+		- show cu-runlevel/target?:    systemctl get-default
+		- The standard target is default.target, which is a symlink to graphical.target. This roughly corresponds to the old runlevel 5.
+			lla /lib/systemd/system/default.target  :   /lib/systemd/system/default.target -> graphical.target
+		- To verify the current target with systemctl:        systemctl get-default
+	--- changing/switching the runlevel manually just for now/once :
+		- only for now, switch to runlevel 3 /OR 5 :   systemctl  isolate  multi-user.target /OR graphical.target  ##--not-for-next-boot! only now!
+	--- change/set the default target to boot into, change the default.target symlink. With systemctl:
+		- systemctl   set-default   multi-user.target
+		Removed /etc/systemd/system/default.target.
+		Created symlink /etc/systemd/system/default.target -> /usr/lib/systemd/system/multi-user.target.
+		- Alternatively, append one of the following kernel parameters to your bootloader:
+		systemd.unit=multi-user.target (which roughly corresponds to the old runlevel 3),
+		systemd.unit=rescue.target (which roughly corresponds to the old runlevel 1).
+	--- Default target order
+		Systemd chooses the default.target according to the following order:
+		Kernel parameter shown above
+		Symlink of /etc/systemd/system/default.target
+		Symlink of /usr/lib/systemd/system/default.target
+	--- Kernel-Param setting for systemd-target to boot higher priority than link /etc/systemd/system/default.target ):
+		in grub.cfg for kernel-params add: ... systemd.unit=multi-user.target ...
+##________________________________________  ___________________________
+
+
+#####  ==========  System-Analyze /Boot-times/... :
+	systemd-analyze
+	systemd-analyze   blame 
+##________________________________________  ___________________________
+
+
+#####  ==========  time-formats/specs in systemd :
+	-!! man systemd.time  (relevant fpr ALL systemd-cmds!)
+	- check a time format wit systemd-analyze , eg: systemd-analyze  timespan  "1M 1day 3 hours 20m" 
+##________________________________________  ___________________________
+
+
+#####  ==========  
+##################### _1coll--systemctl : ###########################################
+##________________________________________  ___________________________
+
+
+#####  ==========  systemd Cheat Sheet /redhat  
+VIEWING systemd INFORMATION
+systemctl list-dependencies    	Show a unit’s dependencies
+systemctl list-sockets        	List sockets and what activates
+systemctl list-jobs           	View active systemd jobs
+systemctl list-unit-files   	See unit files and their states
+systemctl list-units        	Show if units are loaded/active
+systemctl get-default 	   		List default target (like run level)
+WORKING WITH SERVICES
+systemctl stop service	 Stop a running service
+systemctl start service		Start a service
+systemctl restart service Restart a running service
+systemctl reload service Reload all config files in service
+systemctl daemon-reload Must run to reload changed unit files
+systemctl status service See if service is running/enabled
+systemctl --failed Shows services that failed to run
+systemctl reset-failed Resets any units from failed state
+systemctl enable service Enable a service to start on boot
+systemctl disable service Disable service--won’t start at boot
+systemctl show service Show properties of a service (or other unit)
+systemctl edit service Create snippit to drop in unit file
+systemctl edit --full service Edit entire unit file for service
+systemctl -H host status network Run any systemctl command remotely
+CHANGING SYSTEM STATES
+systemctl reboot Reboot the system (reboot.target)
+systemctl poweroff Power off the system (poweroff.target)
+systemctl emergency Put in emergency mode (emergency.target)
+systemctl default Back to default target (multi-user.target)
+VIEWING LOG MESSAGES
+journalctl Show all collected log messages
+journalctl -u network.service See network service messages
+journalctl -f Follow messages as they appear
+journalctl -k Show only kernel messages
+USING UNIT FILES
+Besides services, most systemd commands can work with these unit types: paths,
+slices, snapshots, sockets, swaps, targets, and timers

@@ -1,0 +1,81 @@
+
+##------------ three methods to run coroutines : ---------------------
+#   1- asyncio.run() function to run the top-level entry point 
+#   2- Awaiting on a coroutine.
+#   3- asyncio.create_task() function to run coroutines concurrently as asyncio Tasks.
+##  3.10.4 Documentation » The Python Standard Library » Networking and Interprocess Communication » asyncio — Asynchronous I/O » Coroutines and Tasks :
+## /pydocs-var/0Refs_HTMLs_py/library/asyncio-task.html#asyncio-example-gather  ver 3.10 :
+
+import asyncio
+import time
+
+## return time-as-seconds-with-1/00-fractions :
+def time1(): return round(time.perf_counter(), 2)
+
+print ("===== To actually run a coroutine, asyncio provides three main mechanisms: ===========")
+print ("--- so to run/execute the coro say_after() as eg, you can do in three different ways : ")
+print ("--II- the delay of hello-call is intenionally longer than of world-call to see the concurrency/parallelization, if there !! check the DIFFs !")
+print ("--II- gather() makes all call-methods parallel/concurrent-calls!")
+
+async def say_after(delay, what):
+    print(f"--started-{what}-{delay} at {time1()}")
+    await asyncio.sleep(delay/10)
+    print(f":{what}-{delay}")
+    print(f"--finished-{what}-{delay} at {time1()}")
+
+
+################################### method 1: ###########################################
+print ("\n==========  method-1: directly by asyncio.run()/.gather() to run the top-level entry point say_after() directly : ==========================")
+print("\
+        The asyncio.run() function to run the top-level entry point “main()” function:\n\
+        so to directly run the coroutine say_after() (sync/non-concurrent)  /OR eg with gather() (so, async/concurrent)\n\
+        chk the sequence-DIFF  1.a <--> a.b !")
+
+print("\n----- method-1.a--run():  directly calling the coro by asyncio.run(),so this 2 event-loops are executed sequentially: -----------------")
+asyncio.run(say_after(2, 'hello'))
+asyncio.run(say_after(1, 'world'))
+
+
+print("\n----- method-1.b--gather():  now same with awaiting asyncio.gather() for paralellization: -------------------")
+print ("    - awaiting the coro say_after() make the code-line async and runs the coros-calls concurrent/parallel !")
+async def main1():
+    await  asyncio.gather(say_after(2, 'hello'), say_after(1, 'world'))
+
+asyncio.run(main1())
+
+################################### method 2: ###########################################
+print ("\n==========  method-2--Awaiting on a coroutine : ================================")
+async def main2():
+    print(f"\n----------started-main2-part-1 at {time1()} --------------")
+    ##--I-method.2.a: -----------------------
+    await say_after(2, 'hello')
+    await say_after(1, 'world')
+    print(f"-finished-main2--part1 at {time1()}")
+    ##--I-method.2.b with gather : ------------------------
+    print(f"\n------------started-main2-part-2, with gather() at {time1()} ! chk the DIFF ! ---------------")
+    await asyncio.gather(say_after(2, 'hello'), say_after(1, 'world'))
+    print(f"-finished-main2--part2 at {time1()}")
+
+asyncio.run(main2())
+
+
+################################### method 3: ###########################################
+print ("\n==========  method-3--Task creation : ================================")
+print ("create Task objects out of coroutines and run then them CONCURRENTLY as asyncio.Tasks ! Tasks are used to schedule coroutines CONCURRENTLY (so, in parallel!)")
+print ("-!! you se here 3.a and 3.b do the same; so Tasks are then anyway async/concurrents objects !!")
+print ("- When a coroutine is wrapped into a Task with functions like asyncio.create_task() the coroutine is automatically scheduled to run soon:")
+async def main3():
+    print(f"\n------------started-main3-part-1 at {time1()}--------------")
+    task1=asyncio.create_task(say_after(2, 'hello'))
+    task2=asyncio.create_task(say_after(1, 'world'))
+    await task1
+    await task2
+    print(f"-finished-main3-part-1 at {time1()}")
+
+    ##--I-method.3 with gather : ------------------------
+    print(f"\n------------started-main3-part-2 at {time1()}--------------")
+    await asyncio.gather(say_after(2, 'hello'), say_after(1, 'world'))
+    print(f"-finished-main3-part-2 at {time1()}")
+
+asyncio.run(main3())
+
