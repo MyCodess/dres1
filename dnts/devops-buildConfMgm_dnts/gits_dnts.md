@@ -562,29 +562,6 @@ _______________ git_dnts ___________________________________________________
 ##________________________________________  ___________________________
 
 
-#################  1coll-gits-all : #################################################################################
-#####  ==========  steps-usu (github-docs): https://docs.github.com/en/get-started/using-git/about-git :
-
-    # see also:   git help workflows
-    # download a repository on GitHub to our machine
-    # Replace `owner/repo` with the owner and name of the repository to clone
-    git clone https://github.com/owner/repo.git
-    # change into the `repo` directory
-    cd repo
-    # create a new branch to store any new changes
-    git branch my-branch
-    # switch to that branch (line of development)
-    git checkout my-branch
-    # make changes, for example, edit `file1.md` and `file2.md` using the text editor
-    # stage the changed files
-    git add file1.md file2.md
-    # take a snapshot of the staging area (anything that's been added)
-    git commit -m "my snapshot"
-    # push changes to github
-    git push --set-upstream origin my-branch
-##________________________________________  ___________________________
-
-
 #################  trys git all: ####################################################################################
 #####  ==========  try-GItHub-with-"git"-cmds-/:230321  :
 
@@ -670,4 +647,44 @@ _______________ git_dnts ___________________________________________________
 
 
 #########################################################################################################
+
+#################  1coll-gits-all : #################################################################################
+#####  ==========  steps-usu (github-docs): https://docs.github.com/en/get-started/using-git/about-git :
+
+    # see also:   git help workflows
+    # download a repository on GitHub to our machine
+    # Replace `owner/repo` with the owner and name of the repository to clone
+    git clone https://github.com/owner/repo.git
+    # change into the `repo` directory
+    cd repo
+    # create a new branch to store any new changes
+    git branch my-branch
+    # switch to that branch (line of development)
+    git checkout my-branch
+    # make changes, for example, edit `file1.md` and `file2.md` using the text editor
+    # stage the changed files
+    git add file1.md file2.md
+    # take a snapshot of the staging area (anything that's been added)
+    git commit -m "my snapshot"
+    # push changes to github
+    git push --set-upstream origin my-branch
+##________________________________________  ___________________________
+
+
+
+#####  ==========  github-default-cmds-drafts/-suggestions after creating a new empty repo:
+    --- create a new repository on the command line
+    echo "# prv1" >> README.md
+    git init
+    git add README.md
+    git commit -m "first commit"
+    git branch -M main
+    git remote add origin git@github.com:MyCodess/prv1.git
+    git push -u origin main
+    --- …or push an existing repository from the command line
+    git remote add origin git@github.com:MyCodess/prv1.git
+    git branch -M main
+    git push -u origin main
+    --- or ...
+##________________________________________  ___________________________
 
