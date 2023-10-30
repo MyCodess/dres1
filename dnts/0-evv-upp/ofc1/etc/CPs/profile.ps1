@@ -16,5 +16,6 @@ function prompt {
 ##--OK2:  function sus1() { .  ${env:USERPROFILE}\ofc1\bin\prof1.ps1 }     ##--!!-MUST call as sourced, so:  .  sus1
 ##--OK:   
 Set-Alias sus1  ${env:USERPROFILE}\ofc1\bin\prof1.ps1  ##--!!-MUST call as sourced, so:  .  sus1
+Set-Alias bash1 C:\progs2\Git\bin\bash.exe
 ##--  .  sus1
 ###################################################################################
