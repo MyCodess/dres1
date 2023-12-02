@@ -88,7 +88,7 @@ so: Aliases. You can’t define an alias whose name is a shell keyword (but you 
 	- [[...]] is newer and available in bash.version>2.05
 	- [[...]] is identical to [...] except that word splitting and pathname expansion (as * ?...) are NOT performed on the words within the brackets.
 	- test is same as [...]
-- AND/OR verknuepfungen:  inside test [ ... ] do it with -a/-o , outsides test but with &&/||
+	- AND/OR verknuepfungen:  inside test [ ... ] do it with -a/-o , outsides test but with &&/||
 
 	_______:  Relational operators /Comparisons:
 	- String comparisons  : > = < =  != .... (!! not == but =)  :seebash.Ore--5.1.4.1 String comparisons 

@@ -2,7 +2,7 @@ ________________________ cygwin-setup of evv/upp on mswins _____________________
 
 
 
-#####  ==========  all/allg-nts cyg in evv:
+#####  ==========  evv-cyg-configs (on devpc1-vw /ofc1 ) , /:231000 :
     - ! vi /etc/fstab    :  mount C:\cg-dir to the "/" so that NO-prefixes at all !
 
     --- .bashrc-evv-call-cyg:
@@ -24,10 +24,7 @@ ________________________ cygwin-setup of evv/upp on mswins _____________________
 ###________________________________________  ___________________________
 
 
-
-##________________________________________  ___________________________
-
-#####  ==========  /:231016 :  on Lv13-mswin:
+#####  ==========  evv-cyg-configs /:231016 :  on Lv13-mswin:
 
 	- ! assume you have limited rights, similar to office! so not defininf new mount-points,... ! but just as power-user! (Dev-VDI):
     - ! vi /etc/fstab    :  mount C:\cg-dir to the "/" so that NO-prefixes at all !
@@ -47,6 +44,14 @@ ________________________ cygwin-setup of evv/upp on mswins _____________________
 	restart cyg-term !
 ##________________________________________  ___________________________
 
-#####  ==========  
+#####  ==========  cmds/Allg-nts,...
+	--- pathes (converting...):
+	cygpath --windows  $PWD
+	cygpath --windows ~/.bashrc
+	cygpath --unix C:/cygwin/bin/ls.exe
+	cygpath --unix C:\\cygwin\\bin\\ls.exe
+	https://cygwin.com/faq.html#faq.using.converting-paths
+
+	---
 ##________________________________________  ___________________________
 

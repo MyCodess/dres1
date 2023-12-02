@@ -9,13 +9,15 @@ _____________________ webies, rest-apis, ... _py : _____________________________
 
 #####  ==========  TestiesServers-webies /Devels-URLs-tests, (urls/servers to send testies-/devels-requests...):
 	https://httpbin.org/  :  A simple HTTP Request & Response Service.
-	https://jsonplaceholder.typicode.com  :   Free fake (REST-) API for testing and prototyping.
+	https://jsonplaceholder.typicode.com  :   Free fake (REST-) API for testing and prototyping.  ---> from requests-pkg !
 ##________________________________________  ___________________________
 
 
 #####  ==========  requests Lib:
 	https://realpython.com/python-requests/
 	https://realpython.com/api-integration-in-python/
+	---
+	- oneLiner-chk-py-connection:  python -c "import requests ; resp1=requests.get('https://www.google.com/') ; print (resp1.status_code)"
 ##________________________________________  ___________________________
 
 
