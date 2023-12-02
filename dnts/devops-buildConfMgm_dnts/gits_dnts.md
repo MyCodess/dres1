@@ -14,7 +14,7 @@ _______________ git_dnts ___________________________________________________
 
 	_______:  help-cmds:
 	- !  TAB-completing works hervorragend! so use it! even parts-completion,... !!
-	- !  DIFF  help/-h : git help xxx == git xxx help == man git-xxx == git -h xxx   <--->   git xxx -h (summary/shorter/ more concise help !)
+	- !  DIFF:  help/-h : git help xxx == git xxx help == man git-xxx == git -h xxx   <--->   git xxx -h (summary/shorter/ more concise help !)
     - !  git help help
     - !  short/quick helps/params-listings:   git xxx -h    ##--NOT: git -h xxx ! this one long-help/manpage !
 	helps-cmds-forms:  git help <verb>  ;  git <verb> --help ;  man git-<verb> ;     ##--eg:  git help config ;  git config -h/--help ;  man git-config ;
@@ -71,16 +71,16 @@ _______________ git_dnts ___________________________________________________
 ##________________________________________  ___________________________
 
 
-#####  ==========  concepts/workflow/proces/routes , Gitflow, Workflow :
+#####  ==========  Allg/workflow/concepts/proces/routes , Gitflow, Workflow :
 
-	_______:  full-routes
+	_______:  full-routes :
 	worktree 	<---> 	stage 	<---> 	locRepo 	<---> 	remote-repo
 	- Up-Richtung  ---> :  worktree 	---add/rm--->   stage 	---commit---> 	locRepo 	---push---> 	remote-repo     ##--upwards/commit/push-route
     - UnDo-Richtung     :  worktree 	<---reset--- 	stage 	<---restore--- 	locRepo 	<------     	remote-repo     ##--undo/restore-route
 	- DW-Richtung  <--- :  worktree 	<---checkout---	stage 	<---checkout HEAD--- 	locRepo 	<---pull/clone/fetch--- 	remote-repo ##--downwards/checkout/pull-route
     git help workflows
 
-	_______:  undos-part-routes/more/... :
+	_______:  undos-part-routes/more/... (see also extra UnDo-section) :
 	worktree  <--- "checkout -f"   ---  stage/index
 	worktree  <---  stage/index  <-- "checkout HEAD" --- LocRepo
 	worktree  <--- "reset filex" ---  stage/index
@@ -97,7 +97,7 @@ _______________ git_dnts ___________________________________________________
 #####  ==========  setup/start a new git-repo/prj:
 
     _______:  test-cases:
-    - !! for testings you can also just do:    git clone <file-path-of-any-locRepo, as its remoteRepo>  ##--so remoteRepo can be a localDirRepo ! and need NOT to be on GitHub/remote/... !
+    - !! for testings you can also just do:    git clone <file-path-of-any-LOCAL-locRepo-on-your-NB, as its remoteRepo>  ##--so remoteRepo can be a localDirRepo ! and need NOT to be on GitHub/remote/... !
 
 	_______:  
 	- git  init [--bare]  #/OR    git clone <remote-repo>
@@ -200,6 +200,7 @@ _______________ git_dnts ___________________________________________________
 	- customized/own-log-output (reports) with: --pretty=format ##as in:  git log --pretty=format:"%h - %an, %ar : %s"
 	- git log --since=2.weeks
 	- git shortlog
+    - git log --oneline --decorate --graph --pretty   --date=iso-local
 
 	_______:  misc history...:
 	- "rewrite commit history" (--amend / rebase / ...): !NOT-good! Avoid!:  history is "rewritten" whenever existing commits are manipulated through eg: rebase / amending-commits/...: commits will receive new SHA-1 hashes, making them completely new commit objects from Git's perspective ! every changes of commits-hashes is a BAD-style and problems for others who are based/branched based on this hash!!
@@ -223,7 +224,7 @@ _______________ git_dnts ___________________________________________________
 
 	_______:  "git add" :  puts/stages  worktree-changes  to the index(stage)/locRepo :
 	- ! "add" is NOT only add-files, but: git add is a multipurpose command:  tracking new files, to stage files, and ...; think of it more as “add precisely this content to the next commit” rather than “add this file to the project”.  /RefBK1--progit.pdf
-    - ! NOT use  "git add *"  ,sinde * is then interpreted by the shell and NOT by git ! and then strange results!! then:
+    - ! NOT use  "git add *"  : since * is then interpreted by the shell and NOT by git ! and then strange results!! then:
     - !  DIFF:  git add *.txt (NOT-use!)  <--->  git add “*.txt”   ##--:so:  *.txt is shell-extension: add all text files of the current directory to staging area  <--->   “*.txt” is git-expansion: add text files of entire project (recursiely-tree) to staging area !
     - ! git add -A / -all [dir1]  (?is it default for get add . ??) : 
         this will stage all the changes, all the modified, deleted, new, renamed, created, ... files, in the entire working tree.
@@ -284,6 +285,7 @@ _______________ git_dnts ___________________________________________________
 	- git restore             ##--restore from Stage --> workTree    ##--opposite-of  git add !!
 	- git restore --staged    ##--restore from locRepo --> Stage    ##--opposite-of  git commit !!
 	- git restore --staged --worktree   ##--restore from locRepo --> Stage --> workTree
+    -  git restore --source=master docs/source/conf.py   ##--: restore a file from ANOTHER banch into the current one (here: from master into cu-branch restore the file conf.py)
 
 	_______:  reset:
 	git reset  --hard  HEAD         ##-- LocRepo --> workTree (overwrite modifications in workTree with locRepo-file ! discard all cahnges in worktree and overwrite them with locRep-latest-snapshot !
@@ -341,11 +343,13 @@ _______________ git_dnts ___________________________________________________
 #####  ==========  diffs/compares :
 
 	_______:  compares/diffs between ... :
+	- git diff  --compact-summary   ##--diffs-listing-only (listing of changed files; bit NOT their contetns-diff)
 	- git diff             ##-diff of  workTree  <-->  stage/index:   
 	- git diff  --cached   ##-diff of  stage    <-->  locRepo:   
 	- git diff  --HEAD     ##-diff of  workTree  <-->  locRepo:   
 	- git  diff  <commit_id1>   <commit_id2>
 	- remoteRepo  <--> locRepo :  git branch -a ; git fetch origin/master ; git diff origin/master  master   ##--instead master can be any branch, as: orgin/br2 my-br ;
+	- git diff origin/main  --compact-summary   ##--compact-diffs of cu-local-branch and remote-main!
 
 	_______:  diff/compare changed files ... :
 	!! git diff : as default shows diff between working-tree <---> staged ones (so NOT commited ones!!) ! so if you have staged all changes (eg with git add), then no output is shown by git diff !!
@@ -360,32 +364,34 @@ _______________ git_dnts ___________________________________________________
 
 #####  ==========  branching : merging/checkout/query/diffs-branchs/... locally :
 
-	- !! It’s important to note that when you switch branches in Git, files in your working directory will change. !!
+    - !! switch/checkout CHANGES your worktree  <--->  git branch : NOT ! :
+	- !! It’s important to note that when you switch branches in Git, files in your working directory will CHANGE. !!
+    - !  git branch br1    : does NOT switch to br1 !! it ONLY creates it! checkit with git branch/status/log ...
 	- !! branching is extremely cheap! ONLY the SHA-1-code will be copied (as the branch pointer to a snapsho)! so only 40 chars copy !! branching is ONLY a pointer to a snapshot !!
 
 	_______:  nts-creating/switching a branch:
 	- !! if conflicts by switching branches, then git will NOT switch! so will not change your workTree !
-	- !! Switching to a branch will CHANGE your workTree-files (git switch /OR checkout) !!your workTree will overwritten with the snapshot of the target branch (if not new, .c)!
-	--  switching into a branch (checkout/switch/branch) does two things:
+	- !! Switching to a branch will CHANGE your workTree-files (git switch /OR checkout) !!your workTree will be overwritten with the snapshot of the target branch (if not new, .c)!
+	--  switching into a branch (checkout/switch) does two things:
 	1- It moves the HEAD pointer to that branch
 	2- fetches/revertes the files in your working directory back to the snapshot that the branch points to.
-	3- If Git cannot do it cleanly, it will not let you switch at all !
+	2.b- If Git cannot do it cleanly, it will not let you switch at all !
 
 	_______:  "Tracking Branches" / “Upstream Branch" with :
 	- ! see https://www.git-tower.com/learn/git/faq/track-remote-upstream-branch
+    - DEF:  "tracking branch"  <--->  "upstream branch"  :
 	- "Tracking" binds/connects/assocciates a local-branch to a remote-branch, as counterparts for each other :
 	In theory, local and remote branches in Git are completely separate items. In practice, however, in makes lots of sense to see them as counterparts - connected in a so-called "tracking connection".
 	you can do all thing also without Tracking, but Tracking makes remotes-cmds (pull/push/diff/...) just easier, otherwise have to specify params for remote-cmds !
 	when you tell a local branch to "track" a remote branch, you create a connection between these two branches. Your local branch now has a "counterpart" on the remote server.
-	Checking out a local branch from a remote-tracking branch automatically creates what is called a "tracking branch" (and the branch it tracks is called an “upstream branch”).
-	Tracking branches are local branches that have a direct relationship to a remote branch. If you’re on a tracking branch and type git pull, Git automatically knows which server to fetch from and which branch to merge in. RefBK1-p.92 + man git-checkout !
+	Checking out a local branch from a remote-tracking branch automatically creates what is called a "tracking branch" (and the branch it tracks is called an "upstream branch").
+	"tracking branch" is the local branch that has a direct relationship to a remote branch. If you’re on a tracking branch and type git pull, Git automatically knows which server to fetch from and which branch to merge in. RefBK1-p.92 + man git-checkout !
 	- -u  ==  --set-upstream  ,as cmds-params to identify upstream for tracking! eg git push -u /OR git branch -u ; ...
 	- git push -u origin  br1  ##--first-time publishing/pushin of loc-branch br1 into the remote-repo! tracking is now set by -u !!
-	- git checkout -b <branch> <remote>/<branch>  ==  git checkout --track origin/serverfix == git checkout -b <branch> --track <remote>/<branch>  : ##--with these cmds sets git the tracking-connection between local-->remote-branch !
-	- git checkout --track  <remote>/<branch>    ##--crate a new branch based on remote/branch and track it as upstream !
-	- git branch -u origin/br1 ##-- br1 was already on remote, but forgotten setting tracking. so now can add tracking to your local-branch br1 !
-	- auto-trackings: git clone/checkout/... automatically set the upstream-tracking-branch für the locBranch ! you can later modify/change it !
-	- +renaming the tracking-branch:  git checkout -b sf origin/serverfix
+	- git checkout --track  <remote>/<branch>  ==  git checkout -b <branch> <remote>/<branch>  ==  git checkout -b <branch> --track <remote>/<branch>  ##--: crate a new LOCAL-branch-based-on-remote/branch and track it as upstream ! so, with these cmds sets git the tracking-connection between local-->remote-branch !
+	- git branch -u origin/br1 ##-- sets the remote-"upstream-branch" for your current local-branch to track it ! so, br1 was already on remote, but forgotten setting tracking. so now can add tracking to your local-branch br1 !
+	- auto-trackings: git clone/checkout/... automatically set the remote-upstream-branch für the locBranch ! you can later modify/change it !
+	- another-name for your LOCAL-tracking-branch:  git checkout -b sf origin/serverfix  ##--: so remote branch is called serverfix and the local counterpart/tracking branch is called now sf !
 	- re-tracking / changing the tracking branch:   git branch  --set-upstream-to origin/serverfix
 	- shortcuts for upstream-trackings @{upstream} or @{u}, eg:   git merge @{u}  ==  git merge origin/master
 	- query/show the tracking-branches:   git branch -vv
@@ -396,28 +402,31 @@ _______________ git_dnts ___________________________________________________
 	- create-only a new branch based on base-branchX:  git branch <new-branch> <base-branchX>
 	- create-only a new branch based on certain-commit/-tag:  git branch <new-branch>  <commitID/tagID>
 	- create-only a new branch from a remote branch: git branch --track <new-branch>   <remote-repo>/<base-branch>  ##-/OR:  git checkout --track  <remote-repo>/<base-branch>
-	- create-only a new branch on remote-repo /bzw. push/publish your new local-branch into remote-repo (not-having that branch):  git push -u origin <local-branch>   ##-- !! so use git-push ,not git-branch ...!
+	- push your new local-branch into remote-repo (not-having that branch), so create the remote-branch based on my new local-branch:  git push -u origin <local-branch>   ##-- !! so use git-push ,not git-branch ...!
 	- switcht to an existing branch (updates workTree):  git switch <branch-name>  #/OR:  git  checkout <branch-tag/commit-hash/ ...>
 	- creating + switching to a new branch:   git checkout -b  <new-branch-name>  #/OR:  git switch -c new-branch
 	   checkout -b  == git branch + checkout  ;   git switch -c  ==  git branch + switch
 	- return to your previously checked out branch: git switch  -
-	- checkout-remote-branch:  git checkout --track origin/br1
+	- checkout-remote-branch and track it:  git checkout --track origin/br1
 
 	_______:  show/query-branch-infs:
 	- "HEAD ->" points to your cu-branch !
-	- git branch -vv  ##--shows-details, BUT all relative to the latest fetch/pull-status (so locRepo)! not accessing the remoteRepo !! see RefBK1--p.94 !
-	- shows-details-compared-to-remoteRepo:  git fetch --all ; git branch -vv ;
+	- git branch -vv[a]  ##--shows-details, BUT all relative to the latest fetch/pull-status (so locRepo)! not accessing the remoteRepo !! see RefBK1--p.94 !
+	- shows-details-latest-status-of-remoteRepo:  git fetch --all ; git branch -vv[a] ;
 	- history of commits of a certain branch:    git log <certain branch>  
-	- git log --oneline --decorate  ##-- git log --oneline --decorate --graph --all
+	- git log --oneline --decorate  --graph [ --all ]
 
 	_______:  diffs-branches & re-windings/undos ...:
-	git diff  br1  br2   ##--  git diff  master  origin/master
+	git diff  br1  br2  [--summary]  ##--  git diff  master  origin/master
 	git reset commit-xxx  ; git restore .  ##--rewind/go-back to certain commit (delte newer ones) AND then restore the current workTree to it !
 
 	_______:  merge-branches (syncs), modify, :
 	git  merge  master  ##--Combines master into the current branch. This is usually done in pull requests ...
 	aborting/cancel/undo-started-merge-try : git merge --abort ; 
 	GUI:  git  mergetool ##--settiing of merge.tool ... ##-- tools:  https://www.git-tower.com/learn/git/ebook/en/command-line/tools-services/diff-merge-tools#start
+    -- ! overwriting one branch /old1 fully with another branch /new1 (instead renaming,...): git status ##all-clean! ; git checkout old1 ; git reset --hard new1 ; ##--:
+        Branches are merely pointers to commits. If you want to set one branch to point to the same commit as some other branch, use git reset.
+        The command git reset makes Git move the currently checked out branch to the specified commit. The option --hard makes Git set the index as well as the working tree to match that commit. For more information, check out man git-reset.
 
 	_______:  merge-conflicts-solving:
 	- ! steps-merge-conflicts:  1-solve-conflict (see below) ; 1-mark it as solved with: git add <filepath>  ; 3- git commit ...; ##--see https://www.git-tower.com/learn/git/faq/solve-merge-conflicts
@@ -440,6 +449,7 @@ _______________ git_dnts ___________________________________________________
         2. Run all origin master commits.
         3. Run all commits in the temporary area on top of our master one at a time, so it avoids merge commits.
 	- step:  be on the target/receiving branch (usu. master /main) and merge/rebase the topic-branch into it, as: git switch master;  git rebase br1 ; ##--so, goes br1-changes into the master-branch !
+    - eg: rebase master to my cu-branch (so merge master to my branch with rebase-style):  git rebase master
 
 	_______:  deleting-branch:
 	- git branch -d br1  ##--delete br1 branch; all must be clean/committed/merged !
@@ -447,13 +457,17 @@ _______________ git_dnts ___________________________________________________
 	- remoteRepo-branch-delete:   git push  <remoteRepo> --delete <remote-branch-name>  ##eg:  git push origin --delete br22
 
 	_______:  renamings/modifyings-branch-infs:
-	- renamaing :  git branch --move  cuName  newName ;  git push --set-upstream origin  newName ; ##-- !! the newNam-branch has no remoteRepo assigned! so you have to set it, if pushing to remote !
+	-- rename a branch local+remote:  see ProGit.pdf--p.81 :
+        git branch --move  cuName  newName ;         ##--now ONLY local name changed!
+        git push --set-upstream origin  newName ;    ##--now REMOTE name chenged! but still remote-cuName is there!! the newNam-branch had no remoteRepo assigned! so you have to set it, if pushing to remote !
+        git push origin --delete  cuName ;           ##--now REMOTE oldName/cuName deleted !
 ##________________________________________  ___________________________
 
 
 #####  ==========  remote-syncs: clone/pull/merge/push/sync-remote-repos :
 
 	_______:  nts-remotes:
+    - !! fetch does NOT change your worktree  <--->  pull changes it !
 	- !! master & remote-master (origin/master) are two different branches. each is just a normal branch! but you can keep them synced! however they are finally just two differen/independent branches !
     - !! for testings you can also just do:    git clone <file-path-of-any-locRepo, as its remoteRepo>  ##--so remoteRepo can be a localDirRepo ! and need NOT to be on GitHub/remote/... !
 
@@ -470,6 +484,8 @@ _______________ git_dnts ___________________________________________________
 	- ! git pull  == fetch + merge (so remoteRepo-->locRepo-->workTree !) ; prefere git fetch+merge than pull !
 
 	_______:  fetch :
+    - ! DIFF   fetch ( from remoteRepo --> LocRepo ,but NOT to workTree / so NO merge !)  <--->  pull  (== fetch + merge ! so from remoteRepo --> LocRepo --> workTree)
+        so An aborted/un-successful git pull is a fetch (eg due to conflicts,...) !
 	- !! git fetch ... : updates-locRepo-from-remoteRepo--BUT-NOT-worktree/cu-branch/HEAD !! use fetch + git merge to update the remoteBranch into your cu-branch ! :
 	    It’s important to note that when you do a fetch that brings down new remote-tracking branches, you don’t automatically have local, editable copies of them.
 	    In other words, in this case, you do NOT have a new loc-branch checkedout in your worktree — BUT you have only an origin/br1 pointer that you can’t modify/checkout/ ... .  /RefBK1-p.92
@@ -480,6 +496,7 @@ _______________ git_dnts ___________________________________________________
 	- ! fetch-remote + update-worktree: use fetch + merge : git fetch origin/br1 ; git merge  origin/br1  ;
 
 	_______:  pull:
+    - fetch + merge explicitly better than pull ! (pull == fetch+merge)
 	- git pull  [remote-repo-name]  [remote-branch-name]   ##--eg:  git pull origin master ; #-if "tracking"-conf of the cu-branch/HEAD already defined, then enough: git pull ;
 	- git pull  == git fetch + merge-into-CUrrent-branch/HEAD/WorkTree #so: fetch-from-remote-the-branch + merge-into-workTree  ##--so: remote-repo  --> loc-repo --> loc-workTree-merging ! automatically fetch and then merge that remote branch into your current branch /workTree !
 	- pull generally fetches data from the [remote-]server you originally cloned from and automatically tries to merge it into the code you’re currently workingtree/cu-branch/HEAD !
@@ -499,8 +516,9 @@ _______________ git_dnts ___________________________________________________
     - see also:  https://www.geeksforgeeks.org/pushing-changes-to-a-git-repository/
 
 	_______:  branch-remote  <--> local-branch :
+    -  git push origin  loc-branch-ame:remote-branch-name   ##--if liked different names for loc/remote (NOT a good style!)
 	- ! local and remote branches actually have NOTHING to do with each other (except just tracking, if configured!). They are completely separate objects in Git. so, deleting one would NOT delete the other (even if tracking established ...)!
-	- ! listing of ALL branches loc+remote+trackings+...:   git branch -vva
+	- ! listing of ALL branches loc+remote+trackings+...:   git branch -vva  ##--!!-but all infos are from locRepo! if wanted latest commit-IDs/status on remote, then have to do fetch/pull before !
 	-  listing of loc/remote branches:  git branch -v [-r]  ##--remote-branches-listing with -r
 	- ! deleting a remote branch (on the remote-server): NOT git-branch BUT git-push!:   git  push  <remoteRepo/origin> --delete  <remote-branch-name> ##-eg: git  push  origin  -d  b23  ##-- !! the "git branch -r ..." ONLY deltes the remote-branch in your locRepo!! not on the remote-server!!
 	- git checkout -b br11 origin/br11  ##-- Branch br11 set up to track remote branch br11 from origin.  Switched to a new branch 'br11'

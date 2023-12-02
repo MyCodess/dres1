@@ -40,7 +40,7 @@ _______________________- VIMs_dnts _____________________________________________
 	- index.txt 	: alphabetical list of all commands for each mode, with a tag and a short description sorted on ASCII value.
 	- pattern.txt	: patterns/regExp
 	-!!! helpgrep patternXX\c (finds/greps XX-pattern in whole vim-helps! \c means ignore.case, otherwise case.sensitive!); its file.lis.browsing with: :cwindow  (:h quickfix)
-	-!! inverse-help for key-combinations:  eg for searching/help for ctrl-v key-combi, enter(literaly):  :h ^v   
+	-!! reverse-/inverse-help for key-combinationsi/key-query:  eg for searching/help for ctrl-v key-combi, enter(literaly):  :h ^v   
 		- to find help for CTRL-V in Insert mode:   :help i^V
 	-!! piping helps (only the help.text.file will be piped, not the file.list!):  see helphelp.txt
 		eg  :help index| :tselect zb  ;"tselect" to list matches of zb in index.txt and choose one.

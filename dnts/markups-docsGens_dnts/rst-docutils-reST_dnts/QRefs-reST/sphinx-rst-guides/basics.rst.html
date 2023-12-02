@@ -1,20 +1,20 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="generator" content="Docutils 0.20.1: https://docutils.sourceforge.io/" />
+<meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 <title>reStructuredText Primer</title>
 <style type="text/css">
 
 /*
 :Author: David Goodger (goodger@python.org)
-:Id: $Id: html4css1.css 8954 2022-01-20 10:10:25Z milde $
+:Id: $Id: html4css1.css 7952 2016-07-26 18:15:59Z milde $
 :Copyright: This stylesheet has been placed in the public domain.
 
 Default cascading style sheet for the HTML output of Docutils.
 
-See https://docutils.sourceforge.io/docs/howto/html-stylesheets.html for how to
+See http://docutils.sf.net/docs/howto/html-stylesheets.html for how to
 customize this style sheet.
 */
 
@@ -365,7 +365,7 @@ ul.auto-toc {
 <h1 class="title">reStructuredText Primer</h1>
 
 <div class="system-message">
-<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">basics.rst</tt>, line 1)</p>
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">.\basics.rst</tt>, line 1)</p>
 <p>Unknown directive type &quot;highlight&quot;.</p>
 <pre class="literal-block">
 .. highlight:: rst
@@ -378,7 +378,7 @@ intended to provide authors with enough information to author documents
 productively.  Since reST was designed to be a simple, unobtrusive markup
 language, this will not take too long.</p>
 <div class="system-message">
-<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">basics.rst</tt>, line 15)</p>
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">.\basics.rst</tt>, line 15)</p>
 <p>Unknown directive type &quot;seealso&quot;.</p>
 <pre class="literal-block">
 .. seealso::
@@ -398,7 +398,7 @@ document.  Paragraphs are simply chunks of text separated by one or more blank
 lines.  As in Python, indentation is significant in reST, so all lines of the
 same paragraph must be left-aligned to the same level of indentation.</p>
 <div class="system-message" id="system-message-1">
-<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">basics.rst</tt>, line 26); <em><a href="#problematic-1">backlink</a></em></p>
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">.\basics.rst</tt>, line 26); <em><a href="#problematic-1">backlink</a></em></p>
 Unknown interpreted text role &quot;duref&quot;.</div>
 </div>
 <div class="section" id="inline-markup">
@@ -422,7 +422,7 @@ backslash escaped space to work around that: <tt class="docutils literal">thisis
 <p>It is also possible to replace or expand upon some of this inline markup with
 roles. Refer to <a href="#system-message-2"><span class="problematic" id="problematic-2">:ref:`rst-roles-alt`</span></a> for more information.</p>
 <div class="system-message" id="system-message-2">
-<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">basics.rst</tt>, line 55); <em><a href="#problematic-2">backlink</a></em></p>
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">.\basics.rst</tt>, line 55); <em><a href="#problematic-2">backlink</a></em></p>
 Unknown interpreted text role &quot;ref&quot;.</div>
 </div>
 <div class="section" id="lists-and-quote-like-blocks">
@@ -431,7 +431,7 @@ Unknown interpreted text role &quot;ref&quot;.</div>
 the start of a paragraph and indent properly.  The same goes for numbered
 lists; they can also be autonumbered using a <tt class="docutils literal">#</tt> sign:</p>
 <div class="system-message" id="system-message-3">
-<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">basics.rst</tt>, line 62); <em><a href="#problematic-3">backlink</a></em></p>
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">.\basics.rst</tt>, line 62); <em><a href="#problematic-3">backlink</a></em></p>
 Unknown interpreted text role &quot;duref&quot;.</div>
 <pre class="literal-block">
 * This is a bulleted list.
@@ -457,7 +457,7 @@ parent list items by blank lines:</p>
 </pre>
 <p>Definition lists (<a href="#system-message-4"><span class="problematic" id="problematic-4">:duref:`ref &lt;definition-lists&gt;`</span></a>) are created as follows:</p>
 <div class="system-message" id="system-message-4">
-<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">basics.rst</tt>, line 87); <em><a href="#problematic-4">backlink</a></em></p>
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">.\basics.rst</tt>, line 87); <em><a href="#problematic-4">backlink</a></em></p>
 Unknown interpreted text role &quot;duref&quot;.</div>
 <pre class="literal-block">
 term (up to a line of text)
@@ -472,11 +472,11 @@ next term
 <p>Quoted paragraphs (<a href="#system-message-5"><span class="problematic" id="problematic-5">:duref:`ref &lt;block-quotes&gt;`</span></a>) are created by just indenting
 them more than the surrounding paragraphs.</p>
 <div class="system-message" id="system-message-5">
-<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">basics.rst</tt>, line 99); <em><a href="#problematic-5">backlink</a></em></p>
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">.\basics.rst</tt>, line 99); <em><a href="#problematic-5">backlink</a></em></p>
 Unknown interpreted text role &quot;duref&quot;.</div>
 <p>Line blocks (<a href="#system-message-6"><span class="problematic" id="problematic-6">:duref:`ref &lt;line-blocks&gt;`</span></a>) are a way of preserving line breaks:</p>
 <div class="system-message" id="system-message-6">
-<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">basics.rst</tt>, line 102); <em><a href="#problematic-6">backlink</a></em></p>
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">.\basics.rst</tt>, line 102); <em><a href="#problematic-6">backlink</a></em></p>
 Unknown interpreted text role &quot;duref&quot;.</div>
 <pre class="literal-block">
 | These lines are
@@ -488,29 +488,29 @@ Unknown interpreted text role &quot;duref&quot;.</div>
 <li><p class="first">field lists (<a href="#system-message-7"><span class="problematic" id="problematic-7">:duref:`ref &lt;field-lists&gt;`</span></a>, with caveats noted in
 <a href="#system-message-8"><span class="problematic" id="problematic-8">:ref:`rst-field-lists`</span></a>)</p>
 <div class="system-message" id="system-message-7">
-<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">basics.rst</tt>, line 110); <em><a href="#problematic-7">backlink</a></em></p>
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">.\basics.rst</tt>, line 110); <em><a href="#problematic-7">backlink</a></em></p>
 <p>Unknown interpreted text role &quot;duref&quot;.</p>
 </div>
 <div class="system-message" id="system-message-8">
-<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">basics.rst</tt>, line 110); <em><a href="#problematic-8">backlink</a></em></p>
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">.\basics.rst</tt>, line 110); <em><a href="#problematic-8">backlink</a></em></p>
 <p>Unknown interpreted text role &quot;ref&quot;.</p>
 </div>
 </li>
 <li><p class="first">option lists (<a href="#system-message-9"><span class="problematic" id="problematic-9">:duref:`ref &lt;option-lists&gt;`</span></a>)</p>
 <div class="system-message" id="system-message-9">
-<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">basics.rst</tt>, line 112); <em><a href="#problematic-9">backlink</a></em></p>
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">.\basics.rst</tt>, line 112); <em><a href="#problematic-9">backlink</a></em></p>
 <p>Unknown interpreted text role &quot;duref&quot;.</p>
 </div>
 </li>
 <li><p class="first">quoted literal blocks (<a href="#system-message-10"><span class="problematic" id="problematic-10">:duref:`ref &lt;quoted-literal-blocks&gt;`</span></a>)</p>
 <div class="system-message" id="system-message-10">
-<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">basics.rst</tt>, line 113); <em><a href="#problematic-10">backlink</a></em></p>
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">.\basics.rst</tt>, line 113); <em><a href="#problematic-10">backlink</a></em></p>
 <p>Unknown interpreted text role &quot;duref&quot;.</p>
 </div>
 </li>
 <li><p class="first">doctest blocks (<a href="#system-message-11"><span class="problematic" id="problematic-11">:duref:`ref &lt;doctest-blocks&gt;`</span></a>)</p>
 <div class="system-message" id="system-message-11">
-<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">basics.rst</tt>, line 114); <em><a href="#problematic-11">backlink</a></em></p>
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">.\basics.rst</tt>, line 114); <em><a href="#problematic-11">backlink</a></em></p>
 <p>Unknown interpreted text role &quot;duref&quot;.</p>
 </div>
 </li>
@@ -523,7 +523,7 @@ paragraph with the special marker <tt class="docutils literal">::</tt>.  The lit
 (and, like all paragraphs, separated from the surrounding ones by blank
 lines):</p>
 <div class="system-message" id="system-message-12">
-<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">basics.rst</tt>, line 122); <em><a href="#problematic-12">backlink</a></em></p>
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">.\basics.rst</tt>, line 122); <em><a href="#problematic-12">backlink</a></em></p>
 Unknown interpreted text role &quot;duref&quot;.</div>
 <pre class="literal-block">
 This is a normal text paragraph. The next paragraph is a code sample::
@@ -551,13 +551,13 @@ using the <a href="#system-message-14"><span class="problematic" id="problematic
 <a href="#system-message-15"><span class="problematic" id="problematic-15">:rst:dir:`code-block`</span></a> directive can be used to set highlighting on a
 block-by-block basis. These directives are discussed later.</p>
 <div class="system-message" id="system-message-13">
-<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">basics.rst</tt>, line 147); <em><a href="#problematic-13">backlink</a></em></p>
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">.\basics.rst</tt>, line 147); <em><a href="#problematic-13">backlink</a></em></p>
 Unknown interpreted text role &quot;rst:dir&quot;.</div>
 <div class="system-message" id="system-message-14">
-<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">basics.rst</tt>, line 147); <em><a href="#problematic-14">backlink</a></em></p>
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">.\basics.rst</tt>, line 147); <em><a href="#problematic-14">backlink</a></em></p>
 Unknown interpreted text role &quot;confval&quot;.</div>
 <div class="system-message" id="system-message-15">
-<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">basics.rst</tt>, line 147); <em><a href="#problematic-15">backlink</a></em></p>
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">.\basics.rst</tt>, line 147); <em><a href="#problematic-15">backlink</a></em></p>
 Unknown interpreted text role &quot;rst:dir&quot;.</div>
 </div>
 <div class="section" id="doctest-blocks">
@@ -567,10 +567,10 @@ cut-and-pasted into docstrings. They do not require the
 <a href="#system-message-17"><span class="problematic" id="problematic-17">:ref:`literal blocks &lt;rst-literal-blocks&gt;`</span></a> syntax. The doctest block must end
 with a blank line and should <em>not</em> end with an unused prompt:</p>
 <div class="system-message" id="system-message-16">
-<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">basics.rst</tt>, line 159); <em><a href="#problematic-16">backlink</a></em></p>
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">.\basics.rst</tt>, line 159); <em><a href="#problematic-16">backlink</a></em></p>
 Unknown interpreted text role &quot;duref&quot;.</div>
 <div class="system-message" id="system-message-17">
-<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">basics.rst</tt>, line 159); <em><a href="#problematic-17">backlink</a></em></p>
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">.\basics.rst</tt>, line 159); <em><a href="#problematic-17">backlink</a></em></p>
 Unknown interpreted text role &quot;ref&quot;.</div>
 <pre class="literal-block">
 &gt;&gt;&gt; 1 + 1
@@ -582,7 +582,7 @@ Unknown interpreted text role &quot;ref&quot;.</div>
 <p>For <em>grid tables</em> (<a href="#system-message-18"><span class="problematic" id="problematic-18">:duref:`ref &lt;grid-tables&gt;`</span></a>), you have to &quot;paint&quot; the cell
 grid yourself.  They look like this:</p>
 <div class="system-message" id="system-message-18">
-<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">basics.rst</tt>, line 172); <em><a href="#problematic-18">backlink</a></em></p>
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">.\basics.rst</tt>, line 172); <em><a href="#problematic-18">backlink</a></em></p>
 Unknown interpreted text role &quot;duref&quot;.</div>
 <pre class="literal-block">
 +------------------------+------------+----------+----------+
@@ -598,7 +598,7 @@ Unknown interpreted text role &quot;duref&quot;.</div>
 limited: they must contain more than one row, and the first column cells cannot
 contain multiple lines.  They look like this:</p>
 <div class="system-message" id="system-message-19">
-<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">basics.rst</tt>, line 184); <em><a href="#problematic-19">backlink</a></em></p>
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">.\basics.rst</tt>, line 184); <em><a href="#problematic-19">backlink</a></em></p>
 Unknown interpreted text role &quot;duref&quot;.</div>
 <pre class="literal-block">
 =====  =====  =======
@@ -613,7 +613,7 @@ True   True   True
 <p>Two more syntaxes are supported: <em>CSV tables</em> and <em>List tables</em>. They use an
 <em>explicit markup block</em>. Refer to <a href="#system-message-20"><span class="problematic" id="problematic-20">:ref:`table-directives`</span></a> for more information.</p>
 <div class="system-message" id="system-message-20">
-<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">basics.rst</tt>, line 197); <em><a href="#problematic-20">backlink</a></em></p>
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">.\basics.rst</tt>, line 197); <em><a href="#problematic-20">backlink</a></em></p>
 Unknown interpreted text role &quot;ref&quot;.</div>
 </div>
 <div class="section" id="hyperlinks">
@@ -630,7 +630,7 @@ parser finds links and mail addresses in ordinary text.</p>
 <p>You can also separate the link and the target definition (<a href="#system-message-21"><span class="problematic" id="problematic-21">:duref:`ref
 &lt;hyperlink-targets&gt;`</span></a>), like this:</p>
 <div class="system-message" id="system-message-21">
-<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">basics.rst</tt>, line 213); <em><a href="#problematic-21">backlink</a></em></p>
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">.\basics.rst</tt>, line 213); <em><a href="#problematic-21">backlink</a></em></p>
 Unknown interpreted text role &quot;duref&quot;.</div>
 <pre class="literal-block">
 This is a paragraph that contains `a link`_.
@@ -643,7 +643,7 @@ This is a paragraph that contains `a link`_.
 <p>Internal linking is done via a special reST role provided by Sphinx, see the
 section on specific markup, <a href="#system-message-22"><span class="problematic" id="problematic-22">:ref:`ref-role`</span></a>.</p>
 <div class="system-message" id="system-message-22">
-<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">basics.rst</tt>, line 223); <em><a href="#problematic-22">backlink</a></em></p>
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">.\basics.rst</tt>, line 223); <em><a href="#problematic-22">backlink</a></em></p>
 Unknown interpreted text role &quot;ref&quot;.</div>
 </div>
 </div>
@@ -653,7 +653,7 @@ Unknown interpreted text role &quot;ref&quot;.</div>
 optionally overlining) the section title with a punctuation character, at least
 as long as the text:</p>
 <div class="system-message" id="system-message-23">
-<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">basics.rst</tt>, line 232); <em><a href="#problematic-23">backlink</a></em></p>
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">.\basics.rst</tt>, line 232); <em><a href="#problematic-23">backlink</a></em></p>
 Unknown interpreted text role &quot;duref&quot;.</div>
 <pre class="literal-block">
 =================
@@ -681,7 +681,7 @@ target formats (HTML, LaTeX) have a limited supported nesting depth.</p>
 <p>Field lists (<a href="#system-message-24"><span class="problematic" id="problematic-24">:duref:`ref &lt;field-lists&gt;`</span></a>) are sequences of fields marked up like
 this:</p>
 <div class="system-message" id="system-message-24">
-<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">basics.rst</tt>, line 263); <em><a href="#problematic-24">backlink</a></em></p>
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">.\basics.rst</tt>, line 263); <em><a href="#problematic-24">backlink</a></em></p>
 Unknown interpreted text role &quot;duref&quot;.</div>
 <pre class="literal-block">
 :fieldname: Field content
@@ -701,7 +701,7 @@ def my_function(my_arg, my_other_arg):
 at the beginning of documents.  Refer to <a href="#system-message-25"><span class="problematic" id="problematic-25">:doc:`field-lists`</span></a> for more
 information.</p>
 <div class="system-message" id="system-message-25">
-<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">basics.rst</tt>, line 279); <em><a href="#problematic-25">backlink</a></em></p>
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">.\basics.rst</tt>, line 279); <em><a href="#problematic-25">backlink</a></em></p>
 Unknown interpreted text role &quot;doc&quot;.</div>
 <!-- TODO This ref should be 'rst-roles', but that already exists. Rename the -->
 <!-- other ones -->
@@ -714,51 +714,51 @@ interpreted in a specific way.  Sphinx uses this to provide semantic markup and
 cross-referencing of identifiers, as described in the appropriate section.  The
 general syntax is <tt class="docutils literal"><span class="pre">:rolename:`content`</span></tt>.</p>
 <div class="system-message" id="system-message-26">
-<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">basics.rst</tt>, line 292); <em><a href="#problematic-26">backlink</a></em></p>
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">.\basics.rst</tt>, line 292); <em><a href="#problematic-26">backlink</a></em></p>
 Unknown interpreted text role &quot;duref&quot;.</div>
 <p>Docutils supports the following roles:</p>
 <ul>
 <li><p class="first"><a href="#system-message-27"><span class="problematic" id="problematic-27">:durole:`emphasis`</span></a> -- equivalent of <tt class="docutils literal">*emphasis*</tt></p>
 <div class="system-message" id="system-message-27">
-<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">basics.rst</tt>, line 300); <em><a href="#problematic-27">backlink</a></em></p>
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">.\basics.rst</tt>, line 300); <em><a href="#problematic-27">backlink</a></em></p>
 <p>Unknown interpreted text role &quot;durole&quot;.</p>
 </div>
 </li>
 <li><p class="first"><a href="#system-message-28"><span class="problematic" id="problematic-28">:durole:`strong`</span></a> -- equivalent of <tt class="docutils literal">**strong**</tt></p>
 <div class="system-message" id="system-message-28">
-<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">basics.rst</tt>, line 301); <em><a href="#problematic-28">backlink</a></em></p>
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">.\basics.rst</tt>, line 301); <em><a href="#problematic-28">backlink</a></em></p>
 <p>Unknown interpreted text role &quot;durole&quot;.</p>
 </div>
 </li>
 <li><p class="first"><a href="#system-message-29"><span class="problematic" id="problematic-29">:durole:`literal`</span></a> -- equivalent of <tt class="docutils literal">``literal``</tt></p>
 <div class="system-message" id="system-message-29">
-<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">basics.rst</tt>, line 302); <em><a href="#problematic-29">backlink</a></em></p>
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">.\basics.rst</tt>, line 302); <em><a href="#problematic-29">backlink</a></em></p>
 <p>Unknown interpreted text role &quot;durole&quot;.</p>
 </div>
 </li>
 <li><p class="first"><a href="#system-message-30"><span class="problematic" id="problematic-30">:durole:`subscript`</span></a> -- subscript text</p>
 <div class="system-message" id="system-message-30">
-<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">basics.rst</tt>, line 303); <em><a href="#problematic-30">backlink</a></em></p>
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">.\basics.rst</tt>, line 303); <em><a href="#problematic-30">backlink</a></em></p>
 <p>Unknown interpreted text role &quot;durole&quot;.</p>
 </div>
 </li>
 <li><p class="first"><a href="#system-message-31"><span class="problematic" id="problematic-31">:durole:`superscript`</span></a> -- superscript text</p>
 <div class="system-message" id="system-message-31">
-<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">basics.rst</tt>, line 304); <em><a href="#problematic-31">backlink</a></em></p>
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">.\basics.rst</tt>, line 304); <em><a href="#problematic-31">backlink</a></em></p>
 <p>Unknown interpreted text role &quot;durole&quot;.</p>
 </div>
 </li>
 <li><p class="first"><a href="#system-message-32"><span class="problematic" id="problematic-32">:durole:`title-reference`</span></a> -- for titles of books, periodicals, and other
 materials</p>
 <div class="system-message" id="system-message-32">
-<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">basics.rst</tt>, line 305); <em><a href="#problematic-32">backlink</a></em></p>
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">.\basics.rst</tt>, line 305); <em><a href="#problematic-32">backlink</a></em></p>
 <p>Unknown interpreted text role &quot;durole&quot;.</p>
 </div>
 </li>
 </ul>
 <p>Refer to <a href="#system-message-33"><span class="problematic" id="problematic-33">:doc:`roles`</span></a> for roles added by Sphinx.</p>
 <div class="system-message" id="system-message-33">
-<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">basics.rst</tt>, line 308); <em><a href="#problematic-33">backlink</a></em></p>
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">.\basics.rst</tt>, line 308); <em><a href="#problematic-33">backlink</a></em></p>
 Unknown interpreted text role &quot;doc&quot;.</div>
 </div>
 <div class="section" id="explicit-markup">
@@ -767,7 +767,7 @@ Unknown interpreted text role &quot;doc&quot;.</div>
 most constructs that need special handling, such as footnotes,
 specially-highlighted paragraphs, comments, and generic directives.</p>
 <div class="system-message" id="system-message-34">
-<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">basics.rst</tt>, line 314); <em><a href="#problematic-34">backlink</a></em></p>
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">.\basics.rst</tt>, line 314); <em><a href="#problematic-34">backlink</a></em></p>
 Unknown interpreted text role &quot;duref&quot;.</div>
 <p>An explicit markup block begins with a line starting with <tt class="docutils literal">..</tt> followed by
 whitespace and is terminated by the next paragraph at the same level of
@@ -781,7 +781,7 @@ enough when you write it.)</p>
 Along with roles, it is one of the extension mechanisms of reST, and Sphinx
 makes heavy use of it.</p>
 <div class="system-message" id="system-message-35">
-<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">basics.rst</tt>, line 330); <em><a href="#problematic-35">backlink</a></em></p>
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">.\basics.rst</tt>, line 330); <em><a href="#problematic-35">backlink</a></em></p>
 Unknown interpreted text role &quot;duref&quot;.</div>
 <p>Docutils supports the following directives:</p>
 <ul>
@@ -791,43 +791,43 @@ Unknown interpreted text role &quot;duref&quot;.</div>
 <a href="#system-message-45"><span class="problematic" id="problematic-45">:dudir:`admonition &lt;admonitions&gt;`</span></a>.  (Most themes style only &quot;note&quot; and
 &quot;warning&quot; specially.)</p>
 <div class="system-message" id="system-message-36">
-<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">basics.rst</tt>, line 336); <em><a href="#problematic-36">backlink</a></em></p>
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">.\basics.rst</tt>, line 336); <em><a href="#problematic-36">backlink</a></em></p>
 <p>Unknown interpreted text role &quot;dudir&quot;.</p>
 </div>
 <div class="system-message" id="system-message-37">
-<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">basics.rst</tt>, line 336); <em><a href="#problematic-37">backlink</a></em></p>
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">.\basics.rst</tt>, line 336); <em><a href="#problematic-37">backlink</a></em></p>
 <p>Unknown interpreted text role &quot;dudir&quot;.</p>
 </div>
 <div class="system-message" id="system-message-38">
-<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">basics.rst</tt>, line 336); <em><a href="#problematic-38">backlink</a></em></p>
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">.\basics.rst</tt>, line 336); <em><a href="#problematic-38">backlink</a></em></p>
 <p>Unknown interpreted text role &quot;dudir&quot;.</p>
 </div>
 <div class="system-message" id="system-message-39">
-<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">basics.rst</tt>, line 336); <em><a href="#problematic-39">backlink</a></em></p>
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">.\basics.rst</tt>, line 336); <em><a href="#problematic-39">backlink</a></em></p>
 <p>Unknown interpreted text role &quot;dudir&quot;.</p>
 </div>
 <div class="system-message" id="system-message-40">
-<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">basics.rst</tt>, line 336); <em><a href="#problematic-40">backlink</a></em></p>
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">.\basics.rst</tt>, line 336); <em><a href="#problematic-40">backlink</a></em></p>
 <p>Unknown interpreted text role &quot;dudir&quot;.</p>
 </div>
 <div class="system-message" id="system-message-41">
-<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">basics.rst</tt>, line 336); <em><a href="#problematic-41">backlink</a></em></p>
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">.\basics.rst</tt>, line 336); <em><a href="#problematic-41">backlink</a></em></p>
 <p>Unknown interpreted text role &quot;dudir&quot;.</p>
 </div>
 <div class="system-message" id="system-message-42">
-<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">basics.rst</tt>, line 336); <em><a href="#problematic-42">backlink</a></em></p>
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">.\basics.rst</tt>, line 336); <em><a href="#problematic-42">backlink</a></em></p>
 <p>Unknown interpreted text role &quot;dudir&quot;.</p>
 </div>
 <div class="system-message" id="system-message-43">
-<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">basics.rst</tt>, line 336); <em><a href="#problematic-43">backlink</a></em></p>
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">.\basics.rst</tt>, line 336); <em><a href="#problematic-43">backlink</a></em></p>
 <p>Unknown interpreted text role &quot;dudir&quot;.</p>
 </div>
 <div class="system-message" id="system-message-44">
-<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">basics.rst</tt>, line 336); <em><a href="#problematic-44">backlink</a></em></p>
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">.\basics.rst</tt>, line 336); <em><a href="#problematic-44">backlink</a></em></p>
 <p>Unknown interpreted text role &quot;dudir&quot;.</p>
 </div>
 <div class="system-message" id="system-message-45">
-<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">basics.rst</tt>, line 336); <em><a href="#problematic-45">backlink</a></em></p>
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">.\basics.rst</tt>, line 336); <em><a href="#problematic-45">backlink</a></em></p>
 <p>Unknown interpreted text role &quot;dudir&quot;.</p>
 </div>
 </li>
@@ -835,13 +835,13 @@ Unknown interpreted text role &quot;duref&quot;.</div>
 <ul>
 <li><p class="first"><a href="#system-message-46"><span class="problematic" id="problematic-46">:dudir:`image`</span></a> (see also <a class="reference internal" href="#images">Images</a> below)</p>
 <div class="system-message" id="system-message-46">
-<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">basics.rst</tt>, line 344); <em><a href="#problematic-46">backlink</a></em></p>
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">.\basics.rst</tt>, line 344); <em><a href="#problematic-46">backlink</a></em></p>
 <p>Unknown interpreted text role &quot;dudir&quot;.</p>
 </div>
 </li>
 <li><p class="first"><a href="#system-message-47"><span class="problematic" id="problematic-47">:dudir:`figure`</span></a> (an image with caption and optional legend)</p>
 <div class="system-message" id="system-message-47">
-<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">basics.rst</tt>, line 345); <em><a href="#problematic-47">backlink</a></em></p>
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">.\basics.rst</tt>, line 345); <em><a href="#problematic-47">backlink</a></em></p>
 <p>Unknown interpreted text role &quot;dudir&quot;.</p>
 </div>
 </li>
@@ -852,59 +852,59 @@ Unknown interpreted text role &quot;duref&quot;.</div>
 <li><p class="first"><a href="#system-message-48"><span class="problematic" id="problematic-48">:dudir:`contents &lt;table-of-contents&gt;`</span></a> (a local, i.e. for the current file
 only, table of contents)</p>
 <div class="system-message" id="system-message-48">
-<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">basics.rst</tt>, line 349); <em><a href="#problematic-48">backlink</a></em></p>
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">.\basics.rst</tt>, line 349); <em><a href="#problematic-48">backlink</a></em></p>
 <p>Unknown interpreted text role &quot;dudir&quot;.</p>
 </div>
 </li>
 <li><p class="first"><a href="#system-message-49"><span class="problematic" id="problematic-49">:dudir:`container`</span></a> (a container with a custom class, useful to generate an
 outer <tt class="docutils literal">&lt;div&gt;</tt> in HTML)</p>
 <div class="system-message" id="system-message-49">
-<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">basics.rst</tt>, line 351); <em><a href="#problematic-49">backlink</a></em></p>
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">.\basics.rst</tt>, line 351); <em><a href="#problematic-49">backlink</a></em></p>
 <p>Unknown interpreted text role &quot;dudir&quot;.</p>
 </div>
 </li>
 <li><p class="first"><a href="#system-message-50"><span class="problematic" id="problematic-50">:dudir:`rubric`</span></a> (a heading without relation to the document sectioning)</p>
 <div class="system-message" id="system-message-50">
-<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">basics.rst</tt>, line 353); <em><a href="#problematic-50">backlink</a></em></p>
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">.\basics.rst</tt>, line 353); <em><a href="#problematic-50">backlink</a></em></p>
 <p>Unknown interpreted text role &quot;dudir&quot;.</p>
 </div>
 </li>
 <li><p class="first"><a href="#system-message-51"><span class="problematic" id="problematic-51">:dudir:`topic`</span></a>, <a href="#system-message-52"><span class="problematic" id="problematic-52">:dudir:`sidebar`</span></a> (special highlighted body elements)</p>
 <div class="system-message" id="system-message-51">
-<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">basics.rst</tt>, line 354); <em><a href="#problematic-51">backlink</a></em></p>
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">.\basics.rst</tt>, line 354); <em><a href="#problematic-51">backlink</a></em></p>
 <p>Unknown interpreted text role &quot;dudir&quot;.</p>
 </div>
 <div class="system-message" id="system-message-52">
-<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">basics.rst</tt>, line 354); <em><a href="#problematic-52">backlink</a></em></p>
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">.\basics.rst</tt>, line 354); <em><a href="#problematic-52">backlink</a></em></p>
 <p>Unknown interpreted text role &quot;dudir&quot;.</p>
 </div>
 </li>
 <li><p class="first"><a href="#system-message-53"><span class="problematic" id="problematic-53">:dudir:`parsed-literal`</span></a> (literal block that supports inline markup)</p>
 <div class="system-message" id="system-message-53">
-<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">basics.rst</tt>, line 355); <em><a href="#problematic-53">backlink</a></em></p>
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">.\basics.rst</tt>, line 355); <em><a href="#problematic-53">backlink</a></em></p>
 <p>Unknown interpreted text role &quot;dudir&quot;.</p>
 </div>
 </li>
 <li><p class="first"><a href="#system-message-54"><span class="problematic" id="problematic-54">:dudir:`epigraph`</span></a> (a block quote with optional attribution line)</p>
 <div class="system-message" id="system-message-54">
-<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">basics.rst</tt>, line 356); <em><a href="#problematic-54">backlink</a></em></p>
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">.\basics.rst</tt>, line 356); <em><a href="#problematic-54">backlink</a></em></p>
 <p>Unknown interpreted text role &quot;dudir&quot;.</p>
 </div>
 </li>
 <li><p class="first"><a href="#system-message-55"><span class="problematic" id="problematic-55">:dudir:`highlights`</span></a>, <a href="#system-message-56"><span class="problematic" id="problematic-56">:dudir:`pull-quote`</span></a> (block quotes with their own
 class attribute)</p>
 <div class="system-message" id="system-message-55">
-<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">basics.rst</tt>, line 357); <em><a href="#problematic-55">backlink</a></em></p>
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">.\basics.rst</tt>, line 357); <em><a href="#problematic-55">backlink</a></em></p>
 <p>Unknown interpreted text role &quot;dudir&quot;.</p>
 </div>
 <div class="system-message" id="system-message-56">
-<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">basics.rst</tt>, line 357); <em><a href="#problematic-56">backlink</a></em></p>
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">.\basics.rst</tt>, line 357); <em><a href="#problematic-56">backlink</a></em></p>
 <p>Unknown interpreted text role &quot;dudir&quot;.</p>
 </div>
 </li>
 <li><p class="first"><a href="#system-message-57"><span class="problematic" id="problematic-57">:dudir:`compound &lt;compound-paragraph&gt;`</span></a> (a compound paragraph)</p>
 <div class="system-message" id="system-message-57">
-<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">basics.rst</tt>, line 359); <em><a href="#problematic-57">backlink</a></em></p>
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">.\basics.rst</tt>, line 359); <em><a href="#problematic-57">backlink</a></em></p>
 <p>Unknown interpreted text role &quot;dudir&quot;.</p>
 </div>
 </li>
@@ -914,19 +914,19 @@ class attribute)</p>
 <ul>
 <li><p class="first"><a href="#system-message-58"><span class="problematic" id="problematic-58">:dudir:`table`</span></a> (a table with title)</p>
 <div class="system-message" id="system-message-58">
-<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">basics.rst</tt>, line 363); <em><a href="#problematic-58">backlink</a></em></p>
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">.\basics.rst</tt>, line 363); <em><a href="#problematic-58">backlink</a></em></p>
 <p>Unknown interpreted text role &quot;dudir&quot;.</p>
 </div>
 </li>
 <li><p class="first"><a href="#system-message-59"><span class="problematic" id="problematic-59">:dudir:`csv-table`</span></a> (a table generated from comma-separated values)</p>
 <div class="system-message" id="system-message-59">
-<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">basics.rst</tt>, line 364); <em><a href="#problematic-59">backlink</a></em></p>
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">.\basics.rst</tt>, line 364); <em><a href="#problematic-59">backlink</a></em></p>
 <p>Unknown interpreted text role &quot;dudir&quot;.</p>
 </div>
 </li>
 <li><p class="first"><a href="#system-message-60"><span class="problematic" id="problematic-60">:dudir:`list-table`</span></a> (a table generated from a list of lists)</p>
 <div class="system-message" id="system-message-60">
-<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">basics.rst</tt>, line 365); <em><a href="#problematic-60">backlink</a></em></p>
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">.\basics.rst</tt>, line 365); <em><a href="#problematic-60">backlink</a></em></p>
 <p>Unknown interpreted text role &quot;dudir&quot;.</p>
 </div>
 </li>
@@ -936,7 +936,7 @@ class attribute)</p>
 <ul>
 <li><p class="first"><a href="#system-message-61"><span class="problematic" id="problematic-61">:dudir:`raw &lt;raw-data-pass-through&gt;`</span></a> (include raw target-format markup)</p>
 <div class="system-message" id="system-message-61">
-<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">basics.rst</tt>, line 369); <em><a href="#problematic-61">backlink</a></em></p>
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">.\basics.rst</tt>, line 369); <em><a href="#problematic-61">backlink</a></em></p>
 <p>Unknown interpreted text role &quot;dudir&quot;.</p>
 </div>
 </li>
@@ -944,13 +944,13 @@ class attribute)</p>
 when given an absolute include file path, this directive takes it as
 relative to the source directory</p>
 <div class="system-message" id="system-message-62">
-<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">basics.rst</tt>, line 370); <em><a href="#problematic-62">backlink</a></em></p>
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">.\basics.rst</tt>, line 370); <em><a href="#problematic-62">backlink</a></em></p>
 <p>Unknown interpreted text role &quot;dudir&quot;.</p>
 </div>
 </li>
 <li id="rstclass"><p class="first"><a href="#system-message-63"><span class="problematic" id="problematic-63">:dudir:`class`</span></a> (assign a class attribute to the next element)</p>
 <div class="system-message" id="system-message-63">
-<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">basics.rst</tt>, line 376); <em><a href="#problematic-63">backlink</a></em></p>
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">.\basics.rst</tt>, line 376); <em><a href="#problematic-63">backlink</a></em></p>
 <p>Unknown interpreted text role &quot;dudir&quot;.</p>
 </div>
 <div class="admonition note">
@@ -966,17 +966,17 @@ will be shadowed.  Therefore, Sphinx re-exports it as <tt class="docutils litera
 <li><p class="first"><a href="#system-message-64"><span class="problematic" id="problematic-64">:dudir:`meta`</span></a>
 (generation of HTML <tt class="docutils literal">&lt;meta&gt;</tt> tags, see also <a href="#system-message-65"><span class="problematic" id="problematic-65">:ref:`html-meta`</span></a> below)</p>
 <div class="system-message" id="system-message-64">
-<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">basics.rst</tt>, line 385); <em><a href="#problematic-64">backlink</a></em></p>
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">.\basics.rst</tt>, line 385); <em><a href="#problematic-64">backlink</a></em></p>
 <p>Unknown interpreted text role &quot;dudir&quot;.</p>
 </div>
 <div class="system-message" id="system-message-65">
-<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">basics.rst</tt>, line 385); <em><a href="#problematic-65">backlink</a></em></p>
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">.\basics.rst</tt>, line 385); <em><a href="#problematic-65">backlink</a></em></p>
 <p>Unknown interpreted text role &quot;ref&quot;.</p>
 </div>
 </li>
 <li><p class="first"><a href="#system-message-66"><span class="problematic" id="problematic-66">:dudir:`title &lt;metadata-document-title&gt;`</span></a> (override document title)</p>
 <div class="system-message" id="system-message-66">
-<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">basics.rst</tt>, line 387); <em><a href="#problematic-66">backlink</a></em></p>
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">.\basics.rst</tt>, line 387); <em><a href="#problematic-66">backlink</a></em></p>
 <p>Unknown interpreted text role &quot;dudir&quot;.</p>
 </div>
 </li>
@@ -986,13 +986,13 @@ will be shadowed.  Therefore, Sphinx re-exports it as <tt class="docutils litera
 <ul>
 <li><p class="first"><a href="#system-message-67"><span class="problematic" id="problematic-67">:dudir:`default-role`</span></a> (set a new default role)</p>
 <div class="system-message" id="system-message-67">
-<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">basics.rst</tt>, line 391); <em><a href="#problematic-67">backlink</a></em></p>
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">.\basics.rst</tt>, line 391); <em><a href="#problematic-67">backlink</a></em></p>
 <p>Unknown interpreted text role &quot;dudir&quot;.</p>
 </div>
 </li>
 <li><p class="first"><a href="#system-message-68"><span class="problematic" id="problematic-68">:dudir:`role`</span></a> (create a new role)</p>
 <div class="system-message" id="system-message-68">
-<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">basics.rst</tt>, line 392); <em><a href="#problematic-68">backlink</a></em></p>
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">.\basics.rst</tt>, line 392); <em><a href="#problematic-68">backlink</a></em></p>
 <p>Unknown interpreted text role &quot;dudir&quot;.</p>
 </div>
 </li>
@@ -1000,7 +1000,7 @@ will be shadowed.  Therefore, Sphinx re-exports it as <tt class="docutils litera
 <p>Since these are only per-file, better use Sphinx's facilities for setting the
 <a href="#system-message-69"><span class="problematic" id="problematic-69">:confval:`default_role`</span></a>.</p>
 <div class="system-message" id="system-message-69">
-<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">basics.rst</tt>, line 394); <em><a href="#problematic-69">backlink</a></em></p>
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">.\basics.rst</tt>, line 394); <em><a href="#problematic-69">backlink</a></em></p>
 <p>Unknown interpreted text role &quot;confval&quot;.</p>
 </div>
 </li>
@@ -1010,18 +1010,18 @@ will be shadowed.  Therefore, Sphinx re-exports it as <tt class="docutils litera
 <p>Do <em>not</em> use the directives <a href="#system-message-70"><span class="problematic" id="problematic-70">:dudir:`sectnum`</span></a>, <a href="#system-message-71"><span class="problematic" id="problematic-71">:dudir:`header`</span></a> and
 <a href="#system-message-72"><span class="problematic" id="problematic-72">:dudir:`footer`</span></a>.</p>
 <div class="system-message" id="system-message-70">
-<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">basics.rst</tt>, line 399); <em><a href="#problematic-70">backlink</a></em></p>
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">.\basics.rst</tt>, line 399); <em><a href="#problematic-70">backlink</a></em></p>
 Unknown interpreted text role &quot;dudir&quot;.</div>
 <div class="system-message" id="system-message-71">
-<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">basics.rst</tt>, line 399); <em><a href="#problematic-71">backlink</a></em></p>
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">.\basics.rst</tt>, line 399); <em><a href="#problematic-71">backlink</a></em></p>
 Unknown interpreted text role &quot;dudir&quot;.</div>
 <div class="last system-message" id="system-message-72">
-<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">basics.rst</tt>, line 399); <em><a href="#problematic-72">backlink</a></em></p>
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">.\basics.rst</tt>, line 399); <em><a href="#problematic-72">backlink</a></em></p>
 Unknown interpreted text role &quot;dudir&quot;.</div>
 </div>
 <p>Directives added by Sphinx are described in <a href="#system-message-73"><span class="problematic" id="problematic-73">:doc:`directives`</span></a>.</p>
 <div class="system-message" id="system-message-73">
-<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">basics.rst</tt>, line 402); <em><a href="#problematic-73">backlink</a></em></p>
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">.\basics.rst</tt>, line 402); <em><a href="#problematic-73">backlink</a></em></p>
 Unknown interpreted text role &quot;doc&quot;.</div>
 <p>Basically, a directive consists of a name, arguments, options and content.
 (Keep this terminology in mind, it is used in the next chapter describing
@@ -1064,7 +1064,7 @@ it does not start with a space.</p>
 <h1>Images</h1>
 <p>reST supports an image directive (<a href="#system-message-74"><span class="problematic" id="problematic-74">:dudir:`ref &lt;image&gt;`</span></a>), used like so:</p>
 <div class="system-message" id="system-message-74">
-<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">basics.rst</tt>, line 447); <em><a href="#problematic-74">backlink</a></em></p>
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">.\basics.rst</tt>, line 447); <em><a href="#problematic-74">backlink</a></em></p>
 Unknown interpreted text role &quot;dudir&quot;.</div>
 <pre class="literal-block">
 .. image:: gnu.png
@@ -1095,17 +1095,17 @@ builder would choose the former, while the HTML builder would prefer the
 latter.  Supported image types and choosing priority are defined at
 <a href="#system-message-77"><span class="problematic" id="problematic-77">:doc:`/usage/builders/index`</span></a>.</p>
 <div class="system-message" id="system-message-75">
-<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">basics.rst</tt>, line 472); <em><a href="#problematic-75">backlink</a></em></p>
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">.\basics.rst</tt>, line 472); <em><a href="#problematic-75">backlink</a></em></p>
 Unknown interpreted text role &quot;file&quot;.</div>
 <div class="system-message" id="system-message-76">
-<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">basics.rst</tt>, line 472); <em><a href="#problematic-76">backlink</a></em></p>
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">.\basics.rst</tt>, line 472); <em><a href="#problematic-76">backlink</a></em></p>
 Unknown interpreted text role &quot;file&quot;.</div>
 <div class="system-message" id="system-message-77">
-<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">basics.rst</tt>, line 472); <em><a href="#problematic-77">backlink</a></em></p>
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">.\basics.rst</tt>, line 472); <em><a href="#problematic-77">backlink</a></em></p>
 Unknown interpreted text role &quot;doc&quot;.</div>
 <p>Note that image file names should not contain spaces.</p>
 <div class="system-message">
-<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">basics.rst</tt>, line 482)</p>
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">.\basics.rst</tt>, line 482)</p>
 <p>Unknown directive type &quot;versionchanged&quot;.</p>
 <pre class="literal-block">
 .. versionchanged:: 0.4
@@ -1114,7 +1114,7 @@ Unknown interpreted text role &quot;doc&quot;.</div>
 </pre>
 </div>
 <div class="system-message">
-<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">basics.rst</tt>, line 485)</p>
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">.\basics.rst</tt>, line 485)</p>
 <p>Unknown directive type &quot;versionchanged&quot;.</p>
 <pre class="literal-block">
 .. versionchanged:: 0.6
@@ -1123,7 +1123,7 @@ Unknown interpreted text role &quot;doc&quot;.</div>
 </pre>
 </div>
 <div class="system-message">
-<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">basics.rst</tt>, line 488)</p>
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">.\basics.rst</tt>, line 488)</p>
 <p>Unknown directive type &quot;versionchanged&quot;.</p>
 <pre class="literal-block">
 .. versionchanged:: 1.5
@@ -1139,7 +1139,7 @@ Unknown interpreted text role &quot;doc&quot;.</div>
 location, and add the footnote body at the bottom of the document after a
 &quot;Footnotes&quot; rubric heading, like so:</p>
 <div class="system-message" id="system-message-78">
-<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">basics.rst</tt>, line 495); <em><a href="#problematic-78">backlink</a></em></p>
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">.\basics.rst</tt>, line 495); <em><a href="#problematic-78">backlink</a></em></p>
 Unknown interpreted text role &quot;duref&quot;.</div>
 <pre class="literal-block">
 Lorem ipsum [#f1]_ dolor sit amet ... [#f2]_
@@ -1158,7 +1158,7 @@ footnotes without names (<tt class="docutils literal"><span class="pre">[#]_</sp
 additional feature that they are &quot;global&quot;, i.e. all citations can be referenced
 from all files.  Use them like so:</p>
 <div class="system-message" id="system-message-79">
-<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">basics.rst</tt>, line 513); <em><a href="#problematic-79">backlink</a></em></p>
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">.\basics.rst</tt>, line 513); <em><a href="#problematic-79">backlink</a></em></p>
 Unknown interpreted text role &quot;duref&quot;.</div>
 <pre class="literal-block">
 Lorem ipsum [Ref]_ dolor sit amet.
@@ -1174,7 +1174,7 @@ numeric or begins with <tt class="docutils literal">#</tt>.</p>
 are pieces of text and/or markup referred to in the text by <tt class="docutils literal">|name|</tt>.  They
 are defined like footnotes with explicit markup blocks, like this:</p>
 <div class="system-message" id="system-message-80">
-<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">basics.rst</tt>, line 528); <em><a href="#problematic-80">backlink</a></em></p>
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">.\basics.rst</tt>, line 528); <em><a href="#problematic-80">backlink</a></em></p>
 Unknown interpreted text role &quot;duref&quot;.</div>
 <pre class="literal-block">
 .. |name| replace:: replacement *text*
@@ -1187,10 +1187,10 @@ Unknown interpreted text role &quot;duref&quot;.</div>
 <p>See the <a href="#system-message-81"><span class="problematic" id="problematic-81">:duref:`reST reference for substitutions &lt;substitution-definitions&gt;`</span></a>
 for details.</p>
 <div class="system-message" id="system-message-81">
-<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">basics.rst</tt>, line 539); <em><a href="#problematic-81">backlink</a></em></p>
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">.\basics.rst</tt>, line 539); <em><a href="#problematic-81">backlink</a></em></p>
 Unknown interpreted text role &quot;duref&quot;.</div>
 <div class="system-message">
-<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">basics.rst</tt>, line 542)</p>
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">.\basics.rst</tt>, line 542)</p>
 <p>Unknown directive type &quot;index&quot;.</p>
 <pre class="literal-block">
 .. index:: ! pair: global; substitutions
@@ -1204,17 +1204,17 @@ and include it into all documents you want to use them in, using the
 extension differing from that of other source files, to avoid Sphinx finding it
 as a standalone document.)</p>
 <div class="system-message" id="system-message-82">
-<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">basics.rst</tt>, line 544); <em><a href="#problematic-82">backlink</a></em></p>
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">.\basics.rst</tt>, line 544); <em><a href="#problematic-82">backlink</a></em></p>
 Unknown interpreted text role &quot;confval&quot;.</div>
 <div class="system-message" id="system-message-83">
-<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">basics.rst</tt>, line 544); <em><a href="#problematic-83">backlink</a></em></p>
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">.\basics.rst</tt>, line 544); <em><a href="#problematic-83">backlink</a></em></p>
 Unknown interpreted text role &quot;confval&quot;.</div>
 <div class="system-message" id="system-message-84">
-<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">basics.rst</tt>, line 544); <em><a href="#problematic-84">backlink</a></em></p>
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">.\basics.rst</tt>, line 544); <em><a href="#problematic-84">backlink</a></em></p>
 Unknown interpreted text role &quot;dudir&quot;.</div>
 <p>Sphinx defines some default substitutions, see <a href="#system-message-85"><span class="problematic" id="problematic-85">:ref:`default-substitutions`</span></a>.</p>
 <div class="system-message" id="system-message-85">
-<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">basics.rst</tt>, line 551); <em><a href="#problematic-85">backlink</a></em></p>
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">.\basics.rst</tt>, line 551); <em><a href="#problematic-85">backlink</a></em></p>
 Unknown interpreted text role &quot;ref&quot;.</div>
 </div>
 <div class="section" id="comments">
@@ -1223,7 +1223,7 @@ Unknown interpreted text role &quot;ref&quot;.</div>
 footnotes above) is regarded as a comment (<a href="#system-message-86"><span class="problematic" id="problematic-86">:duref:`ref &lt;comments&gt;`</span></a>).  For
 example:</p>
 <div class="system-message" id="system-message-86">
-<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">basics.rst</tt>, line 557); <em><a href="#problematic-86">backlink</a></em></p>
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">.\basics.rst</tt>, line 557); <em><a href="#problematic-86">backlink</a></em></p>
 Unknown interpreted text role &quot;duref&quot;.</div>
 <pre class="literal-block">
 .. This is a comment.
@@ -1243,7 +1243,7 @@ Unknown interpreted text role &quot;duref&quot;.</div>
 <a class="reference external" href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/meta">metadata element</a> of a Sphinx documentation page.  For example, the
 directive:</p>
 <div class="system-message" id="system-message-87">
-<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">basics.rst</tt>, line 577); <em><a href="#problematic-87">backlink</a></em></p>
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">.\basics.rst</tt>, line 577); <em><a href="#problematic-87">backlink</a></em></p>
 Unknown interpreted text role &quot;dudir&quot;.</div>
 <pre class="literal-block">
 .. meta::
@@ -1279,7 +1279,7 @@ signs in reST is to directly write them as Unicode characters, one has to
 specify an encoding.  Sphinx assumes source files to be encoded in UTF-8 by
 default; you can change this with the <a href="#system-message-88"><span class="problematic" id="problematic-88">:confval:`source_encoding`</span></a> config value.</p>
 <div class="system-message" id="system-message-88">
-<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">basics.rst</tt>, line 614); <em><a href="#problematic-88">backlink</a></em></p>
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">.\basics.rst</tt>, line 614); <em><a href="#problematic-88">backlink</a></em></p>
 Unknown interpreted text role &quot;confval&quot;.</div>
 </div>
 <div class="section" id="gotchas">
@@ -1291,7 +1291,7 @@ separated from the surrounding text by non-word characters, you have to use a
 backslash-escaped space to get around that.  See <a href="#system-message-89"><span class="problematic" id="problematic-89">:duref:`the reference
 &lt;substitution-definitions&gt;`</span></a> for the details.</p>
 <div class="system-message" id="system-message-89">
-<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">basics.rst</tt>, line 625); <em><a href="#problematic-89">backlink</a></em></p>
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">.\basics.rst</tt>, line 625); <em><a href="#problematic-89">backlink</a></em></p>
 <p>Unknown interpreted text role &quot;duref&quot;.</p>
 </div>
 </li>

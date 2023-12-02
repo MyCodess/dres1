@@ -1,6 +1,6 @@
 ______________________ powershell 5.1 win10 dnts /_200800 :   ____________________________________
 
-    - _RF also : powershell101.pdf , and https://docs.microsoft.com/en-us/powershell/
+    - _RF also : powershell101.pdf + and https://docs.microsoft.com/en-us/powershell/
 
 
 #####  ==========  pre-start:
@@ -61,6 +61,11 @@ ______________________ powershell 5.1 win10 dnts /_200800 :   __________________
 	help *process*   ##ok but "*" not required.  Get-Help automatically adds the wildcard characters behind the scenes; BUT NOT added if you have a * somewhere !eg: help pro*cess
 ##________________________________________  ___________________________
 
+
+
+#####  ==========  cmdline-params/invoke powershell :
+    - invoke-params:  https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_powershell_exe
+##________________________________________  ___________________________
 
 #####  ==========  Comparison-Operators (eq , lt, gt, ...):
 	help about_Comparison_Operators

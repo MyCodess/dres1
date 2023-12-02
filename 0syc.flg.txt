@@ -1,0 +1,12 @@
+
+#####  ==========   ========== ========== 20231202-091356 : =====================__________
+lv13
+Sat Dec  2 09:13:56 CET 2023
+ _RF/source--backedup_from:   lv13 :  /c/Users/a1/up1/t1/nps/2So/231201-ofc1_1trans/1unp/231201-dres-ofc1     on: /c/Users/a1/up1/t1/nps/2So/231201-ofc1_1trans/1unp
+ _BP/_CP/dest--backedup_to:   lv13 :  /c/Users/a1/up1/w1/dc1K/dres/  on: /c/Users/a1/up1/w1/dc1K/dres
+/c/Users/a1/up1/w1/dc1K/dres
+total 0
+drwxr-xr-x 1 a1 Kein 0 Oct 31 13:12 codecs1_dres
+drwxr-xr-x 1 a1 Kein 0 Nov  4 11:17 dnts
+
+##________________________________________  ___________________________ ========== __1END__ : 20231202-091356 __________

@@ -2,7 +2,7 @@ ___________ collections : lists_dicts_sets_tupels : ____________________________
 
 ################### Allg/collections/All-listings...: #############################
 #####  ==========  printouts/show-listings:
-    - !! beutifyed-printouts-of-listings,  pydoc pprint :  pretty print module   ##--eg  pprint.pp(dir(sys)) ;
+    - !! beautifyed-printouts-of-listings,  pydoc pprint :  pretty print module   ##--eg  pprint.pp(dir(sys)) ;
 ##________________________________________  ___________________________
 
 
