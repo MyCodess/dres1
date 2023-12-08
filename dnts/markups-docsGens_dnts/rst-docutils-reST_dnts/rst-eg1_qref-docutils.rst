@@ -4,7 +4,18 @@ Quick reStructuredText
 `DocUtils-Quick-Ref <https://docutils.sourceforge.io/docs/user/rst/quickref.html>`_  :
 Being a cheat-sheet for reStructuredText
 
-------------------------------------------------------------------------------
+python conventions for sections-marks:
+---------------------------------------------------------
+| Titles are underlined (or over- and underlined) with a nonalphanumeric character at least as long as the text.
+| A lone top-level section is lifted up to be the document's title.
+| Any non-alphanumeric character can be used, but Python convention is:
+
+- ``#`` with overline, for parts
+- ``*`` with overline, for chapters
+- ``=``, for sections
+- ``-``, for subsections
+- ``^``, for subsubsections
+- ``"``, for paragraphs
 
 ----- Inline Markup :
 ------------------------------------

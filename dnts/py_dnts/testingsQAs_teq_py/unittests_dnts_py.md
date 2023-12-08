@@ -69,9 +69,21 @@ ___________________ unittest of StdLib_py : ____________________________________
 
 
 #####  ==========  mock / unittest.mock in Python > 3.3 :
-    - unittest.mock RefDocs :  /library/unittest.mock.html  + /library/unittest.mock-examples.html  +  https://pypi.org/project/mock/
-    - unittest.mock :  https://opensource.com/article/23/4/using-mocks-python +  https://realpython.com/python-mock-library/ + https://www.pythontutorial.net/python-unit-testing/python-unittest-mock/
-    
+
+	- unittest.mock RefDocs :  /library/unittest.mock.html  + /library/unittest.mock-examples.html  +  https://pypi.org/project/mock/
+	- unittest.mock :  https://opensource.com/article/23/4/using-mocks-python +  https://realpython.com/python-mock-library/ + https://www.pythontutorial.net/python-unit-testing/python-unittest-mock/
+	- date-time-mocking-lib (from realplay-dc):  https://github.com/spulec/freezegun
+
+	_______:  mock / patch:
+	https://www.pythontutorial.net/python-unit-testing/python-unittest-mock/
+	- https://realpython.com/python-mock-library/
+	--- patching:
+	https://www.pythontutorial.net/python-unit-testing/python-patch/
+	! Because of the @patch decorator, the decorated method has an additional argument mock_read which is an instance of the MagicMock.
+##________________________________________  ___________________________
+
+
+#####  ========== unittest: patch /mock:
 ##________________________________________  ___________________________
 
 

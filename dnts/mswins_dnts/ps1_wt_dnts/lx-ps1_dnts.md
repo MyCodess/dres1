@@ -39,6 +39,7 @@
 			- findstr stronger/neuer than find ! win-find-cmds are grep !! and not Lx-finds !! 
  			-  find : !! MUST use """search-string""" to work !! funny!  eg:  C:\WINDOWS\system32\find.exe  /I  """col"""   .\etcau\config\xfce4\teminal_nts.txt
 		--- Select-String :
+        - eg:  Select-String  regexp1  f1.txt   == grep -i  regexp1  f1.txt    ##--- the pattern/search-word is always regexp there !! see below nts!
 		- eg:  expg ==  ls env:  | Out-String  -Stream |  Select-String  -Pattern  "C:\\Users\\DKX8H1N"    ##--pattern is regexp ! so not-working with single \ here in eg !! \ mus be escaped 
 		- Because the Get-Help cmdlet generates a MamlCommandHelpInfo object, not a string, you have to use a cmdlet that transforms the help topic content into a string, such as Out-String or Out-File.
 		- eg:  Get-Alias  | Select-String  cd 
@@ -46,6 +47,35 @@
 		- | grepi , so piping to grep (usu. must convert objects into strings):   Get-Alias  | Out-String -Stream |   Select-String  variable
 		- grepi -R  bzw. find path1 | grepi str1  ==  Get-ChildItem -Path C:\Windows\System32\*.txt -Recurse | Select-String -Pattern 'str1'
 	- less ==  eg:  Get-Help Format-Table | Out-Host -Paging
+    - ln  [-s]   ==   New-Item -ItemType SymbolicLink/HardLink/ (junction), ... :
+        --- links (hard/symlink):
+        - ln -s /SymLinks  ==   New-Item -ItemType SymbolicLink  -Target C:\Users\DKX8H1N\var3\w3\cod1  -Path  .\cod1  ##--PS-Terminal-Admin/elavated !
+        - ln / hardLinks /junctions to DIRs:  New-Item -ItemType HardLink -Path "Link" -Target "Target"
+        - three types of file links supported in the NTFS file system: hard links, junctions, and symbolic links. Otherwise known as Reparse Points :
+        - get/show target of a link:   (Get-Item  .\dir1).target  #-OR:  Get-ChildItem | Select-Object  name,*target,LinkType,mode
+        - ! remove/delete a symlink :  (get-item .\link1).delete()   ##--!- NOT rm/del/rmdir/remove-item !! they all want to temove the link-target really !!
+        --- SymLinks /  -ItemType SymbolicLink  :
+            - SymLinks/soft-links that are basically advanced shortcuts.
+            - files+DIRs+NWs+UNC :  You can create a symbolic link to a local or remote file, folder, or NW-shares path
+            - explorer-icon :  Symbolic links will have a shortcut arrow icon on them.
+            - (mlink cmd is obs. ! is cmd-command, not in powershell !)
+        --- HardLinks nts:
+            - ONLY-LOCAL-FILES-on-same-Volume/Partition targets ! Hard Links can only point to a local file, but not to a folder or NW or UNC-path !
+            - no-DIRs : HardLink  only for files! not DIRs !
+            - no-NWs /no-UNC : Hard links do not support UNC/NW-paths (\\mypc\myshare1 ...)
+            - explorer-NO-icon: Hard links to a file will NOT have a shortcut arrow icon on them.
+            - Starting with Windows Vista, hard links are also widely utilized by Windows and its Servicing mechanism. Many system files are hard links to files inside the Windows Component Store folder. If you run the command fsutil hardlink list for explorer.exe, notepad.exe or regedit.exe, you can see this yourself!
+            - fsutil hardlink list   C:\Windows\System32\notepad.exe
+        --- Junctions nts /obs. :
+            - obs./pre-Vista:  junctions obs. too old!  see https://winaero.com/create-symbolic-link-windows-10-powershell/ :
+            - ONLY-to-LOCAL-DIR (ok-other-volume/partition!), no-files, no-NW, no-UNC :  Junctions (Directory Junction) are soft links that can only be created to a local folder (directory) path.
+            - Junction Points (Directory Hard Link) can only point to a local directory (on the same or another volume);
+            - explorer-icon :  Junction points will have a shortcut arrow icon on them.
+            - A Directory Junction is an older type of symbolic link, which does not support UNC paths (network paths that begin with \\) and relative paths. 
+            - A directory symbolic link on the other hand also supports UNC and relative paths. However, they require at least Windows Vista.
+        --- all-links:
+            - Deleting anything in the link/junction or target (source) folder will delete it in both folders.
+            - Deleting the hard link, symbolic link, or junction point itself will not delete anything in the target (source) folder.
 	- man -k (all help-pages containing certain word)  ==   Get-Help -Name  myword1     ##--When you enter a word that doesn't appear in any article title, Get-Help displays a list of articles that include that word.  
 	- mount :
 		- listing of mounted parts (lx: mount):  Get-PSDrive
@@ -64,6 +94,8 @@
 		- Get-Command  ,eg: (Get-Command   prompt   -CommandType Function).Definition
 		- Get-Content  ; also for other things eg (show prompt function): Get-Content  Function:\prompt
 	- wc -l /... :   Get-Content C:\Temp\tmp.txt | Measure-Object -Character -Line -Word
+    - wget / curl :   Alias    wget -> Invoke-WebRequest
+    - which  ==    (Get-Command  python).path
 	
 	--- Shell-Syntax:
 	- if [condition] then something fi  ==	if (condition) { something }

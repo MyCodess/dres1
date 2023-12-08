@@ -1,6 +1,8 @@
 sphinx-dnts /:230626  
 ===========================================
 
+    - !! see the real dnts-live/_RF in dres in py_dres_1kk/0-frameworks_py/docsGens-markupsLibs_py/sphinx_dres/sx-ext1/  !! not-all dnts there are here!
+    - !! acronym_1kk : sx  == sphinx
 
 #####  ==========  nts/docs/urls/...-sphinx:
 	_______:  docs
@@ -11,6 +13,9 @@ sphinx-dnts /:230626
 #####  ==========  configs/settings:
     ./source/conf.py
     https://www.sphinx-doc.org/en/master/usage/configuration.html
+    --- in conf.py :
+    - toctree-path.entries with "/" , also on mswin!
+    - no files-suffixes required!
 ##________________________________________  ___________________________
 
 

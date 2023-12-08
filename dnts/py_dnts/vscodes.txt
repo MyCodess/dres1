@@ -14,6 +14,7 @@ ____________________ VSCode -py+... ____________________________________________
 	_______:  USER-settings:
 	"C:\Users\a1\AppData\Roaming\Code"  ( +??  ~/.vscode/  )
 	"C:\Users\a1\AppData\Roaming\Code\User\settings.json"
+	~/.vscode  ##--extensions,...
 	--- keybindings /keymaps/ key.shortcuts/hotkeys:
 	-! sometimes the default keyboard-shortcuts in Help/Online-Guides/... are obv. für US-Keyboard !?
 	ctrl-k ctrl-s  : open keyboard shortcuts
