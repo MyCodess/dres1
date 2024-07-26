@@ -1,0 +1,33 @@
+#  logging config file:
+#  for more/less logging outputs just change here all "level=" params to NOTSET / ERROR / ... :
+#  possible values of "level" for less logging outputs up to more are:
+#  level=  CRITICAL < ERROR < WARNING < INFO < DEBUG  < TRACE < NOTSET
+
+[loggers]
+keys=root
+
+[logger_root]
+level=NOTSET
+handlers=console1
+# leave the root-level un-filtered/0, so that tha handlers will set the level ! except if using custom levels!
+
+[formatters]
+keys=short1,long1
+
+[handlers]
+keys=console1
+
+# #################### subsections : ##############################################
+[formatter_short1]
+format=-- %(levelname)s :: %(name)s :: %(funcName)s :: %(lineno)d ::-- %(message)s
+
+[formatter_long1]
+format=-- %(levelname)s :: %(name)s :: %(funcName)s :: %(lineno)d ::-- %(message)s :: %(asctime)s :: %(pathname)s
+
+[handler_console1]
+class=StreamHandler
+formatter=short1
+level=INFO
+args=(sys.stdout,)
+# args=(...,) : requires ALWAYS commata at the end!
+

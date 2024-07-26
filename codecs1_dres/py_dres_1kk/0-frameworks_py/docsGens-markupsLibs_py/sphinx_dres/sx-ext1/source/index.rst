@@ -13,6 +13,8 @@ Sphinx-Extensions-eg1
     ext1/autosummary1.rst
     ext1/doctest1_ext_spx.rst
     ext1/classesTree_diagram-eg1.rst
+    ext1/pyDomain_sx1.rst
+    ext1/pyDomain_sx2.rst
 
 ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 

@@ -1,0 +1,42 @@
+#  logging config file:
+#  for more/less logging outputs just change here all "level=" params to NOTSET / ERROR / ... :
+#  possible values of "level" for less logging outputs up to more are:
+#  level=  CRITICAL < ERROR < WARNING < INFO < DEBUG  < TRACE < NOTSET
+
+[loggers]
+keys=root
+
+[logger_root]
+level=NOTSET
+# only console output! NO logfile:   
+# handlers=console1
+# generate also logfile + console output:   
+handlers=console1,logfile1
+# leave the root-level un-filtered/0, so that tha handlers will set the level ! except if using custom levels!
+
+[formatters]
+keys=short1,long1
+
+[handlers]
+keys=console1,logfile1
+
+# #################### subsections : ##############################################
+[formatter_short1]
+format=-- %(levelname)s :: %(name)s :: %(funcName)s :: %(lineno)d ::-- %(message)s
+
+[formatter_long1]
+format=-- %(levelname)s :: %(name)s :: %(funcName)s :: %(lineno)d ::-- %(message)s :: %(asctime)s :: %(pathname)s
+
+[handler_console1]
+class=StreamHandler
+formatter=short1
+level=NOTSET
+args=(sys.stdout,)
+
+[handler_logfile1]
+class=FileHandler
+level=NOTSET
+formatter=long1
+args=('./tmp/netservices_tests_integ.log','w',)
+# args=(...,) : requires ALWAYS commata at the end!
+

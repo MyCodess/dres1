@@ -1,0 +1,5 @@
+2024-04-12 10:49:55,945 :: DEBUG :: nsv.log :: <module> :: 25 :: 
+
+========== __START-LOGGING__  =============== :: C:\Users\DKX8H1N\var3\w3\cod1\works1\loggings1\customLevel_configfile_logging1\log.py
+2024-04-12 10:49:55,945 :: DEBUG :: nsv.log :: <module> :: 26 :: ___ loading logging-configfile: C:\Users\DKX8H1N\var3\w3\cod1\works1\loggings1\customLevel_configfile_logging1\log.conf :: C:\Users\DKX8H1N\var3\w3\cod1\works1\loggings1\customLevel_configfile_logging1\log.py
+2024-04-12 10:49:55,945 :: DEBUG :: nsv.__main__ :: <module> :: 11 :: ___debug-from-C:\Users\DKX8H1N\var3\w3\cod1\works1\loggings1\customLevel_configfile_logging1\use1_logconf.py :: C:\Users\DKX8H1N\var3\w3\cod1\works1\loggings1\customLevel_configfile_logging1\use1_logconf.py

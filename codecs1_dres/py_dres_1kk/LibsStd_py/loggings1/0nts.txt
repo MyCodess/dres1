@@ -1,0 +1,13 @@
+
+
+#####  ==========  __CP_ from dnts:
+	here implementation for differen logging+configs alternatives :
+
+    _______:  3 ways to configure logging:
+    1- in-code-config   :  create loggers/handlers/... in your code and call their methods of setLevel/setFormetter/...
+    2- config-file      : create a text-config-file and assign it to your root-logger with: logging.config.fileConfig(fname, ...)
+    3- dict-configs     : Creating a dictionary of configuration information and passing it to logging.config.dictConfig(config)
+    - see https://docs.python-guide.org/writing/logging/ +   html/howto/logging.html#configuring-logging
+	----------
+##________________________________________  ___________________________
+

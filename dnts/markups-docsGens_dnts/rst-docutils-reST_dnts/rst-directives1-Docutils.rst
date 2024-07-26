@@ -30,7 +30,14 @@ Directives Definition/Notes
 ------------------------------------------------------------
 
 - Directives are a general-purpose extension mechanism, a way of adding support for new constructs without adding new syntax. 
-- Directives Syntax:  ".." <directive type/name> "::" <directive block>
+- Directives-Structure/Syntax/elements/Def::
+
+    ".." <directive type/name> "::" <directive Arguments>
+        <directive Options>....
+        \n
+        <directive body/content>
+
+- short:   ".." <directive type/name> "::" <directive block>
 
 ........................................................................
 
@@ -89,11 +96,12 @@ here normal text again after sidebar directive ...
 math
 ------------------------------------------------------------
 
-"math" directive inserts blocks with mathematical content 
+"math" directive inserts blocks with mathematical content
+::
 
-.. math::
+    .. math::
 
-  α_t(i) = P(O_1, O_2, … O_t, q_t = S_i λ)
+    .. not-working-yet   α_t(i) = P(O_1, O_2, … O_t, q_t = S_i λ)
 
 ........................................................................
 

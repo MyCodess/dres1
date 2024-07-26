@@ -1,0 +1,32 @@
+" ================== mouse/... :
+set  mouse=i   " for paste-mappings in mswin! otherwise if mouse= ,then alls mouse-setting have no efefcts!
+" set right-click to insert+clipboard
+inoremap  <RightMouse>  <c-r>+
+nnoremap  <RightMouse>  i<c-r>+
+"
+"====== good fonts kde:
+"set  guifont=Consolas:h10
+"set guifont=Source\ Code\ Pro\ 10   " La12_DELL-ok-by-xfce4_appearance_no_custom_dpi, i.e. just 100%
+"set guifont=Source\ Code\ Pro\ 8    " asus11-rosa-ok
+"set guifont=Source\ Code\ Pro\ 9     " HP13 + Lv13-ok-by-xfce4_appearance_no_custom_dpi, i.e. just 100%
+"set guifont=Droid\ Sans\ Mono\ 9
+"set guifont=Liberation\ Mono\ 9     "OK--x13--suse111-kde--last , also/or set size=8
+"set guifont=Monospace\ 11           "OK--ku4+x13
+"set guifont=Monospace\ 8           "OK--offc- ##--offc-
+"---- second-font-alternatives:
+"set guifont=DejaVu\ Sans\ Mono\ 10          "OK2--vo17-suse113-kde
+"set guifont=Lucida\ Sans\ Typewriter\ 9     "x13 , or set size=8
+"set guifont=Nimbus\ Mono\ L\ 8
+"set guifont=Misc\ Fixed\ 9  "in82+vo17
+
+"============================= Gui-Window-Position,Size,... (somme only for MsWin):
+"winsize 140 50  "is obsolete, see help winsize
+" set lines=50 columns=180 "window-size
+"autocmd GUIEnter * winpos 250 250	" vi-window-position at startup
+"set guifont=Lucida_Console:h9:cANSI
+"set background=dark
+"colorscheme default  "pablo_uu1
+"hi Normal guifg=white ctermfg=white
+"set textwidth=522      " --offc-
+"setlocal textwidth=522      " --offc-
+

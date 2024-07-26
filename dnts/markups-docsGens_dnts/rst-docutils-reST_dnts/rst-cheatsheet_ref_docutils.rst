@@ -79,6 +79,14 @@ Inline Markup
 - [CIT2002]_ ;
 - |substitution| ;
 - _`inline internal target`.
+- comments: see the source for commented lines here !
+
+.. comment-oneliner, may NOT be a defined reST-construct! (but not good! to get confused with defined directives!)
+
+.. 
+    comment-multilines--line1
+    comment-multilines--line2
+    comment-multilines--line3 ...
 
 Directive Quick Reference
 =========================

@@ -1,0 +1,63 @@
+________________________ MSys2_dnts on MsWins ____________________________________
+- !! see also ofc1-mys1-stat-nts !!
+
+
+#####  ==========  symlinks / ln -s :
+
+    - !! TERRIBLE ! stupid ! FATAL !! just DISABLE msys2 default setting !!
+    - as default it is so stupid, that it COPIES instead SYMLINK!! so as default if you use "ln -s" then it replace it with "cp -a" !! terrible!
+    - so to disable it: vide-org  /c/msys64/msys2_shell.cmd  #(for wt start), and  vide-org /c/msys64/ucrt64.ini  bzw. *.ini there  #-for windows-startmenu-start , ALL .ini files there, as:
+    and activate/UNcomment line of: set MSYS=winsymlinks:nativestrict  ##so remove the "REM" 
+    - BUT then to use "ln -" you need an Admin-Terminal ! (windwos reuire adminfor symlinks !)
+##________________________________________  ___________________________
+
+
+#####  ==========  NWs:
+    ##--- proxys-settings in MSYS2 or its apps :
+    pacman/MSYS2-terminal/python-in-msys2 require proxy-settings in the format WITHOUT "http[s]://" !! so ok as:
+    declare -x https_proxy="myserver.xx.yy:8080" ...
+    BUT some apps, eg w3m ,.... work only if the format incl. "http[s]://" !! so ok as:
+    declare -x https_proxy="https://myserver.xx.yy:8080/" ...
+##________________________________________  ___________________________
+
+
+#####  ==========  ursls/nts/...:
+	https://www.msys2.org/
+    - !! ln -s : really COPIES the Stuff !! terrible!! NEVER USE !!
+##________________________________________  ___________________________
+
+
+
+#####  ==========  mounts/...
+    - C:\ is mounted to /c as default!
+    - System root is /usr, not /
+##________________________________________  ___________________________
+
+#####  ==========  Terminals-ENVs: UCRT64 / MINGW64 / MSYS ...:
+	- https://www.msys2.org/docs/environments/
+	- ACTIVE environment is selected via the MSYSTEM environment variable. Setting MSYSTEM to UCRT64 and starting a login shell will put you in that environment.
+	- MSYSTEM=UCRT64  /usr/bin/bash -i -l   ##--bzw.  MSYSTEM=UCRT64  "C:\msys64\usr\bin\bash.exe" -i -l
+    - C:\msys64\msys2_shell.cmd  -ucrt64  / --help ...
+    - wt /windows-terminal entry (not openning extra mintty-term): C:/msys64/msys2_shell.cmd -defterm -here -no-start -ucrt64  ##--see: https://www.msys2.org/docs/terminals/
+##________________________________________  ___________________________
+
+
+#####  ==========  paths:
+    -! https://www.msys2.org/docs/filesystem-paths/
+    - https://www.msys2.org/wiki/Porting/#user-content-filesystem-namespaces   : turning on/off the auto-path-convertings ...!
+    - https://www.msys2.org/wiki/How-does-MSYS2-differ-from-Cygwin/
+    - cygpath --help
+    - pwd -W
+    --- path-forms (ms , ux, mixed):
+    - ! 3 path-forms: ms + ux + mixed (mixed as eg C:/Users/DKX8H1N/var3/ ; see pwd -W )
+    - ms-path:     cygpath  -w  ~/up1/varu/varau/tests            ##-->  C:\Users\DKX8H1N\var3\w3\tests
+    - ux-path:     cygpath  -u  "C:\Users\DKX8H1N\var3\w3\tests"  ##-->  /c/Users/DKX8H1N/var3/w3/tests
+    - mixed-path:  cygpath  -m  "C:\Users\DKX8H1N\var3\w3\tests"  ##-->  C:/Users/DKX8H1N/var3/w3/tests
+    - pwd:  mixed-path:  pwd  -W  ;  ux-path:     pwd -L / -P
+##________________________________________  ___________________________
+
+
+#####  ==========  python-msys2:
+    - https://www.msys2.org/docs/python/
+##________________________________________  ___________________________
+

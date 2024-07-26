@@ -1,0 +1,26 @@
+________________________ json dnts: __________________________________________________
+
+
+
+#####  ==========  nts/urls/...:
+	Ref:  https://www.json.org/
+	PyRefDocs/html/library/json.html
+	https://quickref.me/json.html   : cheat sheet / QRef
+##________________________________________  ___________________________
+
+
+#####  ========== validate / reformat/ /pretty/ beautyfiers/... :
+	--- Py: 
+	- python -m json.tool  -h   ;  pydoc json.tool ;PyRefDoc-StdLib: json package
+	-- eg:
+	- python -m json.tool  f1.json  f1--pretty.json     ##--validate + pretty-reformatted-output of  f1.json into  f1--pretty.json !
+	- python -m json.tool --compact  f1.json  f1--compact.json   ##--compact-output
+	- echo '{"json":"obj"}' | python -m json.tool
+##________________________________________  ___________________________
+
+
+#####  ==========  cmdline-utils,...:
+	- jo : create jsons out of x=y,...   , https://github.com/jpmens/jo
+	- jq : jq is like sed for JSON data! extracting/filtering/replacing/pretty-printing/... , https://jqlang.github.io/jq/
+##________________________________________  ___________________________
+

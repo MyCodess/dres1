@@ -1,0 +1,128 @@
+"
+" ########################### arc/prev/1coll/...: ############################################################
+"
+"#####  ==========  arc/prev/1coll/... ======================================
+"##### ============= ofc1 231000 : ==============================================
+" set nobackup
+" set nowritebackup
+" ##__ok1:  execute pathogen#infect()
+
+"--- incl./source  vimrc_up1 --------------
+"--ok1-mswin: source  ~\ofc1\etc\vimrc_up1
+"--OK2-ALL-ca.:   source  ~/ofc1/etc/vimrc_up1   "--all-ok-obv.: mswin+cyg+gitbash
+"--??cyg??:  source  $USERPROFILE/ofc1/etc/vimrc_up1
+"--------------------------------------------
+" ##____________________ __1END__ ofc1-addies ___________________________
+"
+"
+
+
+"#####  ==========  vimrs_up1 from arx ca. : ##################################################
+"
+"
+"
+"#####  ==========  colors/highlights/colorschemes/...: ======================
+" hi IncSearch ctermbg=green   ""color for cu-search+replace-field !
+" colorscheme  desert
+" colorscheme  delek
+" colorscheme  morning
+"if &t_Co > 1 | syntax on | endif 	" Switch syntax highlighting on, when the terminal has colors
+"  hi statusline ctermbg=darkblue ctermfg=white   "##--only-for-vim-terminal statusline collors! for GUI if needed use: hi statusline guifg=xxx guibg=xxx
+"  set highlight+=sr	" reverse video for statusLine.   info: +=si is obsolete and now means italic!!
+"hi  Comment  cterm=none  guifg=lightgray  ctermfg=lightgray
+"let &t_Co=8     "set this, it color-terminal is not recognized properpy; OR set TERM appropriately to xterc or xterm-color,...
+"hi  Search  term=reverse ctermfg=0 ctermbg=lightgray guibg=Yellow
+"hi ShowPairsHL		cterm=bold ctermbg=3 ctermfg=black gui=bold guibg=yellow  guifg=black
+"hi ShowPairsHLPair	cterm=bold ctermbg=3 ctermfg=black gui=bold guibg=yellow  guifg=black  "hi-colors if cursor exactly on bracket!
+"________________________________________  ___________________________
+"
+"  ========== Einzelne-prev/arc/his
+" nmap <leader>da1            a<C-R>=strftime('/_%y%m%d  :  ')<CR>     "  --bis/_230414  : wegen-switch-to-mdCm-format changed! underscore-is-italic !  
+" nmap <leader>da=            I<CR>==========<Space><C-R>=strftime('/_%y%m%d :')<CR><Space><Space>    "  --bis/_230414  : wegen-switch-to-mdCm-format changed! underscore-is-italic !  
+"  ========== foldings-arc-mdCm1 (-pre_mdCm2) /_230412
+"	_______:  sets-foldings-options:
+" set foldenable
+" set foldmethod=marker	" kind of folding
+" set foldminlines=0      " Minimum number of screen lines for a fold to be displayed closed
+" set foldmarker=#####\ \ ,______________________________  " for mdCM/mdGfm/GutHub-MarkDown-files, now also for evv-dnts ! but the follwoing is obv. compatible with both dnts-foldings-formats preMD-and-mdCm :
+" set foldmarker=======\ ,______________________________________________________________________________    " for mdCM/mdGfm/GutHub-MarkDown-files, now also for evv-dnts !
+" set foldmarker=======\ ,_{78}   " for mdCM/mdGfm/GutHub-MarkDown-files, now also for evv-dnts !
+"	_______:  keymaps-insert/handle-markers :
+" nmap  <leader>==              I<CR>==========<Space>
+" nmap  <leader>__              I<CR>##_________________________________________________________<CR>
+" foldmarkers-evv-md--mdCm--GitHubs-MarkDown--GFM:
+"  evv-mdCm-marks-1-ok:  nmap  <leader>mak1              I<CR>#####<Space><Space>==========<Space><Space><CR>______________________________________________________________________________<CR><ESC>kkA
+" nmap  <leader>mak1              I<CR>#####<Space><Space>==========<Space><Space><CR><C-R>=repeat('_', 78)<CR><CR><ESC>kkA
+" folding-re-marking-md--mdCm--GitHubs-MarkDown--GFM:: converting {{==-sections-markers into new--md--mdCm--GitHubs-MarkDown--GFM-markers, for start+end:
+" nmap  <leader>remak1s     :%s/^{{{ ========*/#####<Space><Space>==========<Space><Space>/<CR>
+" nmap  <leader>remak1e     :%s/^##____________*/______________________________________________________________________________/<CR>
+" folding-re-marking-md--mdCm--GitHubs-MarkDown--GFM:: converting dnts-std-pre-github-md of =======-sections-markers into new--md--mdCm--GitHubs-MarkDown--GFM-markers:
+" nmap  <leader>remak2      :%s/^$\n\+======*<Space>*/______________________________________________________________________________\r\r#####<Space><Space>==========<Space><Space>/c<CR>
+" foldmarkers-evv-1-dnts (also WITHOUT vim-default-folding-markers would work, but so more conformed to vim-defaults ! and does NOT require extra setting of foldmarker ! ):
+" nmap  <leader>mak3              I<CR>{{{ ==========<Space><CR>##_________________________________________________________ }}}<CR><ESC>kkA
+" folding-re-marking: converting old-section-markers into new-markers with {{{ ! BUT MUST manually delete the very first sec-END in the file !:
+" nmap  <leader>remak3     :%s/\n^=====*/##_________________________________________________________ }}}\r\r{{{ ==========/<CR>
+"
+" --------------------------- foldings-pre_mdCm1: -----------------------
+" fold-auto: automatically openning/closing folds by entering/leaving:
+" set foldclose=all		" auto-closing of folds by exiting the fold
+" set foldopen=all		" auto-opening of folds by entering the fold
+" set foldcolumn=8		" show the fold-marks on the left.margin.of.8.chars
+" set foldlevel=0			"default folding level. 0==fold-all
+" set foldmethod=syntax
+" set foldminlines=0  " show closed all subfolds, even if only one line!  ##--offc
+" set foldlevelstart=99	"Sets 'foldlevel' when starting to edit another buffer ##--offc-
+"  ========== set general arc:
+" set autoindent		" always set autoindenting on. if commented out, see smartindent
+" set autochdir		" -!- if on, some plugins may NOT work??: always switch the vim-working-dir to the current-file-dir
+" set autowrite		" buffer-auto-saving if modified, on each :next, :rewind, :last, :first, :previous, :stop, :suspend, :tag,
+" set backupdir=%USER_ROOT%\var\vims		" list of directories for the backup file
+" set backup			" keep a backup file
+" set cmdheight=2		" hight of comandline window
+" set directory=%USER_ROOT%\var\vims		"'dir' list of directory names for the swap fil
+" set errorbells		"eb Ring the bell (beep or screen flash) for error messages. otherwise see visualbell
+"  earlier-encoding-till-101225 : set fileencoding=latin1	" set to latin1 (==iso-8859-1) by reading an writing, if different!! so conversion will happen!!
+" ---
+" set list		" show tabs and eol
+" set nomodeline		" for root must be of!! security! no individual views for each file, also sould be a security hole if on. see suse.10.3-vimrc
+" set paste		" set it if no indentation at all is required ;eg by simple pasting of code snippets
+" set showbreak=#->	" string to use at the start of wrapped lines
+" --offc- :  set showbreak=\ \ 	" string to use at the start of wrapped lines! spaces must be escaped, as here!! if empty, then there would be no spaces between words by copy-paste!! ##--offc-
+"  set spell  spelllang=en  "if wanted spell-checking/showing be activated as default!  spelllang=de ....
+" set title
+" set number         --show line numbers on left side, so numbered lines as in IDEs
+" see last line for viminfo; older:  set viminfo='20,\"50	" read/write a .viminfo file, don't store more than 50 lines of registers
+" set statusline=%f\ %m%h%w%r[b%n]\ %<%F%=%-14.(%l/%L,%c%V%)\ %P		" entries for statusline
+
+"  ========== mapping global keys:
+" __1.ver-ok:  nmap <leader>da=            a========== <C-R>=strftime('/_%y%m%d :')<CR><CR>
+"
+"  ========== ofc1:
+"set viminfo+=f0  " !! set to null, if no vimfile needed , or set its path with n ! see :h viminfo OR viminfo-file-marks
+"set viminfo=       "so no vimfile
+"--- ofc1-addies: autocommands-finals-ofc1: (also problems with textwidth): Ofc1!! for Hm not needed !?!?
+" set viminfo='0,<0,@0,f0,h,s0,n/tmp/.vinf_$USER        " --I-user-specific-file-OK: (must be last param in viminfo!):    n/tmp/vinf_$USER
+" autocmd  BufRead,BufNewFile *.txt    set filetype=text textwidth=0
+" autocmd  BufRead,BufNewFile *        set textwidth=0
+"autocmd  FileType text set textwidth=0
+
+"  ========== spell-checkings with eternal cmds (now doing with internal vimfiles/splell stuff !)
+"nmap <leader>sp  :w!<CR>:!spell %<CR>:e! %<CR>
+" nmap <leader>spd  :w!<CR>:!aspell -l de_de -c %<CR>:e! %<CR>   #--> de_de is " old+new-DE
+"  ??:   nmap <leader>spd           :w!<CR>:!aspell -l de_20 -c %<CR>:e! %<CR>
+" nmap <leader>spd           :w!<CR>:!aspell -l de_de -c %<CR>:e! %<CR>
+" nmap <leader>spe           :w!<CR>:!aspell -l en_us -c %<CR>:e! %<CR>
+"  ========== 
+"
+"
+"  ========== plugins/commands/without-set:
+"	_______:  showpairs/matching brackets plugin:
+"set updatetime=2000  " millisec. time take to show the matching brackets  ??? if vi too slow go gigher!
+"	_______:  misc-plugins:
+"runtime! ftplugin/man.vim  " man pages plugin (:Man ...); if vi slow, take it out !!?
+"
+"________________________________________  ___________________________
+"
+"##________________________________________  ___________________________
+"
+execute pathogen#infect()

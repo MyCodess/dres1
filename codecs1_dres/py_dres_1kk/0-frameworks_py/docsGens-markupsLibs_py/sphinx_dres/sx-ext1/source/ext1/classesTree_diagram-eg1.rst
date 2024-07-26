@@ -20,10 +20,10 @@ Diagram eg: logging...
 
 .. inheritance-diagram:: logging
 
-Diagram eg: unittest...
+Diagram eg: logging...
 -------------------------------------------
 
-.. inheritance-diagram:: unittest.case  unittest.suite  unittest.async_case  unittest.runner
+.. inheritance-diagram:: logging.handlers
 
 Diagram eg: abc
 -------------------------------------------

@@ -1,0 +1,115 @@
+_______________________ TestingsQA_dj ... ______________________________________
+- ! for pytest-dj see extra dnts !
+- ! see in dres the Vincent-Tut done !
+
+
+#####  ==========  REFs...:
+	-  python manage.py test --help
+    - ! Ref-all+advanced+tools:   dcIT/dj_dc/django-docs/topics/testing/index.html  bzw. /overview.html   :  Writing and running tests /bzw.: https://docs.djangoproject.com/en/5.0/topics/testing/overview/
+    -  Ref-Tut:  https://docs.djangoproject.com/en/5.0/intro/tutorial05/
+    -  Ref-dj-test-classes-tree-descp:   https://docs.djangoproject.com/en/5.0/topics/testing/tools/#provided-test-case-classes
+    -  https://realpython.com/python-testing/#how-to-use-the-django-test-runner
+    - modules-index  OL-api : https://docs.djangoproject.com/en/5.0/py-modindex/
+    - pydoc  django.test   :  [u1@2209arx my_tennis_club]$   DJANGO_SETTINGS_MODULE="my_tennis_club.settings" ;  python  -c "import django, pydoc ; django.setup() ; pydoc.cli()"  django.test
+	--- res/tuts/...:
+	- !! https://learndjango.com/tutorials/django-testing-tutorial  :  By Will Vincent
+##________________________________________  ___________________________
+
+
+
+#####  ==========  DIFFs:
+	_______:  django.test:   Client  <--->  RequestFactory  <--->  LiveServerTestCase :
+	- see dj_dc/django-docs/topics/testing/tools.html  :
+	- django.test.Client  :   test client is a Python class that acts as a dummy web browser, allowing you to test your views : dcIT/dj_dc/django-docs/topics/testing/tools.html
+	- django.test.RequestFactory  :  The RequestFactory shares the same API as the test client. However, instead of behaving like a browser, the RequestFactory provides a way to generate a request instance that can be used as the first argument to any view. This means you can test a view function the same way as you would test any other function – as a black box, with exactly known inputs, testing for specific outputs. : dj_dc/django-docs/topics/testing/advanced.html#django.test.RequestFactory
+	- django.test.LiveServerTestCase  :  Use in-browser frameworks like Selenium to test rendered HTML and the behavior of web pages ... : dj_dc/django-docs/topics/testing/tools.html#django.test.LiveServerTestCase
+##________________________________________  ___________________________
+
+#####  ==========  django.test.* /.TestCase  (unittest.TestCase based all) ,  django.test.TestCase API/nts:
+    - OL-api : https://docs.djangoproject.com/en/5.0/py-modindex/
+    - Ref:  py-unittest based is all dj-functional-testing, see  django.test.TestCase which is a subclass of unittest.TestCase  that runs each test inside a transaction to provide isolation: ...: https://docs.djangoproject.com/en/5.0/topics/testing/overview/
+    - ! tree :  https://docs.djangoproject.com/en/5.0/topics/testing/tools/#provided-test-case-classes :
+        py-stdLib--unittest.TestCase  <-- dj SimpleTestCase <-- dj TransactionTestCase <-- dj TestCase + dj LiveServerTestCase
+    - ! create your test classes as subclasses of django.test.TestCase rather than unittest.TestCase (due to DB-incapsulations/Transactions/Rolbacks) ! see https://docs.djangoproject.com/en/5.0/topics/testing/overview/
+    - Using unittest.TestCase avoids the cost of running each test in a transaction and flushing the database, but if your tests interact with the database their behavior will vary based on the order that the test runner executes them.
+##________________________________________  ___________________________
+
+
+#####  ==========  dj_test_client / django.test.Client :
+	- Ref-Tut:  dj_dc/django-docs/intro/tutorial05.html
+	- ! dj_dc/django-docs/topics/testing/tools.html#the-test-client , django.test.Client , https://docs.djangoproject.com/en/5.0/topics/testing/tools/#django.test.Client
+
+	_______:   django.test.Client features:
+	- for testing dj-VIEWs (without running dj-server)
+	- test client is a Python class that acts as a dummy web browser, allowing you to test your views and interact with your Django-powered application programmatically (but not intended to be a replacement for Selenium or other “in-browser” frameworks.)
+	- Django provides a test Client to simulate a user interacting with the code at the view level. We can use it in tests.py or even in the shell. /dj_dc/django-docs/intro/tutorial05.html
+
+	_______:  setup/teardown of client-session:
+	- in settings.py:  ALLOWED_HOSTS = ['testserver', 'localhost', '127.0.0.1']
+	- Tut05:  from django.test.utils import setup_test_environment ; setup_test_environment() ; from django.test import Client; client = Client() ;
+	- setup_test_environment() :  does not set up a test database, so the following will be run against the existing database !
+	- teardown_test_environment() , bzw. own: def tearDown(self): ...  : see also: dj_dc/django-docs/topics/testing/advanced.html#testing-utilities
+
+	_______:  session/cookies/states:
+	- dj_dc/django-docs/topics/testing/tools.html#persistent-state :
+	- !  test client is stateful. If a response returns a cookie, then that cookie will be stored in the test client and sent with all subsequent get() and post() requests !
+	- Client.cookies , Client.session
+
+	_______:  CSRF and test-client:
+	- ! dj_dc/django-docs/howto/csrf.html#testing-and-csrf-protection :
+	- CSRF checking is disabled for django.test.Client !! otherwise it is a big hinderance !  see above URL !
+	- enabled-CSRF-client with:  from django.test import Client ; csrf_client = Client(enforce_csrf_checks=True)
+
+	_______:  client-login:
+	- tests-login:   django.test.Client().login()/ aforce_login()  :  simulate the effect of a user logging into the site : file:///C:/Users/DKX8H1N/var3/w3/dcIT/dj_dc/django-docs/topics/testing/tools.html
+
+	_______:  client-response:
+	- dj_dc/django-docs/topics/testing/tools.html#testing-responses :
+	- ! Client-Response object is NOT the same as the HttpResponse object returned by Django views (is more!); the test response object has some additional data useful for test code to verify ().
+##________________________________________  ___________________________
+
+
+#####  ==========  run tests:
+	-  python manage.py test --help
+    - ! https://docs.djangoproject.com/en/5.0/topics/testing/overview/#running-tests
+    - run-tests:  python manage.py test [dir1 /OR pkg1 /OR okg1.mod1.class1.method1 /OR .... ]  ##--: Test discovery is based on the unittest module’s built-in test discovery. By default, this will discover tests in any file named test*.py under the current working directory.
+    - ! CTRL-C (one-time)  : clean-interrupt-tests (current test will complete and then exit gracefully)!
+    - ! CTRL-C (two-times) : NOT-clean-interrupt-tests : the test run will halt immediately, but not gracefully ! and any test databases created by the run will NOT be destroyed ... !
+	- ! DB-created for test:  manage.py test ... :  creates a special database for the purpose of testing ! see -Tut05 !
+##________________________________________  ___________________________
+
+
+#####  ==========  test-tools-- django.test:
+    - ! https://docs.djangoproject.com/en/5.0/topics/testing/tools/
+    --  test client :  
+        - is a Python class that acts as a dummy web browser ...!
+        - does NOT require a running webserver!! it goes directly to the api !
+        - NOT a replacement for Selenium /OR urllib !! for Selenium see  LiveServerTestCase usage...!
+##________________________________________  ___________________________
+
+
+#####  ==========  fixtures for DB:
+    - ! https://docs.djangoproject.com/en/5.0/topics/testing/tools/#fixture-loading
+##________________________________________  ___________________________
+
+
+#####  ==========  coverage.py :
+    /dcIT/dj_dc/django-docs/topics/testing/advanced.html#topics-testing-code-coverage
+##________________________________________  ___________________________
+
+
+#####  ==========  selenium-dj / web-interface-Interactions-testings with dj-apps:
+    - ! see : https://docs.djangoproject.com/en/5.0/intro/tutorial05/#further-testing
+    - use  LiveServerTestCase  :
+    - https://docs.djangoproject.com/en/5.0/topics/testing/tools/#django.test.LiveServerTestCase
+    - https://docs.djangoproject.com/en/5.0/topics/testing/tools/
+    - https://selenium-python.readthedocs.io/api.html
+    - https://pypi.org/project/selenium/
+    - ! Django includes LiveServerTestCase to facilitate integration with tools like Selenium.
+##________________________________________  ___________________________
+
+
+#####  ==========  pytest-dj:  see extra dnts !
+    https://pytest-django.readthedocs.io/  ,  pytest plugin django !
+##________________________________________  ___________________________
+

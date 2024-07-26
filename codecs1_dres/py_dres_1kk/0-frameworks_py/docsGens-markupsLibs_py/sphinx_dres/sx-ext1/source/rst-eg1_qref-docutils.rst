@@ -32,8 +32,8 @@ Being a cheat-sheet for reStructuredText
 
 ----- Escaping with Backslashes:
 ---------------------------------------
-- *escape* ``with`` "\"
-- \*escape* \``with`` "\\"
+- *escape*  with   ``backslash`` as in: "\\"
+- \*escape* with  \``backslash``  "\\"
 
 
 ------------------------------------------------------------------------------
@@ -94,7 +94,7 @@ A paragraph containing only two colons indicates that the following indented or 
 .....................................................
 
 
------ References / ...:
+----- References / ... :
 -----------------------------------------
 .. _reference1:  https://docutils.sourceforge.io/docs/user/rst/quickref.html
 .. _phrase reference1:  https://docutils.sourceforge.io/docs/user/rst/quickref.html

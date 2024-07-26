@@ -1,0 +1,38 @@
+___________________ dj-tut1-/:240425 _______________________________________
+
+
+
+
+#####  ==========  
+#----- Tut1--setup-prj+view1 :
+mkdircd  /c/Users/DKX8H1N/ofc1/cod1/works1/djtut1
+django-admin startproject mysite
+python manage.py startapp polls
+#-view1:
+vi  ./polls/views.py
+vi  ./polls/urls.py
+vi  ./mysite/urls.py
+
+#----- Tut2--model/DBs/migrates:
+python manage.py migrate
+vi polls/models.py
+vi mysite/settings.py #--polls.apps.PollsConfig
+python manage.py makemigrations polls
+python manage.py migrate
+#--admins:
+python manage.py createsuperuser ...
+vi polls/admin.py
+
+
+##________________________________________  ___________________________
+
+
+#####  ==========  addies...:
+----- app1:
+mysite : python  manage.py startapp ap1
+mysite : mkdir -p ap1/static/ap1
+mysite : mkdir -p ap1/templates/ap1
+python manage.py migrate
+
+##________________________________________  ___________________________
+

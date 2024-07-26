@@ -1,0 +1,103 @@
+____________________________ tmux-dnts , 1coll-nts,... __________________________
+- 200400	:  1start
+
+-!! on mswins/msys2/cygwin/...: you MUST run mintty.exe and NOT only bash in windowsTerminal/... ! otherwise ERROR:  "open terminal failed: not a terminal" ! the mintty is then its terminal!!
+
+#####  ==========  urls/nts:
+    - !!  https://github.com/tmux/tmux/wiki/Getting-Started
+    https://wiki.archlinux.org/title/tmux
+    https://github.com/tmux/tmux/wiki
+    man tmux
+    ---
+##________________________________________  ___________________________
+
+
+#####  ==========  ! Vocabs / DEFs / Terms:
+    - ! see: https://github.com/tmux/tmux/wiki/Getting-Started#summary-of-terms
+    --- components:
+    - client -> session > window > panes :
+    - client is eg your xterm/gnome-terminal/terminal/mintty :
+        the clients-shell calls tmux and so --> initiates a session which contains at least one or more --> windows
+        each window can be splitted in --> panes
+        client can then dettach this session/window and/or later again attach himself to the session/window !
+        with "ctrl-b d" you are Detached from the current session/window go back to the client-shell BUT this tmux session will be running in background
+        the client can come back to the session with: tmux attach ... !
+        to not only detach but also end the tmux sessions, have to: ctrlb :kill-server
+
+    --- "tmux-cmd-prompt" : like vim-ex-line:  ctrlb :<tmux-cmds>
+
+    --- "attaching / detaching":
+    - detaching:  Detaching from tmux means that the client (eg xterm/gnome-terminal) exits tmux and detaches from the outside terminal, returning to the shell and leaving the tmux session and any programs inside it running in the background. To detach tmux, the C-b d key binding is used. When tmux detaches, it will print a message 
+    - attach:  The attach-session command attaches to an existing session. Without arguments, it will attach to the most recently used session that is not already attached:
+        $ tmux attach   ##-- Or -t gives the name of a session to attach to: $ tmux attach -tmysession
+        By default, attaching to a session does not detach any other clients attached to the same session. The -d flag does this: $ tmux attach -dtmysession
+##________________________________________  ___________________________
+
+
+#####  ==========  configs:
+    - ~/.tmux.conf , though ~/.config/tmux/tmux.conf , /etc/tmux.conf 
+    - vim or emacs style: set VISUAL or EDITOR to VIM/emacs ! defualt is emacs!
+##________________________________________  ___________________________
+
+
+#####  ==========  KEYs:
+    - ctrl+b is PREFIX-key for ALL other tmux-cmds : By default, command key bindings are prefixed by Ctrl+b. For example, to vertically split a window type Ctrl+b %.
+    - keys-abbrev in tmux-docs:    c == ctrl, M == Alt (Meta-key) , S == Shift
+    - Listing of all (hot)keys in tmux:     "ctrl+b ?"
+    - Listing of all (hot)keys from shell:  tmux  tmux list-keys -N   ##--see man tmux /list-keys   (alias: lsk)
+    - tmux-cmds-entering:  ctrl-b :  ##similar to vim-ex-cmds!
+    - eg switch between panes:  Ctrl+b arrow-keys
+    - ! ctrl+b d  : closes the panes/cu-window, BUT does NOT end the session! so tmux session runs still in background! to terminate session:  ctrl+b :kill-server
+    - terminate / Killing tmux entirely: ctrl+b :kill-server
+        If there are no sessions, windows or panes inside tmux, the server will exit. It can also be entirely killed using the kill-server command. For example, at the command prompt:
+
+##________________________________________  ___________________________
+
+
+#####  ==========  invoking/starting pre-defined terms/... with tmux, eg :
+    --- on shell-cmdline calling tmux-cmds:
+    - multiple tmux-cmds must seperate by ";" and this must be escaped on shell! eg:  $ tmux new-window \; split-window -h \; split-window -v \;
+
+    --- mswins:
+    - !! on mswins/msys2/cygwin/...: you MUST run mintty.exe and NOT only bash in windowsTerminal/... ! otherwise ERROR:  "open terminal failed: not a terminal" ! the mintty is then its terminal!!
+
+	--- eg starting tmux with 3 panes (splitted-windows), from cmdline, eg: 
+	- from bash:         tmux new-session \; split-window -h \; split-window -v \;
+	- from-inside-tmux:  tmux new-window \; split-window -h \; split-window -v \;
+	- working-dir for each pane/split:   tmux new-session\; split-window -h -c /var/  \; split-window -c /tmp/ \;
+
+	---  coloured-bg/fg per panes by starting tmux with:
+	- for colour-names-listing see man tmux ---> fg=colour /OR just  a hexadecimal RGB string such as ‘#ffffff’ , so ‘#RRGGBB’ Red-green-Blue ! for RGB-clour-table see https://www.rapidtables.com/web/color/RGB_Color.html
+	- tmux start-server \; new-session \; split-window -h \; split-window -v \; rename-window aa11\; set -w window-style bg=blue \;
+	- colors-per-pane with RGB  : tmux    new-session \; split-window -h \; split-window -v \; rename-window aa11\; set  window-style bg="#FFFF00" \;  set -pt:.0 window-style bg='#ccffff' \;
+	- colors-per-pane with color-names : tmux  new-session \; split-window -h \; split-window -v \; rename-window aa11\; set -w window-style bg=red \;  set -pt:.0 window-style bg=blue \;
+	- tmux -2  start-server \; new-session \; split-window -h \; split-window -v \; rename-window aa11\; set -w window-style bg=brightyellow \;  set -pt:.0 window-style bg=brightcyan \;
+	- RGB colours eg: white ##FFFFFF , black #000000 , lightyellow #FFFFCC , lightgray #E0E0E0 ,  lightcyan #CCFFFF , gray #808080 , yellow #FFFF00 ; see https://www.rapidtables.com/web/color/RGB_Color.html
+##________________________________________  ___________________________
+
+
+
+#####  ==========  sessions:
+    - sessions can have names, but otherwise/default only index/No. !
+    - listing cu-sessions running in background: $ tmux list-sessions  ##--OR  tmux ls  # ls alias for  list-sessions
+    - attaching eg to session indexed 0 (so -t0) (and detaching it from other clients, so -d):   tmux attach -dt0
+    - detaching:  ctrl-b d
+    - killing/exiting tmux entirely:  
+##________________________________________  ___________________________
+
+
+
+#####  ==========  windows-/panes-mgm, switching, ...:
+    - Create new-window:  c-b c  ##-bzw: :neww -dn<name1>
+    - split-window-horiz/vertically:    c-b % / "  ##--bzw.:  :split-window -h/-v
+    - switching to windows:   C-b 0 changes to window 0, C-b 1 to window 1, ...
+    - C-b n / p : changes to the next /prev window in the window list by number. ...
+    - panes switching:   C-b Up, C-b Down, C-b Left and C-b Right change to the pane above, below, left or right of the active pane.
+    - ! in listing of "c-b w" you can use keys (eg x to kill a pane,...) to manage panes/wins! see user-guide!
+##________________________________________  ___________________________
+
+#####  ==========  switching/moving to panes/wins/...:
+    -! ctrl+b w : list all windows+panes  : ausklappbar! there you can jump to ....!
+    - 
+##________________________________________  ___________________________
+

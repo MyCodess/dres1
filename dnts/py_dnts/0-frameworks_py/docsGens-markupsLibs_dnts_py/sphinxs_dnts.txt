@@ -1,0 +1,110 @@
+sphinx-dnts /:230626  
+===========================================
+
+    - !! see the real dnts-live/_RF in dres in py_dres_1kk/0-frameworks_py/docsGens-markupsLibs_py/sphinx_dres/sx-ext1/  !! not-all dnts there are here!
+    - !! acronym_1kk : sx  == sphinx
+
+#####  ==========  nts/docs/urls/...-sphinx:
+	_______:  docs
+	-Tut1:   Tutorial: Build your first project : https://www.sphinx-doc.org/en/master/tutorial/first-steps.html
+##________________________________________  ___________________________
+
+
+#####  ==========  configs/settings:
+    ./source/conf.py
+    https://www.sphinx-doc.org/en/master/usage/configuration.html
+    --- in conf.py :
+    - toctree-path.entries with "/" , also on mswin!
+    - no files-suffixes required!
+##________________________________________  ___________________________
+
+
+#####  ==========  cmds/...:
+    sphinx-quickstart   prj1
+    make   ##--!!-with-NO-params: list/show all make-tasks
+    make  html/epub/latexpdf/text/...  ##--see listin with just: make
+    sphinx-build -b html docs/source/ docs/build/html
+##________________________________________  ___________________________
+
+
+#####  ==========  PDF-gen-sphinx:
+	_______:  PDF-generations/installs:
+	-! for PDF generations are additional latex packages required: pacman -Syu  texlive-core , texlive-latex , texlive-latexextra , pdflatex , ...
+	-! Generating a PDF using Sphinx can be done running make latexpdf, provided that the system has a working LaTeX installation, as explained in the documentation of sphinx.builders.latex.LaTeXBuilder. Although this is perfectly feasible, such installations are often big, and in general LaTeX requires careful configuration in some cases, so PDF generation is out of scope for this tutorial. [note in https://www.sphinx-doc.org/en/master/tutorial/first-steps.html ]
+##________________________________________  ___________________________
+
+
+#####  ==========  PyRefDocsPrj-Sphinx (DocGens of PyRefSource-Docs):
+
+    Py-sphinx-dir/repo ,  reStructuredText (reST) sources to the Python documentation :  https://github.com/python/cpython/tree/main/Doc
+    authoring Python documentation / "Documenting Python" chapter of the developers guide :  https://devguide.python.org/documentation/start-documenting/index.html
+    pacman -S  extra/python-docs ; ##- basiaclly PyRefDocs-HTMLs + libs-reST-files , but NOT he whole PyDocs-Sphinx-Prj :
+        rst-sources:  /usr/share/doc/python/html/_sources/ ;
+        HTMLs in file:///usr/share/doc/python/html/index.html ;
+##________________________________________  ___________________________
+
+
+#####  ==========  doctest / sphinx.ext.doctest
+
+    - ! REF-doc:  .../usage/extensions/doctest.html
+    - ! see dres !
+##________________________________________  ___________________________
+
+
+
+#####  ==========  static-pages (html/images/...):
+
+    - ! the contents of source/_static  will be copied into the build dir, as default, by calling: make html ! So in your docs you can use links to anything you put there, incl. subdirs ... ! 
+##________________________________________  ___________________________
+
+
+############################## trys/dones/... : #########################################
+
+#####  ==========  /:230831 :  AstroMatt-py3_1kk_new1:
+[u1@2209arx sphx1]$ date ; pwd ;
+2023-08-31T10:36:37 CEST  ; /up1/varu/varau/wks/sphx1
+-
+sphinx-quickstart  -q  --sep   --author=KuKa  --language=en  --project=Py3_byExamples1   Py3_eg1
+##________________________________________  ___________________________
+
+
+#####  ==========  /:230829 :  try-Tut:
+    https://www.sphinx-doc.org/en/master/tutorial/
+    [u1@2209arx sphx1]$  sphinx-quickstart   Tut1 ; cdlla Tut1 ;
+    sphinx-build -b html docs/source/ docs/build/html
+##________________________________________  ___________________________
+
+
+#####  ==========  /:230627 :  Tut1-sphinx: Tutorial: Build your first project :
+	https://www.sphinx-doc.org/en/master/tutorial/first-steps.html
+	mkdircd /up1/varu/varau/wks/sphx1/tut1
+	-- sphinx-quickstart   ##--with seperated source and build :
+	> Separate source and build directories (y/n) [n]: y
+	The project name will occur in several places in the built documentation.
+	> Project name: Lumache
+	> Author name(s): Graziella
+	> Project release []: 0.1
+	--
+	vi   ./tut1/docs/source/index.rst
+	cd docs ;  make  help    ##--see all posssible make targets /formats-to-generate !
+	cd docs ;  make  html    ##--OR:  sphinx-build  -b  html  docs/source/   docs/build/html/
+	cd docs ;  make  epub   
+
+
+##________________________________________  ___________________________
+
+
+#####  ==========  /:230626 :  quickstart-sphinx : Getting Started :
+
+	- steps of:  https://www.sphinx-doc.org/en/master/usage/quickstart.html
+	- for PDF/latex generatons : pacman -Syu  texlive-core , texlive-latex , texlive-latexextra , pdflatex , ..
+	cdlla   /up1/varu/varau/wks/sphx1/book11
+	sphinx-quickstart   ##--all defaults !
+		> Project name: sphx-prj1
+		> Author name(s): Me1
+	[u1@2209arx book11]$ sphinx-build   -b html  ./  ./_build/ 
+		- /OR just:   make html
+		- listin all other make targets, just:  make  ##--eg:  make  latexpdf /epub /singlehtml / htmlhelp /json /... 1
+	- PDF generation:  make latexpdf
+##________________________________________  ___________________________
+

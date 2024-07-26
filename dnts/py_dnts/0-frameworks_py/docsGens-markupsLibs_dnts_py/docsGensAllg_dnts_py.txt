@@ -1,0 +1,23 @@
+Documentations-Generators-Libs_py /Allg
+====================================================
+- extra-dnts  **sphinx_dnts**
+- extra-dnts  **DocUtils in RST_dnts**
+- extra-dnts  **apiDocs-Generatos**
+
+
+#####  ==========  pandoc.org :
+    - convert files from one markup format into another, pandoc is your swiss-army knife.
+##________________________________________  ___________________________
+
+#####  ==========  Pygments  :  syntax highlighter :
+    - https://pygments.org/
+    - syntax highlighter suitable for use in code hosting, forums, wikis
+    - used in: Sphinx
+##________________________________________  ___________________________
+
+
+#####  ==========  ClassDiagrams / ClassesHierarchy / ClassesTree / UML-similars ... Generators:
+	- sphinx-extension + Graphviz /dot
+	- pyreverse : https://pylint.readthedocs.io/en/latest/pyreverse.html + Graphviz /dot ; pyreverse --help
+##________________________________________  ___________________________
+

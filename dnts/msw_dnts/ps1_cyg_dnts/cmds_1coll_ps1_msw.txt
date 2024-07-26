@@ -1,0 +1,32 @@
+##__________________________ coll-PS1 : ___________________________________________________
+
+
+##--Admin-PS-start :
+function Start-PSAdmin {Start-Process PowerShell -Verb RunAs}
+
+##==========  sorts:
+##--- MsRef:
+#- sort the file-contents/lines:
+Get-Content -Path C:\Test\ServerNames.txt | Sort-Object
+#- Unique filtered items sorted : double-lines removed:
+Get-Content -Path C:\Test\ServerNames.txt | Sort-Object -Unique
+#- numeric-sort / sort -n :
+Get-Content -Path C:\Test\ProductId.txt | Sort-Object {[int]$_}
+##---
+
+##========== finds/lls / Get-ChildItem :
+- The simplest way to just get the text files form a single folder would be:   Get-ChildItem –Path C:\Data\*.Txt   ==  Get-ChildItem –Path C:\Data\ –Filter *.Txt  ##--!!BUT "-include *.md" NOT working, because it requires also -Recursive always !!
+
+--- see also eg: https://superuser.com/questions/1631829/is-it-possible-to-get-a-recursive-directory-listing-with-details-in-windows
+- find all, print Name+Size+Date:  Get-ChildItem -Recurse    | % { $_.Name + " -- " + $_.LastAccessTime + " -- " + $_.Length }
+- find all Files-NO-Directory and print Name+Size+Date:  Get-ChildItem -Recurse  -Attributes !Directory  | % { $_.Name + " -- " + $_.LastAccessTime + " -- " + $_.Length }
+- Get-ChildItem -Path "C:\files\*.txt" -Recurse | Select @{Name="MB Size";Expression={ "{0:N1}" -f ($_.Length / 1MB) }}, Fullname, LastWriteTime;
+
+##==========  
+- print/echo 1-10 ,just:   1..10
+- generate dummy file with above line:  1..10 | % { Add-Content -Path  .\f1.txt  -Value  "$_ line"}
+
+##==========  
+- lang/locale-query , what is system-default-locale/lang??:    powershell   Get-WinSystemLocale   ##--OR:  systeminfo | findstr Locale
+
+

@@ -1,0 +1,70 @@
+_______________________ super() , MRO , metaclasses, ... _____________________________________________
+
+#####  ==========  inheritance:  super() / MRO :
+
+	_______:  see also:
+	see here extra nts for MRO in multiple-inheritance nts !
+	- ! RefDocsStdLibs--Built-in-Functions : class super   ##- Py3/Doc/html/library/functions.html#super
+	- ! RefDocsTuts--9.5.1. Multiple Inheritance :
+	- RefDoc-referenced to :  guide to using super() [https://rhettinger.wordpress.com/2011/05/26/super-considered-super/]  /RefDocs
+	https://itecnote.com/tecnote/python-calling-parent-class-__init__-with-multiple-inheritance-whats-the-right-way/
+
+	_______:  super() in multiple-inheritance :
+	-!! super() : works based on MRO (linearization) and so modifies a bit the Allg-rule of left-to-right--each-to-top ! so basically then: any child-class-method before any parent-method in the tree, even if not direct ancestor or the Parent more left located! 
+	  see also pyCookBk-3ed--8.7. Calling a Method on a Parent Class  + https://rhettinger.wordpress.com/2011/05/26/super-considered-super/
+
+	_______:  super() Allg-nts:
+	-! super()  is called on INSTANCE level (so inside a method; eg inside __init__() of the derived-class!), NOT on class-level !
+	-! super() is NOT automatically called again in the whole inheritance-tree upwards! each zwischen-station/parent class hast to call again super.methodX() to go further to the root! otherwise the super() call wille be STOPPED there, where it is NOT called again in the tree! also the args/params are the ones of the LAST call! NOT unbedingt the original ones!
+	- super().method1()    accesing method1 of the parent-class ! its call is STOPPED there, where a parent class does not call super().xx() again !
+	-! the call of [builtin.]object.methodX() is the VERY LAST one, IF at all! since the object class is the LAST entry of any MRO ! and this ONLY if the direct subclass of object has also called super().methodX(), which is NOT good! the direct-object-subclasses should NOT call super() !!
+	-!WATCH.  NOT needed the "self" param in super().method1() !! super() function creates a context in which you don't have to pass the self argument to the method being invoked !
+	so: either:   super().__init__()  /OR:  BaseClass1.__init__(self) ; BUT these two calls are NOT identical! see nts below for mro() !
+	- super() and MRO:  see here below nts! changes a bit the basic rule of: left-to-right--each-to-top!
+	-! baseclass-methods-call  by super().xxx, as in :  super().__init__()  bzw.  super().__del__() ##-!! self param is implicitly forwarded !
+
+	_______:  arguments/call of super():  class super([type[, object-or-type]])    /RefDocsStdLibs--Built-in-Functions : class super :
+	super().method(arg) inside a class definition  same.as ==  super(C, self).method(arg)
+	so:  class C(B): def method(self, arg): super().method(arg)  #--same.as:  super(C, self).method(arg)
+	The zero argument form only works inside a class definition, as the compiler fills in the necessary details to correctly retrieve the class being defined, as well as accessing the current instance for ordinary methods. /RefDocs
+	aside from the zero argument form, super() is NOT limited to use inside methods.
+	The object-or-type determines the method resolution order to be searched. The search starts from the class right AFTER the type (excluding the type) :
+	For example, if __mro__ of object-or-type is D -> B -> C -> A -> object and the value of type is B, then super() searches C -> A -> object.
+	super() is syntactic sugar for super(Child, self), or more generally, super(type(self), self). Since there is no self where you're using it on class-level, it doesn't work. So, super() requires an instance to work on !.
+	- miliple-bases then eg:   super(Class1).method1()
+
+	_______:  MRO in multi-inh. :
+	- https://rhettinger.wordpress.com/2011/05/26/super-considered-super/ :
+	--- MRO priciple: 
+		- children precede their parents + the order of appearance in __bases__ is respected (order of base-classes). so:
+		- i.e: The sequence is ordered so that a class always appears before its parents, and if there are multiple parents, they keep the same order as the tuple of base classes.
+	--- super() worked as above properly , only if:
+		1- the method being called by super() needs to exist
+		2- the caller and callee need to have a matching argument signature
+		3- ! and every occurrence of the method needs to use super() ! (also in base-classes upwards ...! otherwise super() stopped there!)
+	--- mro() nachvollziehen:  so for C1.mro() . just write down all classes from left-to-right--and-each-first-to-Top, and then take the repeated ones out except its last entry !  devres/cl1_inhMulti_3-mro2-super.py
+	-! how super() finds the called methods (based on mro() listin)?:
+	For example, if __mro__ of object-or-type is D -> B -> C -> A -> object and the value of type is B, then super() searches C -> A -> object.
+	- mro linerization procedure:
+	"good head": most specific version must be taken first and then least specific (generic) version. So, calling process() from A, which is super class of C, is not correct as C is a direct super class of D. That means C is more specific than A. So method must come from C and not from A.
+	This is where Python applies a simple rule that says (known as good head question) when in MRO we have a super class before subclass then it must be removed from that position in MRO.
+	- C1.mro() :  shows the final MRO-order-listing to find methods for C1-instances! it shows the linearisation of C1-Class-Tree!
+	  MRO  is based on the "C3 superclass linearisation" algorithm. This is called a linearisation, because the tree structure is broken down into a linear order. The mro method can be used to create this list! /python-course.eu/python3_multiple_inheritance.php.html
+
+	_______:  recommend (NOT-RefDocs / controverse):  classes whose base class is object should not call super().__init__() ! but controverse! :
+	This also means that you should never write a class that inherits from object and doesn't have an __init__ method.
+	Not defining a __init__ method at all has the same effect as calling super().__init__().
+	If your class inherits directly from object, make sure to add an empty constructor like so:
+	class Base(object): def __init__(self): pass
+	see https://itecnote.com/tecnote/python-calling-parent-class-__init__-with-multiple-inheritance-whats-the-right-way/
+	try cl1_inhMulti_2-mro2-super.py and comment in/out the suoer() in A and check the Diff !!
+	- there is anyway a difference if the A(object) calls super() or not!! if yes, then the seach for the called method goes further in the MRO-line in all classes up to the object!
+	1kk:   so , it is really what expected by multiple-inh., oder!?!? try py_dres_1kk/OOPs-classes-inh1/cl1_inhMulti_2-mro2-super.py  and comment-in/out the super() line in A !
+##________________________________________  ___________________________
+
+
+#####  ==========  MeataClasses, class (metaclass=..., ) :
+	- class Foo(object, metaclass=MyMetaclass, kwarg1=value1): ...
+	- !! excellent:  https://stackoverflow.com/questions/100003/what-are-metaclasses-in-python
+##________________________________________  ___________________________
+

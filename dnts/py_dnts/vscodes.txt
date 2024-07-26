@@ -10,16 +10,40 @@ ____________________ VSCode -py+... ____________________________________________
 
 
 #####  ==========  settings:
+	- !! https://code.visualstudio.com/docs/getstarted/settings
+
+	_______:  global-default-settings (is read-only!):
+	- ! obv. the global-settings-files are never modified by user, but only the global-values are overwritten by user-seetings!
+	- so obv. The default settings are hardcoded in the vscode sources, and so only read-only! there is no file defaultSettings.json ! but you see it by ctrl+p and look for default settings json...!
+	- so to change/modify the global/default-vscode-settings you modify them and modifs are saved in .../User/settings.json !
+	- reset-all-modifs: so to reset all modifications: just delete the user-settings.json bzw. make it empty "{}"! https://code.visualstudio.com/docs/getstarted/settings#_settingsjson
 
 	_______:  USER-settings:
-	"C:\Users\a1\AppData\Roaming\Code"  ( +??  ~/.vscode/  )
-	"C:\Users\a1\AppData\Roaming\Code\User\settings.json"
+	--- files-locations:
+	- user-conf-dirs-mswin:  ~/AppData/Roaming/code   +  ~/.vscode/ for extensions  ##--eg:  "C:\Users\a1\AppData\Roaming\Code" 
+	- user-settings:   ~/AppData/Roaming/code/User/settings.json
 	~/.vscode  ##--extensions,...
+	- bzw.  https://code.visualstudio.com/docs/getstarted/settings   :
+	Windows %APPDATA%\Code\User\settings.json ##--usu.  $env:APPDATA is:  ~\AppData\Roaming\
+	Linux $HOME/.config/Code/User/settings.json
+
 	--- keybindings /keymaps/ key.shortcuts/hotkeys:
-	-! sometimes the default keyboard-shortcuts in Help/Online-Guides/... are obv. für US-Keyboard !?
-	ctrl-k ctrl-s  : open keyboard shortcuts
-	- keyBindings-user:  "C:\Users\a1\AppData\Roaming\Code\User\keybindings.json"
+	- ! sometimes the default keyboard-shortcuts in Help/Online-Guides/... are obv. für US-Keyboard !?
+	- keyBindings-user:  ~\AppData\Roaming\Code\User\keybindings.json
+	- ctrl-k ctrl-s  : open keyboard shortcuts
+
+	_______:  workspace-/prj-settings:
+	- <prj-dir>/.vscode/...    ##--does NOT exist as default! will be generated if required!
+
+	_______:  launch.json (fole to launch vscode for this workspace/prj with specific configs/args/...)
+	- https://code.visualstudio.com/docs/editor/debugging   ... :
+	- creating launch.json : switch to "rund&debug view" (in main-link-sidebar) bzw. ctrl+shift+D -> click "create launch.json" --> will be generated in prj-dir/.vscode/ !
+
+##________________________________________  ___________________________
 
 
+#####  ==========  settings-/configs-more...:
+	- modified settings:  ctrl-, + @modified  in search field!
+	- open files in new TAB always, as default: settings: disable "preview"s: "workbench.editor.enablePreview" + "workbench.editor.enablePreviewFromQuickOpen" ;see: https://vscode.one/new-tab-vscode/
 ##________________________________________  ___________________________
 

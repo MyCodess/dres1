@@ -1,0 +1,144 @@
+In [9]:
+
+
+#####  ==========  /:240529 :  ListAdm2 +param:
+from django.test import Client, TestCase
+from django.contrib.auth.models import User     ##-!- due to ModelAdmin base, have to authtenticate, even if login not activated!
+from django.conf import settings
+import pprint
+
+c1 = Client()
+userXX = User.objects.get_or_create(username="dummy-user-xx")[0]
+userXX.is_staff = True
+userXX.is_superuser = True   ##-here really not required; but OK!
+userXX.save()
+c1.force_login(user=userXX, backend=settings.AUTHENTICATION_BACKENDS[0])
+resp1 = c1.get("/ix1/listadm2/", follow=True)
+pprint.pprint(cl1.__dict__, indent=4, width=120, sort_dicts=True)
+pprint.pprint(c1.__dict__, indent=4, width=120, sort_dicts=True)
+def pp1(dic1): pprint.pprint(dic1, indent=4, width=120, sort_dicts=True)
+pp1(c1.__dict__)
+resp1 = c1.get("/ix1/listadm2/xx11", follow=True)
+pp1(c1.__dict__)
+pp1(c1.__dict__)
+pp1(resp1.__dict__)
+%history
+
+##--  dicts-coll:
+In [9]: pp1(c1.__dict__)
+{   'cookies': <SimpleCookie: csrftoken='3442mRrxhLcSvuioRpi8Y5w0sqvQbH7l' sessionid='6aculafgt7rq2bxglu4lykzfktk34te8'>,
+    'defaults': {},
+    'errors': <_io.BytesIO object at 0x0000023ED356AD90>,
+    'exc_info': None,
+    'extra': {'content_type': None},
+    'handler': <django.test.client.ClientHandler object at 0x0000023ED3535310>,
+    'headers': None,
+    'json_encoder': <class 'django.core.serializers.json.DjangoJSONEncoder'>,
+    'raise_request_exception': True}
+
+
+In [10]: pp1(resp1.__dict__)
+{   '_charset': None,
+    '_container': [   b'<!DOCTYPE html>\n\n<html lang="en-us" ... __deleted__! ...
+                      b'mbol>\n</svg>\n<!-- END SVGs -->\n</body>\n</html>\n'],
+    '_handler_class': None,
+    '_is_rendered': True,
+    '_post_render_callbacks': [   <function make_middleware_decorator.<locals>._make_decorator.<locals>._decorator.<locals>._post_process_request.<locals>.callback at 0x0000023ED3C0FF60>],
+    '_reason_phrase': None,
+    '_request': <WSGIRequest: GET '/ix1/listadm2/xx11/'>,
+    '_resource_closers': [],
+    'client': <django.test.client.Client object at 0x0000023ED3535290>,
+    'closed': True,
+    'context': None,
+    'context_data': {   'action_form': <ActionForm bound=False, valid=False, fields=(action;select_across)>,
+                        'actions_on_bottom': False,
+                        'actions_on_top': True,
+                        'actions_selection_counter': True,
+                        'available_apps': [   {   'app_label': 'auth',
+                                                  'app_url': '/admin/auth/',
+                                                  'has_module_perms': True,
+                                                  'models': [   {   'add_url': '/admin/auth/group/add/',
+                                                                    'admin_url': '/admin/auth/group/',
+                                                                    'model': <class 'django.contrib.auth.models.Group'>,
+                                                                    'name': 'Groups',
+                                                                    'object_name': 'Group',
+                                                                    'perms': {   'add': True,
+                                                                                 'change': True,
+                                                                                 'delete': True,
+                                                                                 'view': True},
+                                                                    'view_only': False},
+                                                                {   'add_url': '/admin/auth/user/add/',
+                                                                    'admin_url': '/admin/auth/user/',
+                                                                    'model': <class 'django.contrib.auth.models.User'>,
+                                                                    'name': 'Users',
+                                                                    'object_name': 'User',
+                                                                    'perms': {   'add': True,
+                                                                                 'change': True,
+                                                                                 'delete': True,
+                                                                                 'view': True},
+                                                                    'view_only': False}],
+                                                  'name': 'Authentication and Authorization'},
+                                              {   'app_label': 'ix1',
+                                                  'app_url': '/admin/ix1/',
+                                                  'has_module_perms': True,
+                                                  'models': [   {   'add_url': '/admin/ix1/arecord/add/',
+                                                                    'admin_url': '/admin/ix1/arecord/',
+                                                                    'model': <class 'ix1.models.ARecord'>,
+                                                                    'name': 'A Records',
+                                                                    'object_name': 'ARecord',
+                                                                    'perms': {   'add': True,
+                                                                                 'change': True,
+                                                                                 'delete': True,
+                                                                                 'view': True},
+                                                                    'view_only': False},
+                                                                {   'add_url': '/admin/ix1/dnsview/add/',
+                                                                    'admin_url': '/admin/ix1/dnsview/',
+                                                                    'model': <class 'ix1.models.DNSView'>,
+                                                                    'name': 'Dns views',
+                                                                    'object_name': 'DNSView',
+                                                                    'perms': {   'add': True,
+                                                                                 'change': True,
+                                                                                 'delete': True,
+                                                                                 'view': True},
+                                                                    'view_only': False}],
+                                                  'name': 'Ix1'}],
+                        'cl': <ChangeList: model=ARecord model_admin=ListAdm2View>,
+                        'has_add_permission': True,
+                        'has_permission': True,
+                        'is_nav_sidebar_enabled': True,
+                        'is_popup': False,
+                        'log_entries': <QuerySet []>,
+                        'media': Media(css={}, js=['admin/js/vendor/jquery/jquery.js', 'admin/js/jquery.init.js', 'admin/js/core.js', 'admin/js/admin/RelatedObjectLookups.js', 'admin/js/actions.js', 'admin/js/urlify.js', 'admin/js/prepopulate.js', 'admin/js/vendor/xregexp/xregexp.js']),
+                        'module_name': 'A Records',
+                        'opts': <Options for ARecord>,
+                        'p1': 'xx11',
+                        'preserved_filters': '',
+                        'selection_note': '0 of 5 selected',
+                        'selection_note_all': 'All 5 selected',
+                        'site_header': 'Django administration',
+                        'site_title': 'Django site admin',
+                        'site_url': '/',
+                        'subtitle': None,
+                        'title': 'Select A Record to change',
+                        'to_field': None,
+                        'v11': 11,
+                        'v22': 22},
+    'cookies': <SimpleCookie: csrftoken='3442mRrxhLcSvuioRpi8Y5w0sqvQbH7l'>,
+    'exc_info': None,
+    'headers': {'Content-Type': 'text/html; charset=utf-8', 'Vary': 'Cookie', 'X-Frame-Options': 'DENY', 'Content-Length': '10219', 'X-Content-Type-Options': 'nosniff', 'Referrer-Policy': 'same-origin', 'Cross-Origin-Opener-Policy': 'same-origin'},
+    'json': functools.partial(<bound method ClientMixin._parse_json of <django.test.client.Client object at 0x0000023ED3535290>>, <TemplateResponsestatus_code=200, "text/html; charset=utf-8">),
+    'redirect_chain': [('/ix1/listadm2/xx11/', 301)],
+    'request': {   'PATH_INFO': '/ix1/listadm2/xx11/',
+                   'QUERY_STRING': '',
+                   'REQUEST_METHOD': 'GET',
+                   'SERVER_PORT': '80',
+                   'wsgi.url_scheme': 'http'},
+    'resolver_match': <SimpleLazyObject: <function Client.request.<locals>.<lambda> at 0x0000023ED31AE8E0>>,
+    'template_name': ['admin/ix1/arecord/change_list.html', 'admin/ix1/change_list.html', 'admin/change_list.html'],
+    'templates': [],
+    'using': None,
+    'wsgi_request': <WSGIRequest: GET '/ix1/listadm2/xx11/'>}
+
+In [11]:
+##________________________________________  ___________________________
+

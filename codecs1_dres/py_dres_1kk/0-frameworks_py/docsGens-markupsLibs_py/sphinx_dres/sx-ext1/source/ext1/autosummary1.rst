@@ -4,6 +4,7 @@ autosummary-eg1 :
 
 nts autosummary :
 ----------------------------------------------------
+
 - sphinx.ext.autosummary generates API-docs-summary-lists (so one-liners basically, as overview)
 - **sphinx-autogen** script is also able to generate stubs documentation pages for items included in autosummary directive, as:  ``sphinx-autogen -o generated_dir1  *.rst``
 - sphinx-autogen script is also able to geenrate stubs ...
@@ -12,14 +13,14 @@ nts autosummary :
 - ``:recursive:``  You can specify the recursive option to generate documents for modules and sub-packages recursively. It defaults to disabled. 
 
 
-autosummary-api-of-unittest :
+autosummary-api-of-logging :
 ----------------------------------------------------
 
-..  .. currentmodule:: unittest
+..  .. currentmodule:: logging
 
 .. autosummary::
     :recursive:
-    :toctree: ../stage1/autodocs/unittest_api
+    :toctree: ../stage1/autodocs/logging_api
 
-    unittest
+    logging
 

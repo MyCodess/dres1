@@ -1,0 +1,71 @@
+http://localhost:8015/ix1/
+http://localhost:8015/ix1/list2/
+---
+djprj1 : python manage.py  loaddata ix1_model1.json
+djprj1 : python manage.py  loaddata  arec2.json
+djprj1 : python manage.py  loaddata  aaaarec2.json
+---
+
+#############################################################
+
+
+
+#####  ==========  /:240528 :  
+##--for http://localhost:8015/ix1/listadm1/  with ModelAdmin ....:
+from django.test import Client, TestCase
+from django.contrib.auth.models import User     ##-!- due to ModelAdmin base, have to authtenticate, even if login not activated!
+from django.conf import settings
+import pprint
+def pp1(dic1): pprint.pprint(dic1, indent=4, width=120, sort_dicts=True)
+
+c1 = Client()
+userXX = User.objects.get_or_create(username="dummy-user-xx")[0]
+userXX.is_staff = True
+userXX.is_superuser = True   ##-here really not required; but OK!
+userXX.save()
+c1.force_login(user=userXX, backend=settings.AUTHENTICATION_BACKENDS[0])   # -OR: c1.login(username="u11", password="u11")
+resp1 = c1.get("/ix1/listadm2/", follow=True)   ##-!- requires starting "/" in URL !
+
+##-- resp1.__dict__ , context_data , ... :
+pp1(c1.__dict__)
+pp1(resp1.__dict__)
+pp1(resp1.__dict__['context_data'])
+
+##-- context_data['cl'] , QuerySet :
+pp1(resp1.context_data['cl'].__dict__)
+qs1 = resp1.context_data['cl'].queryset
+rl1 = resp1.context_data['cl'].result_list
+for ii in qs1: print(ii.name, ii.ipv4address, ii.ref, sep="  ,  ")   ##-OR: for ii in resp1.__dict__['context_data']['cl'].queryset: print(ii.name, ii.ipv4address, ii.ref, sep="  ,  ")
+for ii in rl1: print(ii.name, ii.ipv4address, ii.ref, sep="  ,  ")   ##-OR: for ii in resp1.__dict__['context_data']['cl'].result_list: print(ii.name, ii.ipv4address, ii.ref, sep="  ,  ")
+##________________________________________  ___________________________
+
+#####  ==========  /:240526 :  
+from django.test import Client, TestCase
+c1 = Client()
+resp2 = c1.get("/ix1/list2/")
+import pprint
+pprint.pprint(resp2.__dict__, indent=4, width=120, sort_dicts=True)
+##________________________________________  ___________________________
+
+#####  ==========  /:240521 :  test.Client:
+# in setings.py:  ALLOWED_HOSTS = ['testserver', 'localhost', '127.0.0.1']
+# djprj1 : python manage.py shell
+from django.test import Client, TestCase
+c1 = Client()
+resp1 = c1.get("ix1/listadm2/", follow=True)
+# resp1 = c1.get("/ix1", follow=True)
+print("-- resp1.status_code :: ", resp1.status_code)
+print("-- resp1.content---------------\n :: ", resp1.content)
+from pprint import pprint
+pprint(sorted((resp1.__dir__())))
+sorted(resp1.__dict__)
+resp1.context
+resp1.context_data
+pprint(resp1.context_data)
+# ----- object_list :
+resp1.context_data['object_list']
+resp1.context_data['object_list'][1].__dict__
+resp1.context_data['object_list'][0].ipv4address
+resp1.context_data['arecord_list'][0].__dict__
+resp1.context_data['arecord_list'][0].ipv4address
+##________________________________________  ___________________________

@@ -1,0 +1,109 @@
+___________________ strings: formattings/searching/manipulating/handling/... py : ______________________________
+##________________________________________  ___________________________
+
+
+#####  ==========  docs/refs:
+	RefDocsPy: string — Common string operations  ---> details !
+	!! RefDocsPy--StdLibs:  "Text Processing Services"
+##________________________________________  ___________________________
+
+
+#####  ==========  modules-/classes-str:
+    
+    _______:  -!!DIFF: str <--> string:
+	- str : all normal string vars, as v1="aabb" are str; they have many but simple funcs as replace/translate/upperfind/...
+	- "string" module : is the module string, with more funcs, but also mainly obsolete (funcs are mostly integrated in "str" for all normal string variables as above)
+	- "re" module: more powerfull, but also more complicated string-funcs are in "re"; but first check if str-funcs are not sufficient!?!?
+##________________________________________  ___________________________
+
+
+##  ############################ print-strings / formatting-strings /formatted-outputs: ######################
+#####  ==========  docs/refs-stringsformatting :
+	-! refdocsStdLib: Text Processing Services !! : Format String Syntax , ...
+	-! RefDocs_Tut:  7.1. Fancier Output Formatting  ,  /tutorial/inputoutput.html#
+	-! python-course.eu/python-tutorial/formatted-output.php.html
+	-! refdocsStdLib: Text Sequence Type — str --> ...,  printf-style String Formatting , ...
+##________________________________________  ___________________________
+
+
+#####  ==========  method.1 : %-stringsformatting (obsol! py2 / Old string formatting) / %-print :
+	- see : /tutorial/inputoutput.html#old-string-formatting +  python-course.eu/python3_formatted_output.php.html
+	eg: print ("aa %5d bb %8.2f"  %  (12, 123.25))   /OR:  s = "Price: $ %8.2f" % (356.08977) ; print(s) ,
+	syntax:   <string-including-%_placeHolders> % (values-tuple)
+	placeholder-in-the-string:    %[flags][width][.precision]type  ,as: %6.2f  (gesamt-6-stellig-float, 2-nachkomma, 3-vorkomma : nnn.nn)
+##________________________________________  ___________________________
+
+
+#####  ==========  method.2 : f-strings , f"str1" (Formatted String Literals) , ab py-3.6 ,(reusing VARs in str-litera):
+	- https://docs.python.org/3/reference/lexical_analysis.html#formatted-string-literals
+    - Formatted String Literals : tutorial/inputoutput.html#formatted-string-literals 
+	- eg:  f"text1: {l1[0]}"  ; price1=123;  f"Price in Swiss Franks: {price1 * 1.086:5.2f}"
+	- inside {var1*2+var2} will be evaluated at RUNTIME  and then formatted using the format() protocol.
+	-! python-course.eu/python3_formatted_output.php.html
+	- 3.6 introduces formatted string literals. They are prefixed with an 'f'. The formatting syntax is similar to the format strings accepted by str.format(). Like the format string of format method, they contain replacement fields formed with curly braces. The replacement fields are expressions, which are evaluated at run time, and then formatted using the format() protocol.  
+	- escaping { with {{ : doubled curly braces '{{' or '}}' are replaced with the corresponding single curly brace. _Ref:  https://docs.python.org/3/reference/lexical_analysis.html#formatted-string-literals
+##________________________________________  ___________________________
+
+
+#####  ==========  method.3 : str.format() (prefered!, py3:  using Dicts/vars/... in string :
+
+	-! pydoc  FORMATTING
+	-!! docsRF :  "Format examples" and  "Format String Syntax" in "string — Common string operations" ,   :   https://docs.python.org/3/library/string.html#format-string-syntax
+	!! python-course.eu/python-tutorial/formatted-output.php.html
+	- source-code: https://github.com/python/cpython/tree/3.9/Lib/string.py , /usr/lib/python3.9/string.py
+	---
+	-!COMPARE:  '{0}{1}{0}'.format('p0-', 'p1-')  #<--->   '{0}{1}{0}'.format(*'p0-')
+	eg:  "Second argument: {1:3d}, first one: {0:7.2f}".format(47.42 , 11) ---> 'Second argument:  11, first one:   47.42'
+	eg: named-placeholders:  "Art: {a:5d},  Price: {p:8.2f}".format(a=453, p=59.058)
+	eg: dict:  data = dict(province="Ontario",capital="Toronto") ; print("The capital of {province} is {capital}".format(**data)) ;
+	eg: locals() dict:   print("a={a}, b={b} and f={f}".format(**locals()))
+	eg:  "int: {0:d};  hex: {0:x};  oct: {0:o};  bin: {0:b}".format(42) ##--->  'int: 42;  hex: 2a;  oct: 52;  bin: 101010'
+	--- using DICTs as vars:
+	data = {'province': 'Ontario', 'capital': 'Toronto'} ; print("The capital of {province} is {capital}".format(**data))
+##________________________________________  ___________________________
+
+
+#####  ==========  py3.6: f : Formatted String Literals
+	eg:  price = 11.23 ; f"Price in Euro: {price}" ; f"Price in Swiss Franks: {price * 1.086}" ;
+	eg:  ii=10 ; s5 = f"xxx yyy {ii *2}" ;  s5  ##-->  'xxx yyy 20'
+##________________________________________  ___________________________
+
+
+#####  ==========  str.methodsXX()  : see pydoc str as for: rjust(), ljust(), center(), ...
+##________________________________________  ___________________________
+
+
+##  ############################ bytearray() / bytes() classes/obj : ##########################
+
+	_______:  
+	-!! see  docsRF_StdLib--Built-in Types : Binary Sequence Types — bytes, bytearray, memoryview !
+	- see also https://www.alpharithms.com/python-bytearray-built-in-function-123516/
+	- pydoc bytearray  bzw. pydoc builtins  (the class bytearray is a builtin class!)
+
+	_______:  bytearray() <--->  bytes() / b'xxx' :
+	-! bytearray objects are a mutable/writable counterpart to bytes objects !
+	- bytes() class,   , so var1 = b'xxx'    ,is immutable/readonly  sequences/"list" of single bytes. so also b-syntax as:  var1=b'abc 123' 
+	- bytearray() class, so b1=bytearray(40) ,is mutable/writable    sequences/"list" of single bytes bzw. of integers in the range 0 <= x < 256 !
+-- "mutable strings" replacement / bytearray() :
+	- bytearray() can be used also for  "mutable strings" ! for memory-efficient manipulation of data/strings/... !  eg updating/modifying huge amount of str-data/addresses/... , then use bytearray() instead string !
+	- bytearray("str1", "encoding1") converts strings or collections of integers into a mutable sequence of bytes.
+
+	_______:  
+	- bytearray() methods usu. do NOT accept strings !! but bytes as: b'....'
+
+	_______:  DIFF :
+	- bytearray(5)   :  Creates a byte array of size 5               ##--->  bytearray(b'\x00\x00\x00\x00\x00')
+	- bytearray([5]) :  Creates a byte array with single lement 5    ##--->  bytearray(b'\x05')
+
+
+##  ############################ str/String Allg/misc/... : ###################################
+
+
+#####  ==========  RAW strings r'xx yy ...':
+
+    - Python raw string treats the backslash character (\) as a literal character.
+    - create a raw string in Python by prefixing a string literal with r or R , as testURL = r'http://www.google.com/'
+    - eg:  print ('aa\\nbb')  ==  print (r'aa\nbb')  ---> aa\nbb   ##--BUT  print ('aa\nbb') will prints a newline between aa and bb !
+    - eg:  '\\\examplehost\srv1'  == r'\\examplehost\srv1'  --->  \\examplehost\srv1
+##________________________________________  ___________________________
+
