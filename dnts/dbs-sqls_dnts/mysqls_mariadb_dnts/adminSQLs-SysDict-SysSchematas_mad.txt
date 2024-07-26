@@ -1,0 +1,49 @@
+___________________ system-dict, system-schema, admin-sqls,...: ____________________
+
+
+#####  ==========  urls/nts/docs/...:
+	- adminSQLs:  https://mariadb.com/kb/en/administrative-sql-statements/
+	- sysdict:  https://mariadb.com/kb/en/system-tables/
+##________________________________________  ___________________________
+
+
+#####  ==========  
+	- Data-Dir/location??:  mysqladmin1 variables | grepi datadir  ;  #-OR in mysql>  select @@datadir;
+	- engines?:  show engines; #OR: select * from information_schema.ENGINES; #-https://mariadb.com/kb/en/show-engines/
+##________________________________________  ___________________________
+
+
+--#################### DB-Dictinary / INFORMATION_SCHEMA : ################################
+-!! see:  Chapter 20. INFORMATION_SCHEMA Tables
+
+#####  ==========  db-dict-tables / Allg INFORMATION_SCHEMA:
+	- INFORMATION_SCHEMA provides access to database metadata, information about the MySQL server such as the name of a database or table, the data type of a column, or access privileges. O
+	- mysql>  show tables from information_schema;
+	_______:  
+	- DBs : select schema_name from information_schema.schemata;
+	- users : `mysql`.`global_priv`   (obso: mysql.users)  ##-- listing users:  mysql -u root ;  mysql> SELECT User, Host, Password FROM mysql.user;
+	- tables :  information_schema.tables
+	_______:  
+	- INFORMATION_SCHEMA provides access to database metadata, as Alternative to SHOW Statements
+	- updating it:  It is possible to select INFORMATION_SCHEMA as the default database with a USE statement, but it is possible only to read the contents of tables. You cannot insert into them, update them, or delete from them.
+	- views:  INFORMATION_SCHEMA tables are actually views ! 
+	-! show tables from information_schema;
+##________________________________________  ___________________________
+
+
+#####  ==========  listings/searching of all tables/constraints/columns/....:
+	--- info_schema-listings/searching:
+		- show tables from information_schema;
+	--- tables-listings/searching:
+		- SELECT table_name, table_type, engine FROM information_schema.tables WHERE table_schema = 'rdb' ORDER BY table_name;
+	--- constraints-listings/searching:
+		- constraints listing see:  desc information_schema.REFERENTIAL_CONSTRAINTS;
+		  select * from information_schema.REFERENTIAL_CONSTRAINTS  where CONSTRAINT_NAME='root_account_clearing_house_id';
+	--- columns-listings/searching:
+		- columns-searching:  select TABLE_NAME, TABLE_SCHEMA, COLUMN_NAME, DATA_TYPE, COLUMN_COMMENT from information_schema.COLUMNS where COLUMN_NAME like "%day%";
+##________________________________________  ___________________________
+
+
+#####  ==========  tables/Data infs in information_schema:
+	--- COLUMNS Table :  all columns of all tables in all DBs!!
+##________________________________________  ___________________________

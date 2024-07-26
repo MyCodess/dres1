@@ -1,0 +1,12 @@
+-- INFO :: nsv.d1.f2 :: logger_get1 :: 9 ::-- ==========  logging WITH acquiring own logger by logging.getLogger() : =========== :: 2024-04-12 18:44:14,520 :: C:\Users\DKX8H1N\var3\w3\cod1\works1\loggings1\ofc1_ix_loggs_configfile\d1\f2.py
+-- INFO :: nsv.d1.f2 :: logger_get1 :: 9 ::-- ==========  logging WITH acquiring own logger by logging.getLogger() : =========== :: 2024-04-12 18:44:14,520 :: C:\Users\DKX8H1N\var3\w3\cod1\works1\loggings1\ofc1_ix_loggs_configfile\d1\f2.py
+-- DEBUG :: nsv.d1.f2 :: logger_get1 :: 10 ::-- __ : C:\Users\DKX8H1N\var3\w3\cod1\works1\loggings1\ofc1_ix_loggs_configfile\d1\f2.py :: 2024-04-12 18:44:14,520 :: C:\Users\DKX8H1N\var3\w3\cod1\works1\loggings1\ofc1_ix_loggs_configfile\d1\f2.py
+-- DEBUG :: nsv.d1.f2 :: logger_get1 :: 10 ::-- __ : C:\Users\DKX8H1N\var3\w3\cod1\works1\loggings1\ofc1_ix_loggs_configfile\d1\f2.py :: 2024-04-12 18:44:14,520 :: C:\Users\DKX8H1N\var3\w3\cod1\works1\loggings1\ofc1_ix_loggs_configfile\d1\f2.py
+-- DEBUG :: nsv.d1.f2 :: logger_get1 :: 11 ::-- just-a-debug-line :: 2024-04-12 18:44:14,520 :: C:\Users\DKX8H1N\var3\w3\cod1\works1\loggings1\ofc1_ix_loggs_configfile\d1\f2.py
+-- DEBUG :: nsv.d1.f2 :: logger_get1 :: 11 ::-- just-a-debug-line :: 2024-04-12 18:44:14,520 :: C:\Users\DKX8H1N\var3\w3\cod1\works1\loggings1\ofc1_ix_loggs_configfile\d1\f2.py
+-- INFO :: nsv.d1.f2 :: logger_get1 :: 12 ::-- just-an-info-line :: 2024-04-12 18:44:14,520 :: C:\Users\DKX8H1N\var3\w3\cod1\works1\loggings1\ofc1_ix_loggs_configfile\d1\f2.py
+-- INFO :: nsv.d1.f2 :: logger_get1 :: 12 ::-- just-an-info-line :: 2024-04-12 18:44:14,520 :: C:\Users\DKX8H1N\var3\w3\cod1\works1\loggings1\ofc1_ix_loggs_configfile\d1\f2.py
+-- WARNING :: nsv.d1.f2 :: logger_get1 :: 13 ::-- just-a-warning-line :: 2024-04-12 18:44:14,520 :: C:\Users\DKX8H1N\var3\w3\cod1\works1\loggings1\ofc1_ix_loggs_configfile\d1\f2.py
+-- WARNING :: nsv.d1.f2 :: logger_get1 :: 13 ::-- just-a-warning-line :: 2024-04-12 18:44:14,520 :: C:\Users\DKX8H1N\var3\w3\cod1\works1\loggings1\ofc1_ix_loggs_configfile\d1\f2.py
+-- ERROR :: nsv.d1.f2 :: logger_get1 :: 14 ::-- just-an-error-line :: 2024-04-12 18:44:14,520 :: C:\Users\DKX8H1N\var3\w3\cod1\works1\loggings1\ofc1_ix_loggs_configfile\d1\f2.py
+-- ERROR :: nsv.d1.f2 :: logger_get1 :: 14 ::-- just-an-error-line :: 2024-04-12 18:44:14,520 :: C:\Users\DKX8H1N\var3\w3\cod1\works1\loggings1\ofc1_ix_loggs_configfile\d1\f2.py

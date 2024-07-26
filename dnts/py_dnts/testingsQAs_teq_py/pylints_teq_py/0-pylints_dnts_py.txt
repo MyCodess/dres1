@@ -1,0 +1,32 @@
+______________________________ pylint-py-dnts: _____________________________________________
+
+
+
+#####  ==========  urls/allg-nts/...:
+
+	- ! pylint --help /  --long-help /  --help-msg=W1202
+	- !!  https://realpython.com/python-code-quality/
+	- ! Pylint , https://pylint.pycqa.org/en/latest/
+	- ! pycqa.org  :  py automatic style and quality reporting : Astroid and Pylint
+    - Pylin --help / --long-help
+	- eg: pylint  --max-line-length 120  tests/integration/logg1.py
+	- error-msg-helps eg:   pylint --help-msg=W1202
+    - google-pylintrc:  https://google.github.io/styleguide/pylintrc  bzw. in:  https://google.github.io/styleguide/pyguide.html
+##________________________________________  ___________________________
+
+
+
+#####  ==========  pylintrc:
+	pylint  --generate-rcfile > rcgen2  ##--all defaults with comments... ! basis for your own modifs, as:
+	pylint  --rcfile=./pylintrc-netservices    --generate-rcfile > rcgen1
+##________________________________________  ___________________________
+
+
+
+#####  ==========  pylint-django:
+	- pip install  pylint  pylint_django
+	- pylint   --rcfile=./misc/pylintrc   --django-settings-module=xx.settings.dev  <module or package or directory>  [options]
+		- it traverses the DIR/Package/Tree, if they contain __init__.py ! otherwise have to set --recursive=yes
+		- instead --django-settings-module=xxx you can set the env-var, e.g.: export DJANGO_SETTINGS_MODULE=xx.settings.dev
+##________________________________________  ___________________________
+

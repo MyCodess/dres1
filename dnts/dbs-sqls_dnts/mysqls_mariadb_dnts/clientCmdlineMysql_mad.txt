@@ -1,0 +1,176 @@
+_________________ default-cmdline-client  mariadb bzw. mysql (is link to mariadb): ___________________________________
+
+
+
+#####  ==========  nts/docs/helps/...  cmdline-client: mariadb bzw. mysql :
+	- ! https://mariadb.com/kb/en/mariadb-command-line-client/
+	- config-files:  https://mariadb.com/kb/en/configuring-mariadb-with-option-files/
+	- more clients:  https://mariadb.com/kb/en/clients-utilities/
+	- !  mysql>  help
+
+	--- help install if needed:
+	- show tables from mysql like '%help%';  ##- check if they are there and are full!?
+	otherwise fill them with download of fill_help_tables-5.5.sql  and: shell> mysql -u root  mysql <  ./fill_help_tables-5.5.sql
+	in msw:   mariadb -u root -p ;  source    C:\Progs2\mariadb\share\fill_help_tables.sql ;
+	- search in online-help also by vi fill_help_tables-5.5.sql  ; BUT with  "mysql> help ..." is just more beatufied.
+
+	--- !  mycli : alternative mysql-terminal :
+	- ! take mycli instead (same +  with auto-completion and syntax highlighting as ipython !): https://mariadb.com/kb/en/mycli/ bzw. https://www.mycli.net
+	-  written in Python, and runs on Linux, Mac and Windows.
+	- pip install mycli
+	- mycli --help
+##________________________________________  ___________________________
+
+
+#####  ==========  help in mysql> :
+	- see 12.8.3 “HELP Syntax” + 5.1.8. Server-Side Hel
+	-!! if helps not there:  shell> mysql -u root mysql < fill_help_tables.sql  ##see 5.1.8. Server-Side Help
+	-!! or just view fill_help_tables.sql : whole help-texts are there for mysql.shell (in suse: /usr/share/mysql/fill_help_tables.sql )
+	-!!  mysql> help contents , ... --all helps/sql.syntax/user.mgm/... are there!!
+##________________________________________  ___________________________
+
+
+#####  ==========  invoking mysql-cmdline, shell-interacts:
+	shell> mysql -v -h 127.0.0.1  -u myname -pmypass mydb  ##-!! for localhost use IP-adresse! see 4.2.2. Connecting to the MySQL Server
+	-! with  "-v" :  mysql with the --verbose [264] option, which causes each statement to be displayed before the result that it produces.
+	- shell-readin-readout eg:      shell> mysql  db_name   < script.sql  > output.tab
+	- shell-cmds out of mysql-prompt:   mysql> system pwd;
+
+	_______:  login/logout/status/...:
+	- login:   mariadb --user=user_name --password=your_password db_name   ##--as:  mysql -u root@localhost -p
+	- logout:  > quit  #-or ctrl-c
+	> status
+##________________________________________  ___________________________
+
+
+#####  ==========  PROMPT, history :
+	_______:  PROMPT:
+	- see https://mariadb.com/kb/en/mariadb-command-line-client/#prompt-command
+	--- setting prompt in mysql-client:
+	1- shell-ENV:  export MYSQL_PS1 ; eg: export MYSQL_PS1="(\u@\h) [\d]> "  #-for: (user@host) [database]>  
+	2- cmdline: mysql --prompt="..." 
+	3- interactively in mysql-shell:  mysql> prompt (\u@\h) [\d]>\_
+	4- in .my.cnf :     prompt=....
+	- goback to dafult prompt:  mysql> prompt
+	--- eg:
+	- in config-file, eg: prompt="\u.\d@\h:\p>\_"
+	- in-mysql-shell:  mysql>  prompt  \u.\d@\h:\p>\_
+	- call-param:   mysql --prompt="\u.\d\_"  ##-overwrites config-file,...!
+
+	_______:  history:
+	- ! https://mariadb.com/kb/en/mariadb-command-line-client/#the-mysql_history-file
+	- No-History-FIle:  MYSQL_HISTFILE='/dev/null'  #/OR: ln -s /dev/null $HOME/.mysql_history  #-if default-file not rest!!
+	- ! HISTORY File : default $HOME/"mysql_history" ; /OR set env-var:  MYSQL_HISTFILE ; no-hist: ln -s $HOME/.mysql_history  /dev/null ; export MYSQL_HISTFILE=/dev/null #-see: https://mariadb.com/kb/en/mariadb-command-line-client/#how-to-specify-which-protocol-to-use-when-connecting-to-the-server
+##________________________________________  ___________________________
+
+
+#####  ==========  usage-mys-shell:
+	- auto-completion (TAB) : https://dev.mysql.com/doc/mysql-shell/8.0/en/mysql-shell-autocompletion.html
+##________________________________________  ___________________________
+
+
+#####  ==========  querys in client:
+	- ! show query-results vertically (for eg long texts,...):  "\G" at the end of sql-stmt instead ; ! eg: select * from t1 \G
+##________________________________________  ___________________________
+
+
+#####  ==========  configs/options/vars-mysql-client-tool (shell> mysql): options/params/configs/...:
+	---!DIFF:   options  <-->  system.VARs  <-->  user.VARs  :
+		- options == cmdline.params/args for client/server startup: are Startup params, which can be on the command line, through configuration files, or both.
+		- system.VARs == Server-vars/-params/-options: can be set by SET ; define/indicate the SERVER-configurations. SOME of which can be modified by running server/dynamic; see mysqld --verbose --help for listing !
+		- user.VARs (@xx-vars): user.defined.vars (as in pl/sql) to keep query results,...
+	--- listings of vars:
+		- options-listing with :     shell> mysql -v --help  :options can be set on mysql-client commandline or in option-files!
+		- system.VARs-listing with:  mysql> show variables;
+		- user.VARs-listing  (@xx vars) as in:   set @v1=11;  select @va;
+	--- setting/showing  options for mysql-client:
+		- showing:  shell> mysql -v --help
+		- setting: either on cmdline as mysql --auto-vertical-output=true  /OR in config-files as in ~/.my.cnf (same names and syntax but just without "--")
+			1- shell> mysql --pager=less
+			2- in .my.cnf in [mysql] or [client] group:   pager=less  ...
+			3- mysql> pager less  ##unsetting with just  mysql> pager  ##-!!- NOT all option can be reset from inside mysql> prompt ! so not all are dynamic!!
+			- ! prefixed: option-names can be prefixed with:  skip_/disable_/enable_/maximum_/... (see above URL!); Dashes (-) and underscores (_) in options are interchangeable.
+	---! usefull options mysql-client:
+		-! -v /--verbose :  mysql with the --verbose [264] option, which causes each statement to be displayed before the result that it produces.
+		- ctrl-C ignoring:  mysql --sigint-ignore ... ##then use "\c" to ignore the current line!
+		- --auto-rehash : TAB-completion of tablenames,..
+	--- vertical output:
+		- only-this-stmt:   \G : vertical output only this stmt: select * from clearing_house \G ##-I- \G INSTEAD ; !
+		- only-this-session:  mysql -E / --vertical
+		- globally vertical output as default with option:   auto-vertical-output=true
+##________________________________________  ___________________________
+
+
+#####  ==========  config-files (option files) for mysql-client:
+	- ! https://mariadb.com/kb/en/configuring-mariadb-with-option-files/
+	--- Allg params/args/options nts:
+		- ! check/show used config files, see:  mysql --help :   VERY comprehensive listing!:
+		- ! check/show options set now:  mysql  --print-defaults
+		- ! check which options a given program is going to use:  my_print_defaults mariadb-dump/mysqld/mysql/... [sections]
+		- ! each segment (Option Groups) of config-file is read by certain progs! see above url for details, or call the prog with --help !
+		- ovewriting default_FP :   mysql  --defaults-file=xxx / --defaults-extra-file=xxx
+		- "!include" bzw. "!includedir"  directives can be used to include other config/option-files/whole-DIRs! conf files there MUST be .cnf !
+		-! params-/args-sequences of mys-cmds: the LATER/LAST one overwrite the earlier ones! so ok: --opt --skip-quick #-to take all opt-group-params but NOT the --quick param !  see group-options in https://mariadb.com/kb/en/mariadb-dump/ !
+		- ! use hex-codes for special-chars in cmdline, instead enclosing in '' ...! see above URL !
+		- example/muster files in .../share/mysql directory , bzw.:  https://mariadb.com/kb/en/configuring-mariadb-with-option-files/#example-option-files
+
+	--- config-file-sections (option groups):
+		- !! to check/see them, call each programm with:  --help [--verbose]  !
+		mysql   mariadb-client  client client-server client-mariadb	#-:mysql-cmdlineClient
+		mysqlshow mariadb-show  client client-server client-mariadb	#-:mysqlshow
+		mysqldump mariadb-dump  client client-server client-mariadb	#-:mysqldump
+
+	--- on msw:
+		on msw: Default options are read from the following files in the given order:
+		C:\WINDOWS\my.ini C:\WINDOWS\my.cnf C:\my.ini C:\my.cnf C:\Progs2\mariadb\my.ini C:\Progs2\mariadb\my.cnf C:\Progs2\mariadb\data\my.ini C:\Progs2\mariadb\data\my.cnf
+	--- on arx:
+		Default options are read from the following files in the given order:
+		/etc/my.cnf /etc/mysql/my.cnf /usr/local/mysql/etc/my.cnf ~/.my.cnf
+		groups for mysql-client: [mysql] and  [client]
+
+	--- more nts:
+		- [client] option group is read by ALL client programs including mysql (but not by server mysqld)!
+		- option-names in .my.cnf are the SAME as in mysql --help but just without "--", so eg "--host=xxx" will be "host=xxx"
+		-! NOT reading the option file:  mysql --no-defaults ...
+		-!! define defaults and include in .my.cnf, and then you, for Abweichungen, use as FIRST argument:
+		   mysql --no-defaults/--defaults-file=xxx/--defaults-extra-file=xxx or jsut --print-defaults
+		-! printout USER-options-settings:  mysql --print-defaults
+##________________________________________  ___________________________
+
+
+#####  ==========  SYSTEM.VARs setting/showing in mysql-client:
+	-!DIFF SYSTEM.VARs  <-->  options !! see above DIFF!
+	--- show current system.Vars:     see 13.7.5. SHOW Syntax :
+		mysql> show variables;   ##- many server-vars, ...
+		mysql> show variables like 'auto%';
+		mysql> show global variables like  '%inter%';
+		SHOW GLOBAL VARIABLES;  ##system-options/configs....
+		SHOW [GLOBAL | SESSION] VARIABLES [like_or_where];
+	--- setting of SYSTEM.VARs:      see 13.7.4. SET Syntax :
+		- SET statement assigns values to the following variables that affect the operation of the server or your client:
+		  System variables. See Section 5.1.4, “Server System Variables”
+		  User-defined variables. See Section 9.4, “User-Defined Variables”.
+		  Stored procedure and function parameters, and stored program local variables. See Section 13.6.4, “Variables in Stored Programs”.
+		- eg:  mysql> SET GLOBAL max_allowed_packet=16M;   SET sort_buffer_size=10000;
+##________________________________________  ___________________________
+
+
+#####  ==========  user.VARs-setting/using/showing in mysql-client (@xx vars):
+	- setting/showing of user.VARs (@...):   set @v1=11; select @va;
+##________________________________________  ___________________________
+
+
+#####  ==========  errors/debugs/problemshooting:
+	- perror : ora-oraerr: A utility that displays the meaning of system or MySQL error codes. See Section 4.8.1, “perror — Explain Error Codes”.
+	- mysql> SHOW WARNINGS;
+##________________________________________  ___________________________
+
+
+
+#####  ==========  mycli (same as mysql cmdlineClient + auto-completion, syntax-highlighting,...):
+	- https://www.mycli.net/
+	- docs:  https://www.mycli.net/docs/  , mycli --help
+	- configs: https://www.mycli.net/config
+	- config-file: ~/.myclirc +  ONLY the [client] section of mysql-confFile ! BUT not its [mysql] or [mariadb-client] segments !
+##________________________________________  ___________________________
+

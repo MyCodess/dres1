@@ -1,0 +1,55 @@
+##______________ small sample-DBs-creation, test-DBs,... mysql ! for more see extra sql-files ________________________
+
+
+#####  ==========  pets-db, test1-sample-db :
+	#- /OR use:  mysql> source myfile.sql  /OR manually:
+	# connect db1;
+	CREATE TABLE pet (name VARCHAR(20), owner VARCHAR(20), species VARCHAR(20), sex CHAR(1), birth DATE, death DATE);
+	load data local infile '/home/kampkur/prj1/tests/mysql1t/pet_table.txt' into table pet;
+	CREATE TABLE event (name VARCHAR(20), date DATE, type VARCHAR(15), remark VARCHAR(255));
+	load data local infile '/home/kampkur/prj1/tests/mysql1t/event_table.txt' into table event;
+##________________________________________  ___________________________
+
+
+#####  ==========  TEST.stuff: T1 table,..., quickies:
+	#---- small.simple.quicky.one.table-testies : (  just from join tests ref--13.2.9.2. JOIN Syntax):
+	DROP TABLE IF EXISTS  t1, t2, t3;
+	CREATE TABLE t1 (c1 INT, c2 INT); 
+	CREATE TABLE t2 (c1 INT, c2 INT);
+	CREATE TABLE t3 (c1 INT, c2 INT);
+	INSERT INTO t1 VALUES  (01,02),(03,04);
+	INSERT INTO t2 VALUES  (11,12),(13,14);
+	INSERT INTO t3 VALUES  (21,22),(23,24);
+	select * from t1; select * from t2; select * from t3;
+	##-/OR if string needed: - create table T1 (C1 INT(12), C2 VARCHAR(50));
+	#SELECT * FROM t1, t2 JOIN t3 ON (t1.c1 = t3.c1);
+	#-! TIP for: modifying sam tabe in the subquery!! MUST use alias!!: insert into t1 values (2, (select c2 from t1 as xx where xx.c1=1));
+	#---------------
+##________________________________________  ___________________________
+
+
+#####  ==========  creating example-emplyee-DB:
+	#.../mysqls/employees_db_full $mysql  -u root -h 127.0.0.1 mysql  < employees.sql
+##________________________________________  ___________________________
+
+
+#####  ==========  creating example-world-DB: suse-114--vo17:
+	u1@vo17: $ mysql -u root mysql
+	mysql> drop database world;
+	Query OK, 0 rows affected (0.00 sec)
+	mysql> create database world;
+	Query OK, 1 row affected (0.00 sec)
+	mysql> grant all privileges on world.* to dbu1;
+	Query OK, 0 rows affected (0.00 sec)
+	-- connect to world db:
+	u1@vo17:/up1/varu/varau/prjs/myq1/wks/world_db_wks $mysql -u dbu1 -h 127.0.0.1  world
+	mysql> USE world;
+	mysql>  select database(), user();
+	mysql> SOURCE world.sql;   ##OR engine.file
+	-- check:
+	mysql> SHOW TABLES;
+	To see the structure of each table, use SHOW CREATE TABLE. For example: 
+	mysql> SHOW CREATE TABLE Country;
+	mysql> SHOW CREATE TABLE City;
+	mysql> SHOW CREATE TABLE CountryLanguage;
+##________________________________________  ___________________________

@@ -1,0 +1,7 @@
+__________________________ basic cmdline-utils-lx usu. in distro-packages : ______________________________
+##________________________________________  ___________________________
+
+
+
+#####  ==========  downloder...:
+-  aria2c,avconv,axel,curl,ffmpeg,httpie,wget  : are suported by youtube-dl as external-downloader 

@@ -1,0 +1,16 @@
+___________________________ utils/tools/GUIs/... mariaDB _________________________________
+
+
+
+#####  ==========  
+	- mysql-community-server-tools 
+	--- GUIs:
+	-  mysql-workbenc / MySQL Workbench : sql.client + Admin + DB-Modelling ...(was also in yast!): http://dev.mysql.com/downloads/
+	
+##________________________________________  ___________________________
+
+##________________________________________  ___________________________
+#####  ==========  GUI-clients:
+	- listing-GUI-clients:  https://mariadb.com/kb/en/graphical-and-enhanced-clients/ ,  https://mariadb.com/kb/en/clients-utilities/
+##________________________________________  ___________________________
+

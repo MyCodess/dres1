@@ -1,0 +1,178 @@
+_______________________ diango_dnts ... ________________________________________
+
+#####  ==========  cmds-/....-dj:
+    - shell-dj-call  :  (cd in prj1 and):   $ python manage.py shell  -i ipython  ##--/django-docs/ref/django-admin.html#shell
+    - ! python manage.py shell   ##--here  manage.py sets the DJANGO_SETTINGS_MODULE environment variable, which gives Django the Python import path to your <prj>/settings.py file. see django-docs/intro/tutorial02.html
+##________________________________________  ___________________________
+
+
+#####  ========== DIFFs: BASE_DIR  <--->  dj-settings-DIR :
+    cd ~/ofc1/cod1/works1/dj11 ; 
+    django-admin  startproject  netserv11
+    --- ! DIFF :  outer/dj-container-/BASE_DIR  (containing manage.py , usu. also containg user-Apps)   <--->   inner-/djSettings-/djPrj-DIR (containing settings[.py])
+        - the OUTER/BASE_DIR (./netserv11/ , containing manage.py) is ONLY the container-folder and can be RENAMED/moved anytime ! Its name doesn’t matter to Django!
+        - the INNER/settings (./netserv11/netserv11/ , containing settings[.py] + __init__.py) is THE  DJANGO-prj-dir !!  Its name is the Python package name you’ll need to use to import anything inside it !
+        -- So, dir-levels:
+        - ./netserv11/            ::  outer/dj-container-/BASE_DIR , manage.py   ##-- can be RENAMED/moved anytime !
+        - ./netserv11/netserv11/  ::  inner-/djSettings-/djPrj-DIR (containing setting.py , asgi, wsgi, urls.py)
+        -./netserv11/ix1/         ::  user_app1-folder, app1-views/models/...
+    - BASE_DIR  == container-folder (containing manage.py):
+		- python -c "import netserv11.netserv11.settings; print(netserv11.netserv11.settings.BASE_DIR)" ##--> C:\Users\DKX8H1N\var3\w3\cod1\works1\dj11\netserv11
+        - bzw.  ~/ofc1/cod1/works1/dj11/netserv11 ; $ python -c "import netserv11.settings ; print(netserv11.settings.BASE_DIR)"
+		- ! if "Not Found Module ..." error : add __init__.py to all above DIRs !
+##________________________________________  ___________________________
+
+
+#####  ==========  Tut-TOC (5.0):
+- Tut1--setup-prj+view1 /  Requests and responses
+- Tut2--model/DBs/migrates + admin-site
+- Tut3--views/URLs/templates
+- Tut4--generic-views/Forms
+- Tut5--testings
+- Tut6--static-files/stylesheet/htmls/...
+- Tut7--admin-site
+- Tut8--third-party packages
+So: Tutorial: Part 1: Requests and responses | Part 2: Models and the admin site | Part 3: Views and templates | Part 4: Forms and generic views | Part 5: Testing | Part 6: Static files | Part 7: Customizing the admin site | Part 8: Adding third-party packages
+##________________________________________  ___________________________
+
+
+#####  ==========  settings/configs-dj :
+    - Ref:  https://docs.djangoproject.com/en/4.2/ref/settings/
+    - pydoc_dj.sh   django.conf  /  django.conf.settings
+    - dafault dj-app-settings:   pydoc django.conf.global_settings  #bzw.   django/conf/global_settings.py  
+    - which apps are currently installed/active?:  from django.conf import settings ;  settings.INSTALLED_APPS ;
+    https://docs.djangoproject.com/en/4.1/topics/settings/  :descp
+    https://docs.djangoproject.com/en/4.1/ref/settings/     :Ref
+##________________________________________  ___________________________
+
+
+#####  ==========  URLs / URLConf / URl-Dispatcher :
+	- dj_dc/django-docs/topics/http/urls.html
+	- "/" : in path(...) do: NO-leading-/ , but do-ending-slash ! eg: path("articles/<int:year>/", views.year_archive) ! and No: /articles/... or .../<int:year> !
+##________________________________________  ___________________________
+
+
+#####  ==========  manage.py / django-admin cmds :
+    - !! REF:  django-docs/ref/django-admin.html + Tut-02
+        - django-admin help
+		- create admin-user:  python manage.py createsuperuser --help  ##-- --username xxx --email xx 
+		- register a model/class to be shown in admin-site: Tut-02: in polls/admin.py : ... admin.site.register(Question)
+##________________________________________  ___________________________
+
+
+#####  ==========  timezone, datetime , locale, localization, i18n in dj:
+    - ! https://docs.djangoproject.com/en/5.0/topics/i18n/
+
+    _______:  timezone , datetime:
+    - ! django-docs/topics/i18n/timezones.html
+    - https://docs.djangoproject.com/en/5.0/topics/i18n/formatting/
+    - https://docs.djangoproject.com/en/5.0/topics/i18n/timezones/
+    - https://docs.djangoproject.com/en/5.0/topics/i18n/
+    - FAQ: /topics/i18n/timezones.html#time-zones-faq
+    - pydoc  zoneinfo , https://docs.python.org/3/library/zoneinfo.html
+    ---
+    - my  local time in the current time zone? : from django.utils import timezone ; timezone.localtime(timezone.now())  ##--see FAQ-link above!
+    ---
+    - !! Naive and timezone-aware datetime objects:  Python’s datetime.datetime objects have a tzinfo attribute that can be used to store time zone information, represented as an instance of a subclass of datetime.tzinfo. When this attribute is set and describes an offset, a datetime object is aware. Otherwise, it’s naive.  see django-docs/topics/i18n/timezones.html
+    - You can use is_aware() and is_naive() to determine whether datetimes are aware or naive.
+    - now time if is_naive():  import datetime;  now = datetime.datetime.now()
+    - now time if is_aware():  from django.utils import timezone ; now = timezone.now()  ##--for django; for py-stdlib checkit !
+
+##________________________________________  ___________________________
+
+
+#####  ==========  migrates:
+	- "migrate" command will only run migrations for apps in INSTALLED_APPS : migrate command looks at the INSTALLED_APPS setting and creates any necessary database tables according to the database settings in your mysite/settings.py file and the database migrations shipped with the app 
+	- "sqlmigrate" command doesn’t actually run the migration on your database - instead, it prints it to the screen so that you can see what SQL Django thinks is required.
+	- "python manage.py check"  : this checks for any problems in your project without making migrations or touching the database
+##________________________________________  ___________________________
+
+
+#####  ==========  fixtures/loaddata/dump-data/... on cmdline or in-code(for tests):
+    django-docs/topics/db/fixtures.html
+	django-docs/howto/initial-data.html
+    python manage.py   dumpdata > dump1.json
+    django-admin loaddata <fixture label>
+##________________________________________  ___________________________
+
+
+#####  ==========  authentications/authorizations , login/logout/... :
+    - ! dj_dc/django-docs/topics/auth/default.html , dj_dc/django-docs/topics/auth/index.html
+	- ! eg-auth-app--tut:  https://learndjango.com/tutorials/django-login-and-logout-tutorial
+	- Creating superusers:  python manage.py createsuperuser --username=joe --email=joe@example.com  #-: dcIT/dj_dc/django-docs/topics/auth/default.html
+	- change-PW: manage.py changepassword <username> #-: /dj_dc/django-docs/topics/auth/default.html#changing-passwords
+	- tests-login:   django.test.Client().login() / aforce_login() :  simulate the effect of a user logging into the site : file:///C:/Users/DKX8H1N/var3/w3/dcIT/dj_dc/django-docs/topics/testing/tools.html
+##________________________________________  ___________________________
+
+
+#####  ==========  Meta:
+	- https://docs.djangoproject.com/en/5.0/topics/db/models/#meta-options  ,  Ref: https://docs.djangoproject.com/en/5.0/ref/models/options/
+	- Model metadata is “anything that’s not a field” ...
+	- Give your model metadata by using an inner class Meta, like:  class Meta: ...
+##________________________________________  ___________________________
+
+
+#####  ==========  plugins / addies / ... :
+	- ! Tut08 !  dj_dc/django-docs/intro/tutorial08.html
+	- /django-debug-toolbar :  https://django-debug-toolbar.readthedocs.io/en/latest/installation.html
+##________________________________________  ___________________________
+
+
+
+##############################  views : #########################################################
+#####  ==========  views/generic-views/...:
+	- !  you can only inherit from one generic view - that is, only one parent class may inherit from View and the rest (if any) should be mixins.  django-docs/topics/class-based-views/intro.html
+##________________________________________  ___________________________
+
+
+#####  ==========  mixins-views:
+	- django-docs/topics/class-based-views/mixins.html
+	- /django-docs/ref/class-based-views/mixins.html
+##________________________________________  ___________________________
+
+
+#####  ==========  Forms:
+	- /django-docs/topics/class-based-views/generic-editing.html
+	- 
+##________________________________________  ___________________________
+
+
+##############################  models/DBs/... : ################################################
+#####  ==========  models-Allg:
+	- ! Specifying model = Publisher is shorthand for saying queryset = Publisher.objects.all() ! django-docs/topics/class-based-views/generic-display.html
+    - DIFF   ModelXX.objects.get(...) <---> ....filter() : if no entries or multiple entries found, then ModelXX.objects.get(...) throws Exception! filter() returns empty/multiple set-entries ! see /django-docs/topics/db/queries.html#retrieving-a-single-object-with-get
+    - ModelXX.objects. all(), get(), filter() and exclude()
+
+##________________________________________  ___________________________
+
+
+#####  ==========  quer-model+DB-entries: lookups/retrieve/create/delete/...-model-/db-entries, QuerySets :
+	_______:  urls...:
+    - ! /django-docs/topics/db/queries.html
+    - ! /django-docs/ref/models/querysets.html
+    - Field lookups with "__" operator (WHERE clause in SQL-select-stmt) :  django-docs/ref/models/querysets.html#field-lookups
+
+	_______:  queryset/filters:
+	- ! dj_dc/django-docs/topics/db/queries.html :
+	- ! a QuerySet is NOT evaluated (filled with data) until it is realy used!! (so NO DB-queries by creating any QuerySet! erst nach usage/iteration/accessing-its-data it connects the DB and ... !)
+		so with: qs1 = Entry.objects.all() nothing happens! no DB-queries,...! later eg by qs1[0]... then django tries to retrieve data ...!
+	- Force immediate evaluation (query-the-DB) of a QuerySet by calling list() on it. For example: entry_list = list(Entry.objects.all())
+	- queryset/filters: In SQL terms, a QuerySet equates to a SELECT statement, and a filter is a limiting clause such as WHERE or LIMIT.
+	- A QuerySet represents a collection of objects from your database. (basically a SELECT return-set!)
+	- eg: Blog.objects.all() returns a QuerySet that contains all Blog objects in the database.
+	- double underscores to perform field lookups "__" , eg: question__pub_date__year :  dj_dc/django-docs/topics/db/queries.html#field-lookups-intro
+##________________________________________  ___________________________
+
+
+#####  ==========  DB-relationships, foreignkeys,...:
+	--- FKs / choice_set / Choice. / ... :
+	- ! Tut-02  dj_dc/django-docs/intro/tutorial02.html
+    - ! /dj_dc/django-docs/ref/models/relations.html
+	- other-way-around: from main-obj/table -> to its FK-related objs : obj.choice_set.... / Choice....
+##________________________________________  ___________________________
+
+####################  ModelAdmin / AdminSite : ##################################################
+#####  ==========  ModelAdmin / AdminSite:
+	- ! https://testdriven.io/blog/customize-django-admin/
+##________________________________________  ___________________________
+

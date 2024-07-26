@@ -1,0 +1,75 @@
+___________________________ SQLs for mad/mys  coll : ____________________________________________________
+
+
+#####  ==========  select into OUTFILE .. / bzw.  mysqldump --tab <filepath> ...:
+--- ! for filePAth of OUTFILE , and also filePath of mysqldump --tab <dir> ,  ...:
+- ! requires grants ...! otherwise do as root !
+- ! use always ABSOLUTE-path, otherwise the server write it into its own <mysql-install>/data/ dir (where usu. you have got NO write permissione ...! so error!)
+- ! the SERVER-daemon is writong this file! so achte auf permissions ...!
+---  on msw/MYSYS pathes... for SELECT OUTFILE :
+	- ! on msw/MYSYS worked ONLY as eg: select * into OUTFILE 'c:\\temp\\t1.txt' from t1;  #--/OR: 'C:/temp/t11.txt' ,  '/temp/t11.txt'  #-!-otherwise write-permissions error ! NOT /tmp/...!
+		the pathes are interpreted as win-pathes! so /tmp/t11.txt NOT-working! but /temp/ will be interpreted as  C:\temp\ ... !
+---  on msw/MYSYS pathes for mysqldump OK: --tab '/tmp/d1/' ! see nts-in-ofc1! ##--/tmp/d1 dir must be there !! param for --tab is a DIR not file!!
+##________________________________________  ___________________________
+
+
+#####  ==========  
+--- user/db/status/...:
+sql> SELECT database(), user(), VERSION(), CURRENT_DATE(), now();
+sql> version of mysql?:  show variables like '%version%';
+sql> show engines;   ##-- information_schema.ENGINES 
+
+--- grants:
+- GRANT ALL ON db1.* TO 'dbu1'@'your_client_host';
+
+--- date/times:
+- select CURRENT_TIMESTAMP(), CURDATE(), CURTIME();
+- select DATE_FORMAT( CURRENT_TIMESTAMP(),  "%Y-%m-%d");   ##--> 2013-01-05
+- select DATE_FORMAT( CURRENT_TIMESTAMP(),  "%Y-%m-%d --- %H-%i-%s ---Day.of.Year: %j");  ##-see:  help DATE_FORMAT
+
+--- data/tables-querys:
+- count rows of all user-tables: SELECT TABLE_NAME, TABLE_ROWS FROM information_schema.tables WHERE table_schema = database(); #-!- ist NOT correct, unfortunately, for InnoDB-Engine (dafault): not updated/correct number in TABLE_ROWS column!!  so see the two sql-scripts insqls-dir!!
+##________________________________________  ___________________________
+
+
+##############################  sample DB/tables/user create ...: ############################################
+#####  ==========  create DB1 + u11 :
+# as-rt:
+# -if-required:  drop user u11@localhost; drop database 'test';
+CREATE USER 'u11'@'localhost' IDENTIFIED BY 'u11';
+CREATE DATABASE IF NOT EXISTS db1;  
+CREATE DATABASE <dbname> CHARACTER SET utf8;
+grant all on db2.* to u11@localhost WITH GRANT OPTION;  ##--bzw.:  GRANT all ON `db1`.* TO 'u11'@'localhost' WITH GRANT OPTION;  #-BUT it did not work wirh 'db1'.* !!
+#   checkit:  $ mysql -u u11 -p db1 --prompt="\u.\d@\h:\p>\_" ; mysql> status;
+##________________________________________  ___________________________
+
+
+#####  ==========  create tables dummy/testies:
+##-- if-req: connect db1;  #/OR use db1;   ##--to select the DB!
+DROP TABLE IF EXISTS  t1, t2, t3;
+CREATE TABLE t1 (c1 INT, c2 INT);
+CREATE TABLE t2 (c1 INT, c2 INT);
+CREATE TABLE t3 (c1 INT, c2 INT);
+INSERT INTO t1 VALUES  (01,02),(03,04);
+INSERT INTO t2 VALUES  (11,12),(13,14);
+INSERT INTO t3 VALUES  (21,22),(23,24);
+select * from t1; select * from t2; select * from t3;
+##________________________________________  ___________________________
+
+
+#####  ==========  create DB+user+schema:
+	-! create user 'rdb' does NOT work (needs host !! as 'rdb'@'localhost' )
+	--- create rdb +user+db+schema:on vo17 1212 for rdb-schema:
+	shell$   mysql -u root
+	mysql> create user 'rdb'@'localhost' identified by 'rdb';
+	mysql> create database  rdb;
+	mysql> grant all on rdb.* to 'rdb'@'localhost' with grant option;
+	- shell>  mysql --user='rdb' -prdb rdb
+	mysql> source ./sample_reference_data_121219_v01_testdata.sql
+	--- test1-db:
+	create user 'dbu5'@127.0.0.1;    ##identifies by '...'
+	grant all privileges on db1.* to dbu5;
+##________________________________________  ___________________________
+
+#################################################################################################
+

@@ -1,0 +1,9 @@
+
+- see the final/best solution based on own-Logger-subclassing in ./customLevel_configfile_logging1_logClass/  !
+- here NOT the best solution, but works!
+- ! changing/setting logging-level in config-file affects the tracing if you set it for the root-logger under [logger_root] level= ... ! BUT not for the handlerss!
+	so therefore not a complete solution! but works...!
+- so to set the level to TRACE , you have to do it for the root-logger in log.conf ! not for its handler!!
+
+- usage eg in:   python -m  use1_logconf
+

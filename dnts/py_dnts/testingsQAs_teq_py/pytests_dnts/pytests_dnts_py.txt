@@ -1,0 +1,128 @@
+__________________ pytests_dnts ___________________________________________
+
+#####  ==========  setup/urls/nts pytest : ===================================
+
+    ---
+    - pip install pytest
+    - /OR:  python -m venv venv1 ; activate.ps1;  pip list | grepi pytest ;  pip install pytest ;
+    - /OR sys-pkg:  pacman -Syu community/python-pytest
+    - ! bash-auto-complete:  sudo pip install 'argcomplete>=0.5.7'  ##-see howto-RefDocs: 2.21 How to set up bash completion
+    --- docs/urls/...:
+    - https://docs.pytest.org/
+	- ! examples, see:  ./pytest-main/doc/en/example/... ; also findin  ./pytest-main/doc/  \.py
+    - pytest --help   #- python -m pytest --help    ##no-manpage , also on wins!
+    - pydoc pytest
+    - BK1  ==  BK-Python-Testing-with-Pytest_2Ed_Y2022_BrianOkken.pdf
+	--- nts-allg:
+	- "Given-When-Then"  bzw.  "Arrange-Act-Assert"
+##________________________________________  ___________________________
+
+
+#####  ==========  call/run tests:
+
+    - ! DIFF:  pytest ...  <--->  python -m pytest :calling via python ... will also add the current directory to sys.path.
+    - !! DIFF: cu-dir in py-path?:  python -m pytests ... : adds cu-dir to py-path  <---> pytest ....  : cu-dir NOT in py-path
+         currently two similar ways to invoke pytest: either via the pytest executable or python -m pytest. It has a documented difference : calling via python will also add the current directory to sys.path ...
+         so with pytest ... , if needed, have to set PYTHONPATH=$PWD ...
+    --- defaults of "test discovery":  see BK1--p.7--"test discovery" :
+        - default namings:  test_file1.py / file1_test.py , methods: test_method1() , TestClass1
+        - no-args as: pytest  ==  in cu-dir-Tree : run all files named: test_xx.py /OR  xx_test.py  and look for test-methods/classes as:
+        - no arguments: pytest looks at your current directory and all subdirectories for test files and runs the test code it finds, named as following:
+        - Test files should be named test_<something>.py or <something>_test.py.
+        - Test methods and functions should be named test_<something>.
+        - Test classes should be named Test<Something>.
+    ---
+    - run All tests in "./dir1/" tree (incl. subdirs):    pytest  ./dir1/
+    - certain-method only run:   pytest -v ch1/test_one.py::test_passing
+    - run tests of a directory as modules/pkgs (so contrary to OS-filepath, so like python .m ...), with --pyargs :
+        python -m pytest  --pyargs tests.integration   (<---> as contrast to: python -m pytest tests/integration
+
+    --- regexp/glob/excludes/...:
+    - Ux-shell-globs-style (just * !so, without-dot as in .* !): The --ignore-glob option allows to ignore test file paths based on Unix shell-style wildcards. If you want to excludetest-modules that end with _01.py, execute pytest with --ignore-glob='*_01.py'.
+    - eg OK:  --ignore-glob='./tests/integration/lib/test_*.py'  ,  --ignore-glob='*/integration/lib/test_*.py'
+    - ! on cmdline * MUST be escaped from the shell, so eg included in '...'  !  in config-file ??
+##________________________________________  ___________________________
+
+
+#####  ==========  cmdline-opts:
+
+    _______:  eg / qckys:
+	- pytest  -c <configfile / pytest.ini-path> ...
+	- pytest <module/pkg/DIR/ / -k regexp  / tests/test_mod.py::test_func1>  ##--see HowTo:  2.1 How to invoke pytest
+    - pytest -v  -x  --capture=no  test_.py   ##--show also the apps-own-printouts! NOT-caturing/redirecting them!
+    - pytest -v  -x  --capture=no  --fixtures-per-test  test_fixtures1.py  ##--NOT running tests, but listing tests+their-fixtures!
+    - certain-test-method-run with "::"  :  py.test  test_file.py::<method/class-name> ...eg:  pytest  tests/test_mod.py::TestClass::test_method1
+    - ignore certain ...: --ignore=./lib/file1.py ...
+    - ONLY-tests-nameed-*xxx* : pytest -k "xxx" 
+    - stop after error: -x  bzw. --maxfail=1  : stops after FIRST error ;  --maxfail=3  : stops after 3 error!
+	- markers : run only tests marked with slow1 : pytest -m slow1
+
+    _______:  outputs,verbosity,tracebacks / apps-outputs,captures :
+    - see howto:  https://docs.pytest.org/en/7.1.x/how-to/output.html
+    - verbosity :  pytest -vv / -q / --verbosity=VERBOSE  / -r X / --log-cli-level=warning
+    - tracebacks-outputs:no:   pytest  --tb=no  ##--as: --tb=style  :  Traceback print mode (auto/long/short/line/native/no) ;eg no tracebacks: --tb=no
+    - -r (report-)flag can be used to display a “short test summary report” at the end of the test sessio
+    --
+	- apps-own-outputs(eg print...):  --capture=no  bzw. -s bzw. --show-capture={no,stdout,stderr,log,all}   ##-- --capture=method Per-test capturing method: one of fd|sys|no|tee-sys
+
+    _______:
+    -x, --exitfirst Exit instantly on first error or failed test
+##________________________________________  ___________________________
+
+
+#####  ==========  configs /pytest.ini / ...:
+
+    _______:  configs...:
+	- ! see 
+	- pytest  -c <configfile / pytest.ini-path> ...   ##-- -c bzw. the parent-dir of configfile/pytest.ini is also the pytest rootdir !!
+    - show-active-plugins in your env:  pytest --traceconfig
+	- If -c is passed in the command-line, use that as configuration file, and its directory as rootdir.
+##________________________________________  ___________________________
+
+
+
+#####  ==========  fixtures:
+
+	_______:  nts/urls:
+	- !! /how-to/fixtures.html  incl. eg !
+	- !! examples:  /pytest-main/doc/en/example/fixtures/
+	- ! see there the "manaual simulations" of requesting fixtures! absolutely helpful !
+	- ! the fixtures are executed BEFORE starting EACH test_method!! and provide the test_methods with the result of fixtures as method-arguments!
+	- ! Fixtures are created when first requested by a test, and are destroyed based on their scope !
+
+    _______:  listing/showing fixtures:
+	- pytest  --fixtures   [ pathes ]   ##--listing all cu-pytest-fixtures of pytest-builtins-fx + pyt-plugins-fx + cu-dir-[pathes-prj/dir]-fx ! no-tests-runs!
+		eg:  pytest  --fixtures   ./netservices/tests/integration/  ./netservices/
+    - NO-plugins-fixtures listing (using  --config-file=. ,even if there is no pytest.ini there, but to avoid reading/searching for any ini-file, due to evtl. plugins-args there!):)
+		PYTEST_DISABLE_PLUGIN_AUTOLOAD=1  pytest   --fixtures-per-test  test_fx_autouse1.py  --config-file=.
+    - NO-plugins-fixtures listing: (BUT then also problem with --create-db Argument in pytest.ini of /tests/integration/ , since --create-db is of pytest-django plugin!)
+		PYTEST_DISABLE_PLUGIN_AUTOLOAD=1  pytest -v  --capture=no  --fixtures-per-test  test_fixtures1.py   ##--not-showing-plugins-fixtures + show-apps-own-prints/outputs + show-fixtures-used-per-test !
+    - pytest  --fixtures-per-test   <...>   ##--: NO-tests-is-run !! ONLY-shown per test fixtures listing!
+
+	_______:  scope of fixtures:
+	- ! /how-to/fixtures.html#scope-sharing-fixtures-across-classes-modules-packages-or-session
+	- ! DEFAULT-scope: scope=function ! the fixture is excuted when it is requested by a test-method and destroyed at the end of the test!
+	- so, default is to invoke requested fixture once per TEST_method/function WITHOUT sideeffects of previous requests! so basically from initial-status again! this can be changed with "scope=" param to fixture decorator!
+	- Possible values for scope are: function, class, module, package or session.
+
+	_______:  parametrization of fixtures /functions:
+	- ! see dres!
+	- ! if parameterized-fixture, then: pytest may invoke a fixture more than once in the given scope ! Pytest only caches one instance of a fixture at a time !
+	- /how-to/parametrize.html#parametrizemark
+
+	_______: setup-/teardown of fixtures + tests :
+	- ! pytest --setup-show    test_xxx.py   ##--:shows setups-runs-teardown-sequencies of tests in xxx.py
+##________________________________________  ___________________________
+
+
+#####  ==========  Markers:
+	- ! HowTo:  /how-to/mark.html
+	- pytest  --markers   ##--listing all markers!
+##________________________________________  ___________________________
+
+
+#####  ==========  plugins:
+	- HowTo: 2.1.4 Managing loading of plugins
+	- disable certain plugin:  pytest -p no:doctest
+##________________________________________  ___________________________
+

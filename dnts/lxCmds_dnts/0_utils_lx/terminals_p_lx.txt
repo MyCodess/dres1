@@ -1,0 +1,62 @@
+____________ terminal_emulators_lx : __________________________________________
+
+
+
+#####  ==========  Allg-terms-infs:
+	- man terminfo, tput, term,
+	- tput :initialize a terminal or query terminfo database; eg. tput init :initializes term values;  tput longname :printout term longname
+##________________________________________  ___________________________
+
+
+#####  ==========  xterms: ####################################################
+	- ! https://wiki.archlinux.org/title/Xterm
+
+	_______:  aliases:
+	alias  xterm1="xterm  -fa 'dejavue'  -fs 9  -geometry '160x40'  -ls  -xrm 'XTerm*selectToClipboard:true'  -xrm 'XTerm.vt100.utf8:true' -xrm 'XTerm.vt100.metaSendsEscape:true' &"
+	alias  xterm2="xterm  -fa 'dejavue'  -fs 9  -geometry '160x40'  -ls  -xrm 'XTerm*selectToClipboard:true'  -xrm 'XTerm.vt100.utf8:true' -xrm 'XTerm.vt100.metaSendsEscape:true' -xrm 'XTerm.vt100.reverseVideo:true' &"
+	alias  xterm3="xterm   -geometry '160x40'  -ls  -xrm 'XTerm*selectToClipboard:true'  -xrm 'XTerm.vt100.utf8:true' -xrm 'XTerm.vt100.metaSendsEscape:true' -xrm 'XTerm.vt100.reverseVideo:true' -xrm 'XTerm.vt100.faceName: Liberation Mono:size=10:antialias=false' &"
+
+	_______:  configs...:
+	- configs in ~/.Xresources ? :  if  xorg-xrdb is installed bzw. xrdb cmd is da to do:  xrdb -merge ~/.Xresources ; otherwise put the config-params on cmdline xterm -xrm "configxxxx: value" as below:
+	- fonts : Ctrl+RightMouse -> TrueTypes ! + ... ; cmds: "xterm  -fa dejavue  -fs 9 ..."  ##-/OR:  -xrm 'XTerm.vt100.faceName: Liberation Mono:size=10:antialias=true' ...
+	- colors: default black-text-on-white-bg ! reverse:  xterm -xrm 'XTerm.vt100.reverseVideo:true'  ##--/OR with -xrm XTerm.vt100.foreground: white -xrm XTerm.vt100.background: black ....
+
+	_______:  copy+paste problem:
+	- https://www.starnet.com/help/copying-and-pasting-in-xterm/  :
+	- copy the selected text into clipboard automatically by selecting:  xterm  -xrm ‘XTerm*selectToClipboard: true’
+	- paste: shift + insert/Einfuegen keys  (uber citrix/mswin the middle-mouse-paste did NOT work, but shift+insert ok!)
+	- xterm uses as default the PRIMARY buffer (copy: mouse-select, paste: middle-mouse), but NOT the CLIPBOARD buffer ([shift]+ctrl-c , or menu-edit-copy)!
+	- Double-clicking will select a word ,  Triple-clicking selects a line
+	- so: Normally, selected text is stored in PRIMARY, to be pasted with Shift+Insert or by using the middle mouse button
+	- When highlighting a selection in xterm you may notice that the selection does not get sent to the clipboard (and therefore you cannot paste).
+		This is due to the fact that FastX only uses the CLIPBOARD buffer for copying and pasting text. xterm by default only supports the PRIMARY buffer.
+	- Solution : Launch an xterm with the selectToClipboard option set i.e. : xterm -ls -xrm ‘XTerm*selectToClipboard: true’
+		/OR: put XTerm*selectToClipboard: true  in  ~/.Xresources and do: xrdb -merge ~/.Xresources ;  #-Restart xterm!
+	-  The program xsel can be used to copy the primary selection into the clipboard:   xsel -op | xsel -ib
+	- VT Options menu (Opens with Ctrl+MiddleMouse): "Select [to Clipboard]" : Normally, selected text is stored in PRIMARY, to be pasted with Shift+Insert or by using the middle mouse button. By toggling this option to on selected text will use CLIPBOARD, allowing you to paste the text selected in an xterm window into a GUI application using Ctrl+v. The corresponding resource is XTerm.vt100.selectToClipboard. https://wiki.archlinux.org/title/Xterm
+##________________________________________  ___________________________
+
+
+#####  ==========  tilix :  ###################################################
+	- tilix : tiling-terminal + session-mgm + tabs + parallel-views .... :
+	- man tilix: tilix is an advanced GTK3 tiling terminal emulator designed to adhere to Gnome Human Interface Guidelines.
+	- https://gnunn1.github.io/tilix-web/  ,  https://github.com/gnunn1/tilix/
+##________________________________________  ___________________________
+
+
+#####  ==========  Terminator: #################################################
+	_______:  docs:
+	https://terminator-gtk3.readthedocs.io/en/latest/
+	https://gnometerminator.blogspot.com/p/introduction.html
+	man terminator
+	man terminator_config
+
+	_______:  configs:
+	${HOME}/.config/terminator/config
+	- no DBUS ! not needed!
+
+	_______:  
+	- for predefined DIRs/Tabs must use the "layout" options ...! save yout TABS,... into a layout, name it, ... call  with -l <layout1>  , or -s to select it !
+##________________________________________  ___________________________
+
+

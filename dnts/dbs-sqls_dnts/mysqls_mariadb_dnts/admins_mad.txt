@@ -1,0 +1,45 @@
+_________________________ mariaDB admins,....: _____________________________________________________
+
+
+
+
+#####  ==========  cmds:
+	mariadb-admin --help  ("C:\Progs2\mariadb\bin\mariadb-check.exe", ...)
+##________________________________________  ___________________________
+
+
+#####  ==========  start/systemd/OS-setup-configs/....:
+	- https://mariadb.com/kb/en/starting-and-stopping-mariadb-automatically/
+
+	_______:  systemd-based-OS:
+	- ! https://mariadb.com/kb/en/systemd/
+	- sudo systemctl status/restart/start/stop/...  mariadb.service  #- start take about 2 Minutes! The service name is mariadb.service !
+	- boot-start-enabling:   sudo systemctl enable mariadb.service ;
+	- node1-starting:  sudo systemctl start mariadb@node1.service  #-When you interact with a MariaDB instance using this template unit file, you have to provide an instance name as a suffix.
+	- systemd-files: systemctl show mariadb.service  #- A systemd template unit file with the name mariadb@.service is installed in INSTALL_SYSTEMD_UNITDIR on some systems
+	
+	--- configs/options systemd:
+	- ! https://mariadb.com/kb/en/systemd/#configuring-the-systemd-service
+	- edit-start-configs:  systemctl edit mariadb.service
+	- drop-in systemd: /etc/systemd/system/mariadb.service.d/
+	- systemd-options:  https://mariadb.com/kb/en/systemd/#useful-systemd-options  #-Use systemctl edit mariadb.service to create the systemd option under a [Service] section header.
+	- DATA-files: https://mariadb.com/kb/en/systemd/#configuring-the-data-directory , Default:   /usr/local/data  (DIR must get writable for mariadb! see the url!)
+	
+	--- logs/...:
+	- sudo journalctl n 20 -u mariadb.service  #-if configured for syslog !
+
+	_______:  manually start/...
+	- https://mariadb.com/kb/en/starting-and-stopping-mariadb-automatically/#starting-the-server-process-manually
+	- "mariadbd" is the actual MariaDB Server binary.
+##________________________________________  ___________________________
+
+
+#####  ==========  AdminSQLs/SystemDicts/...:
+	- AdminSqls-SystemSqls:  https://mariadb.com/kb/en/administrative-sql-statements/
+	- systemDicts / system-tables: https://mariadb.com/kb/en/system-tables/
+##________________________________________  ___________________________
+
+#####  ==========  DATA-files,...:
+	
+##________________________________________  ___________________________
+

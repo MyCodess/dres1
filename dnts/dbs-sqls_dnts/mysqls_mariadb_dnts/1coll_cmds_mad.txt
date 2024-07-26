@@ -1,0 +1,55 @@
+_____________________ cmdline-client-cmds_1coll mariadDB/mysql  ..._____________________________________________
+/:240629  :  on mswin-devvdi1 + ofc1/rh
+
+
+
+#####  ==========  cu/npd:
+##________________________________________  ___________________________
+
+
+#####  ==========  config-file-sections (-option groups):
+--- sections read by each prog:
+- !! to check/see them, call each programm with:  --help [--verbose]  !
+mysql   mariadb-client  client client-server client-mariadb	#-:mysql-cmdlineClient
+mysqlshow mariadb-show  client client-server client-mariadb	#-:mysqlshow
+mysqldump mariadb-dump  client client-server client-mariadb	#-:mysqldump
+
+--- args/params-sequence:
+-! params-/args-sequences of mys-cmds: the LATER/LAST one overwrite the earlier ones! so ok: --opt --skip-quick #-to take all opt-group-params but NOT the --quick param !
+see group-options in https://mariadb.com/kb/en/mariadb-dump/ !
+- ! use hex-codes for special-chars in cmdline, instead enclosing in '' ...! see above URL !
+##________________________________________  ___________________________
+
+
+#####  ==========  admins-cmds:
+	mysqladmin --help
+	mysqladmin $q_mysLoginAdm1  status   ##--/OR:  mysqladmin -u root -pxxx status   ##--/OR:  mysqladmin -u "$q_mysUser1" -p"$q_mysPW1" -h "$q_mysHost1"   status
+	- Data-Dir/location??:  mysqladmin1 variables | grepi datadir  ;  #-OR in mysql>  select @@datadir;
+	- variables:  mysqladmin1 variables > variables-mysqladmin.log   ##-direct-printout not beautiful usu.!
+##________________________________________  ___________________________
+
+
+
+#####  ==========  mysqlshow, ....:
+	mysqlshow.exe  $q_mysLoginAdm1               #--> all DBs ! without DB param, it shows all databases!
+	mysqlshow.exe  $q_mysLoginAdm1 db1           #--> all tables of DB1 ! with DB1 params: shows all its tables
+	mysqlshow.exe  $q_mysLoginAdm1 db1 t1        #--> all columns of table1 of DB1 ! with DB1 table1 param: shows all attributs/definitions of all columns of table1 of DB1
+	mysqlshow.exe  $q_mysLoginAdm1 db1 t1 c1     #--> all attributes of column1/table1/DB1 : with DB1 table1 column1 : shows all attributs/definitions of columns1 of table1 of DB1
+	mysqlshow.exe  $q_mysLoginAdm1 db1 t1 "c*"   #--> all attributes of all columnns regexp c* in /table1/DB1 : 
+	also use:  --status --count -t
+##________________________________________  ___________________________
+
+#####  ==========  client-cmdline: 
+	--- DB-names / DB use:
+	show databases;
+	show schemas;
+	SHOW DATABASES LIKE 's%';
+	mysql -u user -p -e "show databases;"
+	select schema_name from information_schema.schemata;   ##--so from server-dict. !
+	- which DB is now in use??:   select database();  #-The DATABASE() function (SCHEMA() is a synonym) returns the default database. https://mariadb.com/kb/en/use-database/
+
+	---
+	---
+##________________________________________  ___________________________
+
+

@@ -1,0 +1,1439 @@
+_______________________- VIMs_dnts ________________________________________________________
+#####  ==========  abbrev/refs:
+    - viOreCD == Vi Oreilly CD bookshelf 6ed
+    - vimDocs == vim-7.3-on-suse.11.4  (previnstalled online docs of vim. here vim 6.3)
+    - UG      == vim help user.manual/User.Guide (not ref.)
+    -!!  :see.it == the section not completely described here, with was too much/long/many.details OR not worked out! so see the original-ref for details...
+##________________________________________  ___________________________
+
+
+
+--############################# General subjects: ##########################################################
+#####  ==========  common-general-points ... (kk) :
+
+	_______:  --
+	- ^ , ~ needs obviously on DE-keyboard addiitonal space-bar /OR twice-entering as ^^ bzw. ~~ , to be realy sent/printed!!
+	- ctrl-^ problem on non-US keyboards: use instead then ctrl-6 , maybe it works
+	- also problems with certain keys as ~ , @ ,...(third-symbols) on non-us-keyoard, you need to press "space-button" too!
+	- to check or see the results of any addressing, before doing anything:  :.,+3p (print out the selected lines) /OR .,/searchword/ > "a  (write to register a)
+	- seperate all paragraphs with empty lines
+
+	_______:  -- key-/cmd-prefixes/-suffixes  (ca., usually, ...; before/after other keys):
+	- :w == :s == ctrl-W ..... : in new window
+	- :g == g... : modified version of the next key
+	- :b  : (new)buffer ....
+	- :p  :preview-window , CTRL-W }
+##________________________________________  ___________________________
+
+
+#####  ==========  help-usage/-browsing,...:	---> helphelp.txt
+
+	_______:  --
+	- CTRL-]     Jump to the tag under cursor,
+	- CTRL-T  bzw. Ctrl-O  :   Jump back from Nth older tag in tag list
+	-!! :helptags <path> : updates/refreshes VIM-help-tags :
+		 after adding new plugins/... and their docs, then the VIM-help-tags must be updated, to be able to see/find their newly added helps/docs, with eg:  ::helptags $HOME/.vim/doc  /OR :helptags $VIM/vimfiles/doc ...
+	-! if option AND cmd have identical names, then:   :h 'option'  bzw.  :h :cmd
+	   cmd-help:     :h  :cmd1
+	   option-help:  :h  'option1'
+	- quickref.txt	: topics-sorted quick.ref for shorcuts and commands of most common commands you will use.
+	- index.txt 	: alphabetical list of all commands for each mode, with a tag and a short description sorted on ASCII value.
+	- pattern.txt	: patterns/regExp
+	-!!! helpgrep patternXX\c (finds/greps XX-pattern in whole vim-helps! \c means ignore.case, otherwise case.sensitive!); its file.lis.browsing with: :cwindow  (:h quickfix)
+	-!! reverse-/inverse-help for key-combinationsi/key-query:  eg for searching/help for ctrl-v key-combi, enter(literaly):  :h ^v   
+		- to find help for CTRL-V in Insert mode:   :help i^V
+	-!! piping helps (only the help.text.file will be piped, not the file.list!):  see helphelp.txt
+		eg  :help index| :tselect zb  ;"tselect" to list matches of zb in index.txt and choose one.
+		!! no.space before "|"  !!
+	-! :h XX<CTRL-D>  list all names that match, eg :help *buffer<ctrl-d>
+	-! CTRL-A  :insert all names that match ;  ctrl-N/P
+	-! help in a new konsole/xterm:  :!konsole -e vim +help&  (OR :!xterm -e vim +help &  )
+	- :help filename-modifiers  for manipulating file names (absolut/relative path, suffix, ...)
+	- see  Tags and jump-shorties/quickies: see  quickref.txt +/"Using tags" or +/jump
+	-!  generating HTML-help-files from vim-text-help-files: cd <vim-install-root>/doc/ : perl vim2html.pl tags *.txt
+
+	_______:  -- Tuts,... more:
+	http://linuxcommand.org/man_pages/vimtutor1.html
+	http://vimcasts.org/
+	http://www.openvim.com/
+	http://learnvimscriptthehardway.stevelosh.com/  :   for learning vimscript.
+##________________________________________  ___________________________
+
+
+
+--############################# basic-editing-chapters: :h reference_toc  : ################################
+#####  ==========  starting/initialization/config.files.vim/startup.initilas/current-config-status/:	---> starting.txt
+
+	_______:  -- invocation/invoking:
+	-! problems-debugging: use vi with -V[N] ; bzw. in vim  :set verbose=n  ;see  :h vbs /verbose
+	- vi --version  : infos about config files /runtime/.....
+	-! setting an option during invocation:  vi  -c "set tabstop=8"  s1.sh
+	-! vim -u file1  : read files1 insted .vimrc  (so for test-vimrc)
+	-! vim -u NORC  : read NO rc-files
+	- vim -u NONE   : skips loading plugins
+	- vim `grep -l XX *.java` /OR from vi with its build-in grep: - :grep XX *.java ; first found file is loaded; then :cnext  or :cprev
+	- vi --help (-R readonly ; -r recover ;...)
+	- vi  +/serchword file1.txt /OR +LineNo
+	- edit all the files containing a given word : vim `fgrep -l searchWord *.java`
+	-! sessions: vim -S <session>
+	-! tabbing:  vim -p ....
+	- vim-batch/ex-mode-invocation with an input/commandScript: vim -e -s $file < vi-commands.vim  /see usr_26
+
+	_______:  -- initialization / startup-config-files (runtimepath of vim) :
+	-  :h initialization  , :h startup  , :h viminit  ,  :h  runtimepath
+	-  runtimepath   :  list of directories which will be searched for runtime files (startup-config-files)
+	--- querying of  vim-startup-config-files  (runtimepath):
+		- :set runtimepath?  bzw.   :script  OR :scriptnames     ##--show DIRs search by vim for vim-startup-config-files
+		- default-runtimepath on arx:  "$HOME/.vim, $VIM/vimfiles, $VIMRUNTIME, $VIM/vimfiles/after, $HOME/.vim/after"
+		whereas :echo  $VIMRUNTIME  $VIM   ##-shows  /usr/share/vim/vim90  /usr/share/vim  #-from vim-runtime
+		-!! :script  OR :scriptnames    ##-printout all sourced vim-config-files and their <SNR> number.
+		-! :echo $VIMRUNTIME  ; :echo $VIM  ;  :set runtimepath?  ;  :version ; vim --version
+		- vi --version / -V == --verbose ;   vim  -V   : to see the scripts being loaded
+		-! where last the option XX was set (in vimrc/cmdLine/ftplugin/...)?  :verbose set XX? ; eg.  :verbose set tags?   (shows its value + set-last-time-by-user-if-any)
+
+	_______:  configsiFiles-VARs/cmds :
+	-! see :h $VIM :h runtime :h vimfiles  h: runtimepath  :h vimrc :h initialization :h startup  :h viminit  :h  $VIMRUNTIME
+	- environment variable "$VIM" is used to locate various user files for Vim, such as the user startup script ".vimrc"
+	- environment variable "$VIMRUNTIME" is used to locate various support files such as the on-line documentation and files used for syntax highlighting.
+	- default-config/rc-files:  see :h initialization  --> punkt "c"  !!
+		!! ONLY the FIRST default-config-file found is executed!! The first that exists is used, the others are ignored.:
+		1- $VIMINIT / $GVIMINIT  (is used as an Ex command; so for a vim-config-file set it to eg "source /up1/.cuue/etc/vims/vimrc"
+		2- "$HOME/.vimrc" for Lx/Unix  ; "$HOME/_vimrc" (or "$HOME/.vimrc") , "$VIM/_vimrc" for MsWins;
+		.... see :h initialization
+	- tip--for-prj: adapt  vim-optin "path":  :set path+=/usr/local/X11 ; :set path+=/projects/invent/**/include ; :checkpath!
+	- setting-Shell-ENV.vars out of vim, eg vim-ENV.vars (eg $VIM , $VIMRUNTIME,...) from vi (not from shell) is NOT done with :set but with :let!! :  :let $VIM = "/home/paul/vim/" ; so: :let ${env-name} = {expr1}  :see :let-environment  bzw. :let-$
+	-!! saving current configs!!  :mk myCurrVimConf
+	-!! auto-generating-configfiles:   :mkvimrc
+
+    _______:  modeline :
+    - h: modeline
+    - DEF: a few lines at the beginning and end of the current file, which are checked for modelines (vim-config-cmds).
+	- !! so, pro.file-configs /modeline , so the very-first-lines-of-a-file /OR very-last-lines; ending the settings with ":" ), see :h modeline ; number-of-config-lines: :h modelines ; eg:
+	- eg:  /* vim: set filetype=text: */  ##--first-line-of-a file!
+	- eg:  /* vim: set foldmarker=xxx,yyy   foldmethod=marker:  */     ##--more settings also ok, ending with ":"
+	- eg:  /* vim: set foldmarker=xxx,yyy   foldmethod=marker  :  */   ##--also more spaces ok!
+	- eg:  /* folding-settings-for-this-dnts-file  vim: set foldmethod=marker  foldmarker=xxx,yyy  : */  ##--also a starting-descp-string ist also fine !
+	- eg:  also several lines of modelines  ok, if < modelines option ! see :h modelines  :
+
+	_______:  -- sessions / pesistent-views/...:
+	-! :mksession s1.vim ; :source s1.vim  /OR: vim -S s1.vim
+	-  saving certain view for a file  :mkview  :loadview
+
+	_______:  -- viminfo file / history/ ...:
+	- ok-for-ofc (low-hist)?-checkit:  set viminfo='0,<0,@0,f0,h,s0,n/tmp/.vinf        " --I-user-specific-file-OK: (must be last param in viminfo!):    n/tmp/vinf_$USER
+##________________________________________  ___________________________
+
+
+#####  ==========  files-openning/-editing/-closing/-encrypting/ ...	---> editing.txt
+
+	_______:  -- openning-file-to-edit:
+	-!! diff:   arument-lists  <---> buffers-list  <--->  windolws-list
+	-! :e ++opts : additional options by opening files:  :e ++fileformat=unix  ++enc=latin1  myfile.txt  ; see editing.txt
+	- goto...:   :e  +{num}  OR  +/{pat}  OR   +{command}
+	- switching between current--alternate files (% and #) instead :e # 
+		keys:  CTRL-^ (!! if ^ not works on your keyboard, try "6" instead ^)  , see :h ctrl-^ notes!
+	- binary-files-editing:  :h edit-binary
+	--- under-cursor-filename-opening (uses ENV-path):
+		- open                       the under-cursor-filename:  gf
+		- open-in-new-window         the under-cursor-filename:  ctrl-w  f
+		- open-in-new-tab            the under-cursor-filename:  ctrl-w  gf 
+	--- finding files to edit:  see editing.txt  +  :h file-searching
+		- gf  :goto file under cursor
+		-!! {Visual}gf   :  Same as "gf", but the highlighted text is used as the name of the file to edit.
+		   for encoding-convertion problems see also the option ++bad=keep/drop/X
+
+	_______:  -- fileformats, dos/unix convert, EOL:  ---> :h fileformat
+	-! :h file-formats  in editing.txt ; then :h fileformat
+	-!! diff:
+	   - fileformat /ff      : dos/unix/mac ?  : so EOL?
+	   - fileencoding /fenc  : latin1/utf-8/... ? : so character code of file 
+	   - encoding            : VIM-internal-encoding applies to text in the buffers, registers, Strings in expressions, text stored in the viminfo file, etc.
+	--- converting unix-dos-formats by openning the file: see editing.txt :
+		You can read a file in DOS format and write it in Unix format.  This will replace all <CR><NL> pairs by <NL> (assuming 'fileformats' includes "dos"):
+		:e file ;   :set fileformat=unix   ;   :w
+		OR the opposite, from dos-2-unix:  :e file ;   :set fileformat=dos   ;   :w
+	- removing ^M  from dos  :%s/\r//g  or :%s/^M//g  (^M ==ctrl-V Enter) ; or a map: map M :%s/^V^V^M$//g^M
+	- set fileformat=unix /dos : sets the filefomat/EOL by saving the file. converts to the "fileformat' target OS. (check result with cat -v)
+
+	_______:  -- query-infos-of-curr-file/buffer:
+	- current file name/infos:
+		-!! full-path of current file:  {count}CTRL-G   (count just a number > 1)
+		- ctrl-g  /OR  :f ; !! g ctrl-g : more details !!  /OR  :buffers (and see %)
+		-!! show changes in current buffer   ":%w  !diff % - "   :shows differences between buffer and saved version (if noautowrite, otherwise buffer will be saved before comaring, so are same!)
+	- visible/invisible chars: listchars + list (see faq-19.8 and here ascii)
+
+	_______:  -- Encryption:
+	-! encrypting file1.txt:   set cm=blowfish , then :X mykey1 , :w
+##________________________________________  ___________________________
+
+
+#####  ==========  motion/jump-to/goto/moving.around/marking/:  --->  :h  motion.txt
+
+	_______:  -- goto/jumpto .. /object-select/text-objects/motion-targets:
+    -!!-DIFF: goto last position == last column   <---> goto  last line == last raw (beginning of the line!)
+	-!! counts: If the motion includes a count and the operator also had a count before it, the two counts are multiplied.  For example: "2d3w" deletes six words.
+	-! select text-objects/motion-targets eg (word/paragaph,sentence,bloc,..):  aw,iw aW,iW as,is a[,i[ ... see  :h object-select , :h object-motions , :h objects , 
+    - cu-line to the top of the screen/window: z + enter : Pressing z and then return will move the current line to the top of the screen. A number will move that line number to the top of the screen, so pressing 50z and then return will make the top of the screen start at line 50
+	- goto top/buttom/middle of the CURRENT-Window/Screen.   H/M/B (high/middle/butttom of the current screen)
+	- goto top of the buffer:  gg == :0 ; opposite G == :$  (similar 0/$ for a line but with :) ; :n goto-line-n
+	- goto-column     (:h  left-right-motions ) : 20-columns-to-right: 20-> (pfeil-taste)) ; 10-columns-to-left: 10<- ; goto-20te-column: 20| ; ... see  :h  left-right-motions (in motion.txt )
+	- goto-line/-raw  (:h  up-down-motions ): 3-lines-down/relative: 3+/3<CR>/3<Down> ; goto-line-10/absolute: 10G , ...
+	- 50%  :goTo pos. 50% of the buffer
+	-! %  goto matching ({[-pair , so jump to matching pair of ({[ ...
+	- ; / , :  Repeat latest f, t, F or T /opposite direction
+	- [N]fx or opposite direction [N]Fx eg. 4fp ; repeat last f/F: ";" ; , inverse of ";"
+	- goto line n :n == nG
+	- :.= : current-linenumber ; := total-numberOfLines
+	- shift-left/right (== W/B) one word left/right , if not Terminal-Shortcut
+	- shift-up/down     one screenful backward/forward  if not Terminal-Shortcut
+	- ^ 	First non-blank character of current line.
+	- +, - 	First non-blank character of next, previous line.
+	-! no-scrolling:	H/M/L line of the current SCREEN (no scrolling)
+	-! sentence/paragraph back/vor:  (/) {/}  (motion.txt : 5. Text object motions)
+	-! */#  (g*/g#):  search forward/back the word under the cursor (g :also partially)
+	-! goto first non-blank-char in line:  ^  (0/Home goes to position 0 anyway)
+	-! goto first char in screen-line:  g0
+
+	_______:  -- marks:	--->   :h mark-motions
+	- "marks" are ONLY a cursor.position in the file and  is not visible in any way.
+	-! diff: Do not confuse marks with named registers, they are totally unrelated.
+	- setting-the-mark-x:      mx  /OR  :mark x  /OR  :kx  
+	- viewing/listing all marks:   :marks [X]  ; eg where are mark a,b,c?:  :marks abc
+	-- jumping to a mark:
+		- 'x  (single quote):   jump to the mark-LINE! so to the first non-blank character in the line of the mark x
+		- `x  (backtick; on DE-keymoard maybe `space needed):     jump to the exact cursor position of the mark x
+		- jump.to.last modified line/position: '.  bzw.  `.
+	-- mark-types:
+		'a - 'z         lowercase marks, valid within one file. ONLY remembered as long as the file remains in the buffer list.
+		'A - 'Z         uppercase marks, also called file marks, valid between files. are persistent, uppercase marks are kept in the .viminfo file.  See |viminfo-file-marks|.
+		'0 - '9         numbered marks can NOT be set directly (set internally for .viminfo-file-usage) 
+	-- usage/exp of marks in cmds:
+		-!! use marks also for ranges, eg. ma ... me  now-substitue-in-this-range 'a,'es/aaa/bbb/g ; the {VISUAL} is realy only doing this.
+		-!! delete the lines from the cursor position to mark 'x' :    d'x
+	-! diff:  do not confuse with "x, which is vi marking for registers, with 'x , which is goto-mark-x
+
+	_______:  -- jumps:    ---> :h jump-motions
+	- jump is Ueberbegriff for any kilnd of cursor.jumps (including marks; but not continious cursor motions, eg j/k), as: ',`,G,/,:s,(,{, ....
+	N  CTRL-O     go to Nth older position in jump list
+	N  CTRL-I     go to Nth newer position in jump list
+	- :ju[mps]		Print the jump list
+	- usefule predefined marks:  . :last-change  " :last-time  ' :last-jump  (see below)
+	-! jump-list is saved in .viminfo, if viminfo-option includes ' ; so relevant for history!! (default includes ')
+	-- eg jumping to:
+		-!  %  :  jumpto tha match (eg of a {,(,[,....)
+		-!  [{   go to [count] previous unmatched '{' ... see :h various-motions
+		- ''  back to the line before the last jump
+		- ``  go to the position (=column) before the last jump
+		- '' , `` the last position before the last jump
+		- '. , `. :to tha last change position (=column changed of last edited line)
+		- '" , `" :last time when you left the file.
+		-! backtracking/forthtracking of your movement in files:  [N]ctrl-o/i  :go to Nth older/newer position in jump list of the current session (also between files)
+
+	_______:  -- changelist-jumping:    --->  :h  change-list-jumps
+	- g; bzw. g,  :Go to [count] older/newer position in CHANGE-list.
+	- :changes  prints change-list
+##________________________________________  ___________________________
+
+
+#####  ==========  scrolling/paging/viewing:      ---> scroll.txt
+
+	_______:  -- scrolling:
+	-! moving by visible lines (by wrap on): gk,gj  (so each line-part by wrapping is counted as a line)
+	-  full-screen-scrolling: 	  [N]  ctrl+f/b  (for/back   ; Eselbeuecke.fullpage: f as Fullpage)
+	-  half--screen-scrolling:    [N]  ctrl+d/u  (down/up)
+	-! linewise-screen-scrolling: [N]  ctrl+e/y 
+	-! Scrolling relative to cursor (redraw.screen/ fixed-line-scroling),  :h croll-cursor :
+		z<CR>    : current-cursor-line becomes  first-screen-line
+		z-       : current-cursor-line becomes  last-screen-line
+		z.       : current-cursor-line becomes  middle-scren-line
+	-! horizontal-scrolling:      [N]  zh/H/l/L/e/E/s ; OR without changing the screen:   g^/$/0/m
+	-! synchronous/parallel-scrolling (binding windows):  :set scrollbind  in all windows wished to sync-scrolling;  :h scroll-binding
+	-! redraw the screen  :  CTRL-L  OR  :redraw
+	- mouse-scrollings:  :h scroll-mouse-wheel
+
+	_______:  -- misc-viewing:
+	- :list  :Same as :print, but display unprintable characters
+	   :5,20 l    displays lines 5 through 20, showing tab characters and end-of-line characters
+	- show line numbers on left side (numbered lines as in IDEs):  :set number
+##________________________________________  ___________________________
+
+
+#####  ==========  insert, ins-completion,    ---> insert.txt
+
+	_______:  -- inserts:
+	-! 40 i == ESC   :inserts 40 times "=="
+	- I : insert at the beginning of the line (counterpart to A)
+	- copy the whole file to the end of the file again:  :%co $
+		:[range]co[py] {address}	:Copy the lines given by [range] to below the line	given by {address}.
+	- I :Start Insert mode after moving the cursor to the first non-blank in the line.
+	-  :r filename    Copy the text of filename after the line specified by address. If filename is not specified, the current filename is used.
+	-! :r ! command      Read the output of command into the text after the line specified by address.
+	- gi  :  Insert text in the same position as where Insert mode was stopped last time in the current buffer
+
+	_______:  -- i_keys /keyboard-shortcuts-in-insert-mode:
+	-! i_CTRL-V {char}	: insert literally (eg ^M,^I,..) ; if mswin then use ctrl-q (or if ctrl-v belegt)
+	-!! i_CTRL-N / i_CTRL-p  :find next/prev words-Completion/-match for word in front of the cursor (kind of grob dictionary-context-completion) --> try everywhere, not only in source-codes, but also in normal text!!
+	- i_ctrl-R "a : insert register a   (!! " maybe entered automatically) ; for predefined regs ;  see :h i_CTRL-R
+	- indents: i_ctrl-T/i_ctrl-D : add/delete one shift in the current line ; 0 CTRL-D	delete all indent in the current line
+	- Delete all indent in the current line: 0 i_ctrl-D   (without 0, then only one indent))
+
+	_______:  -- clipboard-copy/paste (windows ctrl-V bzw. xwindows-middle-mous):   :h  clipboard , gui-clipboard , quotestar  :
+	-! Vim has its own clipboard and ignores the system keyboards, but you can access your system clipboard with:  set clipboard=unnamed
+	-!! clipboard-paste in i_mode: (windows-clipboards are in vim-registers * and +): see!! :h x11-selection ,  :h i_CTRL-R
+		- i_ctrl-R + "*  : mouse-selection;  the mouse clipboard contents (X11/Lx: X11-primary-selection, middle-mouse-button-paste-selection/ziehen)
+		- i_ctrl-R + "+  : keyboard-selection ("ctrl-c" + default-MsWin);  the KB clipboard contents (KB-shortcut-copying "ctrl-c", and default-MsWin-clipboard)
+		- i_ctrl-R + i_ctrl-P  +  "* bzw. "+  : same AND fix its indent!!
+		- copying a line in vim from a file into the KB-clipboard and then paste it into eg konsole-cmdline:  in vim: "+yy  , then in konsole paste: ctrl-shift-v !!
+		- copying to middle-mouse-button-clipboard without using mouse:  "*yy (!! BUT konsole-cmdline-paste-clipboard is "+ register!!)
+	-! always copy everything to windows-clipboard (ctrl-v) witout explicit "+  : set clipboard=unnamedplus   #see  :h  'clipboard'
+	   /OR only gui:  set guioptions+=a
+
+	_______:  -- textwidth-formating/reformatting, line-length-reformatting:    ---> :h usr_25  : Editing formatted text :
+	-!! diff.    gq   <--->   "="    <--->    wrap  :
+		gq : textwidth-ReFormatting of lines (based on textwidth with PHYSICAL EOL adding) : "gq{motion}" <->
+		=  : intellisense-/syntax-Reformatting/beautifying of Source-Codes based on syntax-file:  ={motion} (based on syntax eg. C-indent)   <->
+		:set wrap!  :  wrapping based on :set wrap! OR linebreak option: ONLY viewing linebreaks, not pysically
+	-! automatically break/reformat all new lines upto 80 chars PHYSICALLY/with.EOL (NOT only viewing/wrapping) :  :set textwidth=80 ; (works now ONLY for new texts)
+	- gq{motion}	format the lines that are selected with {motion} to 'textwidth' length; eg gqap :format current paragraph ; eg gggqG  : reformat the whole file based on new textwidth!
+	- reformat existing/old texts with my new textwidth:  :set textwidth=80 ; gggqG
+	- disable reformatting/textwidth:  :set textwidth=0
+	- gqgq or gqq :reformat the current line
+	- {Visual}gq  :format the selected/highlighted area
+	- gggqG : reformat whole file, if paragraphs are properly separated
+	- reformating-textwidth as the first line: gq  ;eg v4jgq (visual selecting of 4 lines and reformating them); so {Visual}gq :Format the highlighted text; reformating current paragraph: gqap ; defaults are defined by  formatoptions , see :h formatoptions
+	--- vim-cmdline-complettion (:) (:help cmdline , Context-sensitive completion on the command-line:):
+		- eg :set wildchar=<Tab>
+		- ctrl-D Lists the names that match the pattern. eg  :e ctrl-D  shows filenames
+##________________________________________  ___________________________
+
+
+#####  ==========  change/indents/move/align/...    --->   change.txt  (!!kk: searchin-stuff of changes.txt are integrated here into patterns.tx section!!)
+
+	_______:  -- delete:
+	- all  d or x deletes can be saved into a register!! ["a]x , ["a]d
+	- diff in syntax: delete-keys as x , d  <---> and delete-cmds as  :d
+	- d2w == 2dw
+	- eg:  dw , d) , d}  : delete word/sentence/paragraph ...
+	- d't  deletes the lines from the cursor position to mark 't'
+	- delete all empty lines:   :g/^$/d    /OR including spaces:   :g/^\s*$/d ; /OR   %s/^\s*$\n//
+	- delete all empty lines and replace them with single one , bzw. squeeze empty lines with cat --squeeze-blank : :%! cat -s
+	-! delete NOT-matching lines:   :v/pattern/d  /OR  :g!/pattern/d
+	- delete/copy a REGION without mouse: begin: ma , goToEnd: y'a OR d'a  ;was copied/deleted (is in "" register)
+	- :/pattern1/,/pattern2/d    Delete from the first line containing pattern1 through the first line containing pattern2.
+	- d?XX : (NOT :d?XX , so key-shortcut ,not :cmd) Delete from before the cursor up to and through the word XX  (with / instead ? then forwards replacing to endofline)
+
+	_______:  -- delete+insert in one action:
+	- c{motion} (change)  ,
+	- s{motion} (substitute)  , eg  c, C,  cc, S .... , see  :h  delete-insert* *replacing
+
+	_______:  -- case-converting/changing: 
+	- problems with ~ key on non-us-kb !?
+	- ~ == switch-case ,  U == Uppercase , u == lowercase)  ;eg gU<motion> :  ~,g~,,gU,gu, ; lines: g~~,gUU,guu (similar for Visuals)
+	- guu/guu  : Make current line lowercase/uppercase
+	- Change every word in a file to uppercase      :%s/.*/\U&/
+	- changing the case of search-pattern to upper:   :%s/MyString/\U&/g
+	-! title caps converting (only first letter of each word Capitalized)  :%s/\v<(.)(\w*)/\u\1\L\2/g   : turns one line into title caps, make every first letter of a word uppercase:  see :h case
+
+	_______:  -- numerics, numbers-add/-substract , Mathematicals:
+	- increase/decrease the number-under-cursor: ctrl-A / ctrl-X
+
+	_______:  -- indents / shifting lines:     --->  :h shift-left-right
+	- "=" : reformating, filter through reformating function (or indentation if no reformat-func defined), see :h =
+	-! indent selected lines as the above (NOT.selected) line: use "=" (reformatting func): so eg Vjj=
+	- pattern-search-indent: in the next 10 lines, indent lines containing XX (use :g/:global cmd):   :.,+10g/XX/>  (see :h :global)
+	-  N>>  : indent N lines one shiftwidth right. vs. << or :< to left
+	-! N lines from here do indent: N>> ;  :.,/search/>  eg:  :.,/^====/>>>>>    do 5 indents from hier to  ^====
+	- several-shifts-indentation (not only several lines, but also more than one shift) use either Visual mode or the ":" commands:
+		- Vjj4>  move three lines 4 indents to the right
+		- :<<<  move current line 3 indents to the left
+		- :>>>5  move 5 lines 3 indents to the right
+		- :5>>  move line Nr.5  2 indents to the right
+		- :.,/^====/>>>>>    do 5 indents from hier to  ^====
+	- ]p	like p, but adjust indent to current line
+	- no-indent by pasting (consider as simple text-paste)  :set paste
+	- indent-adapttion by paste:  [p,]p,[gp,]gp : same as p,P... with indentation adaption to the current line
+	- set: autoindent,(smartindent, cindent !?) showmatch, tabstop, shiftwidth, number, list (if then both: tabstop=4 shiftwidth=4 ; tabstop;forTabs , shiftwidth:for>> )
+	- indenting/shifting many lines:  [start-address]  > [count-of-lines]
+	- NOT changing/adapting any indentations, just keep as it is:  :set paste  /OR  :set nosmartindent and noautoindent and -all-other-autoindentations
+	- % will move the cursor backwards to the corresponding opening bracket character ( [ { < ...
+
+	_______:  -- moving texts / delete-and-insert :
+	-!! see also Registers section !! moving with registers is easier!!
+	- :copy  ,  :[range]co[py] {address}  : Copy the lines given by [range] to below the line given by {address}.
+	- :move  ,  :[range]m[ove] {address}  : Move the lines given by [range] to below the line given by {address}. 
+	- moving the lines from...to...:  :[range]m[ove] {address}  Move the lines given by [range] to below the line given by {address
+	   eg. move 3 lines to the end of the file:  :.,+2mo $
+	- moving a block by marks:  ma ; go to bloc-end and  :d'a ; go to target-position:  p
+	- moving all lines in range to pos. before a mark: :'t+1,.g/^/m 't
+	- :[range]y[ank] [x]	Yank [range] lines [into register x]
+	- y2w  :yank 2 words
+	- vertauschen zwei charackter: xp
+
+	_______:  -- aligning/prosition-reformatting/reindenting text:    :h formatting , :h  auto-format  (in change.txt);
+	- align centered the text   :[range]ce[nter]  , (default 'textwidth' or 80 when 'textwidth' is 0).
+	- align right  :[range]ri[ght]
+	-! align left (eg take out all indents):      :le
+	- gq cmds (see insert), eg  gqq : realign current line , ...
+	- beautifying codes ={motion} :reformats from . to {motion}; eg. gg=G beautifies whole code file!; or {Visual}=G after selecting...
+	- converting all paragraphs into one-liners, if paragraphs seperated by empty lines(^$):  :g/./,/^$/join ; if not by empty, but blank lines (eg containing spaces)  :g/\S/,/^\s*$/join
+
+	_______:  -- misc-change/...:
+	- sorting the text:   :[range]sort[!] [i] ... (so shell sort piping ist not needed) see :h sorting
+	-! remove duplicate lines and sort them:  :sort u   ;so only keep the first of a sequence of identical lines (ignoring case when [i] is used). see :h sort
+	- abbreviations	 with :ab ; unabbreviate: :una word
+	- print lines:  :print , :list (display unprintable characters) , :number (preceding with Line.No.)  :h :print , :h :list :
+		:[range]p[rint] {count} [flags]  !!use for testing cmds!!
+		eg print 5 lines, starting with line.No.20:  :20p 5  OR with line.no:  :20nu 5
+
+    _______:  newline/EOL in substitutions/ex/...:
+    - ! Use \r instead of \n:  Substituting by \n inserts a null character into the text. To get a newline, use \r. When searching for a newline, you’d still use \n, however.
+    \n matches an end of line (newline), whereas \r matches a carriage return. On the other hand, in substitutions \n inserts a null character whereas \r inserts a newline (more precisely, it’s treated as the input CR).
+    - so eg in vimrc for :nmap if wanted to substitude x with newline, then use \r instead \n !
+
+##________________________________________  ___________________________
+
+
+#####  ==========  registers:    --->   :h copy-move + registers  in change.txt (kk: but separat section) 
+
+	_______:  -- Definitions--Regs:
+	- "x  :reg x ,ONLY in normal-mode!! in :-cmdline-mde " NOT needed!!
+	- "X  :Append to reg-x instead overwriting (see below)
+	- @x  :Only in manually handling of Regs in scripts AND cmdline , eg  :redir @x /OR with: let ...
+	-!!-DIFF:  between Reg-Names in:  normal-mode ("x) <---> cmdline-mode (x)  (so with " <---> without ")
+
+	_______:  -- INSERT-mode keys for Regs:
+	- see i_ctrl-R ... for insert mode registers
+	- i_ctrl-R x  :in insert mode WITHOUT " , eg: ctrl-R a : insert register a (in insert mode); else just "
+	- _CTRL-R CTRL-O x :insert register x WITHOUT auto-indent
+
+	_______:  --------------  yanking/copy+paste with registers: -------------------------------------
+
+	_______:  -- Command-line editing and registers:
+	-! insert Reg "x in current Command-line:  CTRL-R x  #(see :h c_CTRL-R  bzw. :h Q_ce  ,in quickref.txt ,bzw.  :h cmdline.txt)
+
+	_______:  -- steps-short of copy-paste-regs:  copy +(view) +paste a reg:
+	1-  :.,+4y x   (yank 5 lines into reg x)              /OR! as key:   "x.,+4y
+	2-  :reg   x   (show/displaye reg x); also :dis "x
+	3-  :put   x   (insert reg x into cursor porsition)    /OR! as key:  "xp
+	!! reg-name is in :-cmdline/c-mode  WITHOUT " , but as key/nomal-mode ist always with " !!
+
+	_______:  -- yanking-/copying-from/into-reg:
+    - :h <CTRL-R>
+    - <CTRL-R>{register}  :  Insert the contents of a numbered or named register here ! eg:
+    - <CTRL-R>=  :  insert the result of the following  expression/func here! eg: <C-R>=fold1Sm<CR>  ##--see evv-vimrc !
+	- {Visual}["x]y : Yank the highlighted text [into register x]
+	- "f4yy : yank 4 lines into reigter f ; so named buffres for transfer ;
+	- clipboard/mouse-selection-Regs  in Insert-mode: "* == current-mouse-selection , "+ == current-clipboard(ctrl-c)-selection; so in insert-mode:  Ctrl-R %+  :paste current ctrl-c selection (ctrl-c itself does not work in VI-editor to copy, but outside VI)
+	- see change.txt , and for X11 (mouse, clipboard, "+ "*) see gui_x11.txt
+	- :.,+4y a : yank five lines to reg a        (! NO  " for regname in :-cmdline)
+	- "a7yy	Yank next seven lines into buffer a. (! BUT " for regname by key-usage)
+	- "xC  :change from the cursor position to the eol and write the cut to reg. x
+	   -! ["x]c{motion}  :   Delete {motion} text [into register x] and start instert.
+	-! expression-result/manually writing into the register a:    :let @a = "bbbbbbbbb" ;so :let @{reg-name} = {expr1}  ;see :h :let-register  ,:h :let-@
+
+	_______:  -- appending into an existing reg:
+	-!! Appending-into-Reg/Uppercase-Reg-Names:  use uppercase character for reg-name to APPEND to the reg, instead overwriting, with delete and yank, as:
+	   -! yanking all the lines containing a pattern into a buffer /faq-12.9.?
+	   :let @a=''  then   :g/mypattern/y A  ;first command, clears the contents of the register "a". The second APPENDS line into reg "a", instead overwirting (due to "A" instead "a")
+	- appending to a reg.: use its capital name, eg. "Ay... (instead of "ay...); eg. copying several seperate lines to the reg "a": "aY goto-next-line "AY ...
+
+	_______:  -- deleting-into-reg /cut:
+	- delete/yank into the register "a":   with-keys:  "a{dw/dd/yy/x5/4dd/5yy/....}  /OR cmd:  :.,+5d x
+	- {Visual}["x]d==D==x==X...
+	- "a5dd  /OR :.,+4d a   :Delete five lines into registry a.
+
+	_______:  -- viewing regs / default-regs/ reg types:
+	- list/check the registers with  :reg[isters] X OR  :display X
+	--- Special registers /predefined-regs   :h registers  , :h i_CTRL-R :
+		"   the last delete or yank     :text deleted with the "d", "c", "s", "x" commands or copied with the yank "y" command, regardless of whether or not a specific register was used (e.g.  "xdd)
+		%   the current file name
+		#   the alternate file name
+		*   the clipboard contents (X11: primary selection) ;kk: mouse-middle-button ;  see gui_x11.txt
+		+   the clipboard contents  ;kk: ctrl-c == KB-copy == MsWin.std.copy 
+		~   the dropped text from the last drag'n'drop operation; readonly
+		/   the last search pattern
+		:   the last command-line
+		.   the last inserted text
+		-   the last small (less than a line) delete
+		=   the expression register: you are prompted to enter an expression
+		--
+		0    :most recent yank (except named ones "x) (Win: ctrl-c-buffer) ; So copy-paste-buffer
+		1-9  :every LINE delete (Win: ctrl-x-buffer for line deletes)
+		a-z  :named users registers:  (eg "ayy , "ap)
+		A-Z  :same regs as a-z, but append to them instead overwriting
+
+	_______:  -- recalling/putting from a reg:
+	- "xp  (paste reg X here)   /OR   :put x
+	- To recover your second-to-last deletion from buffer:  "2p
+	- checking deleted/buffers one after another to find the right one: "1pu.u.u.... (with .u : show the next one and undo): see viOreCD 4.3.1. Recovering Deletions
+##________________________________________  ___________________________
+
+
+#####  ==========  undo        ---> undo.txt  + usr_32.txt : 
+
+	_______:  -- undo1:
+	- u, U, ctrl-R
+	- :u  ,  :redo
+	- :undolist , :earlier , :latter  ,see usr_32.txt for undo-tree
+	- undo/restore-current-line:  U
+	- undo latest change:         u
+	- redo (opposite of undo):    CTRL-R
+	- persistent-undos, also after exiting vim:  see :h undo-persistence  : (set undofile=myUndoFilePath)
+	   OR manualy write/read-undo to files with:  :wundo and :rundo 
+##________________________________________  ___________________________
+
+
+#####  ==========  repeat        ---> repeat.txt , usr_10.txt (Making big changes) :
+
+	_______:  -- repeating-keys/cmds:  (all keys also with/without [N] ) --> :h single-repeat 
+	- repeat-last-change.atomic:   .  [N].  (repeats only the LAST SIMPLE ATOMIC change, but not a change-series!! for a series of changes use macros,..; also [N]. :repeat it N times)
+	- repeat-last-cmdline:         @:    bzw.  :@:   bzw.  :[addr]@:    (repeating latest :-cmd)
+	- repeat-last-f.motion:         ;     (Repeat latest f, t, F or T)
+	- repeat-last-f.motion-in-opposite-direction:    ,   (Repeat latest f, t, F or T in other direction)
+
+	_______:  -- repeating-last-replacements/substitutions:    -->  !see :h :substitute in changes.txt
+	- repeat-last-substitution-without-original-substituion-flags:   :&  ==  :s   ==  :s//~/  (// == search.string.of.latest :s  ;  ~ == replacement.string.of.latest :s)
+	- repeat-last-substitution (with-original-substituion-flags):    :&&
+	- repeat-last-substitution (with-original-substituion-flags) on whole-file/all-lines:   :g&  == :%s//~/&  ==  :%s
+	-! eg:  :%&g	repeat the last substitution everywhere in the whole file (so with %-range and g-flag)
+
+	_______:  -- :global :vglobal , repeating.cmds-multiple-times / Multiplelines-Handling (search/replace/... over several lines):    --> :h multi-repeat , :h global ,  :h complex-repeat (for macros) , :h :v , .. :
+	-!! see also help for global cmd!!   :h global
+	-!! join all lines between two flags of "-- " ignoring any prefixed-spaces: :v/\s*-- /-1j    /OR without spaces:  :v/^-- /-1j
+	-!! :global , :vglobal , :global!   bzw. short-forms:  :g , :v , :g!   : "global" just executes ex-cmds on mached lines!! (the name is misleading!)
+	-!!  Execute [cmd]  on the lines within [range] where {pattern} matches:  :[range]g[lobal]/{pattern}/[cmd]  ;eg  :.,+10g/pat1/s/aa/bb/  ;The default for [range] is the whole buffer (1,$).
+	-!!  NOT-matching-search for multiple cmds:   :g!  ==  :v  ,so:  :[range]g[lobal]!/{pattern}/[cmd]  bzw. :[range]v[global]/{pattern}/[cmd]
+	-!!  [cmd] is executed in a second scan, after scanning the [range] for the /{pattern}/ !!
+	- default for [range] is the whole buffer (1,$) ; default for [cmd] is ":p" ; Use "CTRL-C" to interrupt the command.
+	-- eg  :global  :
+	-!! eg: deletes all empty/blank lines in the whole file:  :g/^\s*$/d  (default range for :global command is the whole buffer!) /OR just in the marked-range:  '<,'>g@^\s*$@d 
+	- eg: Copy all lines matching a pattern to end of file.  :g/pattern/t$
+	- eg: Move all lines matching a pattern to end of file.  :g/pattern/m$
+	- eg: Delete all lines matching a pattern.  :g/pattern/d
+	- Delete all lines that do not match a pattern. The commands shown are equivalent (v is "inverse").   :g!/pattern/d  /OR  :v/pattern/d
+	- Delete all blank lines (^ is start of line; \s* is zero or more whitespace characters; $ is end of line) :g/^\s*$/d
+	- Double space the file (^ is start of line which matches each line).  :g/^/pu =\"\n\"  /OR Alternative (:put inserts nothing from the blackhole register) :g/^/pu _ 
+	- Reverse a file (just to show the power of g).  :g/^/m0
+	- Add text to the end of a line that begins with a certain string.  :g/^pattern/s/$/mytext
+	-- Some explanation of commands commonly used with :g
+	:2,8co15  "copy lines 2 through 8 after line 15
+	:4,15t$   "copy lines 4 through 15 to end of document (t == co)
+	:-t$      "copy previous line to end of document
+	:m0       "move current line to line 0 (i.e. the top of the document)
+	:.,+3m$-1 "current line through current+3 are moved to the lastLine-1 (i.e. next to last)
+	-- kk:
+	- multiple-cmds on the selected area, first delete all empty-lines and then replace all 11 with xY.  '<,'>g@^\s*$@d | '<,'>s/11/xY/
+	- with :g multiple cmds problems, so do with exe :
+	-!! eg delete first all empty lines and then join lines with separator:   :exe "'<,'>g@^\s*$@d" | '<,'>g/^/s@\n@ -- @
+
+	_______:  -- repeating-by-macros / recording commands for repeating a series of cmds and actions:   --> :h complex-repeat , :h usr_10 ;
+	- macro-recording-START: qx {x==reg-name a-zA-Z}, macro-recording-END: q  ; record-usage/recall:  @x
+	-!diff:  Q  ==goto-EX-mode  <--->  qx  ==start.recording
+	- record+using a macro:  You type qa to start recording into register 'a'. Then you type your commands as usual and finally hit q again to stop recording.
+	  When you want to repeat the recorded commands you type @a. There are 26 registers available for this. : Vim_Seven_habits_of_effective_text_editing.html ,so:  qa -> q ; call.it: @a
+	- modifying/changing a recorded macro: it is like any normal register, so edit the content of register and save it again back:
+	   eg. for the recorded command in reg "x" (do in an empty line): o<ESC> "xp (edit it...) <ESC>0 "xy$ ;
+	- appending new commands to a recorded-cmd "x": use its CAPITAL name with recording: qX...q
+	-! repeat macro x 10 times:  10 @x  (so [count] @{0-9a-z".=*})
+	-! repeat last executed macro x 10 times:  10 @@  (so [count] @@)
+	-! repeat macro x in cmdline for range/selection: eg  '<,'>:normal @x
+
+	_______:  -- repeating.by.scripts.sourcing:
+	- :source   s1.vim  :writing EX-commands (cmds starting with :) into a vim-script and source it!  :h using-scripts
+	- :source!  s1.vim  :writing normal-vim-keys+cmds (as you would be as usual working interactively with vim)
+	-!! :scriptnames    :List all sourced script names, in the order they were first sourced. ; :print all vim-configs-sourced-files
+	- debuggin scripts:  vim -D f1.txt  ;  :h debug-mode
+	-!!  setting verbose ONLY for one cmd (so NOT global-change) eg: :verbose hi Search  /OR  :[N]verbose   :Execute {command} with 'verbose' set to [N]
+##________________________________________  ___________________________
+
+
+#####  ==========  Visual-Mode/visual-editing/visuals:	--->  visual.txt :
+
+	_______:  -- visual-keys:
+	- v , V , ctrl-v  keys for charwise/linewise/blocwise selecting
+	- o/O go to the other side of selection.;
+	- mswin-alternative (due to c-v): ctrl-q ...
+	- select whole file: ggVG...
+	-!! again selecting the previous region: gv
+	- ending visual-mode:   use <Esc>, CTRL-C , click the left mouse button or use any command that does a jump to another buffer while in Visual mode
+
+	_______:  -- blocwise-operations  --> :h  blockwise-operators  :
+	- visual-block-insert/-Append (Insert-Vertically) :  I{string}<ESC>  bzw.  A{string}<ESC>  (!! NOT i/a but I/A !!), so:
+	   select-the-bloc with CTRL-V  + I/A for insert (insert new text only once) + ESC  --> new-text will be inserted automatically in all lines of the selected bloc!
+	   in block-selection if you do I/A (insert in all selected lines), after ESC you see the inserted text in all lines, not before!! eg.  "crlt-v 2w 3j I test1." ,see usr_10 !!
+	- Visual-block-change/replace: ctrl-v +c bzw. r (NOR C / R) : All selected text in the block will be replaced by the same text string (C/R : linewise)
+	-!! Visual-block-substitution-but ONLY in vertically selected part (default is, even by '<'> the WHOLE line is affected):   :s/\%Vold1%V/new1/g
+		!! The substitute command (:s) applies to whole lines, however the \%V atom will restrict a pattern so that it matches only inside the visual selection.
+		see   :h %V
+
+	_______:  -- visual-marks:	
+	- predefined marks for start/end of visual selection: '< and '>
+	- from selection to the end of file: '<,$
+	- in ex-mode:  '<,'> == whole visual/selected area == *
+-!! repeating-visual-ops:  the operator will be applied to the same amount of text as the last time BUT starting from the current cursor position!!  :h visual-repeat
+- mouse-select-mode see  :h select-mode
+##________________________________________  ___________________________
+
+
+#####  ==========  encoding, charsets, ascii/utf-8:   --->  :h fileencoding, fileencodings, encoding, setglobal, ascii
+
+	_______:  --
+	-!! illegal byte sequence in the current utf8-file?: use gg + "8g8" key-command to find them!
+	-!! setting fileencoding (and if needed fileformating) for ALL bufffers and saving them if changed:
+	   :bufdo set fileencoding= | fileformat=unix | update    # "|" concatanates commands for bufdo, so for several commands
+
+	_______:  -- ascii-code-based-editing/-earching/repl..., key-codes, ...:
+	- see   :h various-cmds , :h ga  , :h using_CTRL_V , :h 24.8 , :h :ascii , :h i_CTRL-V_digit ; !faq: 11.4 , 11.18 OR search in faq for ascii !!
+	-! searching  chars by their ascii-codes (ascii/hex/oct)?:   ctrl-v then [x/0]charcode  (x=hex , 0=oct)
+	-! inserting  chars by their ascii-codes (or ASCII chars not your keyboard, faq.12.30):  CTRL-V and then the ASCII character number  (x=hex , 0=oct)
+	-! print/view chars by their ascii-codes (char under cursor):   ga (ascii) , g8 (hex)   (/OR  the Lx-shell-cmd  "showkey -a X" )
+	-! view illegalg chars in the utf8-file:  gg + 8g8
+	- ascii-/key-codes of each char under cursor can be shown in statusline, add %b or %B to your statusline (eg. :set statusline=%<%f%h%m%r%=%b\ 0x%B\ \ %l,%c%V\ %P)
+	- inserting special-key-vim-symbol in eg vimrc:  ctrl-k<key> ,eg for: <F12> , <Right>, ... bzw. ctrl-v<special-key> ; see :h :map-special-keys
+	- inserting char with its ascii code in insert mode:  CTRL-V {number}
+		insert three digit decimal number as a single byte; eg ctrl-V 065 -> A /OR ctrl-V 097 -> a
+		or insert as hex code with "x" eg. ctrl-V x41 -> A
+	- searching by ascii-code: FAQ.64: 11.18. How do I search for a character by its ASCII value?
+		by pressing CTRL-V followed by the decimal or hexadecimal or octal value of that character in the search "/" command.
+		To determine the ASCII value of a character you can use the ":ascii" or the "ga" command. ==? URL-encoding %xx !?
+	- substituting/replacing by ascii-code-search (faq 12.31): also the same as above for search, so eg:
+		:%s/ctrl-v<my-ascii/hex/oct-code>/..../gc   and x for hex, o for oct !!  ()
+
+	_______:  -- unicode, special chars, smilies, digraphs ...:
+	- digraphs: :help digraph ; list all :dig  ; inserting digraphs ctrl-K c1 c2 (check the list with :dig) ;
+##________________________________________  ___________________________
+
+
+#####  ==========  Shell-/System-interacts/OS-Systems:   (von .kk instead misc/various:  various.txt but more ...) :
+
+	_______:  -- shellscripts-editing:
+	- source /usr/share/vim/current/macros/shellmenu.vim
+	- 
+
+	_______:  -- shell-cmds in vim /piping /filtering /OS-Interacts from vim-window:   --> various.txt , :h filter , :h shell , :h complex-change , UG-10.9 "Using an external program"
+	-!!info:  :map/shell.cmd-comments:  NOT possible to add a comment to a shell command ":!cmd" or to the ":map" command and a few others, because they see the '"' as part of their argument.  :h cmdline-lines
+	- :shell  : starts a shell; come back with ctrl-D
+	- :!cmd   : Execute {cmd} with the shell
+	-!! diff.  ( :h filter):  current-buffer will be changed/unchanged ??:
+	   - filtering (into curr-buffer; usually with :r ... or just cmds):  current-buffer-changed,   so final.output into the current buffer, which changes the current buffer, so manipulates the [range]; eg  :r !date /OR  :.,+5!sort  /OR  :%!sort  the current buffer online <--->
+	   - piping    (into shell-cmd;   usually with :w ...):  current-buffer-UNchanged, so final.output into shell/shell.cmd/stdout  ,eg   :.,+5w !sort
+		  -!! so diff eg:
+		  :.,+5w !sort   :sort-output goes into the shell-terminal; current-buffer-unchanged!!  <--->
+		  :.,+5  !sort   :current-buffer-6-lines will be modified and sorted!!
+	   - filtering : [range]{motion}!/!!/={cmd} or :[range]!{shell-cmd}  ,eg. :%!sort  the current buffer will be sorted and written back to the buffer. (see changes.txt)
+	   - piping to shell-cmd, so write [range] to stdout, using "w"  :[range]w !shell-cmd (also with "-" at the end, if the shell-cmd reads only from stdin)
+	-!! diff.  :w! (write to a file, even if it already exits) <--->  :w ! (piping to a shell command, eg. :.,+10w !sort), so:
+	   -!!eg:  :5,15w! wc (write lines 5-15 into the file wc)  <---> :5,15w !wc  (count words of lines 5-15)
+	-!! diff.  "%"  <--->  "-"  in piping (depends also in autowrite setting):
+	   - "%" ==saved version of the current buffer   <--->    "-" ==by piping, content of the current buffer. eg:
+	- filtering as key:  !{motion}{filter.cmd}  ==  :{range}![!]{filter.cmd} [!][arg]  ; also ={motion} but only for 'equalprg' (default syntax-reformatting/beatifying)
+	- filtering as cmd:  !5Gsort == :5,$ !sort   :do sorting for lines 5-End and write the sorted lines back to the buffer and so replace the current lines 5-End
+	--- filtering-eg (pipe into the current buffer; ok with/without space before "!"):
+		- :12,30!sort	sort the lines 12-30 of the current buffer (so modifying the buffer); bzw. :.,+5!sort  ==  :.,+5 !sort   :sort current-buffer-5-lines and change the buffer.
+		- :r!ls  ==  :r !ls   :insert "ls"-shell-output into current-cursor-position
+		- :r !ls | wc  ==  :r!ls | wc  :insert wc-output into the current buffer text
+		- :5r!date   ==  :5r !date   :read the shell-command-output ("date")  into the current buffer and insert its output into line Nr. 5 ;
+		- :r !sort  phoneFile.txt
+		-!! ex.cmd-filtering-output(eg :set) into current buffer:  :redir @x | set all | redir END | put x  ;OR  "xp (!! in cmdline | is NOT pipe-symbol, it just seperates several cmds; the laters need no ":" anymore!) 
+	--- piping-eg (pipe to shell-cmds):
+		- :!ls  ,  :!date ,... so shell-cmds (output into terminal)
+		- :5,15w !wc  (count words of lines 5-15), its output is into the shell-terminal and NOT into the current buffer!!
+		- :redir > {file}    Redirect messages to file {file} ; :redir @X  :edirect messages to register X ; :redir END
+	   -!! show changes in current-changed-not.yet.saved-buffer   ":%w  !diff % - "   :shows differences between buffer and saved version (if noautowrite, otherwise buffer will be saved before comaring, so are same!)
+	- terminal-settings-query +paste them into current buffer:  :redir @x | set termcap | redir END | put x  ;OR "xp
+	- running vi from a shell-script (in ex-mode non-interactive; see 26.4 vimDocs ): vim -e -s file < vim-scriptfile
+	- {filter} == {shell-cmd / processor with stdin and stdout}
+
+	_______:  -- manpages in vim/unix:
+	- from cmdLine showing man pages with vi:   man subject | ul -i | vim -
+	- from vim show man pages:
+		- in same window, e.g. from s1.sh: with cursor on UNIX-command and then K  /OR
+		- in seperate/splitting window:   :runtime! ftplugin/man.vim , and then :Man ls , and then \K to jump to Man-links under cursor!! or save it to :w fa.txt
+	--- ! set VIM as default pager/viewer for manpages :   (from fedora docs,  /_191200 :  https://fedoramagazine.org/5-cool-terminal-pagers-in-fedora/ ): ---> but obviously still certain view-problems there !?!?:
+		-  To set vim as the default pager for man pages, add the following to your shell’s config (such as ~/.bashrc if using the default bash shell):  export MANPAGER="/bin/sh -c \"col -b | vim -c 'set ft=man ts=8 nomod nolist nonu noma' -\""
+		-! Alternatively, to set vim as the default pager system-wide, locate the less.sh script. (You can find it at /usr/share/vim/vim81/macros/ on current Fedora systems.) Export this location as the variable PAGER to set it as default, or under an alias to invoke it explicitly. ; so use locate less.sh
+##________________________________________  ___________________________
+
+
+
+--############################# advanced-editing-chapters: :h reference_toc  : #############################
+#####  ==========  vim-Command-line-mode,-editing / ":"-mode / cmdline     ---> :h  cmdline.txt :
+
+	_______:  -- cmdline-mode-editing  (also all in ":"-line-mode):
+    :h  Cmdline-mode  +  intro/Tut:  :h  usr_20.txt
+	---!! DEFs , DIFFs : vim-cmdline-mode   <---> vim-EX-mode  :
+		-!! DIFF: vim-cmdline-mode: so with ":" and then EX-cmds   <--->   vim-EX-mode : is like vim-cmdline-mode, BUT you remain there in EX-mode(:) after enter! ; see :h vim-modes-intro  /OR vim-modes )
+		Ex commands are all ":"-commands!
+		Command-line mode is when coursor is da unten in ":"-cmd-line.
+        -! key-abbrev:   c_CTRL-.... ; 	keys in cmdline-mode described/shown in vim-help as c_XX , eg c_CTRL-A
+		Command-line mode is used to enter Ex commands (":"), search patterns("/" and "?"), and filter commands ("!").
+	-!!info:  :'|' can be used to separate several commands, so you can give multiple commands in one cmdline.
+	   If you want to use '|' in an argument, precede it with '\'.  BUT certain cmds see '|' as their argument!! see :h cmdline-lines , :h :bar
+	-!! key-cmds of normal-mode executing in cmdline-mode:   :normal <key-cmd>  ;eg  :normal gg=G   ;see :h 41.5  "Executing an expression"
+	- quit command-line without executing:  c_CTRL-C
+	- :history   list cmdline-history  --> :h cmdline-history
+	- c_CTRL-R {X}  :Insert the contents of register X into the cmdline ; !eg  insert the current-file-name:   c_CTRL-R %
+	-! completion-in-cmdline:  c_CTRL-D  (shows all possible cmd-completion; also its variations:  c_CTRL-N/P/A/L) ;  :h  cmdline-completion
+	-! q:  :open mini-cmdline-history to select a cmd (selecting a cmd with ENTER ; quitting the mini-window also with ENTER on last line) (also q: as key in normal mode, not in cmdline-mode, alsono ":")
+	-! put/paste the word.was.under.cursor in cmdLine:  ctrl-r ctrl-w (in cmdline-mode)
+	--- compare ex and vi commands: eg delete up to a mark:
+		- :.,/JNDI/d : deletes from . to line containing JNDI INcluding JNDI-line
+		- d/JNDI  (without ":" ,so just key) : deletes from . up to line containing JNDI EXcluding JNDI-line
+
+	_______:  -- EX-mode :
+	- exiting--from-EX-mode:  :vi
+	- entering-into-EX-mode:  Q 
+	-!! "|" as cmd-seperator: '|' can be used to separate commands, so you can give multiple commands in one line.  If you want to use '|' in an argument, precede it with '\'.  :h cmdline-lines
+	- comments with  "
+##________________________________________  ___________________________
+
+
+#####  ==========  options/set    --->  options.txt :
+
+	_______:  -- options-infos/descriptions:
+	-!! :options  : mini-interactive-browse-window of current-options-settings: <CR> on set-line will set it; <CR> on short-help-line opens help-window to this option,... ;see :h :set-browse , :h :options
+	- options.txt  :full-descriptions for all options
+	- onliner-quickref-options-descriptions:  :h Q_op  bzw.  quickref.html#Q_op
+
+	_______:  -- set / setting options:  -->  :h set-option
+	- :se[t] all&       :Set all options, except terminal options, to their default value.  
+	- :se[t] {option}&        Reset option to its default value.
+	- :se[t] {option}&vim     Reset option to its Vim default value.
+	-!! :se[t] {option}[ +-^]={value}   : set option to value.  !!White space between {option} and '=' is allowed and ignored. 
+										  BUT  White space between '=' and {value} is not allowed AND NOT ignored!!
+	- :se[t] {option}+={value} , :se[t] {option}^={value} , :se[t] {option}-={value} ... see  :h  :set+=
+	- values: special chars must be escaped in value-string:  \ \" \| ...   see :h option-backslash
+	- :setlocal     only local to the current buffer
+	- :set   :shows ONLY options set/changed by USER,  either in your .exrc file or during the current session
+	- :set all  :show all settings
+	-! pro.file-configs (eg for a specific file changing certain options individually ...):  adding modeline to the file-start/end!  see :h :modeline 
+	- wildchar=<Tab> : completion key
+	-! sending ":set all"-output into current buffer:  :redir @x | set all | redir END | put x  (!! in cmdline | is NOT pipe-symbol, it just seperates several cmds; the later cmds need no ":" anymore!)
+	-  sending terminal-settings-query into current buffer:  :redir @x | set termcap | redir END | put x 
+##________________________________________  ___________________________
+
+
+#####  ==========  searching/replacing/patterns/regexp in vim:    ---> pattern.txt (AND search-parts of change.txt)   + usr_27  (also viOre. 6.3 ;and extended VIM-RE: 11.7. Extended Regular Expressions)
+
+	_______:  -- DEFs/Vocabs/helpps for search-replace:
+	-! Definitions-patterns:  s/<search-pattern>/<replacement-string>/  : for REs sometimes there are different rules for the same symbol, if it is in <search pattern> or in <replacement string>.
+	- :h search-replace  ;  :h :substitute  : flags-descriptions
+	- patterns-overview    --->  see :h pattern-overview  (default is "magic")
+	- see full-overview of patterns+special.charts in   :h pattern-overview +.... pattern.txt (here no summary; just check there!)
+	- perl-comparison--regex  :h perl-patterns 
+
+	_______:  -- searching:   --> change.txt
+	-!! NOT-matching-lines search:  :v/XX   /OR  :g!XX  ; :help :v , :h :g
+	-! multiline-replacing / several empty line to one (see faq-12.3) : :v/./.,/./-1join ; see ":h :v" bzw. ":h global" 
+	-! */#  (g*/g#):  search forward/back the word under the cursor (g :also partially)
+	-!!  list lines matching the cursor-word  [I
+	-!!  pasting the word under cursor in cmdLine by search: /<C-R><C-W>
+	-!!  as .* BUT as-few-as-possible (.* takes as-many-chars-as-possible!):  \{-}    see examples in :h /\{-
+	- :60,124g/pattern/p    Finds and displays any lines between lines 60 and 124 containing pattern.
+	- [address]g[!]/pattern/[commands]  : Execute commands on all lines which contain pattern, or if address is specified, all lines within that range
+	- :g/pattern1/p    Finds and displays all lines in the file containing pattern1. ;OR NOT-matching-lines  :g!/pattern1/nu
+	- :noh  :nohlsearch  un-highlighting searchwords only for now (so without :set nohl)
+	-! curr-Search-highlight??:  :hi Search  /OR better:  :verbose hi Search  bzw. :set verbose=2 | :hi Search ;(with verbose, you see where it was last set!!)
+	- offset-lines to search: /XX/2 :cursor stops 2 lines after XX-line
+	- offset-char to search: /XX/e+N :cursor stops N charachters after XX, also -N , eg /abe/e-1
+	- search // == /last-search-pattern/ == n (without offset) == / (with same offet)
+	- one or more \+ (VIM, no vi)
+	- in (global)search and command-part (substitute) the / seperator can be replaced with other symbols:
+	- eg :g+//+s/XX/yyy/g  :replace in whole file, in  "//"-comment-lines XX with yyy.
+	- optional item: \= eg. /XXy\=/
+
+	_______:  -- replacing:   --> change.txt
+	-! replacing in ALL-Files in a DIR:  :args * ; :argdo %s/<your_text>/<replacement_text>/ge | update
+	- & == :& == :s == :s//~/	:repeat last substitute WITHOUT flags (after /) once again at the current line ;
+	-! \0 in replacement-string : replaced with the whole matched/found search-pattern
+	- :%s//~/ == :%s			:repeat last substitute WITHOUT flags in the WHOLE file ;
+	- g& == :%s//~/& 			:repeat last substitute WITH the same flags in the WHOLE file ;
+	-!!! A simple :s (or just simple key &) is the same as :s//~/. In other words, repeat the last substitution WITHOUT flags.
+		for the next time it even works :%s (so do the last line replacemnt for the whole file), so:
+		for save/unsure replacement: do first one replacement (so only for the current line, without %), and then :%s
+	- substitution with confirmation /c eg: :%s/was/is/gc
+	- eg. Add a period to the end of the next six lines  :.,+5s/$/./
+	-! Title-Capitalizing (first character of all words caitalized):  :%s/\v<(.)(\w*)/\u\1\L\2/g   #see :h case
+	- Reverse the order of lines in a file  :g/.*/mo0
+	-! buffers substite with update/save (update : save file only if changes were made):    :bufdo %s/pattern/replace/ge | update
+	-! windows-all-substitute:     :windo %s/pattern/replace/ge
+	- :retab
+	--- NOT-matching-lines--cmd-execute , execute cmd1 on all lines NOT containing the pattern, ... :
+		- NOT-matching-lines--cmd-execute:   :g!/nicht bezahlt/s/$/Mahnung/   /OR:   :v/nicht bezahlt/s/$/Mahnung/
+		- NOT-matching-lines--cmd-execute:   :g!/passed/s/^/__ /   ##all lines NOT containing "passed", substitute the beginning-of-line with "__"
+		- NOT-matching-lines--cmd-execute:   :%v/;$/s/$/ ;--/      ##all lines NOT ending with ";" put an ";" to the EOL 
+
+	_______:  -- search-commands:    -->  pattern.txt
+	- offset+count search:  [count] /{pattern}/{offset}<CR>   :Search forward for the [count]'th occurrence of {pattern} and go {offset} lines up or down.
+	- backwards-search  with offset+count :  [count]  ?{pattern}?{offset}<CR>
+	- range-defined-search:  search in lines 55-95 for pattern1 (using \%>l tag, l==limited):  /\%>55l\%<95lpattern1   , :h search-range
+	- N next search:   [N] n ;OR in opposite direction as before  [N] N
+	- under.cursor.word.search:  *  ;OR backwards  #
+	- highlighting-stop/aufheben:  :noh[lsearch]
+	-! OR-search (search for xx1 OR yy2):  /xx1\|yy2 ;matching multiples:  /\(XX\|yyy\)\+/
+	-! NOT-matching-execution:  :.,+20g!/pattern1/s/aa/bb/c  :in next 20 line, substitute aa with bb in lines NOT-containing pattern1 ;see faq-12.3
+	-! case-ignoring independent of options-settings:  /\cXX  :  \c case-Insensitive , \C case-sensitive  (overrules the 'ignorecase' and 'smartcase' options. sticks with the pattern) ;see :h /ignorecase
+
+	_______:  -- patterns  ----> see full-listings in pattern.txt; here ONLY certain notes, NOT full-descriptions...:
+	-!!diff: there ARE diffs for patterns-rules between search-string  <--->  replacement-string!! so certain interpretaions ($,\n\t,...) DIFFERS depend on if they appear in search- or replacement-string!!
+	- ^ and $ have only at the beginning/End of RE special meanings, otherwise just normal chars (so spacing needed)
+	-! use \> \< for complete word search/repl. instead space, as :%s/\<child\>/children/g
+	- use POSIX ! (usually is supported) , see pattern.txt or :help [:digit:]
+	--- search-string-patterns/specifies eg:
+		- /ab\{3,5}/   :a{b 3-5 times}  ##--see :h  pattern-multi-items
+		- a\(bc\)\{1,2}d     matches:     "abcd" or "abcbcd"
+		- ab\{2,}c                "abbc", "abbbc", "abbbbc", etc.
+		- [^...]*  :complemented range eg   p/x[^abc]*y/
+
+	_______:  -- predefined-character-classes:    :h /character-classes , :h alnum /OR [:alnum:] ,  usr_27.txt ; full-listing in:  pattern.txt:
+	- predefined-character-class-backslashed:  \a\A\d\D\s\S\l\L\u\U  !!BUT NOT inside a [...]. So not [\d] [^\s] ... !!
+	- predefined-character-class-ranges:       [:alnum:]  [:alpha:]  [:blank:]  [:cntrl:]  [:digit:]  [:graph:]  [:lower:]  [:print:]  [:punct:]  [:space:]  [:upper:]  [:xdigit:] [:return:] [:tab:] [:escape:] [:backspace:]   ;see  :h alnum
+	- linabreak \_ (can be combined with other classes), eg. \_. :matches any character or a line break. ; \_.* everything up to the end of buffer.
+	- eg: \s :whitespaces/tab  \_s ;linebreak or whitespace/tab ; \_a :linebreak or alphabetics
+	- linebreake;  \n ; match a space or a linebreak: \_s , any amount of white space: \_s\+  eg. \XX\_s\+yyyx`
+	- eg: /"\_[^"]*" :text in double quotes splitted in several lines
+	- eg: a number like 1MGU103 : /\d\u\u\u\d\d\d  /OR: /\d\u\{3}\d\{3} /OP: using ranges: /[0-9][A-Z]\{3}[0-9]\{3}
+
+	_______:  -- magic  -->  :h /magic  in pattern.txt
+	-!! special-char-interpretations in all search-patterns depend on "magic"-option-setting (default "magic"):
+	   more "magic" means special-chars have more special-meanings and less literaly!
+	   magic-flags: more special-chars-interpratations (so more magic) order:  \v > \m > \M > \V    ;see :h /magic
+	   so with \V there is NO special-chars except "\" 
+	   with \v ca. every non alnum-char is a special char and will be interpreted non-literaly!
+	   which flag best for a case?: depends on the case; if cpecial-chars are more disturbing then use \V, if case needs more special-interpretations then use \v, or so ...
+	-!! vim-recommended to always keep the 'magic' option at the default setting, which is 'magic'. for certain pattern then use explicitly the appropriate magic-flag!
+
+	_______:  -- sorting:   --> :h sort
+	- eg: sort on the second comma-separated field (:sort /pattern/):  :sort /[^,]*,/  ;the pattern-matched-part will be ignored by sorting!
+	   the opposite of above, so sort ONLY considering the part up to the second comma:  :sort /[^,]*,/  r
+	- eg: sort on only the first three letters of each line: > :sort /\a\a\a/ r
+	- eg:  To sort on the first number in the line, no matter what is in front of it:  :sort /.\{-}\ze\d/  ; for {-}-syntax see :h pattern
+##________________________________________  ___________________________
+
+
+#####  ==========  key-mapping / mappings  /abbreviations / User-defined-commands  --->  map.txt + also usr_40.txt :
+
+	_______:  -- key-mapping / mappings:
+	-! :h map.txt , :h  key-mapping ,  :h mapping ; also :h key-notation  for key-symbols,..
+	-!!info:  :map/shell.cmd-comments:  NOT possible to add a comment to a shell command ":!cmd" or to the ":map" command and a few others, because they see the '"' as part of their argument.  :h cmdline-lines
+	-!! '|' in :map for multiple-cmds: use <Bar> instead! eg: :map _l  :!ls <Bar> more<CR>   !see :h map_bar
+	-!! special-key-vim-symbol : in insert-mode do:  ctrl-k<key> ,eg for: <F12> , <Right>, ... bzw. ctrl-v<special-key> ; see :h :map-special-keys
+	-!! special-chars in mapping-cmd always in <XX>-notaion LITERRLY !! as <Esc> (really as 5 chars), <CR> , <F2> , <C-A> for ctrl-A , ...: - insbesondere: <Bar> for '|' ,  <Space> for " " , ,...
+	- listing curr mappings: :map [XX]  :list of maps BEGINNING with XX
+    - listing: where is the last place where this key-mapping has been (re)defined (filename-lineNo) ??:  :verbose imap <key-shortcut> ;eg:  :verbose imap <Tab>  ##-:where is <TAB>-kuerzel-mapping redefined??
+	- delete/clear mapping:  delete all mappings: :mapclear  ;delete a mapping: :unmap [map-key] , bzw. :vunmap , :nunmap ,...
+	- key-notations (<M-... , <C-..., ...):   :h key-notation , key-codes , keycodes
+	- ALT-key problem (<M-...) in gnome-terminal and konsole/suse  ; see :h :map-alt-keys
+	   -!! gvim <---> vim and ALT-key: In the GUI Vim handles the Alt key itself, thus mapping keys with ALT should always work.  But in a terminal Vim gets a sequence of bytes and has to figure out whether ALT was pressed or not.
+	   -! so do NOT use ALT for your mappings!
+	- modes-mapping:  :nmap  mappings-for-normal-mode;  :cmap   mappings-for-cmdline-mode;  :vmap  mappings-for-visual-mode; ...  ;see :h :map-commands
+	- check if a key is already assigned?: see index.txt  (??:  :help {key}^D to find out if a key is used for some command.  ({key} is the specific key you want to find out about, ^D is CTRL-D).)
+	- timeout of mapping-keys  ;see h: map-typing , :h 'timeout'  :so it IS possible to define keys with the same start-chars as ,ff1 and ,ff2 (vim waits one second to know which)
+	- To map a character by its decimal, octal or hexadecimal number the <Char> construct can be used: <Char-123>  ;see :h <Char> <Char->
+	_______:  -- mode specific map displaying:
+	-! overview-listing of mappings-scopes:  :h  map-overview   map-modes
+	:nmap - Display normal mode maps
+	:imap - Display insert mode maps
+	:vmap - Display visual and select mode maps
+	:smap - Display select mode maps
+	:xmap - Display visual mode maps
+	:cmap - Display command-line mode maps
+	:omap - Display operator pending mode maps
+	:nnoremap  -nnoremap remaps one key combination to another. The no part means remap the key in normal mode as opposed to visual mode. eg:  nnoremap <C-J> <C-W><C-j> says, in normal mode when I hit <C-J>, do <C-W><C-j> instead!
+
+	_______:  -- abbreviations:  --> :h abbreviations
+	- info: An abbreviation is triggered by typing a non-word character (eg <space>) after the word.
+	- :ab[breviate] , :ia[bbrev] in Insert mode only , :ca[bbrev] in cmdline mode only , :[i/c]abc[lear]  Remove all abbreviations , :una[bbreviate]
+	-! NOT in all modes: Abbreviations are used in Insert mode, Replace mode and Command-line mode.
+	- To avoid the abbreviation in insert mode (so insert it literarly): Type part of the abbreviation, exit insert mode with <Esc>, re-enter insert mode with "a" and type the rest.  Or type CTRL-V before the character after the abbreviation.
+	- To avoid the abbreviation in Command-line mode (so insert it literarly): Type CTRL-V twice somewhere in the abbreviation to avoid it to be replaced.  A CTRL-V in front of a normal character is mostly ignored otherwise.
+	- abbreviations are never recursive.
+
+	_______:  -- user-defined-commands:  -->  :h user-commands / map.html#user-commands , also usr_40.html#40.2 "Make new commands" :
+	- info/naming-rules:  user-defined commands must start with a CAPITAL letter.  You cannot use ":X", ":Next" and ":Print".  The underscore cannot be used!  You can use digits, but this is discouraged.
+	- info/shortNames:     like with the builtin commands, the user defined commands can be abbreviated.  You need to type just enough to distinguish the command from another.  Command line completion can be used to get the full name.
+	- listing/viewing user-cmds:  :set verbose=1 | :command  "verbose>0 to see in which file defined.
+	- show/list the user-defined commands that start with {cmd}:  :com[mand] {cmd}
+	- delete/clear user-commands:  :delcommand XX ;OR  clear all with  :comclear 
+##________________________________________  ___________________________
+
+
+#####  ==========  tags /tagsfiles/ jump-to-tags      --->  tagsrch.txt + usr_29.txt :
+-!! see also section "completion_i" for differnt types of completions!!
+
+	_______:  -- view and jumpto tags /tags-listings:
+	- tag is an identifier that appears in a "tags" file.  It is a sort of label that can be jumped to. "tags" file has to be generated by a program like ctags,before the tag commands can be used.
+	- tag stack:  On the tag stack is remembered which tags you jumped to, and from where.
+	- :tags         : curr-tags-listing. view tag stack (jumped points listing)
+	--- simple-browsing/traversing tags (see also next section for under.cursor.jumps):
+		- CTRL-] /OR :tag   :same as :tag but the keyword under cursor is used as the tag ;
+			for problems with the keyboard "]" see  :h telnet-CTRL-]
+			if this jump not the right one, then browse with:  :tnext  :tprevious  ...
+		- CTRL-T /OR :pop   :back to the previous jump point
+		- :tfirst  :trewind  :tlast  :tnext  :tprevious :tNext  :move between the matching tags
+	--- under.cursor.jumpto.tag/function/definition/...:
+		- simple-jumpto-under.cursor.tag:     Ctrl-]  , :[N]tag  ; back with CTRL-T /OR :pop
+		- jumpto-with-selection:              g]  /OR   :ts[elect] funcName
+		- split.wondow and jumptto.under.cursor.tag:   CTRL-W ]   /OR  CTRL-W CTRL-]  /OR  :stag <tagname>
+		- split.wondow-With-selection--jumpto.tag:     Ctrl-W g]  /OR   :stselect funcName
+		- jump to a tag if there is only one matching tag,  otherwise a list of matching tags: g  Ctrl-]  ==  :tjump func /OR stjump in a split/new windows ==  Ctrl-W g Ctrl-]
+	--- goto tag XX:
+		-  :[N]tag       : jump to tag N (listed by :tags )
+		-  :tag  {ident <with-tab-completion>}  :Jump to the definition of {ident}, using the information in the tags files; also:
+		-! :tag  /<pattern with.tab.completion> ; :stag /<pattern> split.window.goto.tag ;  :ptag /<pattern>  preview.window.goto.tag, ...
+		-! :ts[elect][!] /<pattern>  /OR [ident]   :List the tags that match [ident] ;also :ptselect /<pattern> preview.window.select;  :ptjump /<pattern> :tjump /<pattern>
+	--- previewing tags:
+		- previewing tags:  CTRL-W } bzw. :ptag (:ptselect , :ptjump to list/jumpto tagName) :like CTRL-] but show tag in preview window
+		- CTRL-W z  ==  :pc[lose]            close tag preview window
+		- :pedit , :ptag  , :psearch , ...
+	--- completion_i for tags during editing:
+		i_CTRL-X_CTRL-]  :completion based on tag-files!   see :h  ins-completion
+
+	_______:  -- generating tag-files with ctags/etags/gnuctags/...  -->  :h tags-file-format
+	- see ctags/ptags/etags/jtags/... in  :h tags-file-format
+	- :set  tags=...my.tag.files...
+	- include all files named "tags" in the   WHOLE-prj-tree:  :set tags=~/proj/**/tags   ;see usr_29.txt 
+##________________________________________  ___________________________
+
+
+#####  ==========  windowing/splitting/multiple-files-editing, bufferss  --->  windows.txt    + usr_07.txt , usr_08.txt
+
+	_______:  -- Definitions--windowing/splitting:
+	-!! diff:   buffer  <  window  <  tab  <  screen  < server/instance     !! see: !! :h windows-intro !! + intro.html#window-contents
+	-!! diff:   arument-lists  <--->  buffers-list  <--->  windolws-list   <--->  tabs-list
+	-!! diff:   :argdo         <--->  :bufdo        <--->  :windo          <--->  :tabdo
+		A buffer is the in-memory text of a file (active/hidden/inactive buffers: a/h/''). A buffer is a file loaded into memory for editing.  The original file remains unchanged until you write the buffer to the file.
+		A window is a viewport on a buffer.  A window is a viewport onto a buffer.  You can use multiple windows on one buffer, or several windows on different buffers.
+		A tab page is a collection of windows. (eg ":sp #" divides a tab into two horizontal windows)
+		A screen is a collection of tabs (your whole vim-session. kk)
+		   A hidden buffer is not displayed in a window, but is still loaded into memory.  This makes it possible to jump from file to file, without the need to read or write the file every time you get another buffer in a window.
+	- :windo  <--->  :bufdo   <--->  :argdo   <--->  :tabdo  :executing cmds in all windows/buffers/argument.cmdline.params/tabs  ;!see  :h list-repeat  ;eg: 
+
+	_______:  -- Instances/Server of gvim -->  see  :h  remote.txt
+	-! for several gvim-Instances/-server/-Terminals and intercommunication see:  :h  remote.txt  ,bzw.  gvim --help
+	- cmds work ONLY with gvim, NOT with vim!  see gvim --help for server-params!
+	- list all current gimv-inmstances:  gvim --serverlist
+	- open t1 in a new tab of the running  gvim-instance named v11 :  gvim --servername v11 --remote-tab t2
+
+	_______:  -- split.wins/browsing/managing/openning-closing:    --> :h opening-window , :h buffer-list
+	-  split.cmds:  :all  :vs[plit]  :sp   :[N][v]split   :new   :on[ly][!] ; :qa[ll][!] 
+	-! split-keys:   ctrl-w + s/v/^/q/o/c/r/x/n/=/...
+	-! split window and edit alternate file:  CTRL-W ^^   (if ^ not works on your keyboard, try "6" instead ^, OR ^+space ,OR ^^)
+	-  split.window with the tag under cursor in new win:  ctrl-W ]
+	- :sbuffer buffername ; sargument ... ; :sXX : split and load buffer/arg/... ;
+	-!  split and open a window for each file in the argument-list:  :all  bzw.  :sall
+	- show tag in preview window   :pt[ag]  ;  close-preview-window  :pc		
+	- :wincmd  : CTRL-W--commands can also be executed with  :wincmd
+	-! tabbing:  goto-next/prev-tab:  [N]gt / [N]gT , ... ;see  :h tabpage.txt
+
+	_______:  -- goto.wins/Moving cursor to other windows:  :h window-move-cursor
+	<C-W><C-J>  bzw. ctrl-arrow :  up-win,
+	<C-W><C-K>  bzw. ctrl-arrow :  down-win,
+	<C-W><C-L>  bzw. ctrl-arrow :  right-win,
+	<C-W><C-H>  bzw. ctrl-arrow :  left-win,
+	[N] <C-W><C-W>   nth-win    : switch windows (!windows are numbered from top-left to bottom-right);
+	- goto N.the window left/above/below/right: <C-W> + h/j/k/l  (!!only non-capital-letters!! capitals move windows itself!!)
+	-! under-cursor-filename-windowing bzw. tabbing (using ENV-PATH):  ctrl-w + f bzw. gf  (here the filename is also a kind of tag!! so see details in  :h  window-tag)
+
+	_______:  -- move.wins /Moving windows itself around:  :h  window-moving:
+	- ctrl-w + r/x/H/J/K/L  (!! only capitals)
+	-! exchange horiz.wins-to-vertical.wins vs.:   ctrl-W + shift+H (to-vertical)  bzw.  shift-J (to.horiz.)
+
+	_______:  -- resizing.wins:    :h window-resize
+	- resizing-keys--decrease/increase:  wins-height-/horizontal-resizing:  [N]ctrl-W  "-"  bzw.  "+"
+	- resizing-keys--decrease/increase:  wins-width-/vertical-resizing:     [N]ctrl-W  "<"  bzw.  ">"  ;
+	- resizing-keys--set-win-size:    [N]ctrl-W + =/_/|  ,wobei:  ="gleich", _ horozintally/height , | vertically/width
+	- resizing-cmds:  :res[ize] N/+N/-N  ,  :vertical res N/+N/-N
+	- 'equalalways' ('ea') : always equall ALL windows
+
+	_______:  -- buffers AND arguments commands:   -->  :h buffer-list
+	-!! diff. args (cmd-params by invoking vim from shell)  <--->  buffers  (currently active buffers/open files, ..., eg added with :e ...)
+	-!! info: buffer.numbering never change and is unique!! That number will not change, so you can always go to a specific buffer with ":buffer N" or "N CTRL-^" (kk: bzw. ctrl-6), where N is the buffer number. :h :buffers
+	- :bufdo   <--->  :argdo   ; also   :buffers  <--->  :args   :the listing are different!
+	- args-wins-cmds:      :n/  :N/  :all  ...  (no wrapping in arg-list ...; list-view:  :args)  <--->  
+	- buffers-wins-cmds:   :bn/ :bN/ :ball ...  (do wrapping, easy round-switching with :bn @: ; list-view:  :buffers)
+	- opening more files AND adding them also to the cmd-line-argument-list:  :args   ;eg :args *.txt
+	- listing of buffers:    :ls == buffers == files
+	- listing of arguments:  :args  (files opend by vim-invokation arguments/shell-params)
+	- switching between last two buffers (% , #): ctrl-^ bzw. ctrl-6
+	- goto-buffer.cmds: goto-buffer-N: :b [N] == :Nb  ;goto-next-modified-buffer  :bm  ;goto-next-buffer :bn :bnext  ;goto-previous-buffer :bN
+	- goto-buffer.cmds.splits: goto-buffer-N-split: :sb [N] == :Nb  ;goto-next-modified-buffer-split  :sbm  ;goto-next-buffer-split :sbn[ext]  ;goto-previous-buffer.split :sbN
+	- :2n , :3N ; :wnext  :write it and go to next; (or just :set autowrite)
+	- :br[ewind]	go to first buffer in the buffer list
+	- :wb N /OR  :sb : buffer N in new Window/split; ...
+	- :bunload  <  :bdelete  <  :bwipeout  [buffer]:      :h :buffers :
+	   :bun[load]   N/name XX : buffer-memory free, BUT name ramins in the buffer-list/:ls. (so switching to it with :b N/name possible!)
+	   :bd[elete]   N/name XX : buffer unloded AND deleted from buffer-list/:ls
+	   :bw[wipeout] N/name XX : buffer delete  AND everything related to the buffer, as marks, jums,....
+	   -!! the Numbering of buffers does NOT change anyway!! so delete/unload has no effekts on buffer-No!
+	- :rewind/:brewind   bzw.  :first/:bfirst  bzw.  :last/:blast :Rewind argument-/buffer-list and begin editing the first/last file in the list.
+	- :e #  ; :n  :prev ; ctrl+G current-file-infos ;
+	- :all == :sall bzw. :ball == :sball  : Open a window for every file in the arg bzw. buffer list
+
+	_______:  -- tags.windowing:  --> !see :h  window-tag 
+	- goto-tag-under-cursor in new-window:   CTRL-W CTRL-]  bzw. with listing: CTRL-W g ]
+	-! under-cursor-filename-windowing bzw. tabbing (using ENV-PATH):  ctrl-w + f bzw. gf  (here the filename is also a kind of tag!! so see details in  :h  window-tag)
+	-! preview.win for tag XX: see below bzw. :h preview-window
+
+	_______:  -- preview.win:           :h preview-window
+	-! only ONE preview window (per tab page) is possible!
+	- close any preview.win:   CTRL-W z 
+	-! preview.win for tag XX:  :ptag XX :shows the found tag in a "Preview" window without changing the current buffer or cursor position. close it: ctrl-W z ;
+	-! preview.win for tag under cursor:  CTRL-W } 
+
+	_______:  -- Windws-Titles esp. for gvim-windows, eg (all ok):
+	-!! gvim -c "set title"  -c "let &titlestring=\"GV-$(basename $(pwd)) : \" . statuslinestr"  -p  *.txt   ##--append pre-defined-uue-titlestirng, as statuslinestr var, after current-dir-name
+	  bzw: alias gvimtit1='gvim  -c "set title"  -c "let  &titlestring=\"GV-$(basename $(pwd)) : \" . statuslinestr"   -p  ./*.txt'
+	gvim  -c  "set title"  -c  "set titlestring=$(basename $(pwd))"   -p  *txt                    ##--new/replace window-title with curr-dir-name, so ignore the default-title predefined in vimrc,...  (but first also active title-option)
+	--from offc-prj-DBG-2013:
+	alias gvimtit1='gvim -c   "set title" -c "set titlestring=$(basename $(pwd))"'
+	alias gvimtit1x='gvim -c  "set title" -c "set titlestring=$(basename $(pwd))"  $(ls  *.txt)'
+	alias gvimtit1xx='gvim -c "set title" -c "set titlestring=$(basename $(pwd))"  $(ls  *.txt  *.log  *.csv  *.tsv *sh *.out)'   ##--offc-
+##________________________________________  ___________________________
+
+
+#####  ==========  tabpages/tabbingWindow      --->   :h  tabpage.txt    :
+
+	_______:  -- tabpage.cmds/tabWindow.cmds:
+	- definition-tab: A tab page holds one or more windows; each windows then one/more buffers!.
+	-! help in a new tab:   :tab h perl
+	-!info: Many commands work only in the CURRENT tab page.  That includes the CTRL-W commands, :windo, :all and :ball (when not using the :tab modifier).
+	- starting/invoking vim with tabs per argument-params eg:  vim -p *.txt
+	- start editing file XX in a new tab:   :tabf XX
+	- :tabs    :List tab pages and windows they contain. ">" for current window, "+" modified buffers.
+	- :tabdo {cmd}   :do-cmds-on-all-tabs
+	-!! curr.window-to-tab:  CTRL-W T (capital "T")  :move current window to a new tab page
+	- new tab-page:
+		-!!  :tabe[dit]  ==  :tabnew , BUT use :tabe , because :tabn means :tabn[ext] and not :tabnew !!)
+		-!   The first tab page has number one.
+		:[count-position]tab {cmd}   :tab Execute {cmd} and when it opens a new window open a new tab page instead.
+			-!!  :0tab  h  tabpage    :open new tab in first position and execute :h tabpage
+			-!   :tab sp[lit]         :opens current buffer again in new tab page (so split but not in current tab but in a new tab)
+		:[N]tabe   :new empty tab (after tab N ; default after CURRENT tab; 0 == before-the-first-tab):   Use ":0tab cmd" to get the new tab page as the first one.
+		:[N]tabe [++opt] [+cmd] {file}      ;eg: new-help-tab:  :tabe +h
+		:[N]tabf[ind] [++opt] [+cmd] {file}   : Open a new tab page and edit {file} in 'path', like with :find.
+		CTRL-W gf       Open a new tab page and edit the file name under the cursor
+		CTRL-W gF       Open a new tab page and edit the file name under the cursor and jump to the line number following the file name
+		(gf  :goto file under cursor, without tabbing, so in the same tab)
+	- closing-tabs:   close-curr-tab:  :tabc[lose]  ;close-all-OTHER-tabs:  :tabo[nly]
+	- switchto-/goto-another-tab:  -->  :h :tabnext   :
+		:tabn[ext] [N]     / [N]gt / [N]<Ctrl-PageDown>
+		:tabp[revious] [N] / [N]gT / [N]<Ctrl-PageUp>   / :tabN[ext]
+		:tabfir[st] ,  :tabl[ast]  , :tabr[ewind]
+	- listing-tabs:  :tabs
+	- moving/reordering tabs:  :tabm[ove] [N]  :Move the current tab page to AFTER tab N. N=0 first-tab, without N last one!
+		-! :tabm 0  /OR  :0tabm  :move this tab to the FIRST position.
+		-! :tabm    /OR  :tabm   :move this tab to the LAST  position.
+	- tab-label-settings with:   'tabline'
+##________________________________________  ___________________________
+
+
+#####  ==========  syntax      --->  syntax.txt    :see.it (here only prev-nts uebernommen)!! :
+
+	_______:  -- syntax / highlighting:
+	- :h  ft-syntax-omni   for  Syntax-completion in i_mode for several code-/API-/devel-langs : see extra section here for omni/API-completion !
+	- available types/syntaxes: $VIMRUNTIME/syntax
+	- TERM/putty/colorTerminial for syntax-highlighting (syntax on):
+		-OK without changing $TERM to color (syntax/highlightinh also OK for putty/vt100:  vi -T builtin_iris-ansi ... (with syntax on,...) /OR:  (so with in .vimrc : syntax on , colorscheme pablo ....)
+		  # OK without setting TERM (OK also with vt100 ; geht immer) in .profile/ksh :
+		  if ( whence vim > /dev/null ) ; then alias vi='vim -T builtin_iris-ansi ' ; alias view='vim -T builtin_iris-ansi -R ' ; EDITOR=vim ; fi
+		- /or export TERM=xtermc  /or xterm-color,... ; see terminfo-valid-entris (check with clear if OK?)
+		- then with colorscheme except pablo, the terminal backgroung is changed too (need reset!!); pablo does not change the vi-background! so it works!
+	-! view current-buffer-syntax:     :let b:current_syntax  bzw. :h b:current_syntax-variable
+	- listing/view curr-syntax-groups/definitions:   :syntax
+	- listing/view curr-highlighting-groups-colors  :hi [group-name]
+	- :hi clear  :reset all highgliting/color-rules to defaults
+	- :syntax on   :autmatically means also ":filetype on"
+	- :syntax clear/reset/....
+	- :syntax reset  :reset all to defaults except hi-colors; :syntax clear :no syntax in CURRENT buffer ; :syntax off  :disable syntax in all buffers;
+	- see/check color setups: :e $VIMRUNTIME/syntax/colortest.vim   and   :so %
+	- color capabilities are different for xterm and gui. no color-numbers in xterm, so NO ctermfg=#rrggbb
+	- what is current-buffer-filetype??:  :set ft?  bzw.  :set filetype?
+	- see/check currently active groups/colors:     :so $VIMRUNTIME/syntax/hitest.vim /OR :hi
+
+	_______:  -- devels/tools/utils:
+	- :TOhtml   bzw.  :runtime! syntax/2html.vim   ;see  :h  2html.vim / convert-to-HTML
+	- ANT, Apache, C++,,... devel-langs...:i  see  :h :syn-file-remarks
+	--- html-conver:  :h 2html.vim  , :h convert-to-HTML
+		- from inside vim   :source $VIMRUNTIME/syntax/2html.vim
+		- from cmdLine converting code to html:   vim -c ":runtime syntax/2html.vim :w :q :q"   Test1.java  (default output is then in  Test1.java.html)
+##________________________________________  ___________________________
+
+
+#####  ==========  spelling : see spell.txt
+	- 3 methods to do spell-checkings in vim: 1-vim-internal in $VIMRUNTIME/spell/ (here done/described) 2-external-Lx-cmds as ispell ... 3- additional vim-plugins
+	:h  spell  #bzw.  spell.txt  in  /usr/share/vim/vim90/doc/spell.txt  #-vim-internal-spell-checkings !
+
+	_______:  -- install/add spell-files:
+    - check if vim-spell-files are there?: see $VIMRUNTIME/spell/  bzw.  /usr/share/vim/vimfiles/spell/
+    - pacman -Ss vim-spell ; pacman -S  vim-spell-en   vim-spell-de
+	- vim-spell-files/dics: looks in the "spell" subdirectory of the directories in 'runtimepath' ;  see  :h spell-load 
+
+	_______:  -- settings/activating of spell-checking :
+	- first set encoding properly if not done yet (utf-8):  :set encoding=utf-8    (/OR latin1 ):  if no spell file for 'encoding' is found "ascii" is tried, which does NOT work for DE but ok fpr EN. see :h spell-load). then
+	- start/activate spell-checking in the current buffer:   :setlocal spell spelllang=de /OR spelllang=en/en_US/...
+	- start/activate spell-checking as default with vim-start (not really! evv), then in vimrc:    set spell  spelllang=en /OR de/en_US/... 
+		- set options:   set spell  spelllang=en/de/.. :
+		-!!do NOT set it globally/by-start/vimrc;  'spell' makes vim slower and uses resources due to online-spell-checking which it does! so do use :setlocal and when needed!
+		when the boolean option 'spell' is set, then spell checking will be done per open-file/insert/.... its language is specified with 'spelllang' option.
+	-! cu-status-query:  :spelli[nfo]    show loaded spell files; if problems, then check if eg VIM.dir/spell/de.utf-8.spl was loaded??
+
+	_______:  -- keys-interactions/suggestions/corrections
+	-! correcting-suggestions in insert mode:   i_CTRL-X_s  (for the word under/before cursor))
+	-! correcting-suggestions in normal mode:   z=          (for the word under/before cursor)
+	- as in all vim-comletions:   CTRL-N to use the next suggestion, CTRL-P to go back in the suggestion list !
+	- if needed:   :spellr[epall]  :do all replacements fot last word corrected with z=
+	- goto-next/prev-misspelled-word:   ]s , [s , ... ##--more see:  :h spell.txt
+	- addto-good-words the word-under-cursor: zg , zG ...
+
+	_______:  -- 2-method:   spell-checking-by-external-cmd-piping:    :w!<CR>:!aspell -l de_DE -c %<CR>:e! %<CR>   /OR as key-map:  nmap ,spe  :w!<CR>:!aspell -l en_US -c %<CR>:e! %<CR>
+
+	_______:  -- 3-method:   spell-plugin:  There also is a vimspell plugin.  If you have it you can do ":help vimspell" to find about it. 
+##________________________________________  ___________________________
+
+
+#####  ==========  diff    --->   diff.txt :
+
+	_______:  --
+	- ! ignore all-spaces/tabs/...:  vimdiff -c 'set diffopt+=iwhiteall'  f1 f2  ##--/OR from vi-ex-cmdline   :set  diffopt+=iwhiteall  ##see :h diffopt
+	- curr-buff vimdiff with file XX:  :vertical  diffsplit XX
+	- vimdiff -O f1 f2 (-o for h-split. vimdiff==vim -d);
+	- :diffsplit {filename}  :Open a new window on the file {filename}
+	-! current-modified-buffer-not.Saved.Yet  diffs with  original-saved-file  (org-file must be copied first):
+	   (!! autowrite must be off, otherwise the curr-buffer will be saved automatically and so org-file overwritten, ans so no diffs!!)
+	   :set noautowrite  ;then:  :!cp % tmp1  ;then:  :vertical diffsplit tmp1  
+	- jumping to diffs: [c , ]c
+	- get/obtain-diffs  do bzw. :diffget bzw. keys  "do"  ;(also, abgleichen/uebernehmen the diffs); eg :1,$+1diffget :gets all diffs from the other buffer
+	- put/senden-diffs  dp bzw. :diffput bzw. keys  "dp"  ; 
+	-  :diffupdate   :force the differences to be updated and viewed, eg after a few adaptions,...
+	-! :diffoff!     :Switch off diff-mode for the current tab (including all its window,s)
+##________________________________________  ___________________________
+
+
+#####  ==========  autocommands   --> autocmd.txt bzw. :h autocomm  :see.it!
+
+	_______:  --
+	- definition: autocommand is a command that is executed automatically in response to some event, such as a file being read or written or a buffer change.	
+	- removing all au;  :au!   ; remove all au for xml files  :au! * *.xml
+	- listing  all au:  :au    ; list   all au for xml files  :au  * *.xml
+	- eg:  autocmd BufRead {*.xml,*.java,*.xml}  set foldcolumn=4
+##________________________________________  ___________________________
+
+
+#####  ==========  filetype   --> filetype.txt  :see.it!
+
+	_______:  -- filetypes-detection
+	- viewing filetype-detection current status:  :filetype  (shows: filetype-detection, filetype-plugin-loading, filetype-indent-loading)
+	- enabling/activating manually filetype-detection (usu. auto. done):  :filetype on/off
+	- enabling/activating  ALL filetype-related-stuff  :filetype plugin indent on
+	- activating filetype-addies (usu. auto. done):  :filetype plugin on/off , :filetype indent on/off , ... ;see :h :filetype-overview
+	- re-detecting the filetype (forcing a retry by vim):  :filetype detect  (eg needed by starting to write a NEW shell-script; otherwise have to reload the file!)
+	-!! manually setting/specifying the filetype of a file:
+	   - persistent by adding a "modeline" to the file (first OR last line of the file), eg:  /* vim: set filetype=XX : */ ;see :h auto-setting
+		  !!could be also used for ALL other options! so setting options individually for a file!
+	   - OR setting the option:  :set filetype=XX
+	-! :syntax and :filetype : file types are also used for syntax highlighting. If the ":syntax on" command is used, the file type detection is installed too.  There is no need to do ":filetype on" after ":syntax on".
+	-! loaded scripts listings:  vim -V2 XX  /OR :scriptname 
+	- where are scripts?:  :set runtimepath?  ; vim -V ... ; :version
+	- diff:  normal indent <---> "filetype"-indents
+
+	_______:  -- plugins-adding/-writing/-finding (for standard/specific plugins see theri own subsections)  -->  ! :h add-plugin , :h standard-plugin  in 05.4  "Adding a plugin" in usr_05.txt "Set your settings
+	- curretn path (be checked) for plugins:  :set runtimepath? ; !!: $VIMRUNTIME shows only the ROOT of current vim installation, i.e. root for many other files like: help,scripts,... but it is not the PATH for runtime-libs,... !
+	- ! $VIMRUNTIME/ftplugin  : contains "filetype-plugins". they must be yet enablaed to be used (eg in .vimrc with: filetype plugin indent on)
+##________________________________________  ___________________________
+
+
+#####  ==========  vim.scripts/vim.vars/vim.funcs/:let/eval   --> ;see.it:  eval.txt + usr_41.txt "Write a Vim script" :
+    -!! for all see:  :h vim-script-intro , :h vim-script<TAB> bzw. <ctrl-D>
+
+	_______:  -- vim.scripts:
+	-!!  :h vim-script-intro , :h vim-script<TAB> bzw. <ctrl-D>
+	--- comments in vim-scripts:  :h vim-script-intro  /comments !!
+
+    _______:  CONSTANTS, keys-abbrev, ....:
+    - !! DIFF:  <C-R> (Ctrl+R)  <--->  <CR>  (enter/ carriage return)
+
+	_______:  -- vim.variables (in vim-scripts):    -->  :h :let
+	-!! diff:   vim.vars  (:let)   <--->  options  (:set)
+	   vim.vars in eg vim.scripts, done with :let XX=val1 ,but
+	   options are for user-settings accessible by :set XX=val1 from cmdline;
+	- listing/viewing (all) variables:  :let [XX]  /OR  :echo XX
+	- setting global-vars:     :let g:XX = value1 (in many contexts g: is default, so same as  :let  XX=val1)
+	--- setting local-vars with :let :
+		(funcion)-local-vars:  l:XX
+		script-local-vars:     s:XX   ;eg  :let s:svar1 = value1   ;see  :h script-variable
+		buffer-local-vars:     b:XX
+		window-local-vars:     w:XX
+		vim-predefined-vars:   v:XX
+		function-arg-vars:     a:XX
+	---:let-variations:  :h expression-commands  (in eval.txt : 7. Commands):
+		:let {var-name}      +/-/.= {expr1}   :Internal.Var:  :Set internal variable {var-name} to the result of the expression {expr1}. 
+		:let ${env-name}     +/-/.= {expr1}   :ENV.Var:       :Set environment variable {env-name} to the result of the expression {expr1}.
+		:let @{reg-name}     +/-/.= {expr1}   :Register.Set   :Write the result of the expression {expr1} in register {reg-name}.
+		:let &{option-name}  +/-/.= {expr1}   :OPtion.Var     :Set option {option-name} to the result of the expression {expr1}.
+		....
+	- unsettig vars with :unlet :   :unlet! s:svar1
+	- eg:  let a = 1 |  echo a ;
+	- eg:  show value of a buffer-var:   :let b:current_syntax
+	- eg:  back-referencing-vars with {....}  ,eg.:  :let foo='a + b'   , :echo c{foo}d  then--> result is  "ca + bd"
+	- $VAR  :  environment variable  ; eg. :echo $ORACLE_SID
+	--- option-vars:
+		&option			option value, local value if possible
+		&g:option		global option value
+		&l:option		local option value
+	- register-vars:   @r  :contents of register 'r'
+	-!! warn-local-vars:   When a script finishes, the local variables used there will not be automatically freed.  The next time the script executes, it can still use the old value.
+	-! special-chars in string-values of vars (string constants):  !diff '...' and "..." (same as shell); in "..." you can use \t \n \r ...  ;see :h expr-quote
+	-! diff echo XX (so XX is a var!)   <--->   echo "XX"  (prints literarly XX)
+
+	_______:  -- vim.expressions:
+	-! info:  ":" at the line-start is optional!
+	- basic elements of expr: vars , $env_var_XX (shell environment variable), &option_var_XX , @register_XX , ... ;see :h expression-syntax
+	- string-concat:  .  ;eg :echo "foo" . "bar"
+	- if-short:  a ? b : c  ;eg :echo i > 5 ? "i is big" : "i is small"
+	- executing commands directly with:   :execute (only for :-cmds) /OR  :normal (for key-cmds in normal/non.insert-mode, eg :normal gg=G )
+	   ":execute" command can only execute colon commands.  The ":normal" command executes Normal mode commands.
+
+	_______:  -- vim.functons:
+	- listing/viewing function(s):  :function [funcName]  ; list all functions:  :function
+	- call a function directly:  :[5,12]call func1("par1", "par2")  ;OR just by other cmds/funcs as:  :echo func1(5, 8)
+	- predefined-vm-functions-list:  theme-sorted:  :h function-list , alphabrtically-sorted:  :h functions (in eval.txt)
+	- defining a function:  :h 41.7  (in usr_41 : 41.7 "Defining a function")
+	- func-vars: Variables used inside a function are local unless prefixed by something like "g:", "a:", or "s:".
+
+	_______:  -- vim.debugging:  -->  :h debug-scripts  ,  :h vbs
+	- setting verbose >= 12  ;see :h vbs  , :h verbose
+
+	_______:  -- ...
+##________________________________________  ___________________________
+
+
+#####  ==========  folding:    ---> :h fold.txt , usr_28.html
+
+	_______:  -- keys/views-folding,  opening/closing-folds:   :h fold-commands
+	-! the folded line will display the text BEFORE the marker.  This is very useful to tell what the fold contains.
+	-! folding-commands/shortcuts: all start with "z" ;  :h fold-commands
+	- under.cursor.toggle.folding:      za     (toggle one-fold-level),      zA     (toggle fold-level to Zero/Max.)
+	- under.cursor.folding.Open/Close:  zo/zc  (reduce/add one-fold-level),  zO/ZC  (set fold-level to Zero/Max.)
+	- whole.file.folding.Reduce/More:   zr/zm  (reduce/add one-fold-level).  zR/zM  (set fold-level to Zero/Max.)
+	- whole-file-quick-disable/enable/toggle-as-vorher-foldingView :    zn / zN / zi : 
+        - quick disable the folding-wholeFile:  zn    == no-folding-at-all ==   set foldenable=OFF ;
+        - quick enable-folding-back-to-foldingview-VORHER:   zN ;
+        - quick toggles between the two-foldingViews (between zn/zN):  zi ;
+
+	_______:  moving/jumping between folds:
+	- goto-next-fold-start-downwards:  [n]zj  :  Move downwards to the start of the next fold.  A closed fold is counted as one fold.
+	- goto-prev-fold-end-upwards:      [n]zk  :  Move upwards to the end of the previous fold.  A closed fold is counted as one fold.
+	- goto-start/end of the current open fold:       [z , ]z
+
+	_______:  settings-folding-view:
+	- :set foldlevel=0/1/.. : up to which level visible? 0==all.folds.closed, same as zM
+	- :set foldcolumn=8  (Max 12) --> shows where fold-marks are (shows them on a margin-column-of-8.chars)
+		A "+" is shown for a closed fold.  A "-" is shown at the start of each open fold and "|" at following lines of the fold.
+		if fold column is too narrow to display all nested folds, digits are shown to indicate the nesting level. maximum is 12 for foldcolumn.
+	- :set foldclose=all    : auto-closing of all folds when leaving  the opened fold
+	- :set foldopen=all     : auto-opening of all folds when entering the closed fold
+	-! min/max of lines to fold:  foldminlines : Minimum number of screen lines for a fold to be displayed closed./ foldnestmax : Maximum nesting
+
+	_______:  -- changing/modifying the text when folding in use:
+	-!! see :h folddoopen / folddoc[losed] ; eg  :folddoopen s/end/loop_end/ge
+
+	_______:  -- saving/restoring folding-views (specially needed by MANUAL-foldingmethod, but also usefule to save the current folding-view by others):
+	- :mkview [1-9] ; :loadview [1-9]  : up to 10 folding-views per file can be saved!
+	- :set viewdir?  : to check where the saved views are stored.
+
+	_______:  -- folding-methods / defining/setting/working.with/handling folds:
+	- defining/setting folds based on indent/markers/syntax/expression/manually/diff , see  :h fold-methods
+	- :set foldmethod=indent : which symbol defines folding?
+	-! Markers for folds (if indent insufficient) with {{{[1-9] ,see  :h fold-marker
+		then  zf<motion> can even insert fold-markers for you!!
+	- manually create/delete fold (to motion) manually: under cursor: zf/zd , all:zF/zD  ; eg zfap :curent paragraph as a fold
+	- :!ctags *.c
+
+	_______:  markers as  folding-methods :
+	- eg-pro-file-with modeline:   /* vim: set foldmethod=marker  foldmarker=xxx,yyy: */
+
+	_______:  -- expamples of defining useful foldings:  see  fold.txt :
+	-- emails-folding (replies cited with ">>>....": see *28.8*  Folding by expression :
+	   :set foldmethod=expr  ;   :set foldexpr=strlen(substitute(substitute(getline(v:lnum),'\\s','',\"g\"),'[^>].*','',''))
+	-- paragraphs separated by blank lines defined as folds:
+	   :set foldmethod=expr  ;   :set foldexpr=getline(v:lnum)=~'^\\s*$'&&getline(v:lnum+1)=~'\\S'?'<1':1
+##________________________________________  ___________________________
+
+
+
+--############################# GUI + OS-Systems + Special-Issues in:  :h reference_toc  :######################################
+#####  ==========  install-vim:  --->  :h install in usr_90.txt
+
+	_______:  -- source-compiling-installing:
+	--- done on suse.121.vo17-130101:
+	-!! for compiling it needs headers/devel-pkg of stuff!:
+	zypper install   ncurses-devel
+	zypper install   gtk2-devel      ##--need the headers by compiling for GUI!
+	?:  zypper install   xorg-x11-devel  ##--need the headers by compiling if no GTK2-headers is using! probably the last line is sufficient! here x11-header made on suse th MOTIF-layouts!
+	--
+	mkdir   $HOME/opt1/
+	cdlla spool; tar -xjpvf  /up1/t1/nps/2So/vim-7.3.tar.bz2 ; cdlla vim* ; cdlla src;
+	--
+	/up1/varu/varau/spool/vim73/src $  ./configure --help
+	spool/vim73/src $./configure  --enable-option-checking  --prefix=$HOME/opt1/  --enable-perlinterp=yes  --enable-pythoninterp=yes  --with-features=huge --with-compiledby=uue1   --enable-gui=gtk2  --enable-fontset | tee c1.out     ##-!-also?:   --with-x ...
+	make test
+	make install
+
+	_______:  --
+	- src.compiling:  either modify src/Makefile && make config   /OR:  ./configure .... ; see above nts!
+	- generating html-doc files from vim-text-help files: cd <vim-install-root>/doc/ : perl vim2html.pl tags *.txt
+##________________________________________  ___________________________
+
+
+#####  ==========  languages-specifics:
+
+	_______:  -- farsi:
+	- compiling with +farsi (or just ./configure --with-features=huge )
+	- mkdir -p /usr/local/share/fonts  &&  cp  VIM_INSTALL_DIR/fonts/UNIXs/* /usr/local/share/fonts
+	- cdl /usr/local/share/fonts/  && mkfontdir
+	- chkfontpath ; xset +fp /usr/local/share/fonts ; xset fp rehash ; chkfontpath (I did not see new values !?)
+	- cp far-a01.f16 /lib/kbd/consolefonts/  (for console/keyboard  fonts; kb=keyboard) && setfont -v far-a01.f16 (was an error !?)
+	-- USING: what works properly at the momen:
+	- starg gvim (no -F) ; -Menu: Edit-Keymap-persianIranian ; -:set rl
+##________________________________________  ___________________________
+
+
+#####  ==========  dos/mswin: (kk-prev-uebernommen!!):
+	- :help dos-locations ; vim64_docs/vim_help/gui_w32.html ; 
+	- mswin-clipboard-shorcuts: " if you want MSWIN-Clipboard-Shortcuts, uncomment (see vim64_docs/vim_help/gui_w32.html#gui-clipboard):  source $VIMRUNTIME/mswin.vim
+	- if CTRL-V is used for paste, then use CTRL-Q as replacement for Block-Visula or as escape-char
+	- vimrc file is $VIM\_vimrc ,default C:\vim\_vimrc
+##________________________________________  ___________________________
+
+
+
+--############################# plugins /Standard plugins --> :h usr_05.txt , plugin , ftplugins : #############################
+#####  ==========  DIFFs/Vocabs/... pugins:
+	-!!  DIFF: (global) plugins   <--->  ftplugins ( for specific filetype )  !!
+		normal vim-plugins are global ones ! (not file-type-specific!)! so they will be applied to fn file loaded !)
+		a (global) plugin is nothing more than a Vim script file that is loaded automatically when Vim starts OR you can load it manually.
+		are located eg in $VIMRUNTIME/plugin bzw. ~/.vim/plugin (are loaded automatically by vim-start)  ,see :h standard-plugin-list
+		OR other examples in  $VIMRUNTIME/macros  (can be loaded manually with :source ....)
+		OR you can download from vim.org and put them there
+		- ftplugins are eg in $VIMRUNTIME/ftplugin : same as plugins which loaded ONLY for the specific filetype (rg .py/.html/...)!
+##________________________________________  ___________________________
+
+
+#####  ==========  plungins-managers  (install/updates/... of all vim-plugins ... )
+	-! https://github.com/VundleVim/Vundle.vim  : Vundle is short for Vim bundle and is a Vim plugin manager. Think of it as pip for VIM. It makes installing and updating packages trivial.  
+	- https://github.com/junegunn/vim-plug  : A minimalist Vim plugin manager. Easy to set up: Single file. No boilerplate code required. ...
+	- https://github.com/Shougo/dein.vim
+	- https://github.com/tpope/vim-pathogen
+##________________________________________  ___________________________
+
+
+#####  ==========  Explore plugin /file-browsing-PlugIn for local and NetWork filesystems:   --->  :h Explore , :h netrw , :h pi_netrw ,: "NETRW REFERENCE MANUAL" : "reading files, writing files, browsing over a network, and local browsing easy!" , (kk: uebernommen-prev-nts) : 
+
+	_______:  --
+	- :h  Explore
+	- :h  netrw    -->Netrw makes reading files, writing files, browsing over a network, and local browsing easy! ...
+	-!! file-exploring-in-parallel-window:   :Lexplore  toggles a full height Explorer window on the left hand side of the current tab.  It will open a netrw window on the current directory if [dir] is omitted; a :Lexplore [dir] will show the specified directory in the left-hand side browser display no matter from which window the command is issued.
+	-!! by all variables: diff between open and preview files!! most explXXXX-vars are for openFiles not for preview functionality!!
+	-!! diff between Explore <---> preview !!
+	-!! diff between explStartxxxx <---> explSplitxxx vars (starting explore or splitting the current win..???):  start-vars are for :SExplore ; but split-vars are for eg:  vi . and then O
+	- :Explore [dir] bzw. :[HRSTVNP]explore  [dir] ; -> i :display details; s :sort; c/R/D :change,rename,delete file; o,O,p,x ; /OR: just :e . ;
+	- gf /ctrl-W f  :goto file/in new window. Edit the file/URL, whose name is under or after the cursor.
+	- cd, lcd (only for this window), pwd,
+	- finding file under cursor(eg in a java class) using the path-option: gf ; :find filename /OR starting vi with eg: vim "+find Class1.java"
+	- commenting-plugin   :help EnhancedCommentify
+	- internet-links:  for link.under.cursor start download:  gf
+##________________________________________  ___________________________
+
+
+#####  ==========  plugins-selections...:
+    - supertab plugin : <TAB> auto-complete basically everything ...!  was uninstalled dut to real-TAB-unständlich insert! (ctrl-TAB did not work in console, due to the console-keys!), but ansonsten may be ok!? /:230427  , pacman -S vim-supertab , https://github.com/ervandew/supertab/
+	-! Repo/coll:      https://vim-scraper.github.io  bzw.  https://github.com/vim-scripts
+##________________________________________  ___________________________
+
+
+
+--############################# kk-added-sections (mixed of other help section,... : #######################
+#####  ==========  source-codes-devels/omni-completions/autocompletion/API-completion/beautifying/compiling/debugging/...:   --->kk-added-section, mainly put together from other vim-help-files :
+
+	_______:  -- completion-types in generall in vim :
+	-!! DIFF : vim hat different types of completion based-on context:  current_buffer_words/tags/tags-files/spelling/omni/command/filenames/context/...:   :h ins-completion. :
+	-!! DIFF:  source-code/omni-compl/autocompletion:  i_CTRL-X_CTRL-O    <--->   textual-current-buffer-words-completion  i_CTRL-N / i_CTRL-p
+	- i_CTRL-X : starts the completion-mode, which is a sub-mode of Insert-mode, and starts completions; eg i_CTRL-X_CTRL-O for omni ,or i_CTRL-X_CTRL-N : keywords in the current file completion, ....
+	- see :h  ins-completion  for  differnt TYPEs of completion!! : 7. Insert mode completion  :
+	--- Types of completion (in insert-mode):   see  :h ins-completion :
+		Completion can be done for:
+		1. Whole lines                                          i_CTRL-X_CTRL-L
+		2. keywords in the current file                         i_CTRL-X_CTRL-N
+		3. keywords in 'dictionary'                             i_CTRL-X_CTRL-K
+		4. keywords in 'thesaurus', thesaurus-style             i_CTRL-X_CTRL-T
+		5. keywords in the current and included files           i_CTRL-X_CTRL-I
+		6. tags  (based on tag-files-entries, IDE.like)         i_CTRL-X_CTRL-]
+		7. file names                                           i_CTRL-X_CTRL-F
+		8. definitions or macros                                i_CTRL-X_CTRL-D
+		9. Vim command-line                                     i_CTRL-X_CTRL-V
+		10. User defined completion                             i_CTRL-X_CTRL-U
+		11. omni completion (== intellisense /code-compl /1kk)  i_CTRL-X_CTRL-O
+		12. Spelling suggestions                                i_CTRL-X_s
+		13. keywords in 'complete'                              i_CTRL-N
+
+	_______:  --  source-code-completion == omni-completion == intellisense (is trademark! so omni!) / lang-/Source-Code-/context-based-completion 
+	:h  omni-completion   ##-is ource-code-completion/intellisense, based on which lang gerade geladen !
+	-!! omni-keys:  i_CTRL-X_CTRL-O   : to complete method/properties names (tags-files-based)):  i_CTRL-X_CTRL-O mode is a sub-mode of Insert-mode and starts omni-completion.
+	-!  cancel completion key:  i_CTRL-E  (but stay still in insert-mode! so without using ESC)), and CTRL-Y accept it (all in sub-mode ctrl-x)
+	-!! only textual-completion:  i_CTRL-N / i_CTRL-p : is NOT-omni-/API-completion, but just textual-current-buffer-words-completion, so very general/grob completion (not eg API-completion)  :find next/prev Completion/match for word in front of the cursor  --> try everywhere, not only in source-codes, but also in normal text!!
+	- keys in omni-completion-listing-popup-windows (ctrl-X ...):
+		- ctrl-x +  CTRL-E to stop completion and go back to the originally typed text
+		- ctrl-x +  CTRL-Y to stop completion and accept the currently selected entry. pace, Enter, or some other unprintable character will leave completion mode and insert that typed character.
+		- <Space> or <Tab>  Stop completion without changing the match
+		- ctrl-x +  CTRL-N / CTRL-p / CTRL-o : next/prev/omni-func entry
+	- eg: automatically close html tags using omni completion: eg type <li>example</  then press  Ctrl-x Ctrl-o  to automatically finish typing the tag so the text reads <li>example</li>.
+	- status-query of current omni-func-in-use??  :set omnifunc?  (omnifunc is used for code-completion)
+	- case-sensitive-completion: see 'infercase' option if you want to adjust the case of the match
+
+	_______:  -- syntax / highlighting:    :see details in  syntax-section bzw. syntax.txt !!
+	- see also :h ft-syntax-omni   for  Syntax-handling/configs/completion in i_mode
+
+	_______:  -- tagsfiles/tagging : see extra sections!: tags , tagsearch + bzw.  "completion_i" for differnt types of completions!!
+
+	_______:  -- beautifying/reformatting-cource.codes +eg:
+	- "="  : syntax-Reformatting/beautifying of Source-Codes based on syntax-file:  ={motion} (based on syntax eg. C-indent)   <->
+	   so ={motion}  beautifies/reformats codes from . to {motion} ;eg:  gg=G  :beautifies whole code file!  ;eg:  {Visual}=G  beautifies from selecting to filr-end.
+	- beatifying/reformating whole file:   gg=G
+	- eg: beautify: each html-tag (<...>) in one line:  :g/<[^>]*\n[^>]*/j	 :do it SEVERAL times, till no changes anymore!
+
+	_______:  -- compile/build/debug:  -->  quickfix.txt "quick edit-compile-fix cycle" :
+	- jumping to error lines/files: :cc, :cn, :cp, :cN, :cl (compilerError-list)
+	- error window: copen, :ccl, :cw (:cwindow),
+	- make , makeprg,
+
+	_______:  -- comments:
+	- :h comments
+	- eg:   :set comments=sl:/*,mb:**,elx:*  (start comment with /* and end it with /)
+
+	_______:  -- goto-blocks /code-motion/jumpto-code-blocks:    -->  :h  object-motions  in motion.txt !!
+	- goto-prev-{ :  [[        ;goto-next-{ .  ]]
+	- goto-prev-} :  []        ;goto-next-} .  ][
+	- goto-unmatched '(' OR ']' ...:    [( , [) , ]) , ](
+
+	_______:  -- goto-tags /jumpto-code-tags:
+	- goto-var-under-cursor:   gd/gD   (goto its declaration/definition)
+
+	_______:  -- python-vim :  see extra-nts in  py-dnts-dir ! :h jedi-vim.txt
+
+	_______:  -- perl-vim :    see extra-nts in  pl-dnts-dir !
+
+	_______:  -- java-vim:
+	-! see also here section for "tagging/ctags/jtags/..."
+	-! goto-next/prev-Method-start:  ]m / [m    ;see :h  ]m
+	- goto-next/prev-Method-end:  ]M / [M   ; m==start , M==end
+	- see marks for jumpings.
+	- tagging: ctags -f ~/.tags -R ~/myprojects/src $JAVA_HOME/src  ; set tags=~/.tags in your ~/.vimrc
+	- Tag name completion: set complete=.,w,b,u,t,i in your ~/.vimrc  ; ctrl+N : completetion in insert mode
+	- folding enabling:  set foldmethod=indent in your ~/vimrc.
+	- ant-script from vim as: #/bin/sh ; /usr/local/bin/ant -Dbuild.compiler.emacs=true -quiet -find build.xml ${*:-classes} 2>&1 | grep '\[javac\]'
+	- looking for a function and opening the containig file: vim -t <function-name>
+	- converting code to html:   vim -c ":runtime syntax/2html.vim :w :q :q" Test1.java
+##________________________________________  ___________________________
+
+

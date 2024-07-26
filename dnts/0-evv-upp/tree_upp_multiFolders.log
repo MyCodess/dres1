@@ -260,9 +260,6 @@ lrwxrwxrwx  1 u1   gu1    22 Sep 23  2022 w1 -> ./mnt/T1fs/t1_RF/w1_RF
 │   │       │   ├── arx_pk
 │   │       │   ├── misc_pk
 │   │       │   ├── mswins_pk
-│   │       │   └── vw1_pk
-│   │       │       └── SmartCardsApp-nexus-personal_5.6.3--VWfs-2310
-│   │       │           └── personal-5.6.3_amd64_deb_unp1
 │   │       ├── sy1
 │   │       │   ├── 2209arx
 │   │       │   │   ├── bups
@@ -1065,16 +1062,10 @@ lrwxrwxrwx  1 u1   gu1    22 Sep 23  2022 w1 -> ./mnt/T1fs/t1_RF/w1_RF
 │   │           │   └── WebTech_dc
 │   │           │       └── HTMLs
 │   │           └── ofc1_w1
-│   │               ├── m1--2308-VWfs-DoPrj_FMs
-│   │               │   ├── Corsp_doprj
-│   │               │   ├── Madis-Bewb-DoPrj_FMs
-│   │               │   │   ├── 0more-vertg-madis_1p
-│   │               │   │   ├── Bewb1-pdats_vwfs1
 │   │               │   │   └── profs_1kk_doprj
 │   │               │   └── Misc1_doprj
 │   │               │       └── Fahrt-231004-BS
 │   │               ├── ofc1loc
-│   │               │   ├── 1m_vwb_loc
 │   │               │   └── 1RZs_vmb_loc
 │   │               ├── ofc1remote_CP
 │   │               │   ├── bin
@@ -2701,7 +2692,6 @@ drwxrwxr-x  7 u1 gu1 131072 Oct 26 10:46 w1_RF
 56	./t1_RF/packs/mswins_pk
 62	./t1_RF/t1var/0tr
 70	./t1_RF/sy1
-231	./t1_RF/packs/vw1_pk
 233	./t1_RF/t1var/00_1kk_var
 253	./t1_RF/t1var/FTs_1kk_cpd
 267	./t1_RF/w1_RF/dcAL
@@ -2737,7 +2727,6 @@ drwxrwxr-x  7 u1 gu1 131072 Oct 26 10:46 w1_RF
 │   ├── arx_pk
 │   ├── misc_pk
 │   ├── mswins_pk
-│   └── vw1_pk
 ├── sy1
 │   ├── 2209arx
 │   └── CPs
@@ -2776,8 +2765,6 @@ drwxrwxr-x  7 u1 gu1 131072 Oct 26 10:46 w1_RF
 │   ├── arx_pk
 │   ├── misc_pk
 │   ├── mswins_pk
-│   └── vw1_pk
-│       └── SmartCardsApp-nexus-personal_5.6.3--VWfs-2310
 ├── sy1
 │   ├── 2209arx
 │   │   ├── bups
@@ -2859,7 +2846,6 @@ drwxrwxr-x  7 u1 gu1 131072 Oct 26 10:46 w1_RF
     │   ├── Utils-SWs_dc
     │   └── WebTech_dc
     └── ofc1_w1
-        ├── m1--2308-VWfs-DoPrj_FMs
         ├── ofc1loc
         ├── ofc1remote_CP
         └── ofc1var
@@ -2881,8 +2867,6 @@ drwxrwxr-x  7 u1 gu1 131072 Oct 26 10:46 w1_RF
 │   ├── arx_pk
 │   ├── misc_pk
 │   ├── mswins_pk
-│   └── vw1_pk
-│       └── SmartCardsApp-nexus-personal_5.6.3--VWfs-2310
 │           └── personal-5.6.3_amd64_deb_unp1
 ├── sy1
 │   ├── 2209arx
@@ -3199,12 +3183,10 @@ drwxrwxr-x  7 u1 gu1 131072 Oct 26 10:46 w1_RF
     │   └── WebTech_dc
     │       └── HTMLs
     └── ofc1_w1
-        ├── m1--2308-VWfs-DoPrj_FMs
         │   ├── Corsp_doprj
         │   ├── Madis-Bewb-DoPrj_FMs
         │   └── Misc1_doprj
         ├── ofc1loc
-        │   ├── 1m_vwb_loc
         │   └── 1RZs_vmb_loc
         ├── ofc1remote_CP
         │   ├── bin
@@ -3240,8 +3222,6 @@ drwxrwxr-x  7 u1 gu1 131072 Oct 26 10:46 w1_RF
 │   ├── arx_pk
 │   ├── misc_pk
 │   ├── mswins_pk
-│   └── vw1_pk
-│       └── SmartCardsApp-nexus-personal_5.6.3--VWfs-2310
 │           └── personal-5.6.3_amd64_deb_unp1
 ├── sy1
 │   ├── 2209arx
@@ -6040,16 +6020,13 @@ drwxrwxr-x  7 u1 gu1 131072 Oct 26 10:46 w1_RF
     │   └── WebTech_dc
     │       └── HTMLs
     └── ofc1_w1
-        ├── m1--2308-VWfs-DoPrj_FMs
         │   ├── Corsp_doprj
         │   ├── Madis-Bewb-DoPrj_FMs
         │   │   ├── 0more-vertg-madis_1p
-        │   │   ├── Bewb1-pdats_vwfs1
         │   │   └── profs_1kk_doprj
         │   └── Misc1_doprj
         │       └── Fahrt-231004-BS
         ├── ofc1loc
-        │   ├── 1m_vwb_loc
         │   └── 1RZs_vmb_loc
         ├── ofc1remote_CP
         │   ├── bin

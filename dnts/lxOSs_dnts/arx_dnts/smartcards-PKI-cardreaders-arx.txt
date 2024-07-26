@@ -1,0 +1,64 @@
+____________________ SmartCards/PKI-Cards-setup on arx (for ofc1-/:240000): __________________
+
+-!! in Browser: it asks 3-4... times for PIN for several slots/Tokens (in MsWIn nur einmal) !
+but finally it shows the certificate-dw/login-page ! but then chrom crashes, probably dut to missing citrix-SWs or so,... ! but OK!
+see for that thebelow protocol of:  certutil ... !!
+for eg of PKI on arx see ofc1loc-DIR !
+
+#####  ==========  /:231002 :  vocabs/infs/urls/abbrev.-smartcards:
+	https://en.wikipedia.org/wiki/Smart_card
+	https://wiki.debian.org/Smartcards :
+	smart card (SC), chip card, or integrated circuit card (ICC or IC card) is a physical electronic authentication device.
+	https://ubuntu.com/server/docs/security-smart-cards
+	https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/9/html/managing_smart_card_authentication/index
+	https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/9/html/managing_smart_card_authentication/assembly_troubleshooting-authentication-with-smart-cards_managing-smart-card-authentication
+##________________________________________  ___________________________
+
+
+#####  ==========  install + cmds arx SmartCards / pcsc , opensc, ... :
+	_______:  arx:
+	https://wiki.archlinux.org/title/Smartcards
+	pacman -Syu  ccid               ##--A generic USB Chip/Smart Card Interface Devices driver
+	pacman -Syu  extra/opensc      ##--Tools and libraries for smart cards
+	pacman -Syu  extra/pcsc-tools  ##--PC/SC Architecture smartcard tools
+	If the card reader does not have a PIN pad, append the line(s) and set enable_pinpad = false in the opensc configuration file /etc/opensc.conf.
+	--
+	pacman -Syu  extra/tpm2-pkcs11  ##--??needed??
+	pacman -Syu  extra/sssd  ##--??needed??
+	
+	--- config /etc/opensc.conf :
+	- arx: If the card reader does not have a PIN pad, append the line(s) and set enable_pinpad = false in the opensc configuration file /etc/opensc.conf. ##--kk: inn which section? in reader_driver pcsc { enable_pinpad = false } ??
+	eg: https://github.com/OpenSC/OpenSC/blob/master/etc/opensc.conf.example.in
+	- ! eg-configs-muster in:  /usr/share/doc/opensc/opensc.conf , see man opensc.conf !
+	- default profies in:  /usr/share/opensc/  ##see  /usr/share/doc/opensc/opensc.conf 
+	
+	--- start:
+	systemctl start   pcscd.service   pcscd.socket
+	systemctl status  pcscd.service   pcscd.socket
+
+	--- config chrom:
+	- ! close all chroms/vivaldi/...
+	- !  verify that the CAC Module is not already present:
+	modutil -list -dbdir $HOME/.pki/nssdb/   ##--nur-listing cu-modules
+	- add CAC module:
+	modutil -dbdir sql:$HOME/.pki/nssdb/ -add "CAC Module" -libfile /usr/lib64/opensc-pkcs11.so
+	- check now CAC is there:
+	modutil -list -dbdir $HOME/.pki/nssdb/
+
+	--- checks-steps (redhat-troubleshooting):   ---> see also the protocoll below, in 1coll !! :
+	- see https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/9/html/managing_smart_card_authentication/assembly_troubleshooting-authentication-with-smart-cards_managing-smart-card-authentication :
+	- lsusb           ##--1. HW-check-if-smartcard there: must see the card-reader! eg: Bus 001 Device 008: ID 058f:9540 Alcor Micro Corp. AU9540 Smartcard Reader #/HP13
+	- systemctl status  pcscd.service   pcscd.socket  ##--2. Daemons running??
+	- p11-kit  list-modules          ##--3. display information about the configured smart card and the tokens present on the smart card
+	- pkcs11-tool --list-objects --login  ##--4. asks the PIN! Verify you can access the contents of your smart card !
+	- certutil  -d  sql:$HOME/.pki/nssdb/  -L  ##--bzw. full:
+	- certutil -d  sql:$HOME/.pki/nssdb/  -L -h all  ##--!!-asks 3-4 times the PIN !! (for several slots/Tokens)!! and then prints it out !!
+
+	--- cmds/checks more:   scans/read/checks/listings ofr cards, ... :
+	opensc-tool  -l ##-list cardReaders
+	pcsc_scan       ##--scan.cardReaders, get card infos in loop! ctrl-C to end! ...
+	pcsc_scan  -r   ##--just list connected reader-device and exit!
+	pkcs11-tool -L / --list-slots   ##--Display a list of available slots on the token.
+	opensc-explorer
+##________________________________________  ___________________________
+

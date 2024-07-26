@@ -1,0 +1,41 @@
+______________ redhat _____________________________________________________
+
+
+
+#####  ==========  pkg-mgms / dnf / DNF or Dandified YUM :
+	- https://dnf.readthedocs.io/en/latest/command_ref.html
+	
+	--- helps:
+	dnf list -h
+
+	--- Repos:
+	- repos-listing:   dnf repolist --all
+	- enable/disable a repo:  dnf config-manager --enable  <repo-name>
+
+	--- search pkgs/SWs/apps:
+	- dnf search <app1>   ##-- supports regexp!
+
+	--- listings:
+	dnf list -h
+	dnf list  [--all | --available | --installed | --extras | --updates | --upgrades | --autoremove | --recent]
+
+	--- infos querys:
+	- dnf info app1
+	- files-listing-of-a-pkg:  rpm -ql app1
+	- files-listing-of-a-remote-pkg:  dnf repoquery -l app1
+
+	--- locally-installeds...:
+	dnf list --installed  | sort  >pkgs-installed.log
+
+	--- installs:
+	- dnf install <app1>
+	- local-file-install:  dnf install ~/Downloads/example-1.0.0_1.rpm
+	- source-dw:  dnf download --source  app1
+
+	--- updates:
+	- dnf  update [app1]
+
+	--- UNinstalls/remove:
+	- dnf remove app1
+##________________________________________  ___________________________
+

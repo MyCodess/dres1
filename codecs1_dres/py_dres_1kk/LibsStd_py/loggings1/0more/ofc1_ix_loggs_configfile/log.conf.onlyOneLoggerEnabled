@@ -1,0 +1,44 @@
+#  logging config file for debugging/logging of ONLY one certain module (and the other modules disabled logging) !
+#  level=  CRITICAL < ERROR < WARNING < INFO < DEBUG  < TRACE < NOTSET
+#  -! try:  python -m d1.f1 ; python -m d1.f2 ; and compare their loggings! f1: disabled, f2: active !
+
+[loggers]
+keys=root,currentModule
+
+[logger_root]
+level=CRITICAL
+handlers=console1,logfile1
+
+# -adapt here the qualname=xxx to the logger-full-name of target active logger/module and disable the root-logging or set it to CRITICAL/ERROR/...!
+[logger_currentModule]
+level=DEBUG
+handlers=console1,logfile1
+qualname=nsv.d1.f2
+#propagate=0
+
+[formatters]
+keys=short1,long1
+
+[handlers]
+keys=console1,logfile1
+
+# #################### subsections : ##############################################
+[formatter_short1]
+format=-- %(levelname)s :: %(levelname)s :: %(name)s :: %(funcName)s :: %(lineno)d ::-- %(message)s
+
+[formatter_long1]
+format=-- %(levelname)s :: %(name)s :: %(funcName)s :: %(lineno)d ::-- %(message)s :: %(asctime)s :: %(pathname)s
+
+[handler_console1]
+class=StreamHandler
+formatter=short1
+level=NOTSET
+args=(sys.stdout,)
+
+[handler_logfile1]
+class=FileHandler
+level=NOTSET
+formatter=long1
+args=('./app1.log','w',)
+# args=(...,) : requires ALWAYS commata at the end!
+

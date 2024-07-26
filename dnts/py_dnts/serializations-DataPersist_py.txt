@@ -1,0 +1,32 @@
+_____________________  serializations, Data Persistence, flattening / pickeling / ... py : ___________________________
+
+
+
+#####  ==========  docs/refs/...:
+	- ! REF:  Py3/Doc/html/library/persistence.html
+##________________________________________  ___________________________
+
+
+
+
+#####  ==========  pickle module :
+	_______:  
+	- Py3/Doc/html/library/pickle.html  ,  pydoc pickle
+	- pydoc pickle ;   see :  /python-course.eu/python3_file_management.php.html  :
+	_______:  
+	- serializations:    fh = open("data.pkl", "bw") ; pickle.dump(obj, fh)
+	- de-serializations: fh = open("data.pkl", "br") ; pickle.load(fh)
+	- ! Only the objects and not their names are saved !
+	- ! several objects pickling: pickle_object = (o1, o2, o3); pickle.dump(pickle_object,fh) ; ##--see above-doc
+##________________________________________  ___________________________
+
+
+#####  ==========  shelve Module : ! DICT-like serializations! just handling serializations as dict ... !
+	- Py3/Doc/html/library/shelve.html ,  pydoc shelve
+	- python-course.eu/python-tutorial/file-management.php.html
+	_______:  
+##________________________________________  ___________________________
+
+
+#####################################################################################################################
+

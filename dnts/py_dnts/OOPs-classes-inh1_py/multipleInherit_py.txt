@@ -1,0 +1,26 @@
+_____________________ multiple-inheritance_py : ____________________________________
+
+#####  ==========  inheritance: multiple-inheritance/multiple-subclassing / MRO (Method Resolution Order in python-3):
+
+    _______:  !! DIFF:
+	-! there is a differnce if using super.m1() /OR BaseClass1.m1() in  subclass1(BaseClass1, BaseClass2) !
+	the direct baseclass call of BaseClass1.m1() is much easier to follow/understand, strait ahead for method-search based on left-to-right--each-to-top, but less maintainable  than
+	super.m1() which is MRO based to find the m1() in the inh-tree in RUNTIME !!
+	in a single-inh then super() can also be easy and strait-ahead !
+	! do not use super() in most-top-baseclass which subclasses the object directly as BaseClass1(object) !
+	the procedure of super() in multiple-inh (mro-based) is UNIQUE to python and NOT similar at all with java/C++ !
+
+	_______:  Allg-Rule  /RefDocsTuts--9.5.1. Multiple Inheritance :
+	For most purposes, in the simplest cases, you can think of the search for attributes inherited from a parent class as depth-first, left-to-right, not searching twice in the same class where there is an overlap in the hierarchy. Thus, if an attribute is not found in DerivedClassName, it is searched for in Base1, then (recursively) in the base classes of Base1, and if it was not found there, it was searched for in Base2, and so on. if: class DerivedClassName(Base1, Base2, Base3) ...!
+	BUT: the using super() changes this rule a bit dynamically and works based on mro() linearization !
+	-!! ANY method with the same name in the whole-inh-tree MUST have the same SYNTAX (params/arguments) ! otherwise bad-style and the classes NOT suitable for multiple-inh !! esp. if using super() !:
+	Good design dictates that such implementations have the same calling signature in every case (because the order of calls is determined at runtime). RefDocs  
+
+	_______:  
+	http://www.srikanthtechnologies.com/blog/python/mro.aspx  ,  python-course.eu/python3_multiple_inheritance.php.html :
+	- Method-Search-Order is governed by two rules:  
+	left-to-right  and  then  each-one-to-the-TOP !   but exception: "good head" bzw. super() works based on MRO/tree-linerization and so modifies a bit this rule:
+
+	_______:  super() / mro() in multiple-inheritance :  see here extra-section for super() !
+##________________________________________  ___________________________
+

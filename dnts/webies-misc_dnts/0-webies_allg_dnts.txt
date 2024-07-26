@@ -1,0 +1,11 @@
+_______________________ webies-Allg/-misc dnts : ___________________________________
+
+
+
+#####  ==========  testies-site-for-requests-responses-urls:   
+	https://httpbin.org   :  A simple HTTP Request & Response Service.
+	https://api.github.com
+	example.com , example.org
+	https://jsonplaceholder.typicode.com  :   Free fake (REST-) API for testing and prototyping.  ---> from requests-pkg !
+##________________________________________  ___________________________
+

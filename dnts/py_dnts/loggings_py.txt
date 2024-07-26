@@ -1,0 +1,133 @@
+_________________ logging_StdLib_py : ____________________________________
+
+
+#####  ==========  docs:
+    PEP 282 – A Logging System   :   https://peps.python.org/pep-0282/
+    https://docs.python.org/3/library/logging.html
+    https://docs.python.org/3/tutorial/stdlib2.html#logging , RefTut--11.5 Logging
+    https://docs.python.org/3/howto/index.html              ---> HowTo basics+advanced !
+    https://docs.python.org/3/howto/logging.html
+    https://docs.python.org/3/howto/logging-cookbook.html   ---> eg , vorlagen, code-snippets ...!
+    pydoc logging
+##________________________________________  ___________________________
+
+
+#####  ==========  add custom-levels/-methods,...:
+	- see also: https://stackoverflow.com/questions/2183233/how-to-add-a-custom-loglevel-to-pythons-logging-facility
+	- ! for that , if you call _log(...) instead log(), then with: _log(..., args,...)  ,so NOT *args ! so NOT-tupel/without-* !
+##________________________________________  ___________________________
+
+
+#####  ==========  Concept/ components/... logging_py:
+    _______:  logging-components:
+    - !! see the image/diagramm on refDocs-howto : ./howto/logging.html#logging-flow  !!
+    - ! logging-components:  loggers + handlers + filters + formatters       #-see:  https://docs.python.org/3/howto/logging.html#advanced-logging-tutorial :
+    - Loggers 	: ! does the min-logging-job! MAIN-object-used-in-apps to do logging; returned by logging.getLogger(); Logging is performed by calling methods on instances of the Logger class 
+    - Handlers	: destinations of logging, wohin ! Loggers send the LogRecord to destinations defined by Handlers !
+    - Filters 	: provide a finer grained facility for determining which log records to output.
+    - Formatters : specify the layout of log records in the final output.
+	- LogRecord	: Log event information is passed between loggers, handlers, filters and formatters in a LogRecord instance.
+##________________________________________  ___________________________
+
+
+#####  ==========  log-levels + funcs qcks/listing :
+	- see pydoc logging   +  https://docs.python.org/3.11/tutorial/stdlib2.html#logging
+    
+    _______:  Levels-logging:
+    /usr/lib/python3.11/logging/__init__.py  bzw. pydoc logging :
+    CRITICAL 	= 50	== FATAL
+    ERROR 		= 40
+    WARNING 	= 30	== WARN
+    INFO 		= 20
+    DEBUG 		= 10
+    NOTSET 		= 0		##---> means log everything !
+
+    _______:  funcs-levels:
+    import logging
+    logging.debug('Debugging information')
+    logging.info('Informational message')
+    logging.warning('Warning:config file %s not found', 'server.conf')
+    logging.error('Error occurred')
+    logging.critical('Critical error -- shutting down')
+##________________________________________  ___________________________
+
+
+#####  ==========  loggers usage-hints:
+	- see:  /howto/logging.html#loggers ,  /library/logging.html#loggers :
+
+	_______:  
+	- create:  "logg1 = logging.getLogger(__name__)" returns a reference to a logger instance with the specified name if it is provided, or root if not. The names are period-separated hierarchical structures.
+	- NameSpace:  loggers has got a tree-/baum-hierarchy based on their names, whereas dot "." defines the hierarchy in their names! so bar is a child of foo of root logger in logging.getLogger(foo.bar) !
+	- level: Loggers have a concept of effective level. If a level is not explicitly set on a logger, the level of its parent is used instead as its effective level.  The root logger always has an explicit level set (WARNING by default).
+    ---
+	- ! Loggers should NEVER be instantiated directly, but always through the module-level function logging.getLogger(name). Multiple calls to getLogger() with the same name will always return a reference to the same Logger object.
+    - module-based-logger:   logger = logging.getLogger(__name__)   ##--module-level logger, in each module which uses logging ; see:  file:///usr/share/doc/python/html/howto/logging.html#advanced-logging-tutorial
+    - whole-app-based-logger (so multiple modules sharing one global logger ! in myapp-main.py):  def main(): logging.basicConfig(filename='myapp.log', level=logging.INFO) ; logging.info('Started') ...;
+    - see /howto/logging.html#logging-from-multiple-modules  +  /howto/logging.html#configuring-logging-for-a-library
+
+	_______:  loggers-hierarchys/NameSpace:
+	- "logging.getLogger(__name__)" Returns a logger with the specified name, creating it if necessary. If no name is specified, return the root logger.  ##--pydoc logging.getLogger
+	- Multiple calls to logging.getLogger('someLogger') return a reference to the same logger object. This is true not only within the same module, but also across modules as long as it is in the same Python interpreter process.
+	- names are period-separated hierarchical structures.
+	- If a level is not explicitly set on a logger, the level of its parent is used instead as its effective level.
+	- Hierarchy/inheritance of Loggers:  Child loggers propagate messages up to the handlers associated with their ancestor loggers. Because of this, it is unnecessary to define and configure handlers for all the loggers an application uses. It is sufficient to configure handlers for a top-level logger and create child loggers as needed. (You can, however, turn off propagation by setting the propagate attribute of a logger to False.) 
+	- ! so the best way defining loggers in each module:  logger = logging.getLogger(__name__) !
+	--- propagate :
+	- ! logging.Logger.propagate = True (default) /False :
+	- True  : If this attribute evaluates to true (default), events logged to this logger will be passed to the handlers of higher level (ancestor) loggers, in addition to any handlers attached to this logger. Messages are passed directly to the ancestor loggers’ handlers
+	- False : If this attribute evaluates to false, logging messages are not passed to the handlers of ancestor loggers.
+	- ! see /library/logging.html#logger-objects
+##________________________________________  ___________________________
+
+
+#####  ==========  configs:
+    - ! /howto/logging.html#configuring-logging  +  /howto/logging.html#configuring-logging-for-a-library  !
+    - pydoc logging.config ,  logging.basicConfig  !!
+
+	_______:  3 ways to configure logging:
+	1- in-code-config	: create loggers/handlers/... in your code and call their methods of setLevel/setFormetter/...
+	2- config-file		: create a text-config-file and assign it to your root-logger with: logging.config.fileConfig(fname, ...)
+	3- dict-configs		: Creating a dictionary of configuration information and passing it to logging.config.dictConfig(config)
+	- see https://docs.python-guide.org/writing/logging/ +   html/howto/logging.html#configuring-logging
+
+    _______:  config-file for logging (instead in-code-config !):
+	- ! configFile-Format/-syntax  see:  howto/logging.html#configuring-logging + library/logging.config.html#configuration-file-format
+    - call:   logging.config.fileConfig('logg.conf', disable_existing_loggers=False)
+    - ! Warning: usu. should set disable_existing_loggers=False (default is true)!  see /howto/logging.html#configuring-logging
+	--- only-one-module-enabled-logging (for debugging eg) setting in a configFile: disable there logging of root-logger and enbale your cu-module as:
+	[loggers] keys=root,currentModule ; [logger_root] level=CRITICAL ... ; [logger_currentModule] level=DEBUG qualname=nsv.d1.f2 ... #propagate=0  ##--adapt nsv.d1.f2 to your cu-module-logger-qualified-logger-name (NOT pkg-path, but logger-name!!)
+
+    _______:  in-code-configs: eg setting log-level for a logger in code :
+    - in code, setting default log-level for your module: use basicConfig(level=xxx) as in:  logging.basicConfig(filename='example.log', encoding='utf-8', level=logging.DEBUG)
+    this call of :func:`basicConfig` MUST be the VERY first call of ANY logging-funcs in your app , before any other logging.info,... ! with the first call the logging global instance is cratead the the default-level will NOT be changed, not even with further logging.basicConfig() calls ! see https://docs.python.org/3/howto/logging.html#logging-to-a-file
+    - on cmdline setting/overwriting default log-level:  ... --log=INFO ...,BUT this must be implemented, eg as: getattr(logging, loglevel.upper(), None); ...  ##--see https://docs.python.org/3/howto/logging.html
+    - getting/query cu-log-level of the app:   getattr(logging, loglevel.upper())
+    - ! globally setting log-level bzw. globally instantiate logger for your WHOLE app:  define  logging.basicConfig in your very first lines of your-app-main.py : see https://docs.python.org/3/howto/logging.html#logging-from-multiple-modules
+    - If a level is not explicitly set on a logger, the level of its parent is used instead as its effective level.
+    - The root logger always has an explicit level set (WARNING by default).
+##________________________________________  ___________________________
+
+
+#####  ==========  Handlers :
+    - ./howto/logging.html#handlers  +  ./howto/logging.html#useful-handlers :
+    - eg: sending log-records to terminal + log-file + email : so three handlers are to be added to the logger-instance with logger.addHandler() !
+    - eg: /howto/logging.html#configuring-logging  + see eg there for handler+formatter !
+    - Logger objects/instances can add zero or more handler objects to themselves with an addHandler().
+    - listing of handler in StdLib:  ./howto/logging.html#useful-handlers
+    - ONLY methods which you need of handlers are: setLevel(), setFormat(), add-/removeFilter() !
+	- If you attach a handler to a logger and one or more of its ancestors, it may emit the same record multiple times. In general, you should not need to attach a handler to more than one logger - if you just attach it to the appropriate logger which is highest in the logger hierarchy, then it will see all events logged by all descendant loggers, provided that their propagate setting is left set to True. A common scenario is to attach handlers only to the root logger, and to let propagation take care of the rest.  library/logging.html#logger-objects
+	---
+	- disable/deactivate whole logging of a logger/all-loggers: either: add NullHnadler to the root/logger ,as: logging.getLogger('foo').addHandler(logging.NullHandler()) /OR:  logger.disabled = True
+##________________________________________  ___________________________
+
+
+#####  ==========  filters:
+	- The basic Filter functionality allows filtering by specific logger name. If this feature is used, messages sent to the named logger and its children are allowed through the filter, and all others dropped.
+	- Note that filters attached to handlers are consulted before an event is emitted by the handler, whereas filters attached to loggers are consulted whenever an event is logged (using debug(), info(), etc.), before sending an event to handlers. This means that events which have been generated by descendant loggers will not be filtered by a logger’s filter setting, unless the filter has also been applied to those descendant loggers. see Py3/Doc/html/library/logging.html#filter
+##________________________________________  ___________________________
+
+
+#####  ==========  Formatter :
+	- crating a Formatter: formatter1 = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+##________________________________________  ___________________________
+

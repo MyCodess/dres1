@@ -67,27 +67,27 @@ src-code in extra .py-file/module (doctest-style) :
 
 .. testsetup::
 
-   ##-- importing ./src/doctest1_ext_spx.py ! ./src/ already added to the sys.path in the conf.py !
-   import   doctest1_ext_spx
+   ##-- importing ./src/mod3.py ! ./src/ already added to the sys.path in the conf.py !
+   import   mod3
 
 .. doctest::
 
     just-a-doctest-block-as-in-a-module:
     !! the src-code-root must be added to the sys.path in conf.py /OR here in testsetup::-tag !
 
-    >>> doctest1_ext_spx.mod1_f1 ()
+    >>> mod3.mod1_f1 ()
     10
-    >>> doctest1_ext_spx.mod1_f1 (10)
+    >>> mod3.mod1_f1 (10)
     20
-    >>> doctest1_ext_spx.mod1_f1 (20)
+    >>> mod3.mod1_f1 (20)
     30
 
 ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 
 .. testcode::
 
-    print (doctest1_ext_spx.mod1_f1 (50))
-    print (doctest1_ext_spx.mod1_f1 (60))
+    print (mod3.mod1_f1 (50))
+    print (mod3.mod1_f1 (60))
 
 .. testoutput::
 
