@@ -24,7 +24,7 @@ ____________ terminal_emulators_lx : __________________________________________
 	_______:  copy+paste problem:
 	- https://www.starnet.com/help/copying-and-pasting-in-xterm/  :
 	- copy the selected text into clipboard automatically by selecting:  xterm  -xrm ‘XTerm*selectToClipboard: true’
-	- paste: shift + insert/Einfuegen keys  (uber citrix/mswin the middle-mouse-paste did NOT work, but shift+insert ok!)
+	- paste: shift + insert/Einfuegen keys  (uber citrix/mswin the middle-mouse-paste did NOT work, but shift+insert ok! if req. as for Lv13: also +Fn)
 	- xterm uses as default the PRIMARY buffer (copy: mouse-select, paste: middle-mouse), but NOT the CLIPBOARD buffer ([shift]+ctrl-c , or menu-edit-copy)!
 	- Double-clicking will select a word ,  Triple-clicking selects a line
 	- so: Normally, selected text is stored in PRIMARY, to be pasted with Shift+Insert or by using the middle mouse button

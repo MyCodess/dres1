@@ -96,6 +96,18 @@ _________________ logging_StdLib_py : ____________________________________
     - ! Warning: usu. should set disable_existing_loggers=False (default is true)!  see /howto/logging.html#configuring-logging
 	--- only-one-module-enabled-logging (for debugging eg) setting in a configFile: disable there logging of root-logger and enbale your cu-module as:
 	[loggers] keys=root,currentModule ; [logger_root] level=CRITICAL ... ; [logger_currentModule] level=DEBUG qualname=nsv.d1.f2 ... #propagate=0  ##--adapt nsv.d1.f2 to your cu-module-logger-qualified-logger-name (NOT pkg-path, but logger-name!!)
+	as eg:
+	[loggers]
+	keys=root,cu1
+	[logger_root]
+	level=ERROR
+	handlers=console1,logfile1
+	[logger_cu1]
+	level=TRACE
+	handlers=console1
+	qualname=testing.__main__
+	propagate=0
+
 
     _______:  in-code-configs: eg setting log-level for a logger in code :
     - in code, setting default log-level for your module: use basicConfig(level=xxx) as in:  logging.basicConfig(filename='example.log', encoding='utf-8', level=logging.DEBUG)

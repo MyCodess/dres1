@@ -1,0 +1,98 @@
+##_______________________________ openssls-coll-cAp : ________________________________
+
+##############################  1coll openssl-cmds/qckys/...: ###################################
+_______:  print cert infos:
+- print [subj] formatted:
+	- man  openssl-namedisplay-options  :
+	- openssl-cmdline-ready (/.../../) (not-documented with ":" , but ok!):   openssl x509 -in c1.crt -noout -subject  -nameopt :   #-OR-with-sed:  openssl x509 -in c1.crt -noout -subject -nameopt RFC2253 | sed 's@,@/@g;s@.*@/&@' ;
+	- csv:  openssl x509 -in c1.crt -noout -subject -nameopt RFC2253
+	- csv + space for = :  openssl x509 -in c1.crt -noout -subject -nameopt RFC2253 -nameopt space_eq
+	- online/csv-space/more-readable:     openssl x509 -in c1.crt -noout -subject -nameopt oneline
+	- readable/multiline:    openssl x509 -in c1.crt -noout -subject -nameopt multiline
+	- csv /", " /"; " /multilines -sep:  openssl x509 -in c1.crt -noout -subject  -nameopt sep_comma_plus /sep_comma_plus_space /sep_semi_plus_space /sep_multiline
+	- 
+- Print the "Subject Alternative Name" extensions /SANs and certType of the cert:   openssl x509 -in cert.pem -noout -ext subjectAltName,nsCertType
+- Print the certificate serial number + subject + fingerprint:  : openssl x509 -in c1-pkey1.cert -noout -serial -subject -fingerprint
+
+_______:  check/verify certs:
+- check host matches cert:  openssl x509 -noout -in c1-pkey1.cert   -checkhost  test1_c.netservices.vwfs.com
+
+_______:  tests...:
+- bad signature (create malformed/invalid cert for testing):  openssl x509 -badsig ...
+
+
+##############################  cAp fulls ...: ##################################################
+#####  ==========  /:241002 :  digicert-quickref:
+	https://knowledge.digicert.com/general-information/openssl-quick-reference-guide  ##-see there!
+##________________________________________  ___________________________
+
+
+#####  ==========  /:241002 :   OpenSSL Cheat Sheet , https://gist.githubusercontent.com/Hakky54/ :
+https://gist.githubusercontent.com/Hakky54/b30418b25215ad7d18f978bc0b448d81/raw/ebd44c41b2e67e78706fae9062aea632217ea232/openssl_commands.md
+-
+--- Creation
+Create a private key
+openssl genrsa -out server.key 4096
+Generate a new private key and certificate signing request
+openssl req -out server.csr -new -newkey rsa:4096 -nodes -keyout server.key
+Generate a self-signed certificate
+openssl req -x509 -sha256 -nodes -days 365 -newkey rsa:4096 -keyout server.key -out server.crt
+Generate a certificate signing request (CSR) for an existing private key
+openssl req -out server.csr -key server.key -new
+Generate a certificate signing request based on an existing certificate
+openssl x509 -x509toreq -in server.crt -out server.csr -signkey server.key
+Generate a Diffie Hellman key
+openssl dhparam -out dhparam.pem 2048
+Generate a v3 certificate by signing CSR
+openssl x509 -days 365 -in myCSR.csr -extfile v3.ext -CA myCA.crt -CAkey myCA.key -CAcreateserial -out userCertificate.crt
+See below for an example v3.ext file
+authorityKeyIdentifier=keyid,issuer
+basicConstraints=CA:FALSE
+keyUsage = digitalSignature, nonRepudiation, keyEncipherment, dataEncipherment
+
+--- Checking
+Check a certificate signing request (CSR)
+openssl req -text -noout -verify -in server.csr
+Check a private key
+openssl rsa -in server.key -check
+Check a public key
+openssl rsa -inform PEM -pubin -in pub.key -text -noout
+openssl pkey -inform PEM -pubin -in pub.key -text -noout
+Check a certificate
+openssl x509 -in server.crt -text -noout
+Check a PKCS#12 file (.pfx or .p12)
+openssl pkcs12 -info -in server.p12
+Verify a private key matches an certificate
+openssl x509 -noout -modulus -in server.crt | openssl md5
+openssl rsa -noout -modulus -in server.key | openssl md5
+openssl req -noout -modulus -in server.csr | openssl md5
+Display all certificates including intermediates
+openssl s_client -connect www.paypal.com:443
+
+--- Converting
+Convert a DER file (.crt .cer .der) to PEM
+openssl x509 -inform der -in server.cer -out server.pem
+Convert a PEM file to DER
+openssl x509 -outform der -in server.pem -out server.der
+Convert a PKCS#12 file (.pfx .p12) containing a private key and certificates to PEM
+openssl pkcs12 -in server.pfx -out server.pem -nodes
+Convert a PEM certificate file and a private key to PKCS#12 (.pfx .p12)
+openssl pkcs12 -export -out server.pfx -inkey server.key -in server.crt -certfile CACert.crt
+
+--- Other commands
+Remove a passphrase from a private key
+openssl rsa -in server.pem -out newserver.pem
+Parse a list of revoked serial numbers
+openssl crl -inform DER -text -noout -in list.crl
+Encrypt files with rsautl
+openssl rsautl -encrypt -in plaintext.txt -out encrypted.txt -pubin -inkey pubkey.pem
+Decrypt files with rsautl
+openssl rsautl -decrypt -in encrypted.txt -out plaintext.txt -inkey privkey.pem
+
+--- Exporting
+Extracting Public Key from Private Key
+openssl rsa -in privkey.pem -pubout > key.pub
+Extracting Public Key from Certificate
+openssl x509 -pubkey -noout -in cert.pem  > pubkey.pem
+##________________________________________  ___________________________
+

@@ -43,17 +43,28 @@ ________________________ MSys2_dnts on MsWins __________________________________
 
 
 #####  ==========  paths:
+	_______:  
     -! https://www.msys2.org/docs/filesystem-paths/
     - https://www.msys2.org/wiki/Porting/#user-content-filesystem-namespaces   : turning on/off the auto-path-convertings ...!
     - https://www.msys2.org/wiki/How-does-MSYS2-differ-from-Cygwin/
     - cygpath --help
     - pwd -W
-    --- path-forms (ms , ux, mixed):
+
+	_______:  path-forms (ms , ux, mixed):
     - ! 3 path-forms: ms + ux + mixed (mixed as eg C:/Users/DKX8H1N/var3/ ; see pwd -W )
     - ms-path:     cygpath  -w  ~/up1/varu/varau/tests            ##-->  C:\Users\DKX8H1N\var3\w3\tests
     - ux-path:     cygpath  -u  "C:\Users\DKX8H1N\var3\w3\tests"  ##-->  /c/Users/DKX8H1N/var3/w3/tests
     - mixed-path:  cygpath  -m  "C:\Users\DKX8H1N\var3\w3\tests"  ##-->  C:/Users/DKX8H1N/var3/w3/tests
     - pwd:  mixed-path:  pwd  -W  ;  ux-path:     pwd -L / -P
+
+	_______:  NOT-path-converting / preventing converting of "/" into pathes (eg for openssl cmds with '/CS=xxx/...'):
+	- export  MSYS_NO_PATHCONV=1 ...  ##-to prevent converting "/" to pathes ! eg. in openssl cmds/CSRs ... ! mybe that just prepending it to the cmd not works , eg if piping,...! so try then with export ...!
+	- könnte sien dass starten mit doppel-slash // anstatt / funktionieren würde !?
+	- if not working, try also:  export  MSYS2_ARG_CONV_EXCL="*"
+	- https://stackoverflow.com/questions/7250130/how-to-stop-mingw-and-msys-from-mangling-path-names-given-at-the-command-line
+
+	_______:  PATH in msys2:
+	- removestarting-/ending-/doubled ":" from $PATH !  (eg man has problems if not ! ...)
 ##________________________________________  ___________________________
 
 

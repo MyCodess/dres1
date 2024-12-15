@@ -4,6 +4,19 @@
 ##--Admin-PS-start :
 function Start-PSAdmin {Start-Process PowerShell -Verb RunAs}
 
+##==========  kill/taskkill/tasklist/ps/...:
+--- !! problem killing (zombie-) processes:
+	task-manager shows the process runng, but non of cmds can find it taskkill/kill/killall/ (msw-/msys2-cmds)!
+	the only thing what worked was (eg killing WindowsTerminal.exe processes):
+	wmic process where "name='WindowsTerminal.exe'" delete
+	(also ok if the process still not killed/zombie-process/defunct-process; but not always):  powershell.exe  "Get-Process WindowsTerminal | Stop-Process"
+	so in this case for zombie-procs the other/following cmds did not work!  also NOT working msys2 kill/killall (same error msg as taskkill) !
+--- msw-kill-cmds...:
+	get proc/imagename running: tasklist ...
+	TASKKILL  /T /F /IM WindowsTerminal.exe ; taskkill /F /T /PID  804 ;  tasklist /FI "IMAGENAME eq WindowsTerminal.exe" ;
+	powershell.exe  "Get-Process WindowsTerminal | Stop-Process" ; powershell.exe  "Get-Process 804 | Stop-Process" ; 
+- also try: sysinternal's pskill , as:  pskill.exe -t 32040  #not-tried-yet!
+
 ##==========  sorts:
 ##--- MsRef:
 #- sort the file-contents/lines:
@@ -12,6 +25,8 @@ Get-Content -Path C:\Test\ServerNames.txt | Sort-Object
 Get-Content -Path C:\Test\ServerNames.txt | Sort-Object -Unique
 #- numeric-sort / sort -n :
 Get-Content -Path C:\Test\ProductId.txt | Sort-Object {[int]$_}
+#---
+sort case-SEnsitive a file:   C:\WINDOWS\system32\sort.exe  t1 /L C /C
 ##---
 
 ##========== finds/lls / Get-ChildItem :

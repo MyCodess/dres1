@@ -1,0 +1,1433 @@
+- not all, but some files of: https://github.com/CyberHashira/Learn_OpenSSL /:241105  :
+
+#####  ==========  README.md : ####################################
+
+# CyberHashira | OpenSSL Tutorial Series
+
+https://www.youtube.com/@CyberHashira
+
+>   This repository contains notes for my OpenSSL tutorial videos on YouTube. Within these notes, you'll find the commands I used in those videos, along with some extra information to explain their purpose. 
+
+>   At the time of recording, I was using OpenSSL version 1.1.1, which is set to reach End-of-Support in September this year. While I believe that most of the OpenSSL 1.1.1 commands used in my videos should still function in OpenSSL 3.x.x, there might be some minor differences. Rest assured, I'm committed to keeping my notes as up-to-date as frequently as possible. If necessary, I'll remake any outdated videos to explain the changes.
+
+
+### Index of Notes.
+| # | Video Title | Relevant Notes | YouTube Video Link
+| :--- | :--- | :--- | :--- |
+| 1. | Introduction To OpenSSL | Building_OpenSSL_From_Source.txt | https://youtu.be/O1OaJmrRHrw |
+| 2. | Verifying Integrity Using OpenSSL | `Missing` | https://youtu.be/43yPfJUxRCQ |
+| 3. | Encryption Using OpenSSL | Encryption_Using_OpenSSL.txt | https://youtu.be/Azp_zDgFAGk |
+| 4. | Generating Key Pairs using OpenSSL | Generating_Asymmetric_keys.txt | https://youtu.be/VCDIpq84gVA |
+| 5. | Generating Digital Signatures using OpenSSL | Digital_Signatures_Using_OpenSSL.txt | https://youtu.be/XEd0mRrlYHY |
+| 6. | HMAC and CMAC using OpenSSL | MAC_Using_OpenSSL.txt | https://youtu.be/bvOFbPIOsY8 |
+| 7. | Digital Certificates using OpenSSL  | Digital_Certificates_Using_OpenSSL.txt, root.cnf, cyberhashira.cnf | https://youtu.be/2C6hJMGFTYk |
+| 8. | Introduction to OpenSSL Engines | OpenSSL_Engines.txt | https://youtu.be/Vu1Z5ip0PpM |
+| 9. | Setting up 2-Tier CA using OpenSSL | Setup_Two_Tier_PKI_Using_OpenSSL.txt, myRoot.cnf, myIssuing.cnf | https://youtu.be/6h6gfLtRzqs |
+| 10. | Forks of OpenSSL | NA | https://youtu.be/IunBtZQZ-yU |
+| 11. | CMS using OpenSSL | OpenSSL_CMS.txt | https://youtu.be/Au1RhzK55y4 |
+| 12. | Key formats using OpenSSL | OpenSSL_Key_Format.txt | https://youtu.be/Bva4oe5ewuQ |
+| 13. | Configuring Providers in OpenSSL 3.x | `Missing` | https://youtu.be/NPxaCCih1QI |
+###________________________________________  ___________________________
+#
+
+#####  ==========    Digital_Certificates_Using_OpenSSL.txt ####################################
+Generating Digital Certificates using OpenSSL
+-----------------------------------------------
+
+> Generating a self-signed certificate
+
+	> Generate a private key.
+		openssl genrsa | openssl pkcs8 -topk8 -nocrypt -out rsa.pri
+
+	> Generate self signed certificate
+		openssl req -x509 -key rsa.pri -sha256 -days 365 -out test.cer
+
+	> Viewing a certificate
+		openssl x509 -in test.cer -noout -text
+
+
+> Generating RSA private key and certificate all in one go.
+	openssl req -x509 -newkey rsa:2048 -sha256 -nodes -days 365 -out test.cer
+
+
+> Generating ECDSA private key and a certificate in one go.
+
+	> Generate ECDSA private key.
+		openssl ecparam -name secp384r1 -noout -genkey -out ec.pri
+
+	> Generate self-signed certificate.
+		openssl req -x509 -key ec.pri -days 365 -sha256 -subj '/CN=Test' -out test.cer
+
+	> View certificate
+		openssl x509 -in test.cer -noout -text
+
+
+> Adding subject to a certificate
+openssl req -x509 -newkey rsa:2048 -sha256 -nodes -days 365 -out test.cer -subj '/CN=Test'
+openssl req -x509 -newkey rsa:2048 -keyout rsa.pri -sha256 -nodes -days 365 -out test.cer -subj '/CN=Test/O=Acme Inc./OU=Cyber Security/C=IN'
+openssl req -x509 -newkey rsa:2048 -keyout rsa.pri -sha256 -nodes -days 365 -out test.cer -subj '/CN=Test/O=Acme Inc./OU=Cyber Security/C=IN/emailAddress=pki@acme-inc.com'
+
+
+
+# Adding extensions
+https://www.openssl.org/docs/man3.0/man5/x509v3_config.html
+
+> Basic Constraints
+openssl req -x509 -newkey rsa:2048 -keyout rsa.pri -sha256 -nodes -days 365 -out test.cer -subj '/CN=Test/O=Acme Inc./OU=Cyber Security/C=IN/ST=UP/emailAddress=pki@acme-inc.com' -addext "basicConstraints=critical, CA:false, pathlen:1" 
+
+> Subject Alternate names 
+openssl req -x509 -newkey rsa:2048 -keyout rsa.pri -sha256 -nodes -days 365 -out test.cer -subj '/CN=Test/O=Acme Inc./OU=Cyber Security/C=IN/ST=UP/emailAddress=pki@acme-inc.com' -addext "basicConstraints=critical, CA:false" -addext "subjectAltName = DNS:acme-inc.com,IP:127.0.0.1"
+
+> Key Usages
+openssl req -x509 -newkey rsa:2048 -keyout rsa.pri -sha256 -nodes -days 365 -out test.cer -subj '/CN=Test/O=Acme Inc./OU=Cyber Security/C=IN/ST=UP/emailAddress=pki@acme-inc.com' -addext "keyUsage = critical,digitalSignature,keyEncipherment,keyAgreement,cRLSign"
+
+> Extended KeyUsage
+openssl req -x509 -newkey rsa:2048 -keyout rsa.pri -sha256 -nodes -days 365 -out test.cer -subj '/CN=Test/O=Acme Inc./OU=Cyber Security/C=IN/ST=UP/emailAddress=pki@acme-inc.com' -addext "extendedKeyUsage = codeSigning, serverAuth, clientAuth"
+
+
+# Using conf file.
+
+
+# SAMPLE REQUEST FILE.
+
+[req]
+distinguished_name = dname
+x509_extensions = cert_ext
+prompt = no
+
+[ dname ]
+commonName = cyberhashira.com
+countryName = XY
+stateOrProvinceName = Some State
+localityName = Some City
+organizationName = Cyber Hashira
+organizationalUnitName = Cyber Security
+emailAddress = pki@cyberhashira.com
+
+[ cert_ext ]
+basicConstraints = CA:FALSE
+keyUsage = digitalSignature, nonRepudiation
+extendedKeyUsage = codeSigning
+crlDistributionPoints=URI:http://myCA/ca.crl
+subjectAltName = @sans
+subjectKeyIdentifier=hash
+authorityKeyIdentifier=keyid,issuer
+authorityInfoAccess = OCSP;URI:http://ocsp.myCA/
+authorityInfoAccess = caIssuers;URI:http://myCA/ca.cer
+certificatePolicies= 1.2.4.5.6.7
+
+[sans]
+IP.1 = 127.0.0.1
+DNS.1 = blog.cyberhashira.com
+DNS.2 = video.cyberhashira.com
+
+
+> Generating a self-signed certificate.
+	openssl req -x509 -config my.cnf -nodes -keyout rsa.pri -out test.cer
+
+
+
+Signing a certificate requests.
+--------------------------------
+
+> Generating CA keys.
+
+[req]
+distinguished_name = dname
+x509_extensions = cert_ext
+prompt = no
+
+[ dname ]
+CN = RootCA
+C = XY
+ST = Some State
+L = Some City
+O = Cyber Hashira
+OU = Cyber Security
+emailAddress = pki@cyberhashira.com
+
+[ cert_ext ]
+basicConstraints = CA:TRUE, pathlen:0
+keyUsage = keyCertSign, cRLSign
+subjectKeyIdentifier=hash
+
+openssl req -x509 -config root.cnf -nodes -keyout root.pri -out root.cer
+
+
+> Generate keys for webserver
+
+[req]
+distinguished_name = dname
+req_extensions = req_ext
+prompt = no
+
+[ dname ]
+CN = CyberHashira.com
+C = XY
+ST = Some State
+L = Some City
+O = Cyber Hashira
+OU = Cyber Security
+emailAddress = pki@cyberhashira.com
+
+[ req_ext ]
+basicConstraints = CA:FALSE
+keyUsage = digitalSignature, nonRepudiation
+extendedKeyUsage = serverAuth, clientAuth
+subjectKeyIdentifier=hash
+subjectAltName = @sans
+certificatePolicies= 1.2.4.5.6.7
+authorityInfoAccess = OCSP;URI:http://ocsp.myCA/
+authorityInfoAccess = caIssuers;URI:http://myCA/ca.cer
+
+[sans]
+DNS.1 = blog.cyberhashira.com
+DNS.2 = video.cyberhashira.com
+
+
+openssl req -new -config cyberHashira.cnf -nodes -keyout cyberHashira.pri -out cyberHashira.csr
+
+
+> Read certificate signing request.
+openssl req -in cyberhashira.csr -noout -text
+
+
+> Sign certificate request using root ca.
+
+openssl x509 -req -days 730 -in cyberHashira.csr -CA root.cer -CAkey root.pri -CAcreateserial -out cyberHashira.cer
+openssl x509 -req -days 730 -in cyberHashira.csr -CA root.cer -CAkey root.pri -CAcreateserial -out cyberHashira.cer -extensions req_ext -extfile cyberHashira.cnf
+
+
+
+Links
+-----
+
+https://www.openssl.org/docs/man1.1.1/man1/req.html
+https://www.openssl.org/docs/man1.1.1/man5/x509v3_config.html
+##________________________________________  ___________________________
+
+
+#####  ==========    Digital_Signatures_Using_OpenSSL.txt ####################################
+
+# Simple RSA Sign/Verify
+openssl rsautl -sign -inkey rsa.pri -in jack_and_gill.txt -out jack_and_gill.sig
+openssl rsautl -verify -inkey rsa.pub -pubin -in jack_and_gill.sig
+
+
+# Using hash based signing methods to sign/verify
+openssl sha1 -sign rsa.pri -out jack_and_gill.sig jack_and_gill.txt
+openssl sha1 -verify rsa.pub -signature jack_and_gill.sha1 jack_and_gill.txt
+
+openssl sha256 -sign rsa.pri -out jack_and_gill.sha256 jack_and_gill.txt
+openssl sha256 -verify rsa.pub -signature jack_and_gill.sha256 jack_and_gill.txt
+
+
+# Get the list of all supported digest
+openssl dgst -list
+
+
+# Alternate way to sign/verify using hashed based signing algorithm
+openssl dgst -sha256 -sign rsa.pri -out jack_and_gill.sha256 jack_and_gill.txt
+openssl dgst -sha256 -verify rsa.pub -signature jack_and_gill.sha256 jack_and_gill.txt
+
+
+# Sign/Verify using ECDSA keys.
+openssl dgst -sha256 -sign ecdsa.pri -out jack_and_gill.sig jack_and_gill.txt
+openssl dgst -sha256 -verify ecdsa.pub -signature jack_and_gill.sig jack_and_gill.txt
+
+
+# Using PSS padding scheme for signing data.
+openssl dgst -sha256 -sign rsa.pri -sigopt rsa_padding_mode:pss -out jack_and_gill.txt.sig jack_and_gill.txt
+openssl dgst -sha256 -verify rsa.pub -sigopt rsa_padding_mode:pss -signature jack_and_gill.txt.sig jack_and_gill.txt
+
+
+# Using openssl pkeyutl option to sign
+openssl sha256 -binary -out hash jack_and_gill.txt
+openssl pkeyutl -sign -in hash -inkey rsa.pri -out jack_and_gill.txt.sig -pkeyopt digest:sha256
+openssl pkeyutl -verify -inkey rsa.pub -pubin -sigfile jack_and_gill.txt.sig -in hash -pkeyopt digest:sha256
+##________________________________________  ___________________________
+
+
+#####  ==========    Encryption_Using_OpenSSL.txt ####################################
+Confidentiality using OpenSSL
+------------------------------
+
+Generating secret keys
+-----------------------
+
+# Generate 16 bytes of random data
+openssl rand -hex 16
+
+# Generate 32 bytes of random hex formatted data
+openssl rand -hex 32
+
+# Generate 32 bytes of random base64 encoded data
+openssl rand -base64 32
+
+# Generate 32 bytes of random hex formatted data and save it to a file.
+openssl rand -hex -out some_data 32
+
+
+
+Generating Asymmetric Keys
+---------------------------
+
+# Generating a RSA private key
+openssl genrsa
+
+# Generating a RSA private key with a specified keysize
+openssl genrsa 1024
+openssl genrsa 2048
+
+# Storing private key to a file.
+openssl genrsa > key.pri
+openssl genrsa -out key.pri
+
+# Examining a private key
+openssl rsa -in key.pri -noout -text
+
+# Generating a public key
+openssl rsa -in key.pri -out key.pub -pubout
+
+
+
+Get the list of options/algorithms
+-----------------------------------
+
+# List of all available commands
+openssl list -commands
+ 
+# Getting the list of all digest algorithms
+openssl list -digest-algorithms
+
+# List all cipher algorithms
+openssl list -cipher-algorithms
+
+# List all public key algorithms
+openssl list -public-key-algorithms
+
+# List disabled features
+openssl list -disabled
+
+# List options for a command.
+openssl list -options aria-128-ctr
+
+
+
+Encrypting/Decrypting data
+-----------------------------
+
+# Encrypting a file (warning displayed)
+openssl aes-256-cbc -in Earth.txt -out Earth.enc -e -kfile encryption.key
+
+# Decrypting an encrypted file. (warning displayed)
+openssl aes-256-cbc -in Earth.enc -out Earth.dec -d -kfile encryption.key
+
+# Using another mechanism to encrypt and decrypt
+openssl des-ede3-cbc -in Earth.txt -out Earth.enc -e -a
+openssl des-ede3-cbc -in Earth.enc -out Earth.dec -d -a
+
+# Encrypt data with pbkdf2 and produce a Base64 encoded encrypted file.
+openssl aes-256-cbc -e -a -kfile encryption.key -pbkdf2 -in Earth.txt -out Earth.enc
+
+# Decrypt encrypted data 
+openssl aes-256-cbc -d -a -kfile encryption.key -pbkdf2 -in Earth.enc -out Earth.dec
+
+# Encrypting using PBKDF2
+openssl enc -aes-256-ctr -in Earth.txt -out Earth.enc -e -a -pbkdf2 -iter 40000
+
+# Decrypting encrypted file.
+openssl enc -aes-256-ctr -in Earth.enc -out Earth.dec -d -a -pbkdf2 -iter 40000
+
+# Print verbose output
+openssl aes-256-cbc -in Earth.txt -a -e -out Earth.enc -pbkdf2 -iter 40000 -v
+
+# Print debug information
+openssl aes-256-cbc -in Earth.txt -a -e -out Earth.enc -pbkdf2 -iter 40000 -debug
+
+# Encrypting using RSA public key
+openssl rsautl -encrypt -inkey key.pub -pubin -in Earth.txt -out Earth.enc
+
+# Decrypting using RSA private key
+openssl rsautl -decrypt -inkey key.pri -in Earth.enc -out Earth.dec
+
+
+Note : RSA encryption using OpenSSL uses PKCS1 padding by default. PKCS1 has a size limit of (keysize - 11 bytes).
+# Key Size limit
+https://www.rfc-editor.org/rfc/rfc2313
+"The length of the data D shall not be more than k-11 octets"
+
+openssl rand -out data 245
+openssl rsautl -encrypt -inkey key.pub -pubin -in data -out data.enc # should work
+
+openssl rand -out data 246
+openssl rsautl -encrypt -inkey key.pub -pubin -in data -out data.enc # Will fail
+
+# Encrypting a secret key using RSA keypair.
+openssl rand -hex -out encryption.key 32
+openssl rsautl -encrypt -inkey key.pub -pubin -in encryption.key -out encryption.key.enc
+openssl rsautl -decrypt -inkey key.pri -in encryption.key.enc -out encryption.key.dec
+
+##________________________________________  ___________________________
+
+
+#####  ==========    Generating_Asymmetric_keys.txt ####################################
+Generating RSA keypair
+--------------------------
+
+# Generate RSA keys of various sizes
+openssl genrsa
+openssl genrsa 1024
+openssl genrsa 4096
+
+# Generate RSA private and store it to a file.
+openssl genrsa -out key.pri
+openssl genrsa > key.pri
+
+# Generate a public key
+openssl rsa -in key.pri -pubout
+openssl rsa -in key.pri -pubout > key.pub
+openssl rsa -in key.pri -pubout -out key.pub
+
+# Examining RSA private key
+openssl rsa -in key.pri -noout -text
+
+# Examine RSA public key
+openssl rsa -in key.pub -pubin -noout -text 
+
+# Converting PEM formatted keys to DER
+openssl rsa -in key.pri -out key.pri.der -outform DER
+
+# examining DER formatted private key
+openssl rsa -in key.pri.der -inform DER -noout -text
+
+# Generating encrypted private key file.
+openssl genrsa -aes-256-cbc -out rsa.pri 2048
+
+
+
+Generate DSA keys
+------------------
+
+# Generate DSA parameter file
+openssl dsaparam -out dsa.param 2048
+
+# Generate DSA keypair
+openssl gendsa -out dsa.pri dsa.param
+
+# Generating DSA public key
+openssl dsa -in dsa.pri -pubout
+openssl dsa -in dsa.pri -pubout > dsa.pub
+openssl dsa -in dsa.pri -pubout -out dsa.pub 
+
+# Examining DSA
+openssl dsa -in dsa.pri -noout -text
+
+# Generating Encrypted private key
+openssl gendsa -des-ede3-cbc -out dsa.pri dsa.param
+
+
+
+Generate ECDSA keys
+---------------------
+
+# Get the list of all supported curves
+openssl ecparam -list_curves
+
+# Generate ecparam files
+openssl ecparam -name sect571r1 -out ecdsa.param
+
+# Generate ecdsa private key
+openssl ecparam -genkey -in ecdsa.param -noout -out ecdsa.pri
+
+# Generate ecdsa private key without using param files.
+openssl ecparam -genkey -name sect571r1 -noout -out ecdsa.pri
+
+# Generating ecdsa public key
+openssl ec -in ecdsa.pri -pubout > ecdsa.pub
+openssl ec -in ecdsa.pri -pubout -out ecdsa.pub
+
+# Examining ecdsa private key.
+openssl ec -in ecdsa.pri -noout -text
+
+# Examining ecdsa public key.
+openssl ec -in ecdsa.pub -pubin -noout -text
+
+# Generating encrypted private key.
+openssl ec -in ecdsa.pri -out ecdsa.prienc -aes-256-cbc
+openssl ecparam -name sect571r1 -genkey | openssl ec -aes-256-cbc -out ecdsa.pri
+
+
+
+Alternate ways to generate private keys
+-----------------------------------------
+
+# Generate RSA key
+openssl genpkey -algorithm rsa -pkeyopt rsa_keygen_bits:2048 -pkeyopt rsa_keygen_pubexp:17 -out rsa.pri
+
+# Examining RSA private key
+openssl pkey -in rsa.pri -noout -text
+
+# Generate RSA Public key
+openssl pkey -in rsa.pri -pubout -out rsa.pub
+
+# Generate ECDSA key
+openssl genpkey -algorithm ec -pkeyopt ec_paramgen_curve:sect571r1 -aes-256-cbc -out ecdsa.pri
+
+# Generate ECDSA public key
+openssl pkey -in ecdsa.pri -pubout -out ecdsa.pub
+
+# Generating EDDSA key
+openssl genpkey -algorithm ED25519 -out eddsa.pri
+
+# Examining EDDSA key
+openssl pkey -in eddsa.pri -noout -text
+##________________________________________  ___________________________
+
+
+#####  ==========    MAC_Using_OpenSSL.txt ####################################
+
+# Simple MAC
+openssl rand -hex -out key 32
+echo -n `cat message.txt``cat key` | openssl sha256
+
+
+HMAC (keyed Hash based Message Authentication Code)
+
+# Generating a key
+openssl rand -out key 16
+
+# Display binary data in Hex format
+xxd -p key
+
+# Generate SHA1_HMAC
+openssl sha1 -hmac 1130ba6fcfbacd5e5a6d3645314e6e93 -out earth.sha1hmac Earth.txt
+
+# Generate SHA256_HMAC
+openssl sha256 -hmac 1130ba6fcfbacd5e5a6d3645314e6e93 -out earth.sha256hmac Earth.txt
+
+# Generating SHA1_HMAC using 'openssl dgst'
+openssl dgst -sha1 -hmac 1130ba6fcfbacd5e5a6d3645314e6e93 Earth.txt
+
+# Generating SHA1_HMAC using 'openssl dgst' and outputing to a file.
+openssl dgst -sha1 -hmac 1130ba6fcfbacd5e5a6d3645314e6e93 -out earth.sha1hmac Earth.txt
+
+# Generating SHA256_HMAC using 'openssl dgst'
+openssl dgst -sha256 -hmac 1130ba6fcfbacd5e5a6d3645314e6e93 Earth.txt
+
+# Alternate way to generate HMAC
+openssl dgst -mac hmac -sha1 -macopt hexkey:`xxd -p key` Earth.txt
+openssl dgst -mac hmac -sha256 -macopt hexkey:`xxd -p key` Earth.txt
+
+# Generating CMAC digest
+openssl dgst -mac cmac -macopt cipher:aes-128-cbc -macopt hexkey:`xxd -p key` -sha1 Earth.txt
+openssl dgst -mac cmac -macopt cipher:aes-128-cbc -macopt hexkey:`xxd -p key` -sha256 Earth.txt
+##________________________________________  ___________________________
+
+
+#####  ==========    OpenSSL_CMS.txt ####################################
+CMS (Cryptographic Message Syntax) using OpenSSL
+--------------------------------------------------
+
+Useful links :-
+https://manpages.ubuntu.com/manpages/bionic/man1/cms.1ssl.html
+https://www.rfc-editor.org/rfc/rfc5652
+
+
+-in 			: input file.
+-out			: output file.
+-inkey			: private key as input
+-certfile		: include other certificates in a message.
+-CAfile			: Use a CA Certificate Bundle
+-recip			: Recipient of the message.
+-signer			: Certificate of the signer.
+-md				: Message Digest algorithm to use.
+-encrypt		: encrypt a message.ss
+-decrypt		: decrypt an encrypted message.
+-sign			: sign a message
+-verify			: verify a signed message
+-resign			: resign a signed messagess
+-compress		:
+-uncompress		:
+-cmsout			: Outputs the CMS structure
+-print			: Used with -cmsout; prints the cms structure as text.
+-nodetach		: Don't include S/MIME header and clear message.
+-nocerts		: Don't include certificates in the processed message.
+-noattr			: Don't include signed atttributes
+-nosmimecap		: Don't include S/MIME capability set.
+-noverify		: Don't verify a certificate.
+-certsout		: Output all certificates included the message
+-secretkey		: Use a specified hex encoded encryption key
+-secretkeyid	: keyid to identity a secret key.
+
+
+====================================================================================================================
+Commands :-
+
+
+> Generate Keypair and a self-signed certificate
+-------------------------------------------------
+# Generate PKCS #8 formatted private key
+openssl genpkey -algorithm rsa -out key.rsa -quiet
+
+# Generate self-signed certificate
+openssl req -new -x509 -sha256 -days 365 -subj '/CN=CMS' -key cms.key -extensions usr_cert -out cms.cer
+
+
+
+> Simple Sign/Verify using self-signed and CA signed certificates
+------------------------------------------------------------------
+# Sign a message
+openssl cms -sign -in message.txt -out message.txt.msg -inkey cms.pri -signer cms_ss.cer
+
+# Verify a message
+openssl cms -verify -in message.txt.msg
+
+# Verification fails if you're using a self-signed certificate so using -noverify to ignore.
+openssl cms -verify -in message.txt.msg -noverify
+
+# Examine a message.
+openssl cms -cmsout -print -in message.txt.msg
+
+# Simple Sign/Verify using ca-signed certificate
+openssl cms -sign -in message.txt -out message.msg -inkey cms.pri -signer cms.cer
+openssl cms -verify -in message.msg -CAfile cacert.cer
+
+# Sign a message with signer and CA certificates included.
+openssl cms -sign -in message.txt -out message.msg -inkey cms.pri -signer cms.cer -certfile cacert.cer
+openssl cms -verify -in message.msg -noverify
+
+# Verify a message, output all certificates and verified message into a file.
+openssl cms -verify -in message.msg -noverify -out message.txt -certsout all_certs.cer
+
+# Sign a message without attaching the signer certificate to the message.
+openssl cms -sign -in message.txt -out message.msg -inkey cms.pri -signer cms.cer -nocerts
+
+openssl cms -verify -in message.msg -certfile cms.cer -CAfile cacert.cer
+openssl cms -verify -in message.msg -certfile cms.cer -noverify
+
+
+# Sign a message without attaching header and clear message.
+openssl cms -sign -in message.txt -out message2.msg -inkey cms.pri -signer cms.cer -nocerts -nodetach
+openssl cms -verify -in message2.msg -certfile cms.cer -CAfile cacert.cer
+
+# Sign a message without including certificates, headers and signed attributes
+openssl cms -sign -in message.txt -out message4.msg -inkey cms.pri -signer cms.cer -nocerts -nodetach -noattr
+
+# Sign a message without including certificates, header, signed attributes and smime capabilities
+openssl cms -sign -in message.txt -out message4.msg -inkey cms.pri -signer cms.cer -nocerts -nodetach -noattr -nosmimecap
+
+
+
+Encryption using CMS
+-----------------------
+
+# Simple message encryption. Encrypted envelop contains the encrypted message, encrypted secret key and the algorithm used for encryption (default des3-ede-cbc)
+openssl cms -encrypt -in message.txt -out message.enc -recip cms.cer
+
+# Decrypt the message.
+openssl cms -decrypt -in message.enc -inkey cms.pri
+
+# Examine an encrypted message
+openssl cms -cmsout -print -in message.enc 
+
+# Encrypt a message using a different Secret key algorithm
+openssl enc -list
+openssl cms -encrypt -aes-256-cbc -in message.txt -out message.enc -recip cms.cer
+openssl cms -decrypt -in message.enc -inkey cms.pri
+
+# Encrypt a message with a user specified encryption key
+openssl rand -hex -out cms.aes 16
+openssl cms -encrypt -in message.txt -out message.enc -recip cms.cer -secretkey `cat cms.aes` -secretkeyid 1234 -aes-256-cbc
+
+##________________________________________  ___________________________
+
+
+#####  ==========    OpenSSL_Engines.txt ####################################
+OpenSSL Engines
+-----------------
+
+> Install pre-requisites
+hashi@rengoku:~$ sudo apt install libssl-dev pkgconf
+
+> Download tarball for libp11
+hashi@rengoku:~/Dojo$ wget https://github.com/OpenSC/libp11/releases/download/libp11-0.4.12/libp11-0.4.12.tar.gz
+
+> Extract tarball
+hashi@rengoku:~/Dojo$ tar xf libp11-0.4.12.tar.gz
+hashi@rengoku:~/Dojo$ cd libp11-0.4.12/
+
+> Configure makefile
+hashi@rengoku:~/Dojo/libp11-0.4.12$ ./configure
+
+> Start building libp11 binary
+hashi@rengoku:~/Dojo/libp11-0.4.12$ make
+
+> Install libp11 binary
+hashi@rengoku:~/Dojo/libp11-0.4.12$ sudo make install
+
+> Check if libp11 engine is accessible
+hashi@rengoku:~/Dojo$ openssl engine pkcs11 -v
+(pkcs11) pkcs11 engine
+     SO_PATH, MODULE_PATH, PIN, VERBOSE, QUIET, INIT_ARGS, FORCE_LOGIN,
+     RE_ENUMERATE
+
+
+> Additional tools
+sudo apt install opensc gnutls-bin
+
+
+
+hashi@rengoku:~/Dojo$ p11tool --list-all --provider /usr/local/dpod/libs/64/libCryptoki2.so --login
+Token 'SamPaul_FIPS' with URL 'pkcs11:model=Cryptovisor7;manufacturer=SafeNet;serial=1285217930537;token=SamPaul_FIPS' requires user PIN
+Enter PIN:
+Object 0:
+        URL: pkcs11:model=Cryptovisor7;manufacturer=SafeNet;serial=1285217930537;token=SamPaul_FIPS;object=rsa-pri;type=private
+        Type: Private key (RSA-2048)
+        Label: rsa-pri
+        Flags: CKA_PRIVATE; CKA_NEVER_EXTRACTABLE; CKA_SENSITIVE;
+        ID:
+
+Object 1:
+        URL: pkcs11:model=Cryptovisor7;manufacturer=SafeNet;serial=1285217930537;token=SamPaul_FIPS;object=rsa-pub;type=public
+        Type: Public key (RSA-2048)
+        Label: rsa-pub
+        Flags: CKA_PRIVATE;
+        ID:
+
+
+
+
+
+OPENSSL_CONF=engine.conf openssl dgst -engine pkcs11 -keyform engine -sign "pkcs11:model=Cryptovisor7;manufacturer=SafeNet;serial=1285217930537;token=SamPaul_FIPS;object=rsa-pri;type=private" -sha256 -out jack_and_jill.txt.sig jack_and_jill.txt
+
+
+OPENSSL_CONF=engine.conf openssl dgst -engine pkcs11 -keyform engine -verify "pkcs11:model=Cryptovisor7;manufacturer=SafeNet;serial=1285217930537;token=SamPaul_FIPS;object=rsa-pub;type=private" -sha256 -signature jack_and_jill.txt.sig jack_and_jill.txt
+
+
+
+
+
+
+hashi@rengoku:~/Dojo$ openssl engine gem
+(gem) Gem engine support
+
+
+hashi@rengoku:~/Dojo$ cmu list
+Certificate Management Utility (64-bit) v10.5.0-470. Copyright (c) 2022 SafeNet. All rights reserved.
+
+Please enter password for token in slot 0 : *********
+
+ouid=c16b000023000001e3990800   label=rsa-pri
+ouid=c06b000023000001e3990800   label=rsa-pub
+
+
+
+
+hashi@rengoku:~/Dojo$ openssl genrsa -engine gem -out rsa.pri
+HSM Label is "SamPaul_FIPS".
+Enter Crypto-Officer Password: ***************************************************************************************************************************************************************************************************************************************************************
+engine "gem" set.
+Generating RSA private key, 2048 bit long modulus (2 primes)
+e is 65537 (0x010001)
+
+
+
+
+
+hashi@rengoku:~/Dojo$ cmu list -password userpinco
+Certificate Management Utility (64-bit) v10.5.0-470. Copyright (c) 2022 SafeNet. All rights reserved.
+
+ouid=196c000023000001e3990800   label=rsa-private-de143e5ad24f8885e66445176b055f507c59c963
+ouid=186c000023000001e3990800   label=rsa-public-de143e5ad24f8885e66445176b055f507c59c963
+ouid=c16b000023000001e3990800   label=rsa-pri
+ouid=c06b000023000001e3990800   label=rsa-pub
+
+
+
+
+hashi@rengoku:~/Dojo$ xxd -p jack_and_jill.txt.sig
+0a154b9f9666041983d86bf8597a13d116286a2296c93de881ff6474cb5d
+8c4e4deb7caa9acb75f20fae0719da24d2aa308ba701b6f62d0202f2951a
+84895e9f1add0ea4959535031348a507694b11e34756417f3a32fac2dd2a
+d5248a977c7adc2bb356d69aa33d3e9111304988eeda74364dd787fcad42
+d745a0e443d620693221370db505f2804b4dc5b9dc863cb2fbfdb17aa464
+611441ca8ca053d8ea8b7e0d14b8353c75d47981cf77ebd45f19f90cb3f4
+78c92d829a748a294a7ca23d765f574fdc780376e12a4f5c53fb70fde054
+3961f042c4762094b529089655acd6cdff71db720f08c613ab774dcca236
+eb4b1f661347a510bf29145b6f78851d
+
+
+hashi@rengoku:~/Dojo$ openssl dgst -engine gem -keyform engine -verify rsa-public-de143e5ad24f8885e66445176b055f507c59c963 -signature jack_and_jill.txt.sig jack_and_jill.txt
+HSM Label is "SamPaul_FIPS".
+Enter Crypto-Officer Password: ***************************************************************************************************************************************************************************************************************************************************************
+engine "gem" set.
+Verified OK
+
+
+
+
+
+##________________________________________  ___________________________
+
+
+#####  ==========    OpenSSL_Key_Format.txt ####################################
+Generating Keys.
+------------------
+
+# Generating a PEM formatted RSA key.
+openssl genrsa -out rsa.pem 2048
+
+# Generating a PEM formatted ECDSA key.
+openssl ecparam -genkey -name prime256v1 -noout -out ec.pem
+
+# Generating a private key in traditional format. (-traditional is required for OpenSSL 3.0)
+openssl genrsa -traditional -out rsa.pri 2048
+
+
+
+
+
+Switching from PEM format to DER format and vice versa
+-----------------------------------------------------------
+
+>> RSA Keys 
+
+# Converting PEM to DER (RSA)
+openssl rsa -in rsa.pem -out rsa.der -outform der
+
+# Examining a DER formatted RSA key.
+openssl rsa -in rsa.der -inform der -noout -text
+
+# Converting DER formatted RSA key to PEM.
+openssl rsa -in rsa.der -inform der -out rsa.pem -outform pem
+
+# Encrypting RSA Private Keys.
+openssl rsa -aes-256-cbc -in rsa.pri -out rsa.enc
+
+# Using encryption for private keys in traditional format.
+openssl rsa -aes-256-cbc -in rsa.pri -out rsa.enc -traditional
+
+# Removing encryption from an RSA private key.
+openssl rsa -in rsa.enc -out rsa.pri
+
+
+>> ECDSA keys.
+
+# Converting PEM to DER (ECDSA)
+openssl ec -in ec.pem -out ec.der -outform der
+
+# Examining a DER formatted ECDSA key.
+openssl ec -in ec.der -noout -text
+
+# Converting DER formatted ECDSA key to PEM.
+openssl ec -in ec.der -out ec.pem -outform pem
+
+# Encrypting ECDSA private keys.
+openssl ec -in ec.pem -aes-256-cbc -out ec.enc
+
+# Removing encryption from an ECDSA private key.
+openssl ec -in ec.enc -out ec.dec
+
+
+
+
+
+Switching from PKCS #1 (Traditional Format) to PKCS #8 format
+---------------------------------------------------------------
+>> RSA Keys.
+
+# Converting PKCS#1 to PKCS#8 format key.
+openssl pkcs8 -in rsa.pri -topk8 -out rsa.pk8
+
+# Converting PKCS#1 to PKCS#8 format key with no encryption.
+openssl pkcs8 -in rsa.pri -topk8 -out rsa.pk8 -nocrypt
+
+# Converting PKCS#1 to PKCS#8 formatted key with no encryption in DER format.
+openssl pkcs8 -in rsa.pri -topk8 -out rsa.pk8 -nocrypt -outform DER
+
+# Examining a PKCS#8 DER formatted key.
+openssl rsa -in rsa.pk8 -noout -text
+
+
+>> ECDSA keys.
+# Converting PKCS#1 to PKCS#8 format key.
+openssl pkcs8 -in ec.pem -topk8 -out ec.pk8
+
+# Converting PKCS#1 to PKCS#8 format key with no encryption.
+openssl pkcs8 -in ec.pem -topk8 -nocrypt -out ec.pk8
+
+
+
+
+
+Generating a PKCS #7 Bundle (P7B)
+------------------------------------
+
+# Generating a P7b file of a signed certificate with certificate chain.
+openssl crl2pkcs7 -nocrl -certfile dev.cer -certfile myIssuing.cer -certfile root.cer -out dev.p7b
+
+# Examining a P7B file
+openssl pkcs7 -in dev.p7b -print_certs
+
+# Examining a P7B file without outputting the certificates
+openssl pkcs7 -in dev.p7b -print_certs -noout
+
+
+
+
+
+Generating a PKCS #12 (PFX/P12) file.
+---------------------------------------
+
+# Generating a private key and a self-signed certificate
+openssl genpkey -algorithm rsa -out rsa.pri -quiet
+openssl req -x509 -new -key rsa.pri -subj '/CN=Test/' -days 365 -out test.cer
+
+# Generating a PKCS#12 (PFX/P12) file.
+openssl pkcs12 -export -inkey rsa.pri -in test.cer -out test.pfx
+
+# Generate a PFX/P12 file for a signed certificate including its certificate chain.
+cat root.cer myIssuing.cer > cacert.cer
+openssl pkcs12 -export -inkey dev.key -in dev.cer -certfile cacert.cer -out dev.pfx
+
+# Examining a PKCS#12 file without displaying any key.
+openssl pkcs12 -in dev.pfx -info -nokeys
+
+# Examining a PKCS#12 file without displaying any certificate
+openssl pkcs12 -in dev.pfx -info -nocerts
+
+# Examining a PKCS#12 file without displaying keys and certs (-nokeys + -nocerts)
+openssl pkcs12 -in dev.pfx -info -nokeys -nocerts
+openssl pkcs12 -in dev.pfx -info -noout
+
+# Examining a PKCS#12 file to display only signed/client certificate
+openssl pkcs12 -in dev.pfx -info -nokeys -clcerts
+
+# Examining a PKCS#12 file to display only CA certificates
+openssl pkcs12 -in dev.pfx -info -nokeys -cacerts
+
+# Extract private key out of PKCS#12 file without encryption
+openssl pkcs12 -in dev.pfx -nocerts -noenc | openssl rsa -out private.key
+
+# Extract private key out of PKCS#12 file with encryption
+openssl pkcs12 -in dev.pfx -nocerts | openssl rsa -aes-256-cbc -out private.key
+
+# Extract private key out of PKCS#12 file with encryption with password as input from a file.
+echo password@123 > passfile
+openssl pkcs12 -in dev.pfx -passin file:passfile -nocerts -nodes | openssl rsa -aes-256-cbc -passout file:passfile -out private.key
+
+# Examining ASN.1 Structure of a key.
+openssl asn1parse -in rsa.pri
+
+
+##________________________________________  ___________________________
+
+
+#####  ==========    Setup_Two_Tier_PKI_Using_OpenSSL.txt ####################################
+Setup Two-Tier PKI Using OpenSSL
+==================================
+
+
+
+
+Step 1) - Setup Directory/File structure for Root CA and Issuing CA
+---------------------------------------------------------------------
+
+> Root CA File/Directory Structure
+
+mkdir -p myCA/myRoot myCA/myIssuing
+cd myCA/myRoot
+mkdir private cert issued_certs crl csr data && chmod 700 private/
+openssl rand -hex -out private/.rand 16 && chmod 600 private/.rand
+touch data/index.dat && openssl rand -hex -out data/serial.dat 8 && echo "1000" > data/crl_number && chmod 600 data/*
+
+
+> Issuing CA File/Directory Structure
+cd ../myIssuing
+mkdir -p private cert issued_certs crl csr data && chmod 700 private/
+openssl rand -hex -out private/.rand 16 && chmod 600 private/.rand
+touch data/index.dat && echo "1000" > data/crl_number && openssl rand -out data/serial.dat -hex 8 && chmod 600 data/*
+
+
+
+
+
+Step 2) - Write configuration file for myRoot and generate keys
+-----------------------------------------------------------------
+
+[ ca ]
+default_ca = CA_default
+
+[ CA_default ]
+dir               = /home/hashi/myCA/myRoot
+certs             = $dir/cert
+crl_dir           = $dir/crl
+new_certs_dir     = $dir/issued_certs
+database          = $dir/data/index.dat
+serial            = $dir/data/serial.dat
+RANDFILE          = $dir/private/.rand
+private_key       = $dir/private/myRoot.key
+certificate       = $dir/cert/myRoot.cer
+crlnumber         = $dir/data/crl_number
+crl               = $dir/crl/myRoot.crl
+crl_extensions    = crl_ext
+default_crl_days  = 30
+default_md        = sha256
+name_opt          = ca_default
+cert_opt          = ca_default
+default_days      = 3650
+preserve          = no
+policy            = policy_any
+email_in_dn    	  = no
+
+[ policy_any ]
+countryName             = supplied
+stateOrProvinceName     = optional
+organizationName        = match
+organizationalUnitName  = optional
+commonName              = supplied
+emailAddress            = optional
+
+[ req ]
+default_bits        = 2048
+distinguished_name  = req_distinguished_name
+string_mask         = utf8only
+default_md          = sha256
+x509_extensions     = v3_ca
+
+[ req_distinguished_name ]
+countryName                     = Country Name (2 letter code)
+stateOrProvinceName             = State or Province Name
+localityName                    = Locality Name
+0.organizationName              = Organization Name
+organizationalUnitName          = Organizational Unit Name
+commonName                      = Common Name
+emailAddress                    = Email Address
+
+countryName_default             = 
+stateOrProvinceName_default     = 
+localityName_default            = 
+0.organizationName_default      = CyberHashira
+organizationalUnitName_default  = PKI
+emailAddress_default            = pki@home.lab
+
+[ v3_ca ]
+subjectKeyIdentifier = hash
+authorityKeyIdentifier = keyid:always,issuer
+keyUsage = critical, digitalSignature, cRLSign, keyCertSign
+basicConstraints = critical, CA:true, pathlen:2
+crlDistributionPoints = URI:http://myCA/myRoot.crl
+
+[ v3_intermediate_ca ]
+subjectKeyIdentifier = hash
+authorityKeyIdentifier = keyid:always,issuer
+basicConstraints = critical, CA:true, pathlen:0
+keyUsage = critical, digitalSignature, cRLSign, keyCertSign
+crlDistributionPoints = URI:http://myCA/myIssuing.crl
+authorityInfoAccess = caIssuers;URI:http://myCA/myRoot.cer
+
+
+# Generate Private Key for myRoot.
+openssl ecparam -genkey -name secp521r1 | openssl ec -aes256 -out private/myRoot.key && chmod 400 private/myRoot.key
+
+# Generate Certificate for myRoot.
+openssl req -config myRoot.cnf -key private/myRoot.key -new -x509 -sha256 -extensions v3_ca -days 3650 -out cert/myRoot.cer
+
+chmod 444 cert/myRoot.cer
+
+
+
+
+
+Step 3) - Write configuration file for myIssuing and generate keys
+--------------------------------------------------------------------
+
+[ ca ]
+default_ca = CA_default
+
+[ CA_default ]
+dir               = /home/hashi/myCA/myIssuing
+certs             = $dir/cert
+crl_dir           = $dir/crl
+new_certs_dir     = $dir/issued_certs
+database          = $dir/data/index.dat
+serial            = $dir/data/serial.dat
+RANDFILE          = $dir/private/.rand
+private_key       = $dir/private/myIssuing.key
+certificate       = $dir/cert/myIssuing.cer
+crlnumber         = $dir/data/crl_number
+crl               = $dir/crl/myIssuing.crl
+crl_extensions    = crl_ext
+default_crl_days  = 30
+default_md        = sha256
+name_opt          = ca_default
+cert_opt          = ca_default
+default_days      = 1826
+preserve          = no
+policy            = policy_any
+
+
+[ policy_any ]
+countryName             = optional
+stateOrProvinceName     = optional
+localityName            = optional
+organizationName        = optional
+organizationalUnitName  = optional
+commonName              = supplied
+emailAddress            = optional
+
+[ req ]
+default_bits        = 2048
+distinguished_name  = req_distinguished_name
+string_mask         = utf8only
+default_md          = sha256
+x509_extensions     = v3_ca
+
+[ req_distinguished_name ]
+countryName                     = Country Name (2 letter code)
+stateOrProvinceName             = State or Province Name
+localityName                    = Locality Name
+0.organizationName              = Organization Name
+organizationalUnitName          = Organizational Unit Name
+commonName                      = Common Name
+emailAddress                    = Email Address
+
+countryName_default             = 
+stateOrProvinceName_default     = 
+localityName_default            = 
+0.organizationName_default      = CyberHashira
+organizationalUnitName_default  = PKI
+emailAddress_default            = pki@home.lab
+
+[ user_cert ]
+basicConstraints = CA:FALSE
+subjectKeyIdentifier = hash
+authorityKeyIdentifier = keyid,issuer
+keyUsage = critical, nonRepudiation, digitalSignature, keyEncipherment
+extendedKeyUsage = clientAuth, emailProtection
+crlDistributionPoints = URI:http://myCA/myIssuing.crl
+authorityInfoAccess = caIssuers;URI:http://myCA/myIssuing.cer
+
+[ server_cert ]
+basicConstraints = CA:FALSE
+subjectKeyIdentifier = hash
+authorityKeyIdentifier = keyid,issuer:always
+keyUsage = critical, digitalSignature, keyEncipherment
+extendedKeyUsage = serverAuth
+crlDistributionPoints = URI:http://myCA/myIssuing.crl
+authorityInfoAccess = caIssuers;URI:http://myCA/myIssuing.cer
+
+[ codeSigning_cert ]
+basicConstraints = CA:FALSE
+subjectKeyIdentifier = hash
+authorityKeyIdentifier = keyid,issuer:always
+keyUsage = critical, digitalSignature, keyEncipherment
+extendedKeyUsage = codeSigning
+crlDistributionPoints = URI:http://myCA/myIssuing.crl
+authorityInfoAccess = caIssuers;URI:http://myCA/myIssuing.cer
+
+[ crl_ext ]
+authorityKeyIdentifier=keyid:always
+
+[ ocsp ]
+basicConstraints = CA:FALSE
+subjectKeyIdentifier = hash
+authorityKeyIdentifier = keyid,issuer
+keyUsage = critical, digitalSignature
+extendedKeyUsage = critical, OCSPSigning
+
+
+# Generate Private key for myIssuingCA
+openssl genrsa -aes256 -out private/myIssuing.key 2048
+chmod 400 private/myIssuing.key
+
+# Generate Certificate Request for myIssuingCA
+openssl req -config ../myRoot/myRoot.cnf -key private/myIssuing.key -new -sha256 -out csr/myIssuing.csr
+
+# Gettting a request signed by myRoot.
+openssl ca -config ../myRoot/myRoot.cnf -extensions v3_intermediate_ca -days 1826 -notext -md sha256 -in csr/myIssuing.csr -out cert/myIssuing.cer
+chmod 444 cert/myIssuing.cer
+
+# Creating a cacert bundle.
+cat cert/myIssuing.cer ../myRoot/cert/myRoot.cer > cert/cacerts.cer
+chmod 444 cert/cacerts.cer
+
+# Verifying the certificate.
+openssl verify -CAfile cert/cacert.cer cert/myIssuing.cer
+
+
+
+
+
+
+# Generating Web Server Certificate
+--------------------------------------
+
+mkdir ~/WebSSL
+cd ~/WebSSL
+openssl genrsa -aes256 -out WebSSL.key 2048
+chmod 400 WebSSL.key 
+openssl req -config ~/myCA/myIssuing/myIssuing.cnf -key WebSSL.key -new -sha256 -out WebSSL.csr
+openssl ca -config ~/myCA/myIssuing/myIssuing.cnf -extensions server_cert -days 365 -notext -md sha256 -in WebSSL.csr -out WebSSL.cer
+
+
+
+# Generating Code Signing Certificate
+--------------------------------------
+mkdir ~/devteam
+cd ~/devteam
+openssl genrsa -aes256 -out dev.key 2048
+chmod 400 dev.key 
+openssl req -config ~/myCA/myIssuing/myIssuing.cnf -key dev.key -new -sha256 -out dev.csr
+openssl ca -config ~/myCA/myIssuing/myIssuing.cnf -extensions codeSigning_cert -days 365 -notext -md sha256 -in dev.csr -out dev.cer
+
+
+
+# Revoking a certificate
+--------------------------
+
+# Generate a blank CRL database file.
+openssl ca -config myIssuing.cnf -gencrl -out crl/myIssuing.crl
+
+# Optionally examine it if you want to
+openssl crl -in crl/myIssuing.crl -noout -text
+
+# Revoke a certificate
+openssl ca -config myIssuing.cnf -revoke ~/devteam/dev.cer
+
+# Update the crl database
+openssl ca -config myIssuing.cnf -gencrl -out crl/myIssuing.crl
+
+# Examine the CRL database to check for update
+openssl crl -in crl/myIssuing.crl -noout -text
+##________________________________________  ___________________________
+
+
+
+############################################## configs: ###############################################
+
+#####  ==========    cyberhashira.cnf ####################################
+[req]
+distinguished_name = dname
+req_extensions = req_ext
+prompt = no
+
+[ dname ]
+CN = CyberHashira.com
+C = XY
+ST = Some State
+L = Some City
+O = Cyber Hashira
+OU = Cyber Security
+emailAddress = pki@cyberhashira.com
+
+[ req_ext ]
+basicConstraints = CA:FALSE
+keyUsage = digitalSignature, nonRepudiation
+extendedKeyUsage = serverAuth, clientAuth
+subjectKeyIdentifier=hash
+subjectAltName = @sans
+certificatePolicies= 1.2.4.5.6.7
+authorityInfoAccess = OCSP;URI:http://ocsp.myCA/
+authorityInfoAccess = caIssuers;URI:http://myCA/ca.cer
+
+[sans]
+DNS.1 = blog.cyberhashira.com
+DNS.2 = video.cyberhashira.com
+
+##________________________________________  ___________________________
+
+
+#####  ==========    myIssuing.cnf ####################################
+[ ca ]
+default_ca = CA_default
+
+[ CA_default ]
+dir               = /home/hashi/myCA/myIssuing
+certs             = $dir/cert
+crl_dir           = $dir/crl
+new_certs_dir     = $dir/issued_certs
+database          = $dir/data/index.dat
+serial            = $dir/data/serial.dat
+RANDFILE          = $dir/private/.rand
+private_key       = $dir/private/myIssuing.key
+certificate       = $dir/cert/myIssuing.cer
+crlnumber         = $dir/data/crl_number
+crl               = $dir/crl/myIssuing.crl
+crl_extensions    = crl_ext
+default_crl_days  = 30
+default_md        = sha256
+name_opt          = ca_default
+cert_opt          = ca_default
+default_days      = 1826
+preserve          = no
+policy            = policy_any
+
+
+[ policy_any ]
+countryName             = optional
+stateOrProvinceName     = optional
+localityName            = optional
+organizationName        = optional
+organizationalUnitName  = optional
+commonName              = supplied
+emailAddress            = optional
+
+[ req ]
+default_bits        = 2048
+distinguished_name  = req_distinguished_name
+string_mask         = utf8only
+default_md          = sha256
+x509_extensions     = v3_ca
+
+[ req_distinguished_name ]
+countryName                     = Country Name (2 letter code)
+stateOrProvinceName             = State or Province Name
+localityName                    = Locality Name
+0.organizationName              = Organization Name
+organizationalUnitName          = Organizational Unit Name
+commonName                      = Common Name
+emailAddress                    = Email Address
+
+countryName_default             = 
+stateOrProvinceName_default     = 
+localityName_default            = 
+0.organizationName_default      = CyberHashira
+organizationalUnitName_default  = PKI
+emailAddress_default            = pki@home.lab
+
+[ user_cert ]
+basicConstraints = CA:FALSE
+subjectKeyIdentifier = hash
+authorityKeyIdentifier = keyid,issuer
+keyUsage = critical, nonRepudiation, digitalSignature, keyEncipherment
+extendedKeyUsage = clientAuth, emailProtection
+crlDistributionPoints = URI:http://myCA/myIssuing.crl
+authorityInfoAccess = caIssuers;URI:http://myCA/myIssuing.cer
+
+[ server_cert ]
+basicConstraints = CA:FALSE
+subjectKeyIdentifier = hash
+authorityKeyIdentifier = keyid,issuer:always
+keyUsage = critical, digitalSignature, keyEncipherment
+extendedKeyUsage = serverAuth
+crlDistributionPoints = URI:http://myCA/myIssuing.crl
+authorityInfoAccess = caIssuers;URI:http://myCA/myIssuing.cer
+
+[ codeSigning_cert ]
+basicConstraints = CA:FALSE
+subjectKeyIdentifier = hash
+authorityKeyIdentifier = keyid,issuer:always
+keyUsage = critical, digitalSignature, keyEncipherment
+extendedKeyUsage = codeSigning
+crlDistributionPoints = URI:http://myCA/myIssuing.crl
+authorityInfoAccess = caIssuers;URI:http://myCA/myIssuing.cer
+
+[ crl_ext ]
+authorityKeyIdentifier=keyid:always
+
+[ ocsp ]
+basicConstraints = CA:FALSE
+subjectKeyIdentifier = hash
+authorityKeyIdentifier = keyid,issuer
+keyUsage = critical, digitalSignature
+extendedKeyUsage = critical, OCSPSigning
+##________________________________________  ___________________________
+
+
+#####  ==========    myRoot.cnf ####################################
+[ ca ]
+default_ca = CA_default
+
+[ CA_default ]
+dir               = /home/hashi/myCA/myRoot
+certs             = $dir/cert
+crl_dir           = $dir/crl
+new_certs_dir     = $dir/issued_certs
+database          = $dir/data/index.dat
+serial            = $dir/data/serial.dat
+RANDFILE          = $dir/private/.rand
+private_key       = $dir/private/myRoot.key
+certificate       = $dir/cert/myRoot.cer
+crlnumber         = $dir/data/crl_number
+crl               = $dir/crl/myRoot.crl
+crl_extensions    = crl_ext
+default_crl_days  = 30
+default_md        = sha256
+name_opt          = ca_default
+cert_opt          = ca_default
+default_days      = 3650
+preserve          = no
+policy            = policy_any
+email_in_dn    	  = no
+
+[ policy_any ]
+countryName             = supplied
+stateOrProvinceName     = optional
+organizationName        = match
+organizationalUnitName  = optional
+commonName              = supplied
+emailAddress            = optional
+
+[ req ]
+default_bits        = 2048
+distinguished_name  = req_distinguished_name
+string_mask         = utf8only
+default_md          = sha256
+x509_extensions     = v3_ca
+
+[ req_distinguished_name ]
+countryName                     = Country Name (2 letter code)
+stateOrProvinceName             = State or Province Name
+localityName                    = Locality Name
+0.organizationName              = Organization Name
+organizationalUnitName          = Organizational Unit Name
+commonName                      = Common Name
+emailAddress                    = Email Address
+
+countryName_default             = 
+stateOrProvinceName_default     = 
+localityName_default            = 
+0.organizationName_default      = CyberHashira
+organizationalUnitName_default  = PKI
+emailAddress_default            = pki@home.lab
+
+[ v3_ca ]
+subjectKeyIdentifier = hash
+authorityKeyIdentifier = keyid:always,issuer
+keyUsage = critical, digitalSignature, cRLSign, keyCertSign
+basicConstraints = critical, CA:true, pathlen:2
+crlDistributionPoints = URI:http://myCA/myRoot.crl
+
+[ v3_intermediate_ca ]
+subjectKeyIdentifier = hash
+authorityKeyIdentifier = keyid:always,issuer
+basicConstraints = critical, CA:true, pathlen:0
+keyUsage = critical, digitalSignature, cRLSign, keyCertSign
+crlDistributionPoints = URI:http://myCA/myIssuing.crl
+authorityInfoAccess = caIssuers;URI:http://myCA/myRoot.cer
+##________________________________________  ___________________________
+
+
+#####  ==========    root.cnf ####################################
+[req]
+distinguished_name = dname
+x509_extensions = cert_ext
+prompt = no
+
+[ dname ]
+CN = RootCA
+C = XY
+ST = Some State
+L = Some City
+O = Cyber Hashira
+OU = Cyber Security
+emailAddress = pki@cyberhashira.com
+
+[ cert_ext ]
+basicConstraints = CA:TRUE, pathlen:0
+keyUsage = keyCertSign, cRLSign
+subjectKeyIdentifier=hash
+
+##________________________________________  ___________________________

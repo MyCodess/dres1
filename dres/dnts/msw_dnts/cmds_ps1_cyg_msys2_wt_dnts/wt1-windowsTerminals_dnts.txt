@@ -32,11 +32,11 @@ _____________________ wt.exe / WindowsTerminal.exe dnts : ______________________
 #####  ==========  terms/wins/tabs starting, cmdline options/args for tabs/wins/... :
     - ! https://learn.microsoft.com/en-us/windows/terminal/command-line-arguments :
     - params-abbrev.:  wt/wt.exe ,  -w/--window  , nt/new-tab  , -p/--profile , --startingDirectory /-d , ... see above link (there are more infos/params than just wt -h !)
-    -- windows-iID/-name (acting as server/dbus for wt-terminals):
+	_______:  windows-iID/-name (acting as server/dbus for wt-terminals):
         The wt --window/-w parameter can be used to communicate with any wt, so send commands to existing /OR new terminal windows, opening new tabs in that,...
         wt --window / -w [win-iID/-name]  ... : win-name == -1/new  : new-window-start ,  == last/0: most recently used window ; == <dres-terms1> : name of the windows, started with that name !
         If no window exists with the given window-id, then a new window will be created with that id/name.
-    -- multiple-tabs-open-in-same-windows/winID (either already running wt-windows /OR new /OR current window!):
+	_______:  multiple-tabs-open-in-same-windows/winID (either already running wt-windows /OR new /OR current window!):
         - !! ";" between "nt/--new-tab" options MUST be escaped! so in cyg/bash with \ as \; or in powershell-win i with backtick as  `; () !!  /OR not scaped, but several cmds using the same winID !:
         - !! SEQUENCE of options/paramsi relevant! : the options --title , --suppressApplicationTitle , -p, -d, ... BELONGS  the new-tab/nt argument ! so ONLY after nt param !! see there "New tab command" !
         - ! wt with no commands bzw. just \;  means: wt new-tab !! so new-tab is the default wt-command !
@@ -46,12 +46,16 @@ _____________________ wt.exe / WindowsTerminal.exe dnts : ______________________
         - splitted tabs:  $ wt split-pane \; \;  ## PS>  wt split-pane `; `;
         wt -w te1 nt -p gitt1 -d ./d1/ ; wt -w te1 nt -p gitt1 -d ./d1/d11/ ;  wt -w te1 nt -p gitt1 -d ./d1/  \; focus-tab -t 1  ##--focused on 2.tab
         wt -w te1 nt -p gitt1 -d "${env:USERPROFILE}\ofc1" ; wt -w te1 nt -p gitt1 -d "${env:USERPROFILE}\ofc1\etc" ;
-    --- title of tabs/wins:
+	_______:  title of tabs/wins:
         - --title is TABs-option/nt/new-tab, not wt-/win-option! so it can applied ONLY after nt/new-tab !
         - win-title is also set dynamically by cu-tab-title
         - usu. title is (re-)set/changed/suppressed by calling profile/shell (cyg/git/PS7/...)
         - not-changin/suppressing title by profile, either call: new-tab --suppressApplicationTitle ... /OR add in settings.json to the default-profile under "defaults": "suppressApplicationTitle" : true ##-see: https://learn.microsoft.com/en-us/windows/terminal/customize-settings/profile-advanced#suppress-title-changes
-
+	_______:  colors...:
+		-  a new terminal is created with two tabs of different colors (not-bg but tab-icon):  wt --tabColor '#009999' \; new-tab --tabColor '#f59218'  ##-I-in-ps then with `; instead \;
+		- colorScheme : wt --colorScheme Vintage \; split-pane --colorScheme "Tango Light"
+		- colorScheme : "wt.exe" --colorScheme Vintage \; new-tab --colorScheme "Solarized Light"
+##________________________________________  ___________________________
 
 
 #####  ==========  cyg-bash/git-bash start with wt as terminal, out of PS-wt/git-mingw64/cyg-mintty-terminals :
@@ -79,9 +83,8 @@ _____________________ wt.exe / WindowsTerminal.exe dnts : ______________________
     git-term works fine just with its wt-profile to start in certain DIR, BUT cyg-term not! so here also the solution for cygterm to switch to start in a specific-DIR !:
     git-term accepts starting in the current dir with "wt ... -d ." ,BUT cyg-term somehow NOT ! so for "-p gitt1" it works fine for starting the term in the cu-dir with "-d ." but for cyg-term, you must basically restart the its bach-term with "-c ..." to switch to that DIR !! :
     -Not-worked: cyg-bash does NOT take the -d param of wt !! cygwt11() { usage11="USAGE: ... <start-DIR> [title/winID /OR wt_tit11=my-title] #-starts a git-bash-term in start-DIR" ; cd "${1:?$usage11}";  wt -w ${2:-$wt_tit11} nt -p cygt1 --title ${2:-$wt_tit11} -d . ;}
-##________________________________________  ___________________________
 
-    --- cmds more: open cyg/git-terms (instead using their mintty or mingw64 , here try only use wt as terminal to start their bash-win !):
+	_______:  cmds more: open cyg/git-terms (instead using their mintty or mingw64 , here try only use wt as terminal to start their bash-win !):
         - for mor eg see ofc-profs ! (git-bash-env was easy to cd-mydir after starting terminal, but cyg must use "cd ...") :
         - ok1-in-ps/wt (cd-to-specific-dir for cyg):
             -- from PS> works for all start-dir:  -d "xxx" , but in git-term works for git-bash but not for cyg-bash ! in cyg-term nouse of -d , but adapted form see below:

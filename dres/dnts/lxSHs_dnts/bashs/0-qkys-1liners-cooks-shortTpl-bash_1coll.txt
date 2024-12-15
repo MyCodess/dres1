@@ -16,11 +16,13 @@ exit 3
 
 
 #####  ==========  Loops: for/while/until/... also with arithmetics:
-
 	_______:  for-arithmetic-loop:  see: help for
 	for (( ii=0 ; ii < 10 ; ii++ )); do echo $ii ; done
 	for (( initialisation ; ending condition ; increment/decrement/update )); do  statements...; done
 	which is Equivalent to: (( EXP1 ));  while (( EXP2 )); do COMMANDS ; (( EXP3 )) ; done
+	_______:  while :
+	n1=3;  while ((n1>0)); do echo $n1; n1=$(($n1-1)); done;
+	ii=0;  while (( ii++ < 10)); do echo $ii; done
 ##________________________________________  ___________________________
 
 

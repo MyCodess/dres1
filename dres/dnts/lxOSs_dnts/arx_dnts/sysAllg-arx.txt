@@ -1,5 +1,4 @@
 ___________ systemAllg as Filesystem-Hierarchy, STDs, sys-infs, ... _________________________
-##________________________________________  ___________________________
 
 
 #####  ==========  Filesystem_Hierarchy_Standard :
@@ -96,6 +95,3 @@ system-libraries searched in following seq:
 	z	    Dump the ftrace buffer
 	0-9 Sets the console log level, controlling which kernel messages will be printed to your console. (``0``, for example would make it so that only emergency messages like PANICs or OOPSes would make it to your console.)
 ##________________________________________  ___________________________
-
-
-#####  ==========  

@@ -6,7 +6,7 @@ _______________________ diango_dnts ... ________________________________________
 ##________________________________________  ___________________________
 
 
-#####  ========== DIFFs: BASE_DIR  <--->  dj-settings-DIR :
+#####  ==========  DIFFs: BASE_DIR  <--->  dj-settings-DIR :
     cd ~/ofc1/cod1/works1/dj11 ; 
     django-admin  startproject  netserv11
     --- ! DIFF :  outer/dj-container-/BASE_DIR  (containing manage.py , usu. also containg user-Apps)   <--->   inner-/djSettings-/djPrj-DIR (containing settings[.py])
@@ -36,13 +36,28 @@ So: Tutorial: Part 1: Requests and responses | Part 2: Models and the admin site
 ##________________________________________  ___________________________
 
 
-#####  ==========  settings/configs-dj :
+#####  ==========  settings/configs-dj , setup():
     - Ref:  https://docs.djangoproject.com/en/4.2/ref/settings/
     - pydoc_dj.sh   django.conf  /  django.conf.settings
     - dafault dj-app-settings:   pydoc django.conf.global_settings  #bzw.   django/conf/global_settings.py  
     - which apps are currently installed/active?:  from django.conf import settings ;  settings.INSTALLED_APPS ;
     https://docs.djangoproject.com/en/4.1/topics/settings/  :descp
     https://docs.djangoproject.com/en/4.1/ref/settings/     :Ref
+
+	_______:  calling dj-modules for standalone modules (modules not called by manage.py,...):
+	then you have to call manually configure() for settings, and setup() to load apps ! but both may NOT be called multiple times!! so, eg:
+	---
+	import django.apps ; from django.conf import settings
+	def django_setup1():
+		if not settings.configured: settings.configure()
+		if not django.apps.apps.ready: django.setup()
+	django_setup1()
+	---
+	- !! pytest is doing this internally (really its plugin pytest-django!) and so you need NOT to do this if you call your module by pytest ! but have to do it if calling directly by pathon -m mymoduleX !
+	see:
+	https://code.djangoproject.com/ticket/28752
+	https://docs.djangoproject.com/en/5.0/ref/applications/#initialization-process
+	https://docs.djangoproject.com/en/5.0/topics/settings/#calling-django-setup-is-required-for-standalone-django-usage
 ##________________________________________  ___________________________
 
 

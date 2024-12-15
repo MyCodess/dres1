@@ -1,8 +1,13 @@
-markup-formats  notes for all syntaxes
-##________________________________________  ___________________________
+##______________________ markup-formats  notes for all syntaxes _____________________________
 
 
-#####  ==========  
 #####  ==========  Refs/URLs/...:
-- **[pandoc](https://pandoc.org)**  :  pandoc converts files from one markup format into another!
 ______________________________________________________________________________
+
+
+#####  ==========  converters :
+	_______:  pandoc :
+	- pandoc https://pandoc.org/ :  pandoc converts files from one markup format into another!
+	- install also its executables 8wrpaaper around real pandoc-libs, for mswin+lx1) , here aliased as pandoc1 !
+	- pandoc1  --list-input-format ; pandoc1 --list-output-formats ;
+##________________________________________  ___________________________

@@ -203,9 +203,9 @@ ______________ IO , files, directories, input, ... _____________________________
 #####  ==========  encoding/decoding for files/filehandles ;  bytes <---> text  :
 
 	_______:  
-	- see  pyCookBK_3ed--5.1 Reading Wrtiting ... :
-	- encode:  char-to-code/digit, so like ord() ! you yan ONLY write bytes/binarys into a bina-filehandle. So to write chars into it it must be encoded into bytes !! eg: string MUST be encoded to write as bytes into binary-filehandle! eg:  print("ABCD".encode()[2]) --> 67
-	- decode:  code/digit-to-char, so like chr() ! you yan ONLY write chars/text    into a text-filehandle. So to write bytes into it it must be decoded into chars !! eg: string MUST be encoded to write as bytes into binary-filehandle! eg:  print(b"\x43".decode())   --> A 
+	- see  pyCookBK_3ed--5.1 Reading Wrtiting ... :-
+	- encode:  char-to-code/digit, so like ord() ! you yan ONLY write bytes/binarys into a bina-filehandle. So to write chars into it it must be encoded into bytes !! eg: string MUST be encoded to write as bytes into binary-filehandle! eg:  print("ABCD".encode()[2]) --> 67  #-ord(C)==0x43==67
+	- decode:  code/digit-to-char, so like chr() ! you yan ONLY write chars/text    into a text-filehandle. So to write bytes into it it must be decoded into chars !! eg: string MUST be encoded to write as bytes into binary-filehandle! eg:  print(b"\x43".decode())   --> C  #-ord(C)==0x43==67
 
 	_______:  decode/encode, convert text <---> bytes :
 	- read  text from a binary-filehandle:  with open('somefile.bin', 'rb') as f:  data = f.read(16) ; text = data.decode('utf-8')

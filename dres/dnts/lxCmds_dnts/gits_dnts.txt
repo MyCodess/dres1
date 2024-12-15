@@ -4,18 +4,23 @@ _______________ git_dnts ___________________________________________________
 ############################  onliners/qckys-gits_1coll : ########################################
 #####  ==========  oneliners_1coll_all:
 	_______:  configs:
+	- show config-files: git config -l  --show-origin
 	- ! use ONLY LOCAL configs (./git/config), NOT using OS-System/Global-user config files:  export GIT_CONFIG_SYSTEM=""   GIT_CONFIG_GLOBAL=""  ##--or set to /dev/null  , see /doc/git-doc/git-config.html  :ENVIRONMENT !
+	git config  --global diff.tool vimdiff ; git config  --global  diff.guitool  gvimdiff ; #-gui with -g : gvim NOT working yet in msys!
 	_______:  another-branch-stuffs....:
 	- from another branch checkout/overwrite my file here:  git checkout  <another-branch-name>  <file-path-1>  #-eg: git checkout master misc/requirements_all.txt
 	--- diff/compare-branches...:
 		- diff with another-branch-file:   git diff master:misc/requirements_all.txt  requirements_all.txt
 		- diff two branches, eg cu-br and master:  git diff HEAD..origin/master  [--stat]   ##--stat: only filesnames! no patches/details!
 		- diff of two commits:  git diff commit1..commit2  ;eg:  git diff abc123..def567
-	- pull another branch:
-		- git pull <remoteRepo> <remote-branch>  ##-eg: merge remote-master into my-local-cu-branch:  git pull origin master ##-see man git-pull
+	--- pull another branch:
+		- nts: "git merge br1" is used im Hintergrund by "git pulli br1" (esp. to note, if it is called from other/current branch than br1-tracking-local-branch !)
+		- merge a remote branch to mine here:  git merge  origin/feature/pki-lib   #-OR with pull into my branch as (watch diff syntax of repo !):
+		- git pull <remoteRepo> <remote-branch>  ##-eg: merge remote-master into my-local-cu-branch:  git pull origin master ##-see man git-pull  
 		- /OR:   git fetch origin ;  git merge origin/<remote-branch>
 		- or?:  git fetch <remote> <src>:<dst>  ##--eg: from-my-cu-br1 (with uncommitted stuff yet), without switching to master, update/pull the master-to-master : git fetch origin master:master  ##--I-otherwise the std-way is with stash: git stash , git switch master , git pull , git switch my-branch , git merge master , git stash pop
-
+	--- merges:
+		- merge and overwrite with ALL theirs files/changes:   git merge [-s ort] -X theirs  master1
 	_______:  undos/restores/back-to/...:
 	- ! back/restore to certain commit for a file:  git checkout c5f567xxx -- fp1  fp2 ...
 
@@ -184,7 +189,7 @@ _______________ git_dnts ___________________________________________________
     git config  --system / --global / --local / --worktree / --file ...
 
 	_______:  query-configs / show-configs :
-	- !!  git config --list  --show-origin      ##--show-all-cu-configs-(and-their-files) ! if several entries for the same key (from diff config-files), then the LAST one is taken by git!
+	- !!  git config --list  --show-origin      ##--show-all-cu-configs-(and-their-files with --show-origin ) ! if several entries for the same key (from diff config-files), then the LAST one is taken by git!
 	- git config  [--show-origin]  user.name   ##--show only user.name-EFFEKTIV-value ;  so:  git config  [--show-origin]  <key>
     - git config  user.email / core.bare / ...
 	-listing-all-cu-configs (must be in Repo-Dir!):  git config --list  ##--bzw. all in:  .git/config + ~/.gitconfig  + /etc/gitconfig  ...
@@ -507,21 +512,23 @@ _______________ git_dnts ___________________________________________________
     -- ! overwriting one branch /old1 fully with another branch /new1 (instead renaming,...): git status ##all-clean! ; git checkout old1 ; git reset --hard new1 ; ##--:
         Branches are merely pointers to commits. If you want to set one branch to point to the same commit as some other branch, use git reset.
         The command git reset makes Git move the currently checked out branch to the specified commit. The option --hard makes Git set the index as well as the working tree to match that commit. For more information, check out man git-reset.
-    --- strategies for merge/pull:
-        - see man git-merge :
-        - git merge/pull -s ort -X ours/theirs/....    ##--!!-do NOT confuse the option -X theirs <--> with the strategy -s theirs !! see: man git-merge !
-        - Pull code and default to the other version in case there are any conflicts : $ git pull -s ort/recursive -X theirs origin master
-        - Pull code and default to this/our version in case there are any conflicts :  $ git pull -s ort/recursive -X ours   origin master
-        - git checkout --ours my_file_name.txt    ##--: Fix conflicts in a single file, using changes in this/our branch
-        - git checkout --theirs my_file_name.txt  ##--: Fix conflicts in a single file, using changes in the other/their branch
 
 	_______:  merge-conflicts-solving:
+	- ! https://stackoverflow.com/questions/161813/how-do-i-resolve-merge-conflicts-in-a-git-repository :
 	- ! steps-merge-conflicts:  1-solve-conflict (see below) ; 1-mark it as solved with: git add <filepath>  ; 3- git commit ...; ##--see https://www.git-tower.com/learn/git/faq/solve-merge-conflicts
 	- solve-conflict-with-canceling-merge:   aborting/cancel/undo-started-merge-try : git merge --abort ; 
-	- solve-conflict-with-ours/theirs:   git checkout  --ours/--theirs  path/to/conflict-file.css ; git commit ... ;
+	- solve-conflict-with-ours/theirs:   git checkout  --ours/--theirs  path/to/conflict-file.css ;  git add my_file_name.txt ; git commit -a -m "conflict-solved-theirs" 
 	- solve-conflict-with-edit-file-manually (so mixed of -ours/theirs): edit+save file; git commit ...
 	- ! undo-a-merge bzw. goback to pre-merge:  git reset --hard <commitID-before-merge> ###--bzw. if newly merge-point, then:  git reset --hard HEAD~1
 	- ! undo-a-pushed/remote-merge:  git revert -m 1 <merge-commit-hash>
+    --- strategies for merge-conflicts-solving:
+	- see man git-merge :
+	- git merge/pull -s ort -X ours/theirs/....    ##--!!-do NOT confuse the option -X ours/theirs (as an option of strategy ort) <--> with the strategy -s ours (but strategy -s theirs does NOT exist!) !! see: man git-merge !
+	- Pull code and default to the other version in case there are any conflicts : $ git pull -s ort/recursive -X theirs origin master
+	- Pull code and default to this/our version in case there are any conflicts :  $ git pull -s ort/recursive -X ours   origin master
+	- git checkout --ours my_file_name.txt   ; git add my_file_name.txt ; git commit -a -m "conflict-solved-ours"    ##--: Fix conflicts in a single file, using changes in this/our branch
+	- git checkout --theirs my_file_name.txt ; git add my_file_name.txt ; git commit -a -m "conflict-solved-theirs"  ##--: Fix conflicts in a single file, using changes in the other/their branch
+
 
 ##________________________________________  ___________________________
 

@@ -1,0 +1,565 @@
+
+
+================== dirpath, moduleslist, pkgslist : ==================
+['C:\\Users\\DKX8H1N\\var3\\w3\\cod1\\pki1\\ve1\\Lib\\site-packages\\cryptography\\hazmat\\primitives']
+['cryptography.hazmat.primitives.cmac',
+ 'cryptography.hazmat.primitives.constant_time',
+ 'cryptography.hazmat.primitives.hashes',
+ 'cryptography.hazmat.primitives.hmac',
+ 'cryptography.hazmat.primitives.keywrap',
+ 'cryptography.hazmat.primitives.padding',
+ 'cryptography.hazmat.primitives.poly1305']
+['cryptography.hazmat.primitives.asymmetric',
+ 'cryptography.hazmat.primitives.ciphers',
+ 'cryptography.hazmat.primitives.kdf',
+ 'cryptography.hazmat.primitives.serialization',
+ 'cryptography.hazmat.primitives.twofactor']
+
+|------------ cryptography.hazmat.primitives.cmac : ----------------
+|CMAC
+
+|------------ cryptography.hazmat.primitives.constant_time : ----------------
+
+|------------ cryptography.hazmat.primitives.hashes : ----------------
+|BLAKE2b
+|BLAKE2s
+|ExtendableOutputFunction
+|------|SHAKE128
+|------|SHAKE256
+|Hash
+|HashAlgorithm
+|------|BLAKE2b
+|------|BLAKE2s
+|------|MD5
+|------|SHA1
+|------|SHA224
+|------|SHA256
+|------|SHA384
+|------|SHA3_224
+|------|SHA3_256
+|------|SHA3_384
+|------|SHA3_512
+|------|SHA512
+|------|SHA512_224
+|------|SHA512_256
+|------|SHAKE128
+|------|SHAKE256
+|------|SM3
+|HashContext
+|MD5
+|SHA1
+|SHA224
+|SHA256
+|SHA384
+|SHA3_224
+|SHA3_256
+|SHA3_384
+|SHA3_512
+|SHA512
+|SHA512_224
+|SHA512_256
+|SHAKE128
+|SHAKE256
+|SM3
+
+|------------ cryptography.hazmat.primitives.hmac : ----------------
+|HMAC
+
+|------------ cryptography.hazmat.primitives.keywrap : ----------------
+|AES
+|Cipher
+|ECB
+|InvalidUnwrap
+
+|------------ cryptography.hazmat.primitives.padding : ----------------
+|ANSIX923
+|AlreadyFinalized
+|PKCS7
+|PaddingContext
+|------|_ANSIX923PaddingContext
+|------|_ANSIX923UnpaddingContext
+|------|_PKCS7PaddingContext
+|------|_PKCS7UnpaddingContext
+|_ANSIX923PaddingContext
+|_ANSIX923UnpaddingContext
+|_PKCS7PaddingContext
+|_PKCS7UnpaddingContext
+
+|------------ cryptography.hazmat.primitives.poly1305 : ----------------
+|Poly1305
+
+
+================== dirpath, moduleslist, pkgslist : ==================
+['C:\\Users\\DKX8H1N\\var3\\w3\\cod1\\pki1\\ve1\\Lib\\site-packages\\cryptography\\hazmat\\primitives\\asymmetric']
+['cryptography.hazmat.primitives.asymmetric.dh',
+ 'cryptography.hazmat.primitives.asymmetric.dsa',
+ 'cryptography.hazmat.primitives.asymmetric.ec',
+ 'cryptography.hazmat.primitives.asymmetric.ed25519',
+ 'cryptography.hazmat.primitives.asymmetric.ed448',
+ 'cryptography.hazmat.primitives.asymmetric.padding',
+ 'cryptography.hazmat.primitives.asymmetric.rsa',
+ 'cryptography.hazmat.primitives.asymmetric.types',
+ 'cryptography.hazmat.primitives.asymmetric.utils',
+ 'cryptography.hazmat.primitives.asymmetric.x25519',
+ 'cryptography.hazmat.primitives.asymmetric.x448']
+[]
+
+|------------ cryptography.hazmat.primitives.asymmetric.dh : ----------------
+|DHParameterNumbers
+|DHParameters
+|DHParameters
+|DHPrivateKey
+|DHPrivateKey
+|DHPrivateNumbers
+|DHPublicKey
+|DHPublicKey
+|DHPublicNumbers
+
+|------------ cryptography.hazmat.primitives.asymmetric.dsa : ----------------
+|DSAParameterNumbers
+|DSAParameters
+|DSAParameters
+|DSAPrivateKey
+|DSAPrivateKey
+|DSAPrivateNumbers
+|DSAPublicKey
+|DSAPublicKey
+|DSAPublicNumbers
+
+|------------ cryptography.hazmat.primitives.asymmetric.ec : ----------------
+|BrainpoolP256R1
+|BrainpoolP384R1
+|BrainpoolP512R1
+|ECDH
+|ECDSA
+|EllipticCurve
+|------|BrainpoolP256R1
+|------|BrainpoolP384R1
+|------|BrainpoolP512R1
+|------|SECP192R1
+|------|SECP224R1
+|------|SECP256K1
+|------|SECP256R1
+|------|SECP384R1
+|------|SECP521R1
+|------|SECT163K1
+|------|SECT163R2
+|------|SECT233K1
+|------|SECT233R1
+|------|SECT283K1
+|------|SECT283R1
+|------|SECT409K1
+|------|SECT409R1
+|------|SECT571K1
+|------|SECT571R1
+|EllipticCurveOID
+|EllipticCurvePrivateKey
+|EllipticCurvePrivateKey
+|EllipticCurvePrivateNumbers
+|EllipticCurvePublicKey
+|EllipticCurvePublicKey
+|EllipticCurvePublicNumbers
+|EllipticCurveSignatureAlgorithm
+|------|ECDSA
+|ObjectIdentifier
+|SECP192R1
+|SECP224R1
+|SECP256K1
+|SECP256R1
+|SECP384R1
+|SECP521R1
+|SECT163K1
+|SECT163R2
+|SECT233K1
+|SECT233R1
+|SECT283K1
+|SECT283R1
+|SECT409K1
+|SECT409R1
+|SECT571K1
+|SECT571R1
+
+|------------ cryptography.hazmat.primitives.asymmetric.ed25519 : ----------------
+|Ed25519PrivateKey
+|Ed25519PublicKey
+|UnsupportedAlgorithm
+|_Reasons
+
+|------------ cryptography.hazmat.primitives.asymmetric.ed448 : ----------------
+|Ed448PrivateKey
+|Ed448PublicKey
+|UnsupportedAlgorithm
+|_Reasons
+
+|------------ cryptography.hazmat.primitives.asymmetric.padding : ----------------
+|AsymmetricPadding
+|------|OAEP
+|------|PKCS1v15
+|------|PSS
+|MGF
+|------|MGF1
+|MGF1
+|OAEP
+|PKCS1v15
+|PSS
+|_Auto
+|_DigestLength
+|_MaxLength
+
+|------------ cryptography.hazmat.primitives.asymmetric.rsa : ----------------
+|AsymmetricPadding
+|------|OAEP
+|------|PKCS1v15
+|------|PSS
+|RSAPrivateKey
+|RSAPrivateKey
+|RSAPrivateNumbers
+|RSAPublicKey
+|RSAPublicKey
+|RSAPublicNumbers
+
+|------------ cryptography.hazmat.primitives.asymmetric.types : ----------------
+
+|------------ cryptography.hazmat.primitives.asymmetric.utils : ----------------
+|Prehashed
+
+|------------ cryptography.hazmat.primitives.asymmetric.x25519 : ----------------
+|UnsupportedAlgorithm
+|X25519PrivateKey
+|X25519PublicKey
+|_Reasons
+
+|------------ cryptography.hazmat.primitives.asymmetric.x448 : ----------------
+|UnsupportedAlgorithm
+|X448PrivateKey
+|X448PublicKey
+|_Reasons
+
+
+================== dirpath, moduleslist, pkgslist : ==================
+['C:\\Users\\DKX8H1N\\var3\\w3\\cod1\\pki1\\ve1\\Lib\\site-packages\\cryptography\\hazmat\\primitives\\ciphers']
+['cryptography.hazmat.primitives.ciphers.aead',
+ 'cryptography.hazmat.primitives.ciphers.algorithms',
+ 'cryptography.hazmat.primitives.ciphers.base',
+ 'cryptography.hazmat.primitives.ciphers.modes']
+[]
+
+|------------ cryptography.hazmat.primitives.ciphers.aead : ----------------
+|AESCCM
+|AESGCM
+|AESGCMSIV
+|AESOCB3
+|AESSIV
+|ChaCha20Poly1305
+
+|------------ cryptography.hazmat.primitives.ciphers.algorithms : ----------------
+|AES
+|AES128
+|AES256
+|ARC4
+|BlockCipherAlgorithm
+|------|AES
+|------|AES128
+|------|AES256
+|------|Blowfish
+|------|CAST5
+|------|Camellia
+|------|IDEA
+|------|SEED
+|------|SM4
+|------|TripleDES
+|Blowfish
+|CAST5
+|Camellia
+|ChaCha20
+|CipherAlgorithm
+|------|ARC4
+|------|BlockCipherAlgorithm
+|------|------|AES
+|------|------|AES128
+|------|------|AES256
+|------|------|Blowfish
+|------|------|CAST5
+|------|------|Camellia
+|------|------|IDEA
+|------|------|SEED
+|------|------|SM4
+|------|------|TripleDES
+|------|ChaCha20
+|IDEA
+|SEED
+|SM4
+|TripleDES
+|Blowfish
+|CAST5
+|IDEA
+|SEED
+
+|------------ cryptography.hazmat.primitives.ciphers.base : ----------------
+|AEADCipherContext
+|------|AEADDecryptionContext
+|------|------|_AEADDecryptionContext
+|------|AEADEncryptionContext
+|------|------|_AEADEncryptionContext
+|------|_AEADCipherContext
+|------|------|_AEADDecryptionContext
+|------|------|_AEADEncryptionContext
+|AEADDecryptionContext
+|------|_AEADDecryptionContext
+|AEADEncryptionContext
+|------|_AEADEncryptionContext
+|AlreadyFinalized
+|AlreadyUpdated
+|Cipher
+|CipherAlgorithm
+|------|ARC4
+|------|BlockCipherAlgorithm
+|------|------|AES
+|------|------|AES128
+|------|------|AES256
+|------|------|Blowfish
+|------|------|CAST5
+|------|------|Camellia
+|------|------|IDEA
+|------|------|SEED
+|------|------|SM4
+|------|------|TripleDES
+|------|ChaCha20
+|CipherContext
+|------|AEADCipherContext
+|------|------|AEADDecryptionContext
+|------|------|------|_AEADDecryptionContext
+|------|------|AEADEncryptionContext
+|------|------|------|_AEADEncryptionContext
+|------|------|_AEADCipherContext
+|------|------|------|_AEADDecryptionContext
+|------|------|------|_AEADEncryptionContext
+|------|_CipherContext
+|NotYetFinalized
+|_AEADCipherContext
+|------|_AEADDecryptionContext
+|------|_AEADEncryptionContext
+|_AEADDecryptionContext
+|_AEADEncryptionContext
+|_CipherContext
+
+|------------ cryptography.hazmat.primitives.ciphers.modes : ----------------
+|BlockCipherAlgorithm
+|------|AES
+|------|AES128
+|------|AES256
+|------|Blowfish
+|------|CAST5
+|------|Camellia
+|------|IDEA
+|------|SEED
+|------|SM4
+|------|TripleDES
+|CBC
+|CFB
+|CFB8
+|CTR
+|CipherAlgorithm
+|------|ARC4
+|------|BlockCipherAlgorithm
+|------|------|AES
+|------|------|AES128
+|------|------|AES256
+|------|------|Blowfish
+|------|------|CAST5
+|------|------|Camellia
+|------|------|IDEA
+|------|------|SEED
+|------|------|SM4
+|------|------|TripleDES
+|------|ChaCha20
+|ECB
+|GCM
+|Mode
+|------|ECB
+|------|ModeWithAuthenticationTag
+|------|------|GCM
+|------|ModeWithInitializationVector
+|------|------|CBC
+|------|------|CFB
+|------|------|CFB8
+|------|------|GCM
+|------|------|OFB
+|------|ModeWithNonce
+|------|------|CTR
+|------|ModeWithTweak
+|------|------|XTS
+|ModeWithAuthenticationTag
+|------|GCM
+|ModeWithInitializationVector
+|------|CBC
+|------|CFB
+|------|CFB8
+|------|GCM
+|------|OFB
+|ModeWithNonce
+|------|CTR
+|ModeWithTweak
+|------|XTS
+|OFB
+|UnsupportedAlgorithm
+|XTS
+|_Reasons
+
+
+================== dirpath, moduleslist, pkgslist : ==================
+['C:\\Users\\DKX8H1N\\var3\\w3\\cod1\\pki1\\ve1\\Lib\\site-packages\\cryptography\\hazmat\\primitives\\kdf']
+['cryptography.hazmat.primitives.kdf.concatkdf',
+ 'cryptography.hazmat.primitives.kdf.hkdf',
+ 'cryptography.hazmat.primitives.kdf.kbkdf',
+ 'cryptography.hazmat.primitives.kdf.pbkdf2',
+ 'cryptography.hazmat.primitives.kdf.scrypt',
+ 'cryptography.hazmat.primitives.kdf.x963kdf']
+[]
+
+|------------ cryptography.hazmat.primitives.kdf.concatkdf : ----------------
+|AlreadyFinalized
+|ConcatKDFHMAC
+|ConcatKDFHash
+|InvalidKey
+|KeyDerivationFunction
+|------|ConcatKDFHMAC
+|------|ConcatKDFHash
+
+|------------ cryptography.hazmat.primitives.kdf.hkdf : ----------------
+|AlreadyFinalized
+|HKDF
+|HKDFExpand
+|InvalidKey
+|KeyDerivationFunction
+|------|ConcatKDFHMAC
+|------|ConcatKDFHash
+|------|HKDF
+|------|HKDFExpand
+
+|------------ cryptography.hazmat.primitives.kdf.kbkdf : ----------------
+|AlreadyFinalized
+|CounterLocation
+|InvalidKey
+|KBKDFCMAC
+|KBKDFHMAC
+|KeyDerivationFunction
+|------|ConcatKDFHMAC
+|------|ConcatKDFHash
+|------|HKDF
+|------|HKDFExpand
+|------|KBKDFCMAC
+|------|KBKDFHMAC
+|Mode
+|UnsupportedAlgorithm
+|_KBKDFDeriver
+|_Reasons
+
+|------------ cryptography.hazmat.primitives.kdf.pbkdf2 : ----------------
+|AlreadyFinalized
+|InvalidKey
+|KeyDerivationFunction
+|------|ConcatKDFHMAC
+|------|ConcatKDFHash
+|------|HKDF
+|------|HKDFExpand
+|------|KBKDFCMAC
+|------|KBKDFHMAC
+|------|PBKDF2HMAC
+|PBKDF2HMAC
+|UnsupportedAlgorithm
+|_Reasons
+
+|------------ cryptography.hazmat.primitives.kdf.scrypt : ----------------
+|AlreadyFinalized
+|InvalidKey
+|KeyDerivationFunction
+|------|ConcatKDFHMAC
+|------|ConcatKDFHash
+|------|HKDF
+|------|HKDFExpand
+|------|KBKDFCMAC
+|------|KBKDFHMAC
+|------|PBKDF2HMAC
+|------|Scrypt
+|Scrypt
+|UnsupportedAlgorithm
+
+|------------ cryptography.hazmat.primitives.kdf.x963kdf : ----------------
+|AlreadyFinalized
+|InvalidKey
+|KeyDerivationFunction
+|------|ConcatKDFHMAC
+|------|ConcatKDFHash
+|------|HKDF
+|------|HKDFExpand
+|------|KBKDFCMAC
+|------|KBKDFHMAC
+|------|PBKDF2HMAC
+|------|Scrypt
+|------|X963KDF
+|X963KDF
+
+
+================== dirpath, moduleslist, pkgslist : ==================
+['C:\\Users\\DKX8H1N\\var3\\w3\\cod1\\pki1\\ve1\\Lib\\site-packages\\cryptography\\hazmat\\primitives\\serialization']
+['cryptography.hazmat.primitives.serialization.base',
+ 'cryptography.hazmat.primitives.serialization.pkcs12',
+ 'cryptography.hazmat.primitives.serialization.pkcs7',
+ 'cryptography.hazmat.primitives.serialization.ssh']
+[]
+
+|------------ cryptography.hazmat.primitives.serialization.base : ----------------
+
+|------------ cryptography.hazmat.primitives.serialization.pkcs12 : ----------------
+|PBES
+|PKCS12Certificate
+|PKCS12KeyAndCertificates
+
+|------------ cryptography.hazmat.primitives.serialization.pkcs7 : ----------------
+|OpenSSLMimePart
+|PKCS7Options
+|PKCS7SignatureBuilder
+
+|------------ cryptography.hazmat.primitives.serialization.ssh : ----------------
+|AEADDecryptionContext
+|------|_AEADDecryptionContext
+|Cipher
+|Encoding
+|KeySerializationEncryption
+|------|BestAvailableEncryption
+|------|NoEncryption
+|------|_KeySerializationEncryption
+|NoEncryption
+|PrivateFormat
+|PublicFormat
+|SSHCertificate
+|SSHCertificateBuilder
+|SSHCertificateType
+|UnsupportedAlgorithm
+|_FragList
+|_KeySerializationEncryption
+|_SSHCipher
+|_SSHFormatDSA
+|_SSHFormatECDSA
+|_SSHFormatEd25519
+|_SSHFormatRSA
+
+
+================== dirpath, moduleslist, pkgslist : ==================
+['C:\\Users\\DKX8H1N\\var3\\w3\\cod1\\pki1\\ve1\\Lib\\site-packages\\cryptography\\hazmat\\primitives\\twofactor']
+['cryptography.hazmat.primitives.twofactor.hotp',
+ 'cryptography.hazmat.primitives.twofactor.totp']
+[]
+
+|------------ cryptography.hazmat.primitives.twofactor.hotp : ----------------
+|HOTP
+|InvalidToken
+|SHA1
+|SHA256
+|SHA512
+
+|------------ cryptography.hazmat.primitives.twofactor.totp : ----------------
+|HOTP
+|InvalidToken
+|TOTP

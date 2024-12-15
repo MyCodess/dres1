@@ -1,0 +1,43 @@
+A, B->A, C->B->A, D->C+A , E->C->B->A , S->StringIO , F->C+S+A:
+
+--- Tree of A:
+[(<class 'object'>, ()), [(<class 'example.A'>, (<class 'object'>,))]]
+
+--- Tree of B:
+[(<class 'example.A'>, (<class 'object'>,)),
+ [(<class 'example.B'>, (<class 'example.A'>,))]]
+
+--- Tree of C:
+[(<class 'example.B'>, (<class 'example.A'>,)),
+ [(<class '__main__.C'>, (<class 'example.B'>,))]]
+
+--- MRO of D:
+(<class '__main__.D'>, <class '__main__.C'>, <class 'example.B'>, <class 'example.A'>, <class 'object'>)
+
+--- Tree of D:
+[(<class '__main__.C'>, (<class 'example.B'>,)),
+ [(<class '__main__.D'>, (<class '__main__.C'>, <class 'example.A'>))],
+ (<class 'example.A'>, (<class 'object'>,)),
+ [(<class '__main__.D'>, (<class '__main__.C'>, <class 'example.A'>))]]
+
+--- Tree of E:
+[(<class '__main__.C'>, (<class 'example.B'>,)),
+ [(<class '__main__.E'>, (<class '__main__.C'>,))]]
+
+--- Tree of S:
+[(<class '_io.StringIO'>, (<class '_io._TextIOBase'>,)),
+ [(<class '__main__.S'>, (<class '_io.StringIO'>,))]]
+
+--- MRO of F:
+(<class '__main__.F'>, <class '__main__.C'>, <class 'example.B'>, <class '__main__.S'>, <class 'example.A'>, <class '_io.StringIO'>, <class '_io._TextIOBase'>, <class '_io._IOBase'>, <class 'object'>)
+
+--- Tree of F:
+[   (<class '__main__.C'>, (<class 'example.B'>,)),
+    [   (   <class '__main__.F'>,
+            (<class '__main__.C'>, <class '__main__.S'>, <class 'example.A'>))],
+    (<class '__main__.S'>, (<class '_io.StringIO'>,)),
+    [   (   <class '__main__.F'>,
+            (<class '__main__.C'>, <class '__main__.S'>, <class 'example.A'>))],
+    (<class 'example.A'>, (<class 'object'>,)),
+    [   (   <class '__main__.F'>,
+            (<class '__main__.C'>, <class '__main__.S'>, <class 'example.A'>))]]

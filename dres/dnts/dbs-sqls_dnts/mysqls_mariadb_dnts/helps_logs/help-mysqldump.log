@@ -9,9 +9,7 @@ OR     mariadb-dump.exe [OPTIONS] --system=[SYSTEMOPTIONS]]
 
 Default options are read from the following files in the given order:
 C:\WINDOWS\my.ini C:\WINDOWS\my.cnf C:\my.ini C:\my.cnf C:\Progs2\mariadb\my.ini C:\Progs2\mariadb\my.cnf C:\Progs2\mariadb\data\my.ini C:\Progs2\mariadb\data\my.cnf 
-
 The following groups are read: mysqldump mariadb-dump client client-server client-mariadb
-
 The following options may be given as the first argument:
 --print-defaults          Print the program argument list and exit.
 --no-defaults             Don't read default options from any option file.

@@ -1,3 +1,0 @@
-__________________________ oneliners_py 1coll ... _______________________________________
-
-- where is a py-pkg located on OS?: eg django-pkgs:  python -c "import django; print(django.__path__)"

@@ -3,8 +3,26 @@ _________________________ mariaDB admins,....: _________________________________
 
 
 
-#####  ==========  cmds:
+#####  ==========  mariadb-admin cmds:
+	_______:  
+	https://mariadb.com/kb/en/mariadb-admin/
 	mariadb-admin --help  ("C:\Progs2\mariadb\bin\mariadb-check.exe", ...)
+
+	_______:  start/stop/status/shutdown/....
+	https://mariadb.com/kb/en/mariadb-admin/#the-shutdown-command-and-the-wait-for-all-slaves-option  #-from cmdline as mysql-root shutdown
+	https://mariadb.com/kb/en/shutdown/   #-form any client shutdown
+	- stop:
+	- on mswin  the best through win-services! /OR:
+	sh>   mariadb-admin  $q_mysLoginAdm1  status  #-bzw.:   mariadb-admin  -u root -pxxx  status
+	sh>   mariadb-admin  $q_mysLoginAdm1  shutdown --wait-for-all-slaves ;
+	sql-admin>  shutdown;  #-bzw:  SHUTDOWN WAIT FOR ALL REPLICAS;
+	- starting : on mswin the best through win-services! on Lx through systemd (or manually then through its daemon:  mariadbd ... )
+
+	_______:  status/infos-querys...:
+	sh>   mariadb-admin  $q_mysLoginAdm1  ping  #--Check if mariadbd is alive. Return status is 0 if the server is running
+	sh>   mariadb-admin  $q_mysLoginAdm1  status  #-bzw.:   mariadb-admin  -u root -pxxx  status
+	mariadb-admin  $q_mysLoginAdm1  variables > variables-nsv.log
+	mariadb-admin  $q_mysLoginAdm1  variables | grep datadir
 ##________________________________________  ___________________________
 
 
