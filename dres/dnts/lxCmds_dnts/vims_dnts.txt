@@ -117,6 +117,8 @@ _______________________- VIMs_dnts _____________________________________________
 
 	_______:  -- sessions / pesistent-views/...:
 	-! :mksession s1.vim ; :source s1.vim  /OR: vim -S s1.vim
+	-!  sessions-call:  vim -S <s1>
+	-!  settings of what shoul be saved in s1.vim:  set sessionoptions=buffers,curdir,slash,tabpages,unix  ##-options not needed! they should be restored each time from vimrc !
 	-  saving certain view for a file  :mkview  :loadview
 
 	_______:  -- viminfo file / history/ ...:
@@ -220,14 +222,13 @@ _______________________- VIMs_dnts _____________________________________________
 	- usefule predefined marks:  . :last-change  " :last-time  ' :last-jump  (see below)
 	-! jump-list is saved in .viminfo, if viminfo-option includes ' ; so relevant for history!! (default includes ')
 	-- eg jumping to:
-		-!  %  :  jumpto tha match (eg of a {,(,[,....)
-		-!  [{   go to [count] previous unmatched '{' ... see :h various-motions
+		-  %  :  jumpto tha match (eg of a {,(,[,....)
+		-  [{   go to [count] previous unmatched '{' ... see :h various-motions
 		- ''  back to the line before the last jump
-		- ``  go to the position (=column) before the last jump
-		- '' , `` the last position before the last jump
+		- ``  back to the position(==column) before the last jump
 		- '. , `. :to tha last change position (=column changed of last edited line)
 		- '" , `" :last time when you left the file.
-		-! backtracking/forthtracking of your movement in files:  [N]ctrl-o/i  :go to Nth older/newer position in jump list of the current session (also between files)
+		- backtracking/forthtracking of your movement in files (also between files):  [N]ctrl-o/i  :go to Nth older/newer position in jump list of the current session
 
 	_______:  -- changelist-jumping:    --->  :h  change-list-jumps
 	- g; bzw. g,  :Go to [count] older/newer position in CHANGE-list.
@@ -909,11 +910,17 @@ _______________________- VIMs_dnts _____________________________________________
 		   A hidden buffer is not displayed in a window, but is still loaded into memory.  This makes it possible to jump from file to file, without the need to read or write the file every time you get another buffer in a window.
 	- :windo  <--->  :bufdo   <--->  :argdo   <--->  :tabdo  :executing cmds in all windows/buffers/argument.cmdline.params/tabs  ;!see  :h list-repeat  ;eg: 
 
-	_______:  -- Instances/Server of gvim -->  see  :h  remote.txt
-	-! for several gvim-Instances/-server/-Terminals and intercommunication see:  :h  remote.txt  ,bzw.  gvim --help
-	- cmds work ONLY with gvim, NOT with vim!  see gvim --help for server-params!
-	- list all current gimv-inmstances:  gvim --serverlist
+	_______:  -- Instances/client-server/remote calls  -->  see  :h  remote.txt
+	- ! :h  remote.txt ;  vim --help | grepi -E 'server|remote' ;
+	- must vim compiled with +clientserver, and then you can use the command:
+	---  vim-client+server /vim-instances:
+	- list all current vim-servers/instances:   [g]vim --serverlist
+	- vim --servername SERVER to start a vim instance, and
+	- vim --servername SERVER --remote FILE to open the file in the named vim instance.
+	- vim --servername SERVER --remote-tab FILE   #-open a file in a remote tab.
 	- open t1 in a new tab of the running  gvim-instance named v11 :  gvim --servername v11 --remote-tab t2
+	-?? cmds work ONLY with gvim, NOT with vim!  see gvim --help for server-params!
+
 
 	_______:  -- split.wins/browsing/managing/openning-closing:    --> :h opening-window , :h buffer-list
 	-  split.cmds:  :all  :vs[plit]  :sp   :[N][v]split   :new   :on[ly][!] ; :qa[ll][!] 

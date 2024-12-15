@@ -1,7 +1,6 @@
 _______________________ super() , MRO , metaclasses, ... _____________________________________________
 
 #####  ==========  inheritance:  super() / MRO :
-
 	_______:  see also:
 	see here extra nts for MRO in multiple-inheritance nts !
 	- ! RefDocsStdLibs--Built-in-Functions : class super   ##- Py3/Doc/html/library/functions.html#super
@@ -63,7 +62,28 @@ _______________________ super() , MRO , metaclasses, ... _______________________
 ##________________________________________  ___________________________
 
 
-#####  ==========  MeataClasses, class (metaclass=..., ) :
+#####  ==========  Metaclasses, Dynamicallyi/Runtime-Creating Classes with type(3-params):
+    _______:  see:
+    - ! see: https://realpython.com/python-metaclasses/#defining-a-class-dynamically
+	- python-course.eu/oop/dynamically-creating-classes-with-type.php.html
+	- Py3/Doc/html/reference/datamodel.html#customizing-class-creation
+	- pydoc type  ;  type(className, superClasses, attributesDict)  ; 
+
+	_______:  type():
+	- ! type() has VARIOUS usages!!
+	- type(obj1) : returns the type of the obj1
+	- type(className, superClasses, attributesDict) : returns/creates-dynamically a class with the name "className", its base-classes "superClasses", its members/attribs: "attributesDict"
+
+    _______:  eg metaclasses create dynamically with type()-3-args :
+    - eg: INT2 = type ("INT2", (int,) , {"a1": 11, "a2": 22}) ;  in1 = INT2() ;  type (in1) ; in1.a1 ; ...
+	- eg: A = type("A", (), {"var1": 5}) ; a1=A(); print(a1.var1) ;
+    - Foo = type('Foo', (), {}) ; x = Foo() ;
+    - Bar = type('Bar', (Foo,), dict(attr=100)) ; x = Bar(); x.attr ;
+    - --eg with funcs/inits/..., see https://realpython.com/python-metaclasses/#custom-metaclasses  :
+    - eg with functions:  def f1(obj): ...; Foo=type("Foo", (), {"func1": f1})
+    - eg gleich with inits:  def f1(obj): ...; Foo=type("Foo", (), {"__init__": f1})
+
+	_______:  metaclass=...  :
 	- class Foo(object, metaclass=MyMetaclass, kwarg1=value1): ...
 	- !! excellent:  https://stackoverflow.com/questions/100003/what-are-metaclasses-in-python
 ##________________________________________  ___________________________

@@ -1,5 +1,12 @@
 ____________________ SmartCards/PKI-Cards-setup on arx (for ofc1-/:240000): __________________
 
+--- short vwb-logg:
+	- !! CLOSE ALL browser instances (ALL) !
+	systemctl start   pcscd.service   pcscd.socket
+	systemctl status  pcscd.service   pcscd.socket
+	- start brows + logg !
+---
+
 -!! in Browser: it asks 3-4... times for PIN for several slots/Tokens (in MsWIn nur einmal) !
 but finally it shows the certificate-dw/login-page ! but then chrom crashes, probably dut to missing citrix-SWs or so,... ! but OK!
 see for that thebelow protocol of:  certutil ... !!

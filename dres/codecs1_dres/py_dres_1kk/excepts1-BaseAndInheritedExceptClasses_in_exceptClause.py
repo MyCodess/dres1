@@ -38,7 +38,7 @@ def exc_clause_classes_prios_1():
     import sys
     try:
         print(1)
-        raise (Exception("msg11 blabla", 12))
+        raise (Exception("msg11-exc", 12))
     except OSError:  ##--->  is a subclass of the raised Exception ! will NOT catch !
         print ("subclass will NOt catch !", 5)
     except BaseException as ex1:  ##---> is a baseclass of the raised Exception ! will catch !
@@ -112,7 +112,7 @@ def exc_args_1():
         ##__2try:  raise Exception("msg1", 12, 3, 4, "aa","bb")
         raise ValueError("msg11", 123)
     except ValueError  as  ex1:
-        print("ValueError: ", ex1, " -: ", ex1.args , "--length:  ",  len(ex1.args), "-0: ", ex1.args[0], "-1: ", ex1.args[1])
+        print("ValueError: ", ex1, "--args: ", ex1.args , "--length:  ",  len(ex1.args), "-0: ", ex1.args[0], "-1: ", ex1.args[1])
         ##__2try:  raise Exception("msg1", 12, 3, 4, "aa","bb") from ex1
     except Exception   as  ex1:
         print("exception-raised: ", ex1.__class__, ex1, " -: ", ex1.args , " --length: ",  len(ex1.args), "-0: ", ex1.args[0], "-1: ", ex1.args[1] )
@@ -124,14 +124,14 @@ def exc_catch_1():
     try:
         1/0
     except Exception   as  ex1:
-        print("Exception: ", ex1.__class__, ex1, " -: ", ex1.args , " --length: ",  len(ex1.args), " --exc-dict: ", ex1.__dict__)
+        print("Exception: ", ex1.__class__, ex1, " --args: ", ex1.args , " --length: ",  len(ex1.args), " --exc-dict: ", ex1.__dict__)
 
 
 
 # ###############################################################################################
 if __name__ == "__main__":
     ##__  exc_clause_prios_1()
-    exc_clause_classes_prios_1()
+    ##__  exc_clause_classes_prios_1()
     ##__  exc_subclassing_tree_1()
     ##__  exc_args_1()
-    ##__  exc_catch_1()
+    exc_catch_1()

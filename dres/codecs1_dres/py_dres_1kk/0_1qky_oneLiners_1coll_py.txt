@@ -1,5 +1,15 @@
 ___________ oneLiners/quickies/..._1coll_py : ____________________
 
+
+#####  ==========  introspections / inspect / __dict__ / ...:
+	_______:  inspect:
+	- list all non __ funcs of obj1:   [x for x in inspect.getmembers(obj1) if not str(x[0]).startswith("__")]
+	- class-tree:  inspect.getclasstree([Class1])
+	_______:  
+	- modules-listing of all modules python can now access:  import pkgutil; for ii in pkgutil.walk_packages(): print(ii)
+
+##________________________________________  ___________________________
+
 #####  ==========  lx_cmdlines_py :
 	_______:  dummy-testData-textfile  for-chks generating, 10-lines [0-9 pos.]  x  10-columns/chars (inkl. invisible EOL/\n ) [1-10 pos.] :
 	- for ((ii=0; ii<10 ; ii++ )); do echo -e "$ii -456789"; done >|  0data1/txt1.txt.1org
@@ -27,6 +37,7 @@ ________________________________________  ___________________________
 	import os
 	os.path.basename(__file__)							# ScriptName.py
 	os.path.splitext(os.path.basename(__file__))[0]		# ScriptName
+________________________________________  ___________________________
 
 
 #####  ==========  lists/dicts/tuples/sequences onliners,tricks...:

@@ -2,6 +2,11 @@ introspections_py, obj-/class-queryings_py :
 =========================================================================================
 
 
+#####  ==========  libs/... for introspects/inspects/dynamic-loading+introspecting/...
+	- pyStdLibs: inspect, importlib, pyclbr, tokenize, pkgutil
+##________________________________________  ___________________________
+
+
 #####  ==========  __dict__/dir/vars/locals/globals/... introspections-funcs/attribs of classes/modules/... : ==================== 
 
 	_______:  locals() :
@@ -14,19 +19,21 @@ introspections_py, obj-/class-queryings_py :
     - dict containing the current scope's global vars+values
 	- for name, value in globals().items(): print  ('{0:20} ==  {1}'.format(name, value)) ;
 
-	_______:  __dict__  :
+	_______:  __dict__  (printed out by vars(obj1)):
     - dict of  attribs of objects-/modules-querys : 
+	- print-out: best use:  vars(obj1)
+	- no __dict__ : if __slots__ is defined in the obj-class, or if obj-class is abstract, then obj1 has NO __dict__ attrib !!
 	- object.__dict__ : object’s (writable) attributes Dictionary.
 	- module1.__dict__ ,  module1.__dict__.values() 
     - printout-beauty-dict:
 		import pprint; pprint.pp(obj1.__dict__);   ##--/OR pprint.pprint(tab=...,..) ; #/OR manually:
 		print("{\n  ", "\n  ".join("{:20s}  ::  {}".format(k,v) for k,v in sorted(d11.items())), "\n}", sep="")  ##--: d11 = module1.__dict__ 
-
+	- see also:  https://stackoverflow.com/questions/19907442/explain-dict-attribute
 
 	_______:  vars():
-    - dict of local vars/attribs (names + values)   pydoc vars :
-	- vars()      ==  locals()               ##-- Without an argument, vars() acts like locals().
 	- vars(obj1)  ==  obj1.__dict__
+	- vars()      ==  locals()               ##-- Without an argument, vars() acts like locals().
+    - dict of local vars/attribs (names + values)   pydoc vars :
 
 	_______:  dir() / __dir__() :    --> basically intellisense-completion (without-values! for values use locals() !) :
     - List all methods/vars/attribs/funcs-NAMES of the current-obj/class/module/... ,  except builtins ones! : no values, only-NAMES! not-dict, only LIST !   
@@ -41,15 +48,16 @@ introspections_py, obj-/class-queryings_py :
 
 
 #####  ==========  "inspect" StdLib-module:
-
     _______:  inspect StdLib :
-    - pydoc  inspect
+    - pydoc  inspect + https://pymotw.com/3/inspect/index.html
 	- module-stdlib:   inspect - Get useful information from live Python objects.  ; pydoc  inspect
     --- usages/eg:
     - FilePath/location of an imported module:  import os; print("- file-location of rthe module: ", inspect.getfile(os))
 	- classtree:   from inspect import getclasstree ;...
     - mro:   inspect.getmro(class1)
 	- import inspect ; inspect.isfunction(func1) ; inspect.getmodule(func1)
+	--- more :
+	- see also StdLib:  pyclbr — Python module browser , tokenize — Tokenizer for Python source , bzw. https://pymotw.com/3/pyclbr/index.html#module-pyclbr
 ##________________________________________  ___________________________
 
 
@@ -59,7 +67,6 @@ introspections_py, obj-/class-queryings_py :
 
 
 #####  ==========  tree-classes / subclasses / class-hierarchy_printout / class-tree / ... :
-
     - ! see dres:  *tree*.py !!
     - all subclasses of a cls sorted by name:  for ii in sorted(tuple.__subclasses__(), key=lambda x: x.__name__): print (ii)  
 ##________________________________________  ___________________________

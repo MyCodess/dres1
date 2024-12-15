@@ -10,9 +10,9 @@ def req_get1():
     print("\n====================  get-1: ====================")
     url1 = "https://httpbin.org/get?p1=v1&p2=v2"
     data1 = {"d1": "aa", "d2": "bb"}
-    print("-- BOTH url-args + params together can be uses as args for get ! check the resp.url !")
+    print("-- BOTH url-args + params together can be used as args for get ! check the resp.url !")
     resp1 = requests.get(url1, params=data1, timeout=(3.1,7) )
-    print("\n------ resp.text: ----- (resp.text is str, but resp.content iy byte type! check also resp.raw for streaming!)")
+    print("\n------ resp.text: ----- (resp.text is str, but resp.content is byte type! check also resp.raw for streaming!)")
     print(resp1.text)
     print("\n------ resp.header: -----")
     pprint.pp(dict(resp1.headers), indent=4)

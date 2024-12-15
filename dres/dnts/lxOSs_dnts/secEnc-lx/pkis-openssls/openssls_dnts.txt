@@ -1,0 +1,279 @@
+_____________________________  openssls-dnts , /:240830  :  ______________________________________________
+
+
+#####  ==========  1cu/2chk/2do/...:
+##________________________________________  ___________________________
+
+
+#####  ==========  nts/urls:
+	- !! https://www.feistyduck.com/books/openssl-cookbook/
+	- https://docs.openssl.org/master/
+	--- WPPs:
+	https://knowledge.digicert.com/general-information/openssl-quick-reference-guide
+	---
+	- ! MSYS2 problem with converting "/" into pathes ! so do:   MSYS_NO_PATHCONV=1 ...  #-to prevent path-converting!! so also msys_dnts for more !
+	- ! ALL files must be in unix-format (config-files,...)
+
+	_______:  helps/cmds/....:
+	- openssl version -a
+	- openssl  -help
+	- ! openssl list -commands  #-OR: openssl list -help #-as: -all-algorithms / -cipher-algorithms / -public-key-algorithms / ....
+	- ! list all args/options for a cmd (eg genpkey):  openssl list -options genpkey
+##________________________________________  ___________________________
+
+
+#####  ==========  infos prints, formats, ...:
+	- man  openssl-namedisplay-options  :
+	- print subject ready-to-use for openssl cmdline:   openssl x509 -in c1.crt -noout -subject  -nameopt :  #-not in docs, but ok!
+	- shorter-logs/printouts/infos:   openssl x509 -noout -text -in c1.crt  -certopt  no_pubkey no_sigdump   #-OR for CSRs:  openssl req -noout -text -in  csr1_pkey1.pem  -reqopt  no_pubkey,no_sigdump
+##________________________________________  ___________________________
+
+
+#####  ==========  converts:
+	https://www.feistyduck.com/library/openssl-cookbook/online/openssl-command-line/key-and-certificate-conversion.html
+
+	--- DER <--> PEM :
+	- PEM encoded certificate into a DER encoded certificate: openssl x509 -inform PEM -in yourdomain.crt -outform DER -out yourdomain.der
+	- PEM encoded private key into a DER encoded private key: openssl rsa -inform PEM -in yourdomain.key -outform DER -out yourdomain_key.der
+	- DER encoded certificate into a PEM encoded certificate: openssl x509 -inform DER -in yourdomain.der -outform PEM -out yourdomain.crt
+	- DER encoded private key into a PEM encoded private key: openssl rsa -inform DER -in yourdomain_key.der -outform PEM -out yourdomain.key
+
+	--- PKCS#12 <--> PEM :
+	-- p12->pem:
+	- Because the PKCS#12 format contains both the certificate and private key, you need to use two separate commands to convert a .pfx file back into the PEM format :
+	- extract the private key from a PKCS#12 (.pfx) file and convert it into a PEM encoded private key:  openssl pkcs12 -in yourdomain.pfx -nocerts -out yourdomain.key -nodes
+	- extract the certificate from a PKCS#12 (.pfx) file and convert it into a PEM encoded certificate:  openssl pkcs12 -in yourdomain.pfx -nokeys -clcerts -out yourdomain.crt
+	- To convert the entire .pfx to .pem:   openssl pkcs12 -in example.pfx -out example.pem -nodes
+	-- pem->p12:
+	- openssl pkcs12 -export -out Cert.p12 -in cert.pem -inkey key.pem -passin pass:root -passout pass:root
+##________________________________________  ___________________________
+
+
+#####  ==========  KEYs:
+	-  OpenSSL defaults to PKCS #8 (pkey, keygen,...) ! legacy/obsol is PKCS#1 !
+	- list options for genkey algorithms (eg RSA):  openssl  genpkey -algorithm RSA -help
+	- check-keys (openssl-rsa / openssl-pkey):  openssl rsa -in pkey1.pem  -inform PEM  -check -noout   #-OR:   openssl pkey -in fd.key -text -noout ; #- [ -pubcheck ]
+	- check-pubkey:  openssl pkey -pubin ...
+	- check a prvkey:   openssl rsa -in pkey1.pem  -inform PEM  -check -noout
+	- PW remove (then un-encrypted):  To remove the pass phrase on a private key:   openssl pkey -in key.pem -out keyout.pem  #-see man openssl-pkey eg!
+	- PW-set/-add to a pkey (then encrypted): openssl pkey -in key.pem -des3 -out keyout.pem  #-replace -des by other algorithms as -aes-256-cbc , ...
+	- Extracting Public Key from Private Key:   openssl rsa -in pkey1.pem -pubout -out  pkey1.pem.pub
+##________________________________________  ___________________________
+
+
+#####  ==========  CSRs / openssl req :
+	- CSR:
+		- contains : the public key of the entity requesting the certificate (applicant/server) + some information (config-file/subj=...) about the entity (applicant/server). 
+		- This data will all be part of the certificate (which will be issued later). (extensions-data have to be included in the cert later EXPLICITELY! NOT always default!)
+		- A CSR is always signed with the private key corresponding to the public key it carries.
+	- openssl req -x509 : generates/outputs a certificate instead of a CSR/certificate request.
+	- config-file (must be in unix-format /dos2unix *):  man1/openssl-req/#configuration-file-format + samples/examples there at the end!
+	- subj eg:  openssl req -new -key yourdomain.key -out yourdomain.csr -subj "/C=US/ST=Utah/L=Lehi/O=Your Company, Inc./OU=IT/CN=yourdomain.com"
+	- one-line-CSR-creation eg: openssl req -new -newkey rsa:2048 -nodes -keyout yourdomain.key  -out yourdomain.csr  -subj "/C=US/ST=Utah/L=Lehi/O=Your Company, Inc./OU=IT/CN=yourdomain.com"
+	- Generate a certificate signing request based on an existing certificate:   openssl x509 -x509toreq -in server.crt -out server.csr -signkey server.key
+	. check/veify CSR:  openssl req -noout -verify -in server.csr  #- [ -text ]
+	- check/verify that the key in a CSR matchtes a private keyX :
+	[[ $(openssl rsa -noout -modulus -in pkey1.pem | openssl md5) == $(openssl req -noout -modulus -in csr1_pkey1.csr.pem | openssl md5) ]] && echo passed-verification || echo failed-verificaion
+	- cert to CSR convert:  Convert a certificate to a certificate request:   openssl x509 -x509toreq -in cert.pem -out req.pem -key key.pem
+##________________________________________  ___________________________                                                                                                                         
+
+
+#####  ==========  CERTs / openssl x509 :
+	
+	_______:  create a new cert incl. extensions in conf-file pki1.cnf :
+	- !-nts:  extensions included in a certificate input are not copied by default by openssl x509 ! have to add params: -extfile pki1.cnf  -extensions EXT1 ... !
+	- new-cert-from-scratch:      openssl x509 -new -signkey pkey1.pem -extfile pki1.cnf  -extensions EXT1  -subj '//C=DE' -out c3.cert    #-new cert from scratch (no CSR, ...) and incl. cert-extensions from conf-file: see man openssl-x509/-new !
+	- new-cert--based-on-csr1:    openssl x509 -req  -in pkey1.pem.csr -out c1-pkey1.cert -signkey pkey1.pem -copy_extensions copyall     #-new-cert-based on csr1 !
+	- directy-no-csr1:            openssl req  -x509 -config pki1.cnf -new  -copy_extensions copyall -out c3.cert -noenc -keyout k3.key -extensions EXT1 -set_serial 33333   #- directly without csr1-file, then MUST specify the secion of extensions in conf-file !!!
+	- directly-with-csr1:         openssl req  -x509 -in csr1_pkey1.pem -key pkey1.pem -out csr1_pkey1_cert.pem -copy_extensions copyall -set_serial 33333
+	--- extensions for certs in conffilei (must be in unix-format ! dos2unix *):
+	- openssl req  -x509 -config xx ... #-then in xx must also contain (for cert/x509):  x509_extensions = <ext-section-name> ! otherwise req_extensions = sss works only for the CSRs , but NOT for new certs to include the extensions-tags !
+	- openssl x509 ... : then must use args: -extfile pki1.cnf  -extensions EXT1  .... !
+
+	_______:  self-signed-cert with:    openssl x509  -req  <my-CSR-file>  <my-pkey> ...   /OR:  openssl req   -x509 <my-pkey> ... :
+	- https://www.feistyduck.com/library/openssl-cookbook/online/openssl-command-line/signing-your-own-certificates.html
+	- CSR-to-CSERT-convert: using-generated-CSR-file and own-pkey :
+		- openssl x509  -req  -days 365 -in fd.csr  -signkey  fd.key -out  fd.selfsigned.cert
+		- with extensions explicit:  openssl x509 -req -in careq.pem -extfile pki1.cnf -extensions EXT1 -key key.pem -out cacert.pem
+		- it works also without csr-file, but using it makes it easier for configs/config-file, otherwise have to use -subj / -set_subject , and extensions, ... !
+	- directly without extra CSR file, but with own-pkey:  openssl req   -x509 -new -days 365 -key  fd.key  -out  fd.selfsigned.direct.cert  -config fd.cnf   #-all-one-step-incl-CSR-gen ,so without prepared CSR-file!
+	- directly without extra CSR file, but with new-pkey:  openssl req   -x509 -newkey rsa:4096 -sha256 -days 365  -noenc -keyout example.com.key -out example.com.crt -subj "/CN=example.com"     #-- and add more type=value for subj ! and extensions as: -addext "subjectAltName=DNS:example.com,DNS:*.example.com,IP:10.0.0.1"  #- from stockexch. ,see also full variations in: https://docs.joshuatz.com/cheatsheets/security/self-signed-ssl-certs/
+
+	_______:  verify/check certs:
+	- check/verify certs that the cert matches the host/IP/email/date : man1/openssl-x509/#certificate-checking-options  , openssl x509 -checkXXX   #-see there!
+	- check/verify CERT--CSR--PKEY match each other:  so eg if a prvkey matches a cert or  csr !
+		- using -pubkey :  To verify the public and private keys match, extract the public key from each file and generate a hash output for it. All three files should share the same public key and the same hash value:
+		openssl pkey -pubout -in .\private.key | openssl sha256
+		openssl req -pubkey -in .\request.csr -noout | openssl sha256
+		openssl x509 -pubkey -in .\certificate.crt -noout | openssl sha256
+		see: https://knowledge.digicert.com/general-information/openssl-quick-reference-guide
+		- /OR using -modulus instead -pubkey:
+		 openssl req -noout -modulus -in mycsr.csr > csr-mod.txt
+		 openssl x509 -noout -modulus -in mycert.crt > cert-mod.txt
+		 openssl rsa -noout -modulus -in mykey.key > privkey-mod.txt
+		 diff3 csr-mod.txt cert-mod.txt privkey-mod.txt
+	- check/verify that the key in a cert matchtes a private keyX :
+		[[ $(openssl rsa -noout -modulus -in pkey1.pem | openssl md5) == $(openssl x509 -noout -modulus -in cert1.pem | openssl md5) ]] && echo passed-verification || echo failed-verificaion
+	- Extracting Public Key from Certificate:  openssl x509 -pubkey -noout -in cert.pem  > pubkey.pem
+
+	_______:  multiple certs in a file / chained certs in one file ...:
+	- create a cert-bundle (put multiple certs in one PEM); just concatenate them:  cat cert1.pem  cert2.pem > cert3.pem
+	-  Generating a P7b file of a signed certificate with certificate chain:   openssl crl2pkcs7 -nocrl -certfile dev.cer -certfile myIssuing.cer -certfile root.cer -out dev.p7b
+	--- print/show ALL certs infos in a certs-bundle (multiple certs in one pem-file):
+		- ! the std-cmd "openssl x509 -out ..." stops after the FIRST cert in a pem-file! so have to either) use bash "while"-read .... OR) convert to pkcs7 and then read all its certs, /OR with storeutl, as: 
+		1- while openssl x509 -noout -text; do : ; done < www.example.org_certs.pem  >| www.example.org_certs.pem.log  2>/dev/null  #-OR:
+		2- openssl crl2pkcs7 -nocrl -certfile www.example.org_certs.pem | openssl pkcs7 -print_certs -text -noout -out www.example.org_certs.pem.p7b.log
+		3- openssl storeutl -noout -text  -certs  cert_selfsigned12.pem
+##________________________________________  ___________________________
+
+
+#####  ==========  pkcs7:  man openssl-pkcs7 (for pkcs7-structures) , man openssl-smime (for its contents):
+	_______:  converts:  PKCS#7 <--> PEM :
+	- PEM nach P7B /PKCS7 : openssl crl2pkcs7 -nocrl -out certificate.p7b -certfile  cert1.cer  [ -certfile cert2.cer ...]
+	- P7B /PKCS7 nach PEM : openssl pkcs7 -print_certs -in certificate.p7b -out certificate.cer -quiet
+	- verify / print-certs in a pkcs7-pem-file:    openssl pkcs7 -in dev.p7b -print_certs -noout
+	
+	_______:  compare equality of a PEM and p7b cert: so, compare their fingerprints/thumbprints:
+	openssl x509 -in tmp/cert3.pem -fingerprint -noout
+	openssl pkcs7 -inform PEM -in tmp/cert3.pem.p7b  -print_certs | openssl x509 -fingerprint -noout
+##________________________________________  ___________________________
+	
+
+#####  ==========  CMSs sign/verify/enc/decrypt a message/smime/emai:
+	- see examples-section of man openssl-cms  +  explanations in:  https://www.misterpki.com/openssl-cms/  + https://github.com/CyberHashira/Learn_OpenSSL/blob/main/OpenSSL_CMS.txt :
+	- !! DIFF: encrypt <--> sign[-opaque , so with -nodetach] : signed is not automatically encrypted, even if opaque/-nodetach ! it is ONLY signed! the message text can still be extracted WITHOUT any PW/keys/... ! sign ONLY signs the message !
+
+	_______: sign/verify: 
+	- nts: for all CMS cmds: if using self-signed-certs, then add -noverify to the cmd-args, sonot re-checking the keys with CAs ! otherwise use -CAxxx ....
+	1- sign it cleartext (message extra/clear-text/detached from created sig-cert):
+		openssl cms -sign -in message.txt -out mail.msg -signer CERT_SELFSIGNED1.pem -inkey CERT_SELFSIGNED1.pem.pkey
+		- -inkey since your pkey is not in CERT_SELFSIGNED1.pem ! otherwise if -singer xx contains both your cert + pkey, then inkey not required!
+	2- sign it opaque/not-cleartext (message not-detached from sign-cert! so integrated together! BUT still NOT encrypted! DIFF: encrypt <--> sign-opaque !):  
+		openssl cms -sign -in message.txt -out mail.msg -signer CERT_SELFSIGNED1.pem -inkey CERT_SELFSIGNED1.pem.pkey  -nodetach
+	3- examine the signed/enced message:   openssl cms -cmsout -print -in mail.msg   #-log printout
+	3- verify the above:
+		- openssl cms -verify -in mail.msg    -out mail.msg.verifyOut.txt -certsout mail.msg.verifyCertsOut.txt -noverify  
+		- So:  mail.msg.verifyCertsOut.txt == CERT_SELFSIGNED1.pem ,  and mail.msg.verifyOut.txt == message.txt !
+		- ! -noverify if selfsigned. signing-cert/key ! so not-verifying it with any CAs ! otherwise -CAfile xxx.pem ,so CA-cert ! so:
+		- If you do not have the ca chain or simply do not care about validating with it, you can add the -noverify flag to the command and remove the -CAfile flag.
+
+	_______:  enc/decrypt:
+	1- encrypt it for the owner of CERT_SELFSIGNED2.pem-pkey :  openssl cms -encrypt -in message.txt -out enc1 -recip CERT_SELFSIGNED2.pem   #-so, not needed any of your certs/... !
+	2- examin the consistency/correctness of the generated encrypted file:  openssl cms -cmsout -print -in enc1   #-log-printout
+	2- decrypt it as the owner of privatekey of CERT_SELFSIGNED2.pem : openssl cms -decrypt -in enc1 -inkey CERT_SELFSIGNED2.pem.pkey
+
+	_______:  S/MIME, emails-sign/enc ;
+	- steps: https://www.globalsign.com/en/blog/what-is-s-mime
+##________________________________________  ___________________________
+
+
+#####  ==========  server-client-openssl:
+	_______:  client / s_client :
+	- ! proxy ; MUST use extra < ... -proxy ...> param!! does NOT work with just envvars...! see man openssl-s_client !
+	--- download/save/Grab a website's SSL certificate :
+		- ! https://www.feistyduck.com/library/openssl-cookbook/online/testing-with-openssl/extracting-remote-certificates.html +  https://en.wikipedia.org/wiki/PKCS_7
+		- save all certs of the connected-server:  echo | openssl s_client -showcerts -connect www.xxx.org:443 [-proxy $prox1] 2>&1 | sed --quiet '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' > feistyduck.chain
+		- save only certain specified cert of the connected-server: add to above line the required cert-servername with: ... -connect www.example.org:443 -servername example.org ...
+		--
+		- simple:  echo '' | openssl s_client -connect www.example.org:443 -proxy $prox1  > cert1_www.example.org.pem
+		- better ( delete everything except the PEM certificate):  echo -n | openssl s_client -connect www.example.org:443  | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' > pem.cert
+		- if several certs has the server, so  identify which cert  : echo -n | openssl s_client -connect www.example.org:443  -servername example.org  | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' > pem.cert
+		--- pipe-to-cmds ... :
+		- eg get fingerprint of srv1:  echo | openssl s_client -connect www.srv1.org:443 2>&1 | openssl x509 -noout -text -fingerprint -sha256
+		- eg get fingerprint + convert to other format: $ echo | openssl s_client -connect www.feistyduck.com:443 2>&1 | openssl x509 -noout -fingerprint -sha256 | sed 's/://g' | tr '[:upper:]' '[:lower:]' | sed 's/sha256 fingerprint=//g'
+
+	_______:  server / s_server:
+	- Run an SSL server: openssl s_server -key key.pem -cert cert.pem -accept 8080 -www ##-access with: https://localhost:8080/ + accept-exception! (NOT http ! but https)
+##________________________________________  ___________________________
+
+
+
+
+#####  ==========  Root-CA setup:
+	- based on https://www.feistyduck.com/library/openssl-cookbook/online/openssl-command-line/private-ca.html /:241113  :
+	_______:  
+	man config ; man openssl-ca ;
+##________________________________________  ___________________________
+
+
+##############################  trys_cookbook-openssl : #################################################################
+
+
+#####  ==========  /:240905 :  cookbook-openssl coll ...:  OpenSSL Cookbook  3rd Edition :
+	_______:  prep-infs ,1.1 Getting Started :
+	openssl  version -a  #-I-NOT --version !
+		--> OPENSSLDIR: "/ucrt64/etc/ssl"  #-configsi/defaults !
+	- compile it yourself (see there Ch.1.1.2) or:  pacman -Ql openssl
+	findin /etc certs  ; findin /etc pki  #-/etc/pki/ca-trust
+	openssl --help / help ; man openssl-ca /  openssl-crl2pkcs7 / openssl-<cmd>
+
+	_______:  cert-store , 1.1.4 Building a Trust Store :
+	- certs-store-build:  certs-dw:  https://hg.mozilla.org/releases/mozilla-beta/raw-file/tip/security/nss/lib/ckfw/builtins/certdata.txt
+	
+	_______:  try2_4096bitsKeys  (cookbk):
+	--- keys-gen / openssl genpkey :
+	- keys-gen:  openssl genpkey -out fd.key  -algorithm RSA  -aes-256-cbc  --pass pass:  -pkeyopt rsa_keygen_bits:4096  -pkeyopt rsa_keygen_pubexp:65537
+	- prvkey-PW-remove:  mvi fd.key fd.key_1org ; openssl rsa -in fd.key_1org -out fd.key ;
+	- prvkey-check (openssl-rsa / openssl-pkey):  openssl rsa -in pkey1.pem  -inform PEM  -check -noout   #-OR:   openssl pkey -in fd.key -text -noout ; #- [ -pubcheck ]
+	- pubkey-out:  openssl pkey -in fd.key -pubout -out fd-public.key
+	- pkey options listing (eg RSA):   openssl  genpkey -algorithm RSA -help
+
+	--- CSR / openssl req :
+	- openssl req -new : generates a new CSR ! without -key ... it also generates new privatekey! see man openssl-req::-new !
+	- CSR-gen:  openssl req -new -config fd.cnf  -key fd.key -out fd.csr
+	- CSR-check:  openssl req -text -in fd.csr   -noout -verify
+
+	--- CSR-send-to-MS_ADCS
+	- MS-conform (\r\n), oneliner-with-\r\n :  sed ':a;N;$!ba;s/\n/\\r\\n/g' fd.csr  >| fd.csr-oneliner_n_r
+	- CSR-send-1 Swagger-API ... : see pkis_nsv_dnts !
+
+	--- cert-self-signed / openssl req   -x509  / openssl x509  -req :
+	- using-generated-CSR-file and own-pkey  :             openssl x509  -req       -days 365 -in fd.csr  -signkey  fd.key -out  fd.selfsigned.cert
+	- directly without extra CSR file, but with own-pkey:  openssl req   -x509 -new -days 365 -key  fd.key  -out  fd.selfsigned.direct.cert  -config fd.cnf   #-all-one-step-incl-CSR-gen ,so without prepared CSR-file!
+	- directly without extra CSR file, but with new-pkey:  openssl req   -x509 -newkey rsa:4096 -sha256 -days 365  -noenc -keyout example.com.key -out example.com.crt -subj "/CN=example.com"     #-- and add more type=value for subj ! and extensions as: -addext "subjectAltName=DNS:example.com,DNS:*.example.com,IP:10.0.0.1"  #- from stockexch. ,see also full variations in: https://docs.joshuatz.com/cheatsheets/security/self-signed-ssl-certs/
+
+	--- cert-chk:
+	openssl  x509  -text -noout -in  xx.crt
+	- diff with self-signeds:  see 1.2.9 Examining Public Certificates /cookBK
+
+	--- cert-verify (is signed with the right prvkey bzw. contains the right pubkey belonging to certain prvkey!):
+	https://www.feistyduck.com/library/openssl-cookbook/online/openssl-command-line/verifying-that-certificate-matches-private-key.html
+	hash1 = openssl x509 -in cert.pem -noout -pubkey | sha256sum
+	hash2 = openssl pkey -in privkey.pem -pubout | sha256sum
+	assert hash1 == hash2
+
+	_______:  try1_2048bitsKeys (due to 2048bits not-working for nsv !) digicert-Tut :
+	--- KEYs-gen , 1.2.1 Key Generation :
+	- prvkey-alg:  Today, 2,048-bit RSA keys are considered secure, or 256 bits for ECDSA.
+	- openssl genpkey -out fd.key  -algorithm RSA  -pkeyopt rsa_keygen_bits:2048  -aes-128-cbc [#1kk: -outpubkey fd.pub  --pass pass:]  ##-do NOT use "openssl genrsa ..." ! is legacy ! see there!
+	- 1kk: it still asks for PW! so to have it really without passphrase, just run it again through openssl with: openssl rsa -in fd.key -out fd.key.nopw
+	- check contents of prvkey:   openssl pkey -in fd.key -text -noout
+	- extract pub-key:  openssl pkey -in fd.key -pubout -out fd-public.key
+	---  CSR / 1.2.2 Creating Certificate Signing Requests  /bzw.  1.2.4 Unattended CSR Generation :
+	- 1kk: did with conf-file /Unattended:    openssl req -new -config fd.cnf  -key fd.key -out fd.csr   #-email-adr must be there + ....!
+	- check the csr:   openssl req -text -in fd.csr   -noout
+	- converting CSR PEM to DER :  openssl  req -inform PEM -outform DER -in fd.csr -out  fd.csr.der  # [ | base64.exe ]
+##________________________________________  ___________________________
+
+
+##############################  trys_digicert-Tut-WPP : #########################################
+#####  ==========  /:240902  :  digicert-Tut-WPP done1:
+	https://knowledge.digicert.com/general-information/openssl-quick-reference-guide :
+	/c/var/tmp/tmpu/up1/varu/varau/wks/ssl1
+	openssl  version -a
+	- gen-prv-key for yourdomain (without passphrase, RSA-2048):  openssl genrsa -out yourdomain.key 2048
+	- check the key:  openssl rsa -text -in yourdomain.key -noout
+	- The private key file contains both the private key and the public key. You can extract your public key from your private key :  openssl rsa -in yourdomain.key -pubout -out yourdomain_public.key
+	- CSR create:  openssl req -new -key yourdomain.key -out yourdomain.csr
+	- OR self-signed-cert create: openssl req -x509 -new -nodes -key yourdomain.key -sha512 -days 3650 -out yourdomain.pem   #-see: https://kb.teramind.co/en/articles/8791235-how-to-generate-your-own-self-signed-ssl-certificates-for-use-with-an-on-premise-deployments
+	-- form-coll:
+	- nts-for-forms: Organisation + FQDN : enter city :  Berlin
+	Country Name (2 letter code) [AU]:DE
+	State or Province Name (full name) [Some-State]:Berlin
+	Locality Name (eg, city) []:Berlin
+	Organization Name (eg, company) [Internet Widgits Pty Ltd]:Berlin
+	Organizational Unit Name (eg, section) []:
+	Common Name (e.g. server FQDN or YOUR name) []:Berlin
+	Email Address []:dkx00@nodom.xx
+##________________________________________  ___________________________
+

@@ -73,11 +73,6 @@ ______________ devNts to remember for pcap-cert : ______________________________
 	_______:  prints:
 	- sep="xxx" ONLY between arguments of one print-clause! and NO-sep at the end! so if only one print-arg, then NO-sep at all will be printed!!
 
-	_______:  sort :
-	-! DIFF:  sort  <---> sorted : list1.sort() in-place modifies l1 and is lists-method ! but  sorted(l1) only output sorted-l1 and is a builtin-func !
-	-! str has NO method sort()!! (str is auch not mutable!) but you can do sorted(str1)
-	-! sorted() : sorts mathematically! so: -5 < -1 ! so:  sorted([-1, -5, -3])  #--->  [-5, -3, -1]
-
 	_______:  oparators-basics:
 	- / division returns  always float !! not-int !! so 2/2 returns 1.0  not 1 !!
 	- 2**2**3 == 2**(2**3)  ! so ** is the only right-sided-precedence-operator ! so not the other way round !

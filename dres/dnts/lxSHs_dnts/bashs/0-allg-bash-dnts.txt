@@ -114,7 +114,7 @@ so: Aliases. You can’t define an alias whose name is a shell keyword (but you 
 ##________________________________________  ___________________________
 
 
-#####  ==========  ENVvariables-/vars--Handling, Manipulating Vars , Var-Substitutions (${...:-...}, ...): 
+#####  ==========  ENVvariables-/vars--Handling/envvars, Manipulating Vars , Var-Substitutions (${...:-...}, ...): 
 
 	_______:  see:
 	-! see man bash -->  "Parameter Expansion"
@@ -140,6 +140,13 @@ so: Aliases. You can’t define an alias whose name is a shell keyword (but you 
     - fileName-only (without path), a cmd basename :  ${0##*/}   ##--filename from filePath ; cut longest marching "*/" and return the rest !
     --
     - echo eg a backspace/newline/bell/...:   echo    abc$'\b'de  ;  echo    abc$'\n'de  ;  echo    abc$'\a'de ; ... see man bash  /^QUOTING
+
+	_______:  dynamically variable-names and dynamic evaluations:
+	- ! varname dynamically generation (varname based on other varValues!), eg: export xx1=yy1 ; export v1_$xx1=aaa ; echo $v1_yy1  ##--> aaa
+	- ! verketted-evaluation / two-stage expansion / "indirect expansion" / like eval(...):
+		- var-value used as further varName and re-evaluated with ! vor varname as ${!varname} ,eg:  export v1=aaa; export v2=v1; echo ${!v2}  ##--> aaa
+		- see man bash /indirect expansion : If the first character of parameter is an exclamation point (!), and parameter is not a nameref, it introduces a level of indirection.   Bash  uses  the value  formed by expanding the rest of parameter as the new parameter; ... This is known as indirect expansion.
+		- https://mywiki.wooledge.org/BashFAQ/006 : How can I use variable variables (indirect variables, pointers, references) or associative arrays?
 ##________________________________________  ___________________________
 
 

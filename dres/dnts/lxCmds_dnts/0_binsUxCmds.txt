@@ -143,9 +143,15 @@ __________ ux-cmds-allg for all cmds if not extra nts __________
 - showkey -a	:show entered char in decimal/ascii/hexacode
 
 	_______:  hex-edit/convert
-	- xxd (in vim-package): creates a hex dump of a given file or standard input. eg: echo aaaa | xxd
+	- ! bc is case-SENsitive! so for hex ONLY CAPITAL letters! as F , D  #-but NOT f . d !!
+	- ANY base converts:  echo "obase=16 ; ibase=2 ; 1111" | bc  #-converts frim input-base 8 to output-base 16 !
+		/OR from a file (only CAPITAL-leters for hex !) :   echo "ibase=16 ; $(cat ./t1.txt)" | bc
+	- HEX-to-DEC:  echo $((0xF))      ;  echo "ibase=16; F"  | bc ;  bzw. echo "ibase=16 ; obase=A ; F" | bc  ##-!!- if output-base=10, then either leave it OR use A instead 10 as base!!
+	- DEC-to-HEX:  printf "%x\n"  15  ;  echo "obase=16; 15" | bc ;
+	---
 	- hexdump : transforming the input-data/file according to the format strings specified by the -e and -f options ; eg: echo aaa | hexdump 
 	- hexedit
+	- xxd (in vim-package): creates a hex dump of a given file or standard input. eg: echo aaaa | xxd
 ##________________________________________  ___________________________
 
 

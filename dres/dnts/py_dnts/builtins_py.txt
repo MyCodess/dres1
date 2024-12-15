@@ -3,6 +3,7 @@ __________  builtins / ......... _________________________________
 
 
 #####  ==========  docs:
+	- ! StdLibDocs: search for built-in : Py3/Doc/html/library/index.html : Built-in Functions , Built-in Constants , Built-in Types , Built-in Exceptions, builtins — Built-in objects
 	- pydoc  builtins  ##--bzw. help (builtins) , bzw.  Py3/Doc/html/library/builtins.html
 	- Built-in Functions : Py3/Doc/html/library/functions.html
 ##________________________________________  ___________________________

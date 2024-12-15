@@ -73,6 +73,12 @@ ___________ collections : lists_dicts_sets_tupels : ____________________________
 		- pprint.pprint(dic11, indent=4)     ##--bzw:  pprint.pprint(dic11, indent=4, width=120, sort_dicts=True) #defaults: width=80, sorted=true ! see pydoc pprint
 		- pydoc pprint , sorted print of dics: pprint.PrettyPrinter(indent=4, width=120, sort_dicts=True).pprint(data)
 		- for ii in sorted(d11.items()): print(ii)
+
+	_______:  DIFF:  sort  <---> sorted :
+	-! DIFF:  sort  <---> sorted : list1.sort() in-place modifies l1 and is lists-method ! but  sorted(l1) only output sorted-l1 and is a builtin-func !
+	-! str has NO method sort()!! (str is auch not mutable!) but you can do sorted(str1)
+	-! sorted() : sorts mathematically! so: -5 < -1 ! so:  sorted([-1, -5, -3])  #--->  [-5, -3, -1]
+
 ##________________________________________  ___________________________
 
 

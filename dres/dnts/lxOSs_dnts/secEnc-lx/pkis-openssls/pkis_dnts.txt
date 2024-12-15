@@ -1,0 +1,89 @@
+__________________________ PKIs-dnts: ______________________________________________
+#-!- here ONLY ALLg.-PKI-Grundlagen! for openssl cmds,... see  extra openssl-dnts !
+
+
+##############################  encodings: PEM/DER/... : ########################################
+#####  ==========  PEM encoding :
+	- PEM ==  (DER | base64) + BEGIN/END-lines :  so basically PEM is the "text"-form of "binary"-DER :
+	- PEM files contain ASCII (or Base64) encoding data ! the certificate files can be in .pem, .crt, .cer, or .key formats.
+	- Apache default ! text/base64-encoded data (basically: DER | base64)
+	- A PEM certificate file may consist of the server certificate, the intermediate certificate and the private key in a single file /OR eg  private key in separate file !
+	- certificate in the PEM file is enclosed between the —- BEGIN CERTIFICATE—- and —-END CERTIFICATE—- statements.
+	- private key is contained between the —- BEGIN RSA PRIVATE KEY—– and —–END RSA PRIVATE KEY—– statements.
+	- CSR is contained between the —–BEGIN CERTIFICATE REQUEST—– and —–END CERTIFICATE REQUEST—– statements.
+##________________________________________  ___________________________
+
+
+#####  ==========  DER encoding :
+	- binary form of PEM-formatted certificates.
+	- can include certificates and private keys of all types, however, they mostly use .cer and .der extensions.
+	- most commonly used in Java-based platforms.
+##________________________________________  ___________________________
+
+
+
+##############################  formats-/syntax-containers : PKCSxx : ###########################
+#####  ==========  SSL-(container)-Formats , PKCSxx/PEM/...:
+	- ! SSL certificates can be issued in various formats such as CER, CRT, DER, PEM, P7B, P7S, PFX, P12, etc, based on their encoding and the information they store.
+	different certificate authorities issue certificates in different formats; and at the same time, different servers require certificates in different formats.
+
+	_______:  PKCS / container-formats/-syntax :
+	https://en.wikipedia.org/wiki/PKCS + https://www.feistyduck.com/library/openssl-cookbook/online/openssl-command-line/key-and-certificate-conversion.html :
+	PKCS #1 	:  Keys-format/syntax legacy (prv+pub) traditional/older/before  PKCS #8 , see man openssl-genrsa : -traditional
+	PKCS #7 	:  Cert-/CSR-/CRL/pubkey-saving-format only(java), but NOT prvkeys! PKCS7 can be saved in PEM/text or DER/binary formats! PKCS7 is only encrypting-format/syntax (not its Algorithm! only its saving systax/format!!) : standard syntax for storing signed and/or encrypted data/certs/keys/... !
+	PKCS #8 	:  Keys-format/syntax (prv+pub)
+	PKCS #10	:  CSR-format/syntax
+	PKCS #12 	:  PFX/P12 (microsoft) format for Cert+PrvKey-encrypted-in-onefile-PW ( .pfx and .p12 ) ! contains encrypted both prvkey + cert  in one-enc-file !
+##________________________________________  ___________________________
+
+
+#####  ==========  PKCS #7 / PKCS7 / .p7b , .p7c -Format :
+	- are encoded in Base64 ASCII encoding and they usually have .p7b or .p7c as the file extension
+	- only certificates/CRLs/CSRs can be stored in this format, not private keys!
+	- certificates having P7B/PKCS#7 format are contained between the “—–BEGIN PKCS7—–” and “—–END PKCS7—–” statements.
+	- Certificates in P7B/PKCS#7 formats are encoded in Base64 ASCII encoding and they usually have .p7b or .p7c (Container) as the file extension.
+	- PEM/DER-PKCS7 WiPe: PKCS #7 files may be stored both as raw DER format or as PEM format. PEM format is the same as DER format but wrapped inside Base64 encoding and sandwiched in between ‑‑‑‑‑BEGIN PKCS7‑‑‑‑‑ and ‑‑‑‑‑END PKCS7‑‑‑‑‑. Windows uses the .p7b file name extension[6] for both these encodings. https://en.wikipedia.org/wiki/PKCS_7
+	- Microsoft Windows and Java Tomcat are the most common platforms using this format for SSL certificates.
+##________________________________________  ___________________________
+
+
+#####  ==========  PKCS #12 or PFX/P12 formats :
+PKCS #12 or PFX/P12 format is a binary format for storing a certificate (including its intermediate) with a private key.
+		Certificates and private key are password protected in the PFX file (container). PKCS#12 (PFX) is very often used on Windows machines to import and export certificates together with a private key.
+		Code signing certificates stored in PFX are also often used for signing with Microsoft Authenticode.
+##________________________________________  ___________________________
+
+
+
+##############################  components: KEYs/CERTs/CSRs/... : ###############################
+
+
+#####  ==========  Private KEYs in PKI  /pkey:
+	_______:  calculation components / features / attribs of PKeys:
+	- see https://en.wikipedia.org/wiki/RSA_(cryptosystem) :
+	- secret-components (ONLY in prvkey):  "p","q" : primes of prvkey; Lambda(n) ; "d" as private key exponent (d is calculated/based on Lambda(n)).
+	- public-components (ALSO in pubkey):  modulus n=p*q ; "e" pubkey-exponent ;
+	- so:
+		The public key consists of the modulus n and the public (or encryption) exponent e.
+		The private key consists of the private (or decryption) exponent d, which must be kept secret. p, q, and λ(n) must also be kept secret because they can be used to calculate d. In fact, they can all be discarded after d has been computed. -see: WiPe
+		The private key contains also always the whole pubkey!
+##________________________________________  ___________________________
+
+
+
+#####  ==========  CERTs:
+	-  CERT-issuer name + CERT-serial number (should) identify a unique certificate! Serial Number is an alphanumeric string assigned by the issuer to each SSL certificate per issuer/provider.
+##________________________________________  ___________________________
+
+#####  ==========  MS-Certs-nts :
+	_______: Apache-to-MS-converts (MS wants PFX/PKCS12 files): Migrating from Apache server to Microsoft:
+	When you are moving the certificate from Apache to Microsoft server, you need to join private key and certificate to a PFX file (PKCS#12).
+	Prepare the private key (usually saved as certificate.key), certificate file (certificate.pem) and Intermediate (intermediate.pem), then use OpenSSL to create a PFX:
+	openssl pkcs12 -export -out output.pfx -inkey certificate.key -in certificate.pem -certfile intermediate.pem
+	https://www.sslmarket.com/ssl/help-common-tasks-with-ssl-certificates/
+
+	_______:  MS-to-Apache (PFX/PKCS12 to PEM):
+	- openssl pkcs12 -in mydomain.pfx -out mydomain.txt -nodes  ##-https://www.sslmarket.com/ssl/moving-existing-certificate-from-microsoft-server-to-apache/
+##________________________________________  ___________________________
+
+
