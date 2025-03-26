@@ -19,7 +19,7 @@ __________________ systemD ... _____________________________________________
 
 #####  ==========  DIRs-systemd     !!--->  https://wiki.archlinux.org/index.php/Systemd :
 	--- DIRs:
-	/etc/systemd/system/:   your/administrator/apps modified units
+	/etc/systemd/system/:   your modified units/files by /administrator/user/apps
 	/usr/lib/systemd/system/  (bzw. without /usr/ ):  unmodified units provided by installed packages
 	- The available unit files and their configs can be seen in /usr/lib/systemd/system/ and /etc/systemd/system/ (the latter takes precedence).
 ##________________________________________  ___________________________
