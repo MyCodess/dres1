@@ -4,8 +4,8 @@ ______________ IO , files, directories, input, ... _____________________________
 
 
 #####  ==========  docs
-	-! docsRF_StdLibs:  io — Core tools for working with streams
-	-! docsRF_Tut :     7.2. Reading and Writing Files !
+	-! docsRF_StdLibs:  io — Core tools for working with streams : Py3/Doc/html/library/io.html : io.open(), io.write(), ....
+	-! docsRF_Tut :     7.2. Reading and Writing Files ! Py3/Doc/html/tutorial/inputoutput.html
 	-! /python-course.eu/python-tutorial/file-management.php.html
 	- pydoc  open ; pydoc io  pathlib.Path , ...
 	- pyCookBK_3ed : Oreilly-python-cookbook--3ed.pdf

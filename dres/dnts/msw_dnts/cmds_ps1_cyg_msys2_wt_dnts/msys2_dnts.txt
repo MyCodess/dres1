@@ -2,8 +2,18 @@ ________________________ MSys2_dnts on MsWins __________________________________
 - !! see also ofc1-mys1-stat-nts !!
 
 
-#####  ==========  symlinks / ln -s :
 
+#####  ==========  LANG probelem!? (at least in ifc1-msw-devvdi-env):/:250320  :
+	--- LANG problem for grep/sort ... with UTF8 setting! :
+    - unset LANG is now in setevv! grep and sort had got problems here in MSYS2 with utf-8 settings as: export LANG=en_US.utf8  or LANG="en_US.UTF-8"
+    (it is set obv. so by system/locale! not in evv) ! they wanted without UTF8   on msw/MSYS2 ! eg grep ignored lines with umlauts if utf8 set!! so 2chk!
+    grep igonred lines with umlauts if: LANG=en_US.utf8  or LANG="en_US.UTF-8" ...; but was ok if unset, or LANG=en_US or LANG=C or ..., but NOT utf8 !
+    but sort: mswProf.sh : alias  sort1='LANG=C.UTF-8 sort'  ##-I-for case-SEnsitive-sorting on msw! works also LANG=C , LANG_ALL=C ...
+    obv. work both if LANG not set or =C or without utf8 !?
+##________________________________________  ___________________________
+
+
+#####  ==========  symlinks / ln -s :
     - !! TERRIBLE ! stupid ! FATAL !! just DISABLE msys2 default setting !!
     - as default it is so stupid, that it COPIES instead SYMLINK!! so as default if you use "ln -s" then it replace it with "cp -a" !! terrible!
     - so to disable it: vide-org  /c/msys64/msys2_shell.cmd  #(for wt start), and  vide-org /c/msys64/ucrt64.ini  bzw. *.ini there  #-for windows-startmenu-start , ALL .ini files there, as:
@@ -27,11 +37,11 @@ ________________________ MSys2_dnts on MsWins __________________________________
 ##________________________________________  ___________________________
 
 
-
 #####  ==========  mounts/...
     - C:\ is mounted to /c as default!
     - System root is /usr, not /
 ##________________________________________  ___________________________
+
 
 #####  ==========  Terminals-ENVs: UCRT64 / MINGW64 / MSYS ...:
 	- https://www.msys2.org/docs/environments/

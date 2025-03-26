@@ -27,13 +27,15 @@ usage1 = """
     help with:   -h / --help
     """
 
+epilog1="-------------------- epilog: Text at the bottom of help ---------------------------------"
+
 def cmdline_argsParser1():
-    parser1 = argparse.ArgumentParser(usage = usage1, description=description1, epilog="----- using cmdline args parser: argparse -----")
+    parser1 = argparse.ArgumentParser(usage = usage1, description=description1, epilog=epilog1)
     parser1.add_argument("src1", help="source folder path", type=str)
     parser1.add_argument("rep1", help="replica/target folder path", type=str)
     parser1.add_argument("log1", help="logfile path", type=str)
     parser1.add_argument("time1", help="time periods/intervals for synchronizations", type=int)
-    parser1.add_argument("-v", "--verbose", help="increase output verbosity", action="store_true")
+    parser1.add_argument("-v", "--verbose", help="increase output verbosity", action="store_true")   # -arg take NO value (action)! is only flag on/off bool 
     args1 = parser1.parse_args()
     if args1.verbose:
         print ("Verbosity is turned on !")

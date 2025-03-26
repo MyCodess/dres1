@@ -76,7 +76,9 @@ ________________ Classes/Objects/methods/... in py: ___________________________
 	- __init__  may NOT return any values/obj !! ("return None" is OK! but not needed!) 
 	- __init__ is just a normal method and can be again from other class methods (BUT should NOT be! makes no sense!
 
-	_______:  __new__() :  https://docs.python.org/3/reference/datamodel.html#basic-customization :
+	_______:  __new__() :
+	Py3/Doc/html/reference/datamodel.html#specialnames , https://docs.python.org/3/reference/datamodel.html#basic-customization :
+	bzw. : Documentation > The Python Language Reference > 3. Data model
 	you do not need to use/know it (except for MetaClasses,...), but just for info:
 	by creating any new instance: first object.__new__(cls1[,self, ...]) is executed and then cls1.__init__(self) !
 	for initialization/creation of any obj1=cls1() : first object.__new__(cls[, ...]) is Called to create a new instance of class. The return value of __new__() should be the new object instance (usually an instance of cls).

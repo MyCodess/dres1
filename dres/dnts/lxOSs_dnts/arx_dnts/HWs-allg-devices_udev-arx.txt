@@ -1,5 +1,6 @@
 ________________________ HWs-infs, udev, /dev, HW-parts ..._______________________-
 -!!  see also extra-dnts   kernelModules-arx   for treiber , /dev, ... !!
+##________________________________________  ___________________________
 
 
 #####  ==========  docs-WPs:
@@ -68,8 +69,11 @@ https://wiki.archlinux.org/index.php/Category:Hardware_detection_and_troubleshoo
 ##________________________________________  ___________________________
 
 
-
+#####  ==========  
 --################################ UDEVs : ######################################################--
+##________________________________________  ___________________________
+
+
 #####  ==========  
 	https://wiki.archlinux.org/index.php/Udev
 	https://wiki.archlinux.org/index.php/Udisks
@@ -105,5 +109,4 @@ https://wiki.archlinux.org/index.php/Category:Hardware_detection_and_troubleshoo
 - However, the rules are not re-triggered automatically on ALREADY existing devices. so:
 - Hot-pluggable devices, such as USB devices, will probably have to be reconnected for the new rules to take effect, or at least unloading and reloading the ohci-hcd and ehci-hcd kernel modules and thereby reloading all USB drivers.
 - manually force udev to trigger your rules:   udevadm trigger [devpath|file|unit]   ## see man udevadm
-##________________________________________  ___________________________
-
+- 

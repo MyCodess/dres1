@@ -40,12 +40,12 @@ def req_sess_headers1():
     """
     print(nts11)
     s.headers.update({"h1":"v1", "h2":"v2"})   ##-- session-level values
-    print("\n-- sess.headers: ", s.headers)
+    print("\n--1 sess.headers: ", s.headers)
     r = s.get('https://httpbin.org/headers', headers={'h1': 'url-v11', 'url-h2': 'v22'})  ##--request method-level values : merged + overwrite with sesseion-values
-    print("\n-- sess.headers: ", s.headers)
-    print("\n-- resp.headers: ", r.headers)
+    print("\n--2 sess.headers: ", s.headers)
+    print("\n--3 resp.headers: ", r.headers)
     print(r.text)
-    print("-- BUT method-level parameters will not be persisted across requests, even if using a session! check h1 here:")
+    print("--4 BUT method-level parameters will not be persisted across requests, even if using a session! check h1 here:")
     r = s.get('https://httpbin.org/headers')  ##--request method-level values : merged + overwrite with sesseion-values
     print(r.text)
 
