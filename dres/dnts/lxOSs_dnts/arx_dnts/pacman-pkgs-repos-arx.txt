@@ -2,12 +2,6 @@ ______________________ pacman + Repos in arx : _________________________________
 ##________________________________________  ___________________________
 
 
-#####  ==========  misc_1cu:
-	-!! GPG-KeyRing-updating :  pacman -Sy archlinux-keyring && pacman -Su ;
-	-!! if ERROR-updates, then:   rm -rf /var/lib/pacman/sync ;   ##--if ERROR:  "error: GPGME error: No data ; error: failed to synchronize all databases (invalid or corrupted database (PGP signature))"
-##________________________________________  ___________________________
-
-
 #####  ==========  Vocabs/DIFFs/DEFs-pacman:
 
 	-!! pkgs types/locations DEFs:    installed/All-Repos/Local-packs/System-OS-managed/-packages  bzw. short/in-aliases  {i/a/l/s}pkg == {ins/all/loc/sys}Pkgs :
