@@ -1,22 +1,33 @@
 
 print("\n============ Generator calls : ===============================================\n")
 ##--------------- generator : is a method containing yield !
-##--------------- generator1-definition:
+nts1="""
+https://python3.info/advanced/index.html#generators
+https://python3.info/advanced/generator/yield.html
+--- generator : is a method containing yield ! to call the gen:
+- ! Python does NOT execute code after calling the generator! Calling a generator will return a generator object.  This object is an iterator
+- erst nach dem next(gen1) /loop gen1 /tuple(gen1),list(gen1) / .... its code lines will be really executed!
+so to execute its code:
+1- manully: you have to manage it by calling next() AND stop it /check StopIteration-Exc !
+2- in-a-loop bzw. yield-from-stmt : the loop manages next()/StopIterationExc !
+- After last yield raises StopIteration
+- There can be one or many yield keywords in a generator function!  Each yield keyword pauses the function and returns the value.
+"""
+# __ print (nts1)
+
+##--------------- generator1-definition: ----------------------------
 def f1(nn):
     for ii in range(nn):
+        print (f"-- pre-yield, ii == {ii} ")
         yield ii + 10
         print (f"__ pos-yield, ii == {ii} ")
-nts1="""--- generator : is a method containing yield ! to call the gen:
-        1- manully: you have to manage it by calling next() AND stop it /check StopIteration-Exc !
-        2- in-a-loop bzw. yield-from-stmt : the loop manages next()/StopIterationExc ! """
-print (nts1)
 
 print()
 print("---------------- 1- manually next() on the iterator pointing to the generator : ----------------")
 ##--i-    manually calling next() on the iterator pointing to the generator, no-for-/loop-iterator! have to manually manage the END / StopIteration excep : -------
 gen1= f1(3)
-print (next(gen1), end=" , ")
-print (next(gen1), end=" , ")
+print (next(gen1), end=" , "); print("... do something here ...")
+print (next(gen1), end=" , "); print("... do something here ...")
 print (next(gen1), " : calling one more time of next() will cause StopIteration exception !")
 ##__   print (next(gen1))  ##--this will cause StopIteration exception !!
 ##__ pause:   input('___ pause! <enter>-to-go-on!')
@@ -43,7 +54,9 @@ for x in f1(3):
     print(x, end=" , ")
 
 print()
-print("---------------- 4- comprenhsion-generator + loop-call over it : -------------------------------------")
+print("---------------- 4- Generator Comprehension  + loop-call over it : -------------------------------------")
+# -generator comprehension syntax:  (...)   (instead [...] in list-comprehension) !so, it is like a list comprehension but with parentheses instead of (square) brackets!
+# -generator comprehension returns a generator (instead of a list in list-compr.) ! so you can use next() or iterate on it whereby keeping the latest status!
 g1 = (x for x in range(0,3))
 for ii in g1: print (ii, end=" , ")
 print()
@@ -62,25 +75,48 @@ print()
 
 print()
 print("_______________________________________________________________________")
-print("----------------- 8- yield-stmt on the right-side-of-assigment-= / send data to generator / simple_coroutine : ---------------------")
-# python-course.eu/advanced-python/generators-iterators.php.html :
-def simple_coroutine():
-    ##__  print("coroutine has been started!")
-    x = 5
-    while True:
-        print("__ coroutine-PRE-yield: ", x)
-        ##--II- "- here the yield-value is NOT asigned to x! yield-value is retunred to the CALLER-of-sned!! the SEND-param-value is assigned to x  and then returns the yield-value back to the caller!!")
-        x = yield x+2
-        print("__ coroutine-POS-yield: ", x)
 
-cr = simple_coroutine()  ##--II-only-assigning cr as pointer to simple_coroutine ! but still NOT running!
-print ("_ next()-call:  starting-the-first-run/loop ! gores up to the first yield-stmt and WAITS for send()-call, dince it is on the right-side-of-= ! ")
-next(cr)  ##--II-starting-the-first-run/loop ! gores up to the first yield-stmt and WAITS for send() !
-print ("- yield-on-right-side-of-assignment will WAIT, till its send-call ist executed !")
-print ("- send will assign its argument to the x and THEN AFTER taht it returne yield value back:")
-print("_ send returned: ", cr.send(10))
-print("_ send returned: ", cr.send(20))
+print("----------------- 6- list(gen1) /tuple/...  will evaluate generator instantly: --------")
+# - Instant Evaluation: Using list() will evaluate generator instantly!
+# - Functions (list, tuple, set, dict, sum, min, max, all, any, etc) will evaluate generator instantly
+# - they iterate also like a loop! so they catch the Exception/StopIteration !
+print(tuple( f2(3)))
+print(list( f2(3)))
+print("_______________________________________________________________________")
+
 
 print()
-print("_______________=========================================_______________")
+print("----------------- 7- several yields in one generator: ---------------------------------")
+def run():
+    print('one',  end=" :: ")
+    print('two',  end=" :: ")
+    yield 1
+    print('three',  end=" :: ")
+    print('four',  end=" :: ")
+    yield 2
+    print('five')
+
+gen1 = run()
+for ii in gen1: print(ii, end=" :: "); print("...")
+print("_______________________________________________________________________")
+
+print()
+print("----------------- 8- zip + yield: -----------------------------------------------------")
+# - https://python3.info/advanced/generator/yield.html
+def firstnames():
+    yield 'Mark'
+    yield 'Melissa'
+    yield 'Rick'
+
+
+def lastnames():
+    yield 'Watney'
+    yield 'Lewis'
+    yield 'Martinez'
+
+for fname, lname in zip(firstnames(), lastnames()):
+    print(f'{fname=}, {lname=}')
+
+print("_______________________________________________________________________")
+
 

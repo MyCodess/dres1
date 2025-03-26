@@ -1,0 +1,37 @@
+
+
+#####  ==========  Topic / test_cmdline1.py : cmdline-args in  app-root-dir--conftest.py and then read/use them in subdirs/subpackages:
+	- ! sequence of overwriting the args:
+		defauls-in-code/params1.py  <  pytest.ini  <  envvar  PYTEST_ADDOPTS  <  shell-cmdline-args
+	_______:  2TRY (and comment out/in in pytest.ini the --argX lines):
+	- defaults (in-code/params1.py  /OR in pytest.ini):   pytest ./subpackage/test_cmdline1.py -sv
+	- envvar:  PYTEST_ADDOPTS='--arg1=env1' pytest ./subpackage/test_cmdline1.py -sv
+	- envvar:  PYTEST_ADDOPTS='--arg1=env1   --arg2=env2' pytest ./subpackage/test_cmdline1.py -sv
+	- shell-cmdline--args:   pytest ./subpackage/test_cmdline1.py -sv --arg2=shell2
+	- shell-cmdline--args-overwriting-env:   PYTEST_ADDOPTS='--arg1=env1   --arg2=env2' pytest ./subpackage/test_cmdline1.py -sv  --arg2=shell2
+##________________________________________  ___________________________
+
+
+#####  ==========  Topic: nested/hierarchical/multiple conftest.py in the app-TREE:
+	_______:  nts:
+	https://docs.pytest.org/en/stable/reference/fixtures.html#conftest-py-sharing-fixtures-across-multiple-files
+	- conftest.py: sharing fixtures across multiple files :
+	- multiple nested directories/packages containing your tests, and each directory can have its own conftest.py with its own fixtures, adding on to the ones provided by the conftest.py files in parent directories.
+	- subdir-tests finds also fixtures in higher-level-dirs, even if the pytest-call-arguments/files itself is further down!
+	- Tests are allowed to search upward (stepping outside a circle) for fixtures, but can never go down (stepping inside a circle) to continue their search.
+	- overwritings:  The first fixture the test finds is the one that will be used (kk: buttom-up), so fixtures can be overridden if you need to change or extend what one does for a particular scope. 
+
+	_______:  order of execution of fixtures:
+	--- Fixture instantiation order depends on:  scope + dependencies + autouse :
+	1- Higher-scoped fixtures are executed first !
+	2- Fixtures of the same order execute based on dependencies !
+	3- Autouse fixtures are executed first within their scope !
+	---
+	- https://docs.pytest.org/en/stable/reference/fixtures.html#fixture-instantiation-order
+	- show-test-fix-setups:  pytest --setup-show /OR setup-only  /OR --setup-plan
+
+	--- 2TRYS: compare + watch the fixture innermost() on both conftest.py:
+	-  pytest ./test_top.py  -sv
+	- pytest ./subpackage/test_subpackage.py  -sv
+##________________________________________  ___________________________
+

@@ -9,6 +9,10 @@ introspections_py, obj-/class-queryings_py :
 
 #####  ==========  __dict__/dir/vars/locals/globals/... introspections-funcs/attribs of classes/modules/... : ==================== 
 
+	_______:  allg:
+	- py-lookup-seq:  locals() > globals() > builtins : until it finds the first occurrence of the target name! so:
+		import builtins;   pylookup = ChainMap(locals(), globals(), vars(builtins))
+
 	_______:  locals() :
     - locals() returns a dict of all local vars + values in the current scope/namespace- !   pydoc locals ;
 	- locals() builtin :  Returns a dictionary containing the current scope's local vars+values.
@@ -20,15 +24,16 @@ introspections_py, obj-/class-queryings_py :
 	- for name, value in globals().items(): print  ('{0:20} ==  {1}'.format(name, value)) ;
 
 	_______:  __dict__  (printed out by vars(obj1)):
-    - dict of  attribs of objects-/modules-querys : 
-	- print-out: best use:  vars(obj1)
-	- no __dict__ : if __slots__ is defined in the obj-class, or if obj-class is abstract, then obj1 has NO __dict__ attrib !!
-	- object.__dict__ : object’s (writable) attributes Dictionary.
+	- see also:  https://stackoverflow.com/questions/19907442/explain-dict-attribute
+	- __dict__ is NOT reliable to check/list all obj-attribs,...! use instead the inspect module! but it is fine for quick direct obj-attr/-members check!
+	- object.__dict__ : object’s (WRITABLE) attributes Dictionary ! so:
+	- class-attr or obj-props are NOT in __dict__ !
+	- NOT having  __dict__ : if list/dict/... ,OR: __slots__ is defined in the obj-class ,OR: if obj-class is abstract !! for slot see: https://stackoverflow.com/questions/472000/usage-of-slots/28059785#28059785
 	- module1.__dict__ ,  module1.__dict__.values() 
     - printout-beauty-dict:
+		- print-out: best use:  vars(obj1)   ##--OR:
 		import pprint; pprint.pp(obj1.__dict__);   ##--/OR pprint.pprint(tab=...,..) ; #/OR manually:
 		print("{\n  ", "\n  ".join("{:20s}  ::  {}".format(k,v) for k,v in sorted(d11.items())), "\n}", sep="")  ##--: d11 = module1.__dict__ 
-	- see also:  https://stackoverflow.com/questions/19907442/explain-dict-attribute
 
 	_______:  vars():
 	- vars(obj1)  ==  obj1.__dict__
@@ -52,6 +57,11 @@ introspections_py, obj-/class-queryings_py :
     - pydoc  inspect + https://pymotw.com/3/inspect/index.html
 	- module-stdlib:   inspect - Get useful information from live Python objects.  ; pydoc  inspect
     --- usages/eg:
+	- inspect.getmembers(<obj/module/class/...>, Bedingung/predicate/filter)
+	--- for ii in [x for x in inspect.getmembers(<obj/module/class/...>) if not str(x[0]).startswith("__")]: print(ii)
+		/OR use predicate-arg of getmembers, as eg:  inspect.getmembers(x, predicate=inspect.ismethod)  
+		-!!- BUT if using predicate-arg/filter, then the predicate-func is provided with the x and: x is the VALUE part of the tuple (name, value)! NOT the name element!! as in:
+		-!- for ii in [inspect.getmembers(settings, lambda x: str(x).startswith("T"))]: print(ii) ##--so here eg all tuples with the VALUE of (xxx, Txxx) are printed out!
     - FilePath/location of an imported module:  import os; print("- file-location of rthe module: ", inspect.getfile(os))
 	- classtree:   from inspect import getclasstree ;...
     - mro:   inspect.getmro(class1)

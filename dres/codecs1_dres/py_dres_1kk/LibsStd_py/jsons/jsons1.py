@@ -47,5 +47,5 @@ def jsons_decode_file1():
 
 if __name__ == "__main__":
     jsons_encodings1()
-    #_  jsons_decodings1()
+    jsons_decodings1()
     #_  jsons_decode_file1()

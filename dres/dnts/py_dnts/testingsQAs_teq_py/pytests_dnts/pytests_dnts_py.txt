@@ -46,6 +46,12 @@ __________________ pytests_dnts ___________________________________________
 
 #####  ==========  cmdline-opts:
 
+	_______:  
+	- ! see PyTests_dc/REFs-pytests_p/pytest-main/doc/en/_build/html/example/simple.html  !
+	- ! LAST-arg wins! : command-line applications, in case of conflicting options the last one wins, so the example above will show verbose output because -v overwrites -q.
+	- cmdline-args ways, in THIS sequence:  pytest.ini::addopts + $PYTEST_ADDOPTS + <cmdline-args>   #-so the cmdline-args overwrites all ! see: pytest-main/doc/en/_build/html/example/simple.html
+		<pytest.ini:addopts> $PYTEST_ADDOPTS <extra command-line arguments>
+
     _______:  eg / qckys:
 	- pytest  -c <configfile / pytest.ini-path> ...
 	- pytest <module/pkg/DIR/ / -k regexp  / tests/test_mod.py::test_func1>  ##--see HowTo:  2.1 How to invoke pytest
@@ -77,18 +83,37 @@ __________________ pytests_dnts ___________________________________________
 	- pytest  -c <configfile / pytest.ini-path> ...   ##-- -c bzw. the parent-dir of configfile/pytest.ini is also the pytest rootdir !!
     - show-active-plugins in your env:  pytest --traceconfig
 	- If -c is passed in the command-line, use that as configuration file, and its directory as rootdir.
+	- ! print-cu-pytest-conf:  import inspect;  inspect.getmembers(pytestconfig)    # -pytestconfig == request.config
+
 ##________________________________________  ___________________________
 
 
 
 #####  ==========  fixtures:
 
-	_______:  nts/urls:
+	_______:  urls:
+	--- see:
+	- ! dres:  py_dres_1kk/testingsQAs_teq_py/pytests_teq/fixtures1/
+	- ! https://pytest-with-eric.com/fixtures/pytest-fixtures/
+	- https://pytest-with-eric.com/fixtures/pytest-fixture-with-arguments/   #-!fixt with dynamic arguments, with params, or as factory !
+	--- REFs:
 	- !! /how-to/fixtures.html  incl. eg !
 	- !! examples:  /pytest-main/doc/en/example/fixtures/
-	- ! see there the "manaual simulations" of requesting fixtures! absolutely helpful !
+	- ! see there the "manual simulations" of requesting fixtures! absolutely helpful !
+
+	_______: nts:
+	- ! NOT direct call of fixture-methods! 
+		- error-msg-of-direct-calls:
+		Failed: Fixture "get_cmdline_args" called directly. Fixtures are not meant to be called directly,
+		but are created automatically when test functions request them as parameters.
+		See https://docs.pytest.org/en/stable/explanation/fixtures.html for more information about fixtures, and
+		https://docs.pytest.org/en/stable/deprecations.html#calling-fixtures-directly about how to update your code. 
 	- ! the fixtures are executed BEFORE starting EACH test_method!! and provide the test_methods with the result of fixtures as method-arguments!
 	- ! Fixtures are created when first requested by a test, and are destroyed based on their scope !
+
+	_______:  sequence / fixture-instantiation-order:
+	- /reference/fixtures.html#fixture-instantiation-order
+	- see dres ! py_dres_1kk/testingsQAs_teq_py/pytests_teq/fixtures1/conftests1/0nts.txt +  ./fixtures1/test_fx_groupingTestsByFixt_fixtScopes1.py
 
     _______:  listing/showing fixtures:
 	- pytest  --fixtures   [ pathes ]   ##--listing all cu-pytest-fixtures of pytest-builtins-fx + pyt-plugins-fx + cu-dir-[pathes-prj/dir]-fx ! no-tests-runs!
@@ -105,19 +130,29 @@ __________________ pytests_dnts ___________________________________________
 	- so, default is to invoke requested fixture once per TEST_method/function WITHOUT sideeffects of previous requests! so basically from initial-status again! this can be changed with "scope=" param to fixture decorator!
 	- Possible values for scope are: function, class, module, package or session.
 
-	_______:  parametrization of fixtures /functions:
+	_______: setup-/teardown of fixtures + tests :
+	- ! pytest --setup-show /OR setup-only  /OR --setup-plan  test_xxx.py   ##--:shows setups-runs-teardown-sequencies of tests in xxx.py
+##________________________________________  ___________________________
+
+
+
+#####  ==========  parametrization of fixtures /functions:
 	- ! see dres!
 	- ! if parameterized-fixture, then: pytest may invoke a fixture more than once in the given scope ! Pytest only caches one instance of a fixture at a time !
-	- /how-to/parametrize.html#parametrizemark
-
-	_______: setup-/teardown of fixtures + tests :
-	- ! pytest --setup-show    test_xxx.py   ##--:shows setups-runs-teardown-sequencies of tests in xxx.py
+	- /how-to/parametrize.html#parametrizemark , html/example/parametrize.html
 ##________________________________________  ___________________________
 
 
 #####  ==========  Markers:
 	- ! HowTo:  /how-to/mark.html
-	- pytest  --markers   ##--listing all markers!
+	- custom markers  :   PyTests_dc/REFs-pytests_p/pytest-main/doc/en/_build/html/example/markers.html
+	- parametrized tests markers:   /html/example/parametrize.html#set-marks-or-test-id-for-individual-parametrized-test
+	---
+	- listing-all-existing-markers:  pytest  --markers   [dir1 :if your pytest.ini is there ...]
+	- ONLY marked tests running:     pytest -v -m  mymark1 / "not mymark1"
+	- list node-IDs of all tests:    pytest --collect-only
+	- module-marking as whole:       pytestmark = pytest.mark.webtest  /OR pytestmark = [pytest.mark.webtest, pytest.mark.slowtest] # REFs-pytests_p/pytest-main/doc/en/_build/html/example/markers.html
+	- parameterized tests marking:   @pytest.mark.parametrize( ("n", "expected"), [(1, 2), pytest.param(1, 3, marks=pytest.mark.bar), (2, 3)])
 ##________________________________________  ___________________________
 
 

@@ -43,6 +43,7 @@ ________________________________________  ___________________________
 #####  ==========  lists/dicts/tuples/sequences onliners,tricks...:
 	- dict-from-lists:   converting 2-lists (keys1, values1) into a-dict:    dict(zip(keys1, values1))
 	- dict-from-string:  dic1=eval("{...: ..., ....}")  ##--exp-from-web-json-response:   resp1 = requests.get('https://api.github.com') ; dic1 = eval(resp1.text)
+	- dict-comprehensions: d1 = {str(x): x+1 for x in (1,2,3)}  ;  d2 = {str(x): x+2 for x in (2,3)}; d2 ;
 ________________________________________  ___________________________
 
 

@@ -64,14 +64,13 @@ _________ py-basics: (builtins-) syntaxs / ops /atoms/ stmts / expressions / loo
 ##________________________________________  ___________________________
 
 
-#####  ==========  dunder methods / overwriting Std-Operations (+-/...) / magic-methods ....:
-
+#####  ==========  magic-methods == Special methods == dunder methods ,eg. overwriting Std-Operations (as <>+-*/=, ...) :
+	! Py3/Doc/html/reference/datamodel.html#specialnames + RefDocsStdLibs:   operator — Standard operators as functions
+	/python-course.eu/oop/magic-methods.php.html
+	https://github.com/python/cpython/tree/3.10/Lib/operator.py
 	ueberschreiben/redefine der builtin Operations (+*/-><=...) for eigene Classen/Objects  (double-underscore-method /dunder-methods as __add__, ...):
 	pydoc builtins  :  corresponding funcs are there! as __add__ , __truediv__ , __mul__ ,  __iadd__ , ...
 	pydoc operator ;
-	/python-course.eu/oop/magic-methods.php.html
-	RedDocsStdLibs:   operator — Standard operators as functions
-	https://github.com/python/cpython/tree/3.10/Lib/operator.py
 ##________________________________________  ___________________________
 
 
