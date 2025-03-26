@@ -1,0 +1,30 @@
+
+
+#####  ==========  /:250309 :  first aspect/topic: hierarchical conftest.py effects:
+- https://docs.pytest.org/en/stable/reference/fixtures.html#conftest-py-sharing-fixtures-across-multiple-files
+- topic: read cmdline-args by a conftest.py located in the prj-root, accessing the cmdline-args-values in subdirs/subpackages
+---
+usage1:
+	- multiple-conftest.py/nested trys:    pytest -sv ./  ; pytest -sv subpackage/test_subpackage.py
+	- cmdline-args-in-nested-conftest.py (priorities/overwriting from highest/top to lowest/down:
+		prios: chell-cmdline-arg > envvar PYTEST_ADDOPTS > pytest.ini addopts > in-code-defaults :
+		- 2try:
+		- pytest ./subpackage/test_cmdline1.py -sv --cmdopt="shell_opt1"
+		- /OR with envvar:   PYTEST_ADDOPTS='--cmdopt=env_opt1' pytest ./subpackage/test_cmdline1.py -sv  #--OR: export PYTEST_ADDOPTS='--cmdopt=env_opt1' ; pytest ...
+		- /OR with pytest.ini settings, then: pytest ./subpackage/test_cmdline1.py -sv --cmdopt="ini_opt1"
+		where pytest.ini comment-in/-out:  addopts = --cmdopt=ini_opt1 
+
+
+_______:  nts:
+- 2try:  pytest -sv subpackage/test_subpackage.py  finds also fixtures in higher-level-dirs, even if the pytest-call is further down!
+- Tests are allowed to search upward (stepping outside a circle) for fixtures, but can never go down (stepping inside a circle) to continue their search.
+- overwritings:  The first fixture the test finds is the one that will be used (kk: buttom-up), so fixtures can be overridden if you need to change or extend what one does for a particular scope. 
+
+_______:  order of execution of fixtures:
+- see above link :
+- Fixture instantiation order depends on:  scope + dependencies + autouse :
+1- Higher-scoped fixtures are executed first !
+2- Fixtures of the same order execute based on dependencies !
+3- Autouse fixtures are executed first within their scope !
+##________________________________________  ___________________________
+

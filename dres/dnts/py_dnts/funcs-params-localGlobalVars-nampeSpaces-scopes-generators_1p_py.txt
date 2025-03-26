@@ -149,9 +149,11 @@ _______________ funcs, local/nonlocal/global-vars, scopes, namespaces, ...______
 
 #####  ==========  generators / yield :   ========================================
 	_______:  see/nts:
+    - !! https://python3.info/advanced/index.html#generators ; https://python3.info/advanced/generator/yield.html :
     - ! see dres !
 	- see /python-course.eu/python3_generators.php.html  + docsRF_Tut: 9.8. Iterators + 9.9. Generators
-    - see https://python.astrotech.io/advanced/generator/
+	- REFs-Tuts:  /tutorial/classes.html#generators , 
+	- REFs: reference/expressions.html#yieldexpr
     --- nts:
     - a generator is just a function contaninig "yield" ! and then: it behaves like an "iterator" ! so it returns a sequence of values each time the next() is called on it ! (in a loop, the lopp calls next() implicitely for you!)
     - calling a generator: 1- manually: by next(gen1) + handle StopIteration-Excep! 2- in a loop (loop manages it all!)
@@ -162,16 +164,19 @@ _______________ funcs, local/nonlocal/global-vars, scopes, namespaces, ...______
     - you do the whole work basically with the Generator-Object (iteration-pointer)! So a generator function returns an generator object that is iterable !
     - eg: def gen1(n): yield n; is the Generator-Function! and then with g1= gen1(3); then g1 is the Generator-Object! so print(next(g1)); /OR for ii in g1: print(ii); ...  
 
-	_______:  Generator Comprehension :
-	- DEF:  a generator comprehension returns a generator (instead of a list in list-compr.) ! so you can use next() or iterate on it whereby keeping the latest status!
+	_______:  Generator Comprehension (Generator Expressions:) :
+	- https://python3.info/advanced/generator/expression.html
+	- DEF:  a generator comprehension/Expression returns a generator (instead of a list in list-compr.) ! so you can use next() or iterate on it whereby keeping the latest status!
 	- syntax:  (...)   (instead [...] in list-comprehension) !so, it is like a list comprehension but with parentheses instead of (square) brackets ! 
     - eg-loop:      g1 = (x for x in range(0,3));  for ii in g1: print (ii, end=" , ")  
 	- eg-manually:  g1 = (x for x in range(0,3));  next(g1) ; ...; next(g1) ; ....
 
     _______:  "yield from" :
+	- ! https://python3.info/advanced/generator/yield-from.html
     - "yield from g"  ==  for v in g: yield v 
 
 	_______:  send-to-generator / yield as expression (so on the right side of "=" ):
+	- ! https://python3.info/advanced/generator/send.html
 	- def gen1(z): x = yield "y"   :  by calling gen1_call= gen1() ; gen1_call.send("val1") /OR next(gen1_call("val1")) : then its return-value is "y" and x = "val1" !
 	so yield on the right side: forwads the call-parameter to the x and returns the value mentioned in yield statement!! see devres + python-course.eu/advanced-python/generators-iterators.php.html ! 
 ##________________________________________  ___________________________

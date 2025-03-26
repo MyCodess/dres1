@@ -52,7 +52,7 @@ ___________________ strings: formattings/searching/manipulating/handling/... py 
 	!! python-course.eu/python-tutorial/formatted-output.php.html
 	- source-code: https://github.com/python/cpython/tree/3.9/Lib/string.py , /usr/lib/python3.9/string.py
 	---
-	-!COMPARE:  '{0}{1}{0}'.format('p0-', 'p1-')  #<--->   '{0}{1}{0}'.format(*'p0-')
+	-!COMPARE:  '{0}: {1}: {0}:'.format('p0', 'p1')   #<-->  '{0}: {1}: {0}:'.format(*'p0')
 	eg:  "Second argument: {1:3d}, first one: {0:7.2f}".format(47.42 , 11) ---> 'Second argument:  11, first one:   47.42'
 	eg: named-placeholders:  "Art: {a:5d},  Price: {p:8.2f}".format(a=453, p=59.058)
 	eg: dict:  data = dict(province="Ontario",capital="Toronto") ; print("The capital of {province} is {capital}".format(**data)) ;

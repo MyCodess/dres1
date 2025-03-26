@@ -9,7 +9,7 @@ Two things are noteworthy:
 - see:  Bklein_Tuts_py:  /python-course.eu/python3_properties.php.html
 """
 
-print ("\n========== properties defining by decorators: ==========")
+print ("\n========== properties defining by decorators: any access to the property x its get/set methods are implicitly/automatically applied !! :")
 ##--I- Syntax using decorators :
 class P:
 
@@ -29,7 +29,6 @@ class P:
         else:
             self.__x = x + 21
 
-print ("\n---------- by any access to the property x its get/set methods are implicitly/automatically applied !! :")
 j1=P(1100)
 print (j1.x)
 j2=P(10)
@@ -37,7 +36,7 @@ print (j2.x)
 ##--ERROR- x-setter not callable:   j1.x(12) ; 
 
 ##-------------------------------------------------
-print ("\n---------- rather javaesque-syntax without decorators, but still using property() method, to define the property (not-pythonic!) : ----------")
+print ("\n========== rather javaesque-syntax without decorators, but still using property() method, to define the property (not-pythonic!) : ----------")
 class P2:
 
     def __init__(self, x):
@@ -62,7 +61,7 @@ p2.x = 10
 print (p2.x)
 
 ##-------------------------------------------------
-print ("\n---------- showing that for props ALWAYS the getter/setter methods are applied, even in __init__ ! and: the prop x1 is NOT accesible directly as __x1 outside the class-definition ! NOT even through the instance-obj itself! : ----------" )
+print ("\n========== showing that:\n   - for props ALWAYS the getter/setter methods are applied, even in __init__ ! and:\n   - the prop x1 is NOT accesible directly as __x1 outside the class-definition ! NOT even through the instance-obj itself! : ----------" )
 class C1:
     def __init__(self, p1):
         self.x1= p1
@@ -75,16 +74,18 @@ class C1:
     def x1(self, p1):
         self.__x1 = p1+10   ##--II-just add something to its value, so that you can follow, the setter method here was applied by setting x1 value !
 
-print ("--- the property x1 is internally/bytecode/compiler renamed in _C1__x1 , so _<classname>__<propertyname> ! so NOT even accessible through o1.__x1 !! ---")
+print ("\n--- the property x1 is internally/bytecode/compiler renamed in _C1__x1 , so _<classname>__<propertyname> ! so NOT even accessible through o1.__x1 !! ---")
 o1= C1(0)
 print (o1.x1)
 print("o1-dict:  ", o1.__dict__)
 o1.x1 = 2
 print (o1.x1)
 print("o1-dict:  ", o1.__dict__)
-print ("--- here ONLY a new instance-var __x1 will be defined, which hat got nothing to do with the property x1 !: ---")
+print ("\n--- here ONLY a new instance-var __x1 will be defined, which hat got nothing to do with the property x1 !: ---")
 o1.__x1 = 4
 print (o1.x1)
+print (o1.__x1)
+print (o1._C1__x1)
 print("o1-dict:  ", o1.__dict__)
 
 print ("-------------------------------------------\n")

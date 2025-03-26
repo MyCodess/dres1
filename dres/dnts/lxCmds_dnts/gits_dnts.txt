@@ -6,11 +6,14 @@ _______________ git_dnts ___________________________________________________
 	_______:  configs:
 	- show config-files: git config -l  --show-origin
 	- ! use ONLY LOCAL configs (./git/config), NOT using OS-System/Global-user config files:  export GIT_CONFIG_SYSTEM=""   GIT_CONFIG_GLOBAL=""  ##--or set to /dev/null  , see /doc/git-doc/git-config.html  :ENVIRONMENT !
-	git config  --global diff.tool vimdiff ; git config  --global  diff.guitool  gvimdiff ; #-gui with -g : gvim NOT working yet in msys!
+	- git config  --global diff.tool vimdiff ; git config  --global  diff.guitool  gvimdiff ; #-gui with -g : gvim NOT working yet in msys!
+
 	_______:  another-branch-stuffs....:
 	- from another branch checkout/overwrite my file here:  git checkout  <another-branch-name>  <file-path-1>  #-eg: git checkout master misc/requirements_all.txt
 	--- diff/compare-branches...:
-		- diff with another-branch-file:   git diff master:misc/requirements_all.txt  requirements_all.txt
+		- diff with another-branch-file:
+			git diff    --name-only   master  .    ##-show all filenames changed in my cu-branch compared with the master!
+			git diff master:misc/requirements_all.txt  requirements_all.txt
 		- diff two branches, eg cu-br and master:  git diff HEAD..origin/master  [--stat]   ##--stat: only filesnames! no patches/details!
 		- diff of two commits:  git diff commit1..commit2  ;eg:  git diff abc123..def567
 	--- pull another branch:
@@ -21,10 +24,12 @@ _______________ git_dnts ___________________________________________________
 		- or?:  git fetch <remote> <src>:<dst>  ##--eg: from-my-cu-br1 (with uncommitted stuff yet), without switching to master, update/pull the master-to-master : git fetch origin master:master  ##--I-otherwise the std-way is with stash: git stash , git switch master , git pull , git switch my-branch , git merge master , git stash pop
 	--- merges:
 		- merge and overwrite with ALL theirs files/changes:   git merge [-s ort] -X theirs  master1
+	
 	_______:  undos/restores/back-to/...:
 	- ! back/restore to certain commit for a file:  git checkout c5f567xxx -- fp1  fp2 ...
 
 	_______:  
+	- nachträglich set tracking/remote-upload-branch of my cu-local-branch to remote-br1:   git branch -u remotes/origin/br1
 	- update my local-repo with remote-repo-latest-status, but do NOT touch my working tree:  git fetch origin
 ##________________________________________  ___________________________
 
@@ -306,7 +311,6 @@ _______________ git_dnts ___________________________________________________
 	-- nts:
 	- grob:   restore : worktree-undos  <-->  reset : commit-undos  <-->  revert : remote+... undos :
 	- git restore :  is newer than reset cmd and yet experimental! so, may be changed!  man git-restore  
-	- reset <--> revert : for UNcommits:  git revert will make sure that a new commit is created to revert the effects of that unwanted merge. This is in contrast to git reset, where we effectively "remove" a commit from the history. That's also the reason why git revert is a better solution in cases where you've already pushed to a remote.
 	- reset overlaps a bit with others !
 	- also consider:  -amend param of commit , and also rebase concepts !
 	--
@@ -314,6 +318,20 @@ _______________ git_dnts ___________________________________________________
 	- git-reset   :  undo-branch(-commits)/UNcommit  :  updating your branch
 	- git reset   :  undo-stage  /UNstage            : can also be used to restore the index (overlapping funcs with git restore)
 	- git revert  :  undo-commits /UNcommits (+remote) : revert a commit, by producing a new commit with contrary changes, so back to the previous commit ! making a new commit that reverts the changes made by other commits
+	--
+	--- reset <--> revert for UN-commits , back to prev/older commits:
+		- ! see https://stackoverflow.com/questions/19032296/how-to-use-git-revert  :
+		-- ! DIFF:
+		- remove the commit-ID xxx :  git revert xxx  #so: git revert requires the id of the commit you want to REMOVE keeping it into your history
+		- back to commit-ID xxx :     git reset  xxx  #so: git reset requires the commit you want to keep, and will consequentially remove anything after that from history.
+		- so: git revert <insert bad commit-ID/-hassh here>  <---> git reset <insert your favorite commit-ID/-hassh here, what you want to restore!>
+		- git revert: all follbacks visible in history! creates new commit going back to pre-bad-commit <---> git reset: removes all from hist and sets all back to commit-id argument!
+		--
+		- git revert creates a new commit with the changes that are rolled back <--> git reset erases your Git history instead of making a new commit.
+		git revert simply creates a new commit that is the opposite of an existing commit. So, it keeps the bad-commit in the history and creates a new commit after that which rolls back to prev commit! but all visible in the history!
+		git reset <
+		--
+		- for UNcommits:  git revert will make sure that a new commit is created to revert the effects of that unwanted merge. This is in contrast to git reset, where we effectively "remove" a commit from the history. That's also the reason why git revert is a better solution in cases where you've already pushed to a remote.
 
 	_______:  restore : undo-files-in-workTree :
 	- git restore             ##--restore from Stage --> workTree    ##--opposite-of  git add !!
@@ -379,7 +397,7 @@ _______________ git_dnts ___________________________________________________
 	- git diff  --compact-summary   ##--diffs-listing-only (listing of changed files; bit NOT their contetns-diff)
 	- git diff             ##-diff of  workTree  <-->  stage/index:   
 	- git diff  --cached   ##-diff of  stage    <-->  locRepo:   
-	- git diff  --HEAD     ##-diff of  workTree  <-->  locRepo:   
+	- git diff  HEAD     ##-diff of  workTree  <-->  locRepo:   
 	- git  diff  <commit_id1>   <commit_id2>
 	- remoteRepo  <--> locRepo :  git branch -a ; git fetch origin/master ; git diff origin/master  master   ##--instead master can be any branch, as: orgin/br2 my-br ;
 	- git diff origin/main  --compact-summary   ##--compact-diffs of cu-local-branch and remote-main!

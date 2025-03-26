@@ -7,17 +7,6 @@ __________ Disks, Partitiotions, USB-Medias, /dev-dir, dev-mapper, USB, hal, blo
 ##________________________________________  ___________________________
 
 
-####  ==========  exfat : exfat-utils /OR  exfatprogs  ...!?:/:250119  :
-    - better/newer/kk: exfatprogs :
-        - works mount as user, ...; more/better functionalities!
-        - is newer than exfat-utils (exfatprogs is a re-branding of exfat-utils by SAMSUNG ...)
-        - but systemd has somewhere for exfat-boot-fsck-check entires/cmd-args for the other pkg: exfat-utils cmds:
-        so the boot-message of: journalctl:  systemd-fsck[373]: fsck failed with exit status 16.
-        so due to this entry: boot-fsck of T1FS / ... fails! (have to find where systemd has it !?)
-    - exfat-utils : eher obsolete/primitive ! no user-mounts possible! but then works boot-fsck-systemd (no exit status 16)
-##________________________________________  ___________________________
-
-
 #####  ==========  HDs/ExtHDs/USB-Devs/mounts/MTP/All-Block-Devices/attached-devices/...:
 
 	_______:  HDs-allg-dnts:

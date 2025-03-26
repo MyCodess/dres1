@@ -52,8 +52,7 @@ _________________ Kernel-params, sysctl, ... ___________________________________
 	netdev= 	Network devices parameters.
 	video=<videosetting> 	Override framebuffer video defaults.
 
-	_______:  fsck in boot/kernelParams:
-	https://wiki.archlinux.org/title/Fsck : either by mkinitcpio /OR by systemd ! see there!
+	_______:  
 ##________________________________________  ___________________________
 
 
