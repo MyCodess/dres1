@@ -1117,7 +1117,7 @@ _______________________- VIMs_dnts _____________________________________________
 	-! current-modified-buffer-not.Saved.Yet  diffs with  original-saved-file  (org-file must be copied first):
 	   (!! autowrite must be off, otherwise the curr-buffer will be saved automatically and so org-file overwritten, ans so no diffs!!)
 	   :set noautowrite  ;then:  :!cp % tmp1  ;then:  :vertical diffsplit tmp1  
-	- jumping to diffs: [c , ]c
+	- jumping to previous/next diffs: [c , ]c
 	- get/obtain-diffs  do bzw. :diffget bzw. keys  "do"  ;(also, abgleichen/uebernehmen the diffs); eg :1,$+1diffget :gets all diffs from the other buffer
 	- put/senden-diffs  dp bzw. :diffput bzw. keys  "dp"  ; 
 	-  :diffupdate   :force the differences to be updated and viewed, eg after a few adaptions,...

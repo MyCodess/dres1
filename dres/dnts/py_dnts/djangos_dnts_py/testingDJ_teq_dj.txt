@@ -1,6 +1,6 @@
 _______________________ TestingsQA_dj ... ______________________________________
-- ! for pytest-dj see extra dnts !
-- ! see in dres the Vincent-Tut done !
+- ! see extra dnts for pytest in dj !
+- ! see also in dres the Vincent-Tut done !
 
 
 #####  ==========  REFs...:
@@ -61,7 +61,7 @@ _______________________ TestingsQA_dj ... ______________________________________
 	- enabled-CSRF-client with:  from django.test import Client ; csrf_client = Client(enforce_csrf_checks=True)
 
 	_______:  client-login:
-	- tests-login:   django.test.Client().login()/ aforce_login()  :  simulate the effect of a user logging into the site : file:///C:/Users/DKX8H1N/var3/w3/dcIT/dj_dc/django-docs/topics/testing/tools.html
+	- tests-login:   django.test.Client().login()/ force_login()  :  simulate the effect of a user logging into the site ! see django-docs/topics/testing/tools.html
 
 	_______:  client-response:
 	- dj_dc/django-docs/topics/testing/tools.html#testing-responses :

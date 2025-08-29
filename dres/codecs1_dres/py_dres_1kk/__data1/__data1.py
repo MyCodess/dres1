@@ -24,6 +24,11 @@ tup1=tuple(range(20,25))
 set1=set(dic1.values())
 
 
+# -- __1END:
+import sys;; sys.exit()
+
+
+##############################  1coll/more/...: #################################################
 ##-------- Dicts-beautiy-printout, one-pair-per-line :
 def printDictBeauty1(dict1):
     print ("------------------------------------")
@@ -32,5 +37,4 @@ def printDictBeauty1(dict1):
         print ("{:>15}  ==  {}".format(k1, dict1[k1]))
     print ("-"*30)
 ##---
-##############################################################################
 

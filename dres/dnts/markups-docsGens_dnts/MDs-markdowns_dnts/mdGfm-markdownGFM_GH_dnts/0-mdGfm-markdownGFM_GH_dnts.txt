@@ -22,8 +22,9 @@ ______________________________________________________________________________
     - optionals:  python3 -m pip install gh-md-to-html[pdf_export]  ,  python3 -m pip install gh-md-to-html[offline_conversion]
     - see <https://github.com/phseiff/github-flavored-markdown-to-html>  :
 
-	_______:  cmds eg on Lx:
+	_______:  cmds(converts to html/pdf/...) eg on Lx:
     - cmark-gfm   -t html gh1.md  >| gh1.md.html     ##--/OR with --unsafe for parsing HTML-tags !  ##--see man  cmark-gfm    
+	- /OR use pandoc which converts all doc-types ..., eg: pip install pandoc;  python -m  pandoc -s  --data-dir=. -i README.md  -o README.md.html
 ______________________________________________________________________________
 
 

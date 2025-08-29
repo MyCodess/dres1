@@ -28,7 +28,7 @@ vi polls/admin.py
 
 
 #####  ==========  addies...:
------ app1:
+----- ap1:
 mysite : python  manage.py startapp ap1
 mysite : mkdir -p ap1/static/ap1
 mysite : mkdir -p ap1/templates/ap1

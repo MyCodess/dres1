@@ -1,0 +1,50 @@
+
+##############################  models/DBs/... : ################################################
+
+
+#####  ==========  urls...:
+    - ! /django-docs/topics/db/queries.html
+    - ! /django-docs/ref/models/querysets.html
+    - Field lookups with "__" operator (WHERE clause in SQL-select-stmt) :  django-docs/ref/models/querysets.html#field-lookups
+##________________________________________  ___________________________
+
+
+#####  ==========  models-Allg:
+	- ! Specifying model = Publisher is shorthand for saying queryset = Publisher.objects.all() ! django-docs/topics/class-based-views/generic-display.html
+    - DIFF   ModelXX.objects.get(...) <---> ....filter() : if no entries or multiple entries found, then ModelXX.objects.get(...) throws Exception! filter() returns empty/multiple set-entries ! see /django-docs/topics/db/queries.html#retrieving-a-single-object-with-get
+    - ModelXX.objects. all(), get(), filter() and exclude()
+	- !  add __str__() methods to your all your models !
+##________________________________________  ___________________________
+
+
+#####  ==========  queryset/filters:
+	- ! dj_dc/django-docs/topics/db/queries.html  +  django-docs/ref/models/querysets.html :
+	- A QuerySet represents a collection of objects from your database. (basically a SELECT return-set!)
+	- eg: Blog.objects.all() returns a QuerySet that contains all Blog objects in the database (but NOT really evaluated yet! erst nach einem Zugriff darauf wie qs[2] wird die DB abgfragt,...!)
+	- double underscores to perform field lookups "__" , eg: question__pub_date__year :  dj_dc/django-docs/topics/db/queries.html#field-lookups-intro
+	- queryset/filters: In SQL terms, a QuerySet equates to a SELECT statement, and a filter is a limiting clause such as WHERE or LIMIT.
+	--- evaluation/real-db-query of Querysets:
+		- ! a QuerySet is NOT evaluated (filled with data) until it is realy used!! (so NO DB-queries by creating any QuerySet! erst nach usage/iteration/accessing-its-data it connects the DB and ... !)
+		- so with: qs1 = Entry.objects.all() nothing happens! no DB-queries,...! later eg by qs1[0]... then django tries to retrieve data ...!
+		- see evaluation :  dj_dc/django-docs/ref/models/querysets.html#when-querysets-are-evaluated
+		- daher: If you only need to determine the number of records in the set (and don’t need the actual objects), it’s much more efficient to handle a count at the DB with QuerySet.count() method ! see django-docs/ref/models/querysets.html
+		- Force immediate evaluation (query-the-DB) of a QuerySet by calling list() on it. For example: entry_list = list(Entry.objects.all())
+##________________________________________  ___________________________
+
+
+#####  ==========  DB-relationships, foreignkeys,...:
+	--- FKs / choice_set / Choice. / ... :
+	- ! Tut-02  dj_dc/django-docs/intro/tutorial02.html
+    - ! /dj_dc/django-docs/ref/models/relations.html
+	- other-way-around: from main-obj/table -> to its FK-related objs : obj.choice_set.... / Choice....
+##________________________________________  ___________________________
+
+
+#####  ==========  pytest: testing-modells and the DB-access:
+	--- DB access by pytest:
+	- !!-to accsess the dj-DB by pytest (default: access denied!) have to add the DB-entires in tests/integration/conftest.py !
+	otherwise:  RuntimeError: Database access not allowed, use the "django_db" mark, or the "db" or "transactional_db" fixtures to enable it.
+	https://pytest-django.readthedocs.io/en/latest/faq.html#how-can-i-give-database-access-to-all-my-tests-without-the-django-db-marker
+	and the DB-access-calls must be then inany pytest-method (bit not eg directly in module-body ! since the module body is imported before pytest-fixtures-executions!
+##________________________________________  ___________________________
+
