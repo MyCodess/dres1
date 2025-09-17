@@ -1,0 +1,14 @@
+_____________________________  templates in dj: __________________________________
+
+
+
+#####  ==========  URLs,...:
+	- Guide:  /dj_dc/django-docs/topics/templates.html
+	- tut:  dcIT/dj_dc/django-docs/intro/tutorial03.html
+##________________________________________  ___________________________
+
+
+#####  ========== allg-nts:
+	- default-dir: <app>/templates/ : Your project’s TEMPLATES setting describes how Django will load and render templates. The default settings file configures a DjangoTemplates backend whose APP_DIRS option is set to True. By convention DjangoTemplates looks for a “templates” subdirectory in each of the INSTALLED_APPS. dj_dc/django-docs/intro/tutorial03.html
+##________________________________________  ___________________________
+

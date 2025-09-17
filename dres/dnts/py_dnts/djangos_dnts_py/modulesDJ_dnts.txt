@@ -1,0 +1,25 @@
+___________________ DJ-std-libs/modules/... : ____________________________________
+
+
+#####  ==========  timezone, datetime , locale, localization, i18n in dj:
+    _______:  URLs  timezone , datetime:
+    - ! django-docs/topics/i18n/timezones.html
+    - https://docs.djangoproject.com/en/5.0/topics/i18n/formatting/
+    - https://docs.djangoproject.com/en/5.0/topics/i18n/timezones/
+    - https://docs.djangoproject.com/en/5.0/topics/i18n/
+    - FAQ: /topics/i18n/timezones.html#time-zones-faq
+    - pydoc  zoneinfo , https://docs.python.org/3/library/zoneinfo.html
+
+	_______:  
+	- ! use dj-date-time-modules instead datetime.datetime of py-StdLib, since dj-utils are time-zones bewusst, if timezone set in settings!
+		so do eg: instead of datetime.datetime.now() do from django.utils import timezone;  timezone.now(); instead! see eg in django-docs/intro/tutorial02.html
+    ---
+    - !! Naive and timezone-aware datetime objects:  Python’s datetime.datetime objects have a tzinfo attribute that can be used to store time zone information, represented as an instance of a subclass of datetime.tzinfo. When this attribute is set and describes an offset, a datetime object is aware. Otherwise, it’s naive.  see django-docs/topics/i18n/timezones.html
+    - You can use is_aware() and is_naive() to determine whether datetimes are aware or naive.
+    - now time if is_naive():  import datetime;  now = datetime.datetime.now()
+    - now time if is_aware():  from django.utils import timezone ; now = timezone.now()  ##--for django; for py-stdlib checkit !
+	---
+    - query: my local time in the current time zone? : from django.utils import timezone ; timezone.localtime(timezone.now())  ##--see FAQ-link above!
+##________________________________________  ___________________________
+
+

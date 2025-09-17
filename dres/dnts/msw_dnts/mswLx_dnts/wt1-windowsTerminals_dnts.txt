@@ -1,0 +1,110 @@
+_____________________ wt.exe / WindowsTerminal.exe dnts : __________________________________
+- !! see REF:  https://learn.microsoft.com/en-us/windows/terminal/
+- !! see REF:  https://learn.microsoft.com/en-us/windows/terminal/command-line-arguments
+
+
+#####  ==========  nts-Allg-wt1 :
+    - !! esacping chars in wt1 with "`" (backtick) !! (so as "\"in bash!) ; eg. opening two-tabs-wt from PS-Terminal:   wt `; `;
+	- so: PowerShell uses a semicolon ; to delimit statements. To interpret a semicolon ; as a wt-commands-/args/options-delimiter, you need to escape semicolon charactersusing backticks. PowerShell also has the stop parsing operator (--%), which instructs it to stop interpreting anything after it and just pass it on verbatim.
+	- !! obv. wt1-cmdline-params are doch case-sensitive, as -p <profile-name>  and NOT -P !?
+##________________________________________  ___________________________
+
+
+#####  ==========  portable-setup:
+	- https://learn.microsoft.com/en-gb/windows/terminal/distributions#windows-terminal-portable :
+	- !! unzip + cd <unzipped-wt> ; touch .portable ;
+	- Portable mode needs to be enabled manually. After unzipping the Windows Terminal download, create a file named .portable next to WindowsTerminal.exe.
+	- settings in ptb-wt:  Windows Terminal will automatically create a directory named settings in which it will store both settings and runtime state such as window layouts.
+	- Disabling Portable mode : You can restore Portable mode unpackaged installation to its original configuration, where settings are stored in %LOCALAPPDATA%\Microsoft\Windows Terminal, by removing the .portable marker file from the directory containing WindowsTerminal.exe.
+	- Upgrading a Portable mode Install : 	You can upgrade a portable mode installation of Windows Terminal by moving the .portable marker file and the settings directory to a newly-extracted unpackaged version of Windows Terminal.
+	- If you wish to reenable portable mode, you can create a new .portable marker file next to WindowsTerminal.exe.
+##________________________________________  ___________________________
+
+
+#####  ==========  configs/settings-files, settings.json :
+    --- ptb: in <ptb-dir> : ./defaults.json (dafaults, auto-generated, no-edits!) + ./settings/settings.json (user-adaptions/edits/...)
+    --- installed: - see listing in: https://learn.microsoft.com/en-us/windows/terminal/install#settings-json-file
+    - goto json-file also by drop-down-menu... bw. ctrl-, !
+    - https://learn.microsoft.com/en-us/windows/terminal/customize-settings/profile-advanced
+##________________________________________  ___________________________
+
+
+#####  ==========  terms/wins/tabs starting, cmdline options/args for tabs/wins/... :
+    - ! https://learn.microsoft.com/en-us/windows/terminal/command-line-arguments :
+    - params-abbrev.:  wt/wt.exe ,  -w/--window  , nt/new-tab  , -p/--profile , --startingDirectory /-d , ... see above link (there are more infos/params than just wt -h !)
+	_______:  windows-iID/-name (acting as server/dbus for wt-terminals):
+        The wt --window/-w parameter can be used to communicate with any wt, so send commands to existing /OR new terminal windows, opening new tabs in that,...
+        wt --window / -w [win-iID/-name]  ... : win-name == -1/new  : new-window-start ,  == last/0: most recently used window ; == <dres-terms1> : name of the windows, started with that name !
+        If no window exists with the given window-id, then a new window will be created with that id/name.
+	_______:  multiple-tabs-open-in-same-windows/winID (either already running wt-windows /OR new /OR current window!):
+        - !! ";" between "nt/--new-tab" options MUST be escaped! so in cyg/bash with \ as \; or in powershell-win i with backtick as  `; () !!  /OR not scaped, but several cmds using the same winID !:
+        - !! SEQUENCE of options/paramsi relevant! : the options --title , --suppressApplicationTitle , -p, -d, ... BELONGS  the new-tab/nt argument ! so ONLY after nt param !! see there "New tab command" !
+        - ! wt with no commands bzw. just \;  means: wt new-tab !! so new-tab is the default wt-command !
+        - INSTEAD new-tab/nt you can use split-pane/sp for splitted tabs!
+        - EACH \; bzw. `;  counts as a new TAB , even without nt option ... !
+        - simple-multiple-table:     PS> wt `; `; `;  ;  ## bash> wt \; \; \; ; 
+        - splitted tabs:  $ wt split-pane \; \;  ## PS>  wt split-pane `; `;
+        wt -w te1 nt -p gitt1 -d ./d1/ ; wt -w te1 nt -p gitt1 -d ./d1/d11/ ;  wt -w te1 nt -p gitt1 -d ./d1/  \; focus-tab -t 1  ##--focused on 2.tab
+        wt -w te1 nt -p gitt1 -d "${env:USERPROFILE}\ofc1" ; wt -w te1 nt -p gitt1 -d "${env:USERPROFILE}\ofc1\etc" ;
+	_______:  title of tabs/wins:
+        - --title is TABs-option/nt/new-tab, not wt-/win-option! so it can applied ONLY after nt/new-tab !
+        - win-title is also set dynamically by cu-tab-title
+        - usu. title is (re-)set/changed/suppressed by calling profile/shell (cyg/git/PS7/...)
+        - not-changin/suppressing title by profile, either call: new-tab --suppressApplicationTitle ... /OR add in settings.json to the default-profile under "defaults": "suppressApplicationTitle" : true ##-see: https://learn.microsoft.com/en-us/windows/terminal/customize-settings/profile-advanced#suppress-title-changes
+	_______:  colors...:
+		-  a new terminal is created with two tabs of different colors (not-bg but tab-icon):  wt --tabColor '#009999' \; new-tab --tabColor '#f59218'  ##-I-in-ps then with `; instead \;
+		- colorScheme : wt --colorScheme Vintage \; split-pane --colorScheme "Tango Light"
+		- colorScheme : "wt.exe" --colorScheme Vintage \; new-tab --colorScheme "Solarized Light"
+##________________________________________  ___________________________
+
+
+#####  ==========  cyg-bash/git-bash start with wt as terminal, out of PS-wt/git-mingw64/cyg-mintty-terminals :
+    - see working-eg in evv/prjProf_ofc1_pos.sh
+    - ! DIFF:  shell (as bash / powershell/...)  <--->  terminal-window/console where shell runs (as xfce4-terminal, mintty/cyg , mingw64/git , wt/windows-terminal, gnome-console)
+    - ! wt has an option of "new-tab -d xxx" to start the console in that DIR. with git/MINGW64-wt-profile it works fine! NOT-working with cyg/mintty-wt-profile ! so for cyg then you have to restart the bash in the new DIR ! (see eg-cmds below)!
+    --- eg from evv/prjProf_ofc1_pos.sh :
+    gitwt11() { usage11="USAGE: ... <start-DIR> [title/winID /OR wt_tit11=my-title] #-starts a git-bash-in-wt-term and cd to start-DIR" ;
+        cd "${1:?$usage11}";  wt -w ${2:-$wt_tit11} nt -p gitt1 --title ${2:-$wt_tit11} -d . ;}
+    cygwt11() { usage11="USAGE: ... <start-DIR> [title/winID /OR wt_tit11=my-title]  #-starts a cyg-bash-in-wt-term and cd to start-DIR" 
+        cd "${1:?$usage11}";  wt -w ${2:-$wt_tit11} nt --title ${2:-$wt_tit11}  -p cygt1   "C:\cyg\bin\bash.exe"  --noprofile  --norc  -il -c "cd ${1} \; exec bash" ;}
+    wkswt1() { ##--wks-/tests-wt-terms
+        wt_tit11=Wks-T ; usage11="USAGE: ... [c/g] #-starts git/cyg-bash-wt-terms; default is c/cyg-bash" ;
+        cmd11=cygwt11 ;  [[ $1 == "g" ]] && cmd11=gitwt11 ;
+        $cmd11  ${vaarAuTestsDP}/ ; $cmd11  ${vaarAuWorksDP}/ ; $cmd11  ${q_prjWksDP}/ ; $cmd11  ${q_prjCode2DP}/../wk11/ ; }
+    1ok: wksterms1c() { wt_tit11=WKS-T ; cygwt11   ${vaarAuTestsDP} ; cygwt11   ${vaarAuWorksDP} ; cygwt11   ${q_prjWksDP} ; cygwt11   ${q_prjCode2DP}/../wk11/ ; }
+    1ok: wksterms1g() { wt_tit11=WKS-T ; gitwt11   ${vaarAuTestsDP} ; gitwt11   ${vaarAuWorksDP} ; gitwt11   ${q_prjWksDP} ; gitwt11   ${q_prjCode2DP}/../wk11/ ; }
+    alias wksterms1="wt -w wks1 nt -p cygt1 --title wks -d ${vaarAuWorksDP} \; nt -p cygt1 --title wks -d ${vaarAuTestsDP} \; nt -p cygt1 --title wks -d  ${q_prjCode2DP}/../wk11/ \;  focus-tab -t 0 ;"
+    alias pntsterms1="cd ${q_prjDP}/ ;  wt -w pnts1 nt -p cygt1 --title pnts -d ${q_prjDP}/ \; nt -p cygt1 --title pnts -d ${q_prjBinDP} \; nt -p cygt1 --title pnts -d ${q_prjEtcDP} \; nt -p cygt1 --title pnts -d ${q_prjDntsDP} \; nt -p cygt1 --title pnts -d ${q_prjWadsDP} \; nt -p cygt1 --title pnts -d ${q_EttcDP} \;  focus-tab -t 0 ;"
+    alias code2terms1="cd ${q_prjCode2DP}/ ;  wt -w nsv1 nt -p gitt1 --title nsv -d . \; nt -p gitt1 --title nsv -d . \; nt -p gitt1 --title nsv -d . \; focus-tab -t 0 ;"
+    alias dresterms1="wt -w dres1 nt -p cygt1 --title dres -d ${dresDP} \; nt -p cygt1 --title dres -d ${dntsDP} \; nt -p cygt1 --title dres -d ${dresCodecsDP} \; nt -p cygt1 --title dres -d ${q_SW1dntsDP} \; nt -p cygt1 --title dres -d ${q_SW1dres1kkDP} \; focus-tab -t 0 ;"
+    --- more nts:
+    TERMINALs to start bash/PS : on mswins use ONLY wt for ALL !  wt/mswin-default, mintty/cyg-default, MINGW64/git-default :git-term uses as default MINGW64 terminal; cyg uses as default mintty ! but both could be started also with others. However on mswins: just ONLY ONE terminal-app! so use wt for all !!
+    problems with starting the terminal in a specific DIR:
+    git-term works fine just with its wt-profile to start in certain DIR, BUT cyg-term not! so here also the solution for cygterm to switch to start in a specific-DIR !:
+    git-term accepts starting in the current dir with "wt ... -d ." ,BUT cyg-term somehow NOT ! so for "-p gitt1" it works fine for starting the term in the cu-dir with "-d ." but for cyg-term, you must basically restart the its bach-term with "-c ..." to switch to that DIR !! :
+    -Not-worked: cyg-bash does NOT take the -d param of wt !! cygwt11() { usage11="USAGE: ... <start-DIR> [title/winID /OR wt_tit11=my-title] #-starts a git-bash-term in start-DIR" ; cd "${1:?$usage11}";  wt -w ${2:-$wt_tit11} nt -p cygt1 --title ${2:-$wt_tit11} -d . ;}
+
+	_______:  cmds more: open cyg/git-terms (instead using their mintty or mingw64 , here try only use wt as terminal to start their bash-win !):
+        - for mor eg see ofc-profs ! (git-bash-env was easy to cd-mydir after starting terminal, but cyg must use "cd ...") :
+        - ok1-in-ps/wt (cd-to-specific-dir for cyg):
+            -- from PS> works for all start-dir:  -d "xxx" , but in git-term works for git-bash but not for cyg-bash ! in cyg-term nouse of -d , but adapted form see below:
+            PS1>  wt -w cygwin1  nt  C:\cyg\bin\bash.exe -i -l  -c 'cd \"C:\Users\DKX8H1N\var3\w3\tests\" \; exec bash'  ##--II-using "nt -d" did NOT work! the change-dir must be after executing cyg-bash !
+            PS1>  wt -w pnts1  nt  -p cygt1  C:\cyg\bin\bash.exe -il -c 'cd ${vaarAuTestsDP} \; exec bash'
+            git$  wt -w pnts1  nt  -p gitt1 -d .   ##--OK from git-term for git-profile starting in DIR with -d "xxx" , but not for cygt1 prof !
+            git$  wt -w pnts1  nt  -p cygt1  /c/cyg/bin/bash  -il -c 'cd ${vaarAuTestsDP} \; exec bash'    ##--from git-bash OK! from cyg-bash-terminal NOT-working!!?
+            cyg$  wt -w pnts1  nt  -p cygt1  "C:\cyg\bin\bash.exe" -il  -c 'cd /tmp/ \; exec bash'  ##--II- both-ok in git+cyg ! in cyg-term did NOT work with  /c/cyg/bin/bash  !!
+##________________________________________  ___________________________
+
+
+#####  ==========  inputrc (ctrl-a, ctrl-e, ...):
+	- for inputrc/ctrl-a,ctrl-e,... see entries in  ofc1\bin\prof1.ps1   ##--:  Import-Module PSReadLine ; Set-PSReadlineOption -EditMode Emacs
+	- https://learn.microsoft.com/en-us/powershell/module/psreadline/about/about_psreadline?view=powershell-7.3
+	- keyboard-shortcuts-seetings see wt-json-file settings.json bzw. ctrl-, bzw. "Actions" in settings !
+##________________________________________  ___________________________
+
+
+
+################################# 1coll-wt1 : ###############################################
+C:\Progs2\0ptb\wt\WindowsTerminal.exe  new-tab  -d <path1>
+C:\Progs2\0ptb\wt\WindowsTerminal.exe  new-tab  -d <path1>  -p "gitt1ash"
+

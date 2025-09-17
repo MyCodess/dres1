@@ -1,0 +1,25 @@
+
+##############################  views : #########################################################
+#####  ==========  views/generic-views/...:
+	- !  you can only inherit from one generic view - that is, only one parent class may inherit from View and the rest (if any) should be mixins.  django-docs/topics/class-based-views/intro.html
+##________________________________________  ___________________________
+
+
+#####  ==========  mixins-views:
+	- django-docs/topics/class-based-views/mixins.html
+	- /django-docs/ref/class-based-views/mixins.html
+##________________________________________  ___________________________
+
+
+#####  ==========  Forms:
+	- /django-docs/topics/class-based-views/generic-editing.html
+##________________________________________  ___________________________
+
+
+
+#####  ==========  generic-views:
+	dj_dc/django-docs/topics/class-based-views/index.html
+	dj_dc/django-docs/intro/tutorial04.html
+	---
+##________________________________________  ___________________________
+

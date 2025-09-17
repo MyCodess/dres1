@@ -1,0 +1,7 @@
+
+see nts in source/usage1.rst
+
+
+_____CPs__:
+- make doctest html     ##--to run doctests inside rst-docs and then build html pages !
+
