@@ -14,19 +14,21 @@ introspections_py, obj-/class-queryings_py :
 		import builtins;   pylookup = ChainMap(locals(), globals(), vars(builtins))
 
 	_______:  locals() :
+	- ! so NOT obj1.locals() , but just locals() ! ist immer bezogen auf cu-module/-namescope !!
     - locals() returns a dict of all local vars + values in the current scope/namespace- !   pydoc locals ;
 	- locals() builtin :  Returns a dictionary containing the current scope's local vars+values.
 	- for name, value in locals().items(): print  ('{0:20} ==  {1}'.format(name, value)) ;
 	- basically  Returns  the __dict__ attribute for a module, class, instance, or any other object with a __dict__ attribute :
 
 	_______:  globals() :
+	- ! so NOT obj1.globals() , but just globals() ! ist immer bezogen auf cu-module/-namescope !!
     - dict containing the current scope's global vars+values
 	- for name, value in globals().items(): print  ('{0:20} ==  {1}'.format(name, value)) ;
 
-	_______:  __dict__  (printed out by vars(obj1)):
-	- see also:  https://stackoverflow.com/questions/19907442/explain-dict-attribute
+	_______:  obj1.__dict__  ( == vars(obj1)):
 	- __dict__ is NOT reliable to check/list all obj-attribs,...! use instead the inspect module! but it is fine for quick direct obj-attr/-members check!
-	- object.__dict__ : object’s (WRITABLE) attributes Dictionary ! so:
+	- obj1.__dict__ : obj1’s (WRITABLE) attributes Dictionary ! so:
+	- obj1.__dict__   ==  vars(obj1)
 	- class-attr or obj-props are NOT in __dict__ !
 	- NOT having  __dict__ : if list/dict/... ,OR: __slots__ is defined in the obj-class ,OR: if obj-class is abstract !! for slot see: https://stackoverflow.com/questions/472000/usage-of-slots/28059785#28059785
 	- module1.__dict__ ,  module1.__dict__.values() 
@@ -34,14 +36,16 @@ introspections_py, obj-/class-queryings_py :
 		- print-out: best use:  vars(obj1)   ##--OR:
 		import pprint; pprint.pp(obj1.__dict__);   ##--/OR pprint.pprint(tab=...,..) ; #/OR manually:
 		print("{\n  ", "\n  ".join("{:20s}  ::  {}".format(k,v) for k,v in sorted(d11.items())), "\n}", sep="")  ##--: d11 = module1.__dict__ 
+	- ! see also:  https://stackoverflow.com/questions/19907442/explain-dict-attribute
 
-	_______:  vars():
+	_______:  vars(entity1):
+	-  so NOT obj1.vars()  , but  vars(obj1) !
 	- vars(obj1)  ==  obj1.__dict__
 	- vars()      ==  locals()               ##-- Without an argument, vars() acts like locals().
     - dict of local vars/attribs (names + values)   pydoc vars :
 
-	_______:  dir() / __dir__() :    --> basically intellisense-completion (without-values! for values use locals() !) :
-    - List all methods/vars/attribs/funcs-NAMES of the current-obj/class/module/... ,  except builtins ones! : no values, only-NAMES! not-dict, only LIST !   
+	_______:  dir(entity1) /ent1. __dir__() :    --> basically intellisense-completion (without-values! for values use locals() !) :
+    - List all methods/vars/attribs/funcs-NAMES_only of the current-obj/class/module/... ,  EXCEPT builtins ones! : no values, only-NAMES! returns not-dict, only LIST !   
     - see  pydoc dir / builtins  , docsRF--6.3. The dir() Function :
 	- dir() : If called without an argument, return a LIST of the names in the current scope (so as vars(), but only names, not their values !).
 	- Note that it lists all types of names: variables, modules, functions, etc. except the builtins ! so it does not list the names of built-in functions and variables. 

@@ -175,26 +175,33 @@ _______________________- VIMs_dnts _____________________________________________
     -!!-DIFF: goto last position == last column   <---> goto  last line == last raw (beginning of the line!)
 	-!! counts: If the motion includes a count and the operator also had a count before it, the two counts are multiplied.  For example: "2d3w" deletes six words.
 	-! select text-objects/motion-targets eg (word/paragaph,sentence,bloc,..):  aw,iw aW,iW as,is a[,i[ ... see  :h object-select , :h object-motions , :h objects , 
-    - cu-line to the top of the screen/window: z + enter : Pressing z and then return will move the current line to the top of the screen. A number will move that line number to the top of the screen, so pressing 50z and then return will make the top of the screen start at line 50
+	--- screen-/window-position-adaptions:
+    - current-line to the top/buttom/middle of the screen/window:
+		z<CR>              z<CR> or zt  redraw, current line at top of window
+		z.                 z.    or zz  redraw, current line at center of window
+		z-                 z-    or zb  redraw, current line at bottom of window
+	--- goto-lines:
 	- goto top/buttom/middle of the CURRENT-Window/Screen.   H/M/B (high/middle/butttom of the current screen)
 	- goto top of the buffer:  gg == :0 ; opposite G == :$  (similar 0/$ for a line but with :) ; :n goto-line-n
 	- goto-column     (:h  left-right-motions ) : 20-columns-to-right: 20-> (pfeil-taste)) ; 10-columns-to-left: 10<- ; goto-20te-column: 20| ; ... see  :h  left-right-motions (in motion.txt )
 	- goto-line/-raw  (:h  up-down-motions ): 3-lines-down/relative: 3+/3<CR>/3<Down> ; goto-line-10/absolute: 10G , ...
 	- 50%  :goTo pos. 50% of the buffer
-	-! %  goto matching ({[-pair , so jump to matching pair of ({[ ...
-	- ; / , :  Repeat latest f, t, F or T /opposite direction
-	- [N]fx or opposite direction [N]Fx eg. 4fp ; repeat last f/F: ";" ; , inverse of ";"
 	- goto line n :n == nG
-	- :.= : current-linenumber ; := total-numberOfLines
-	- shift-left/right (== W/B) one word left/right , if not Terminal-Shortcut
-	- shift-up/down     one screenful backward/forward  if not Terminal-Shortcut
-	- ^ 	First non-blank character of current line.
-	- +, - 	First non-blank character of next, previous line.
-	-! no-scrolling:	H/M/L line of the current SCREEN (no scrolling)
-	-! sentence/paragraph back/vor:  (/) {/}  (motion.txt : 5. Text object motions)
-	-! */#  (g*/g#):  search forward/back the word under the cursor (g :also partially)
+	--- goto xxx:
+	-! %  goto matching ({[-pair , so jump to matching pair of ({[ ...
+	-! goto sentence/paragraph back/vor:  (/) {/}  (motion.txt : 5. Text object motions)
 	-! goto first non-blank-char in line:  ^  (0/Home goes to position 0 anyway)
 	-! goto first char in screen-line:  g0
+	- ^ 	goto First non-blank character of current line.
+	- +, - 	goto First non-blank character of next, previous line.
+	- shift-left/right (== W/B) one word left/right , if not Terminal-Shortcut
+	- shift-up/down     one screenful backward/forward  if not Terminal-Shortcut
+	---
+	- ; / , :  Repeat latest f, t, F or T /opposite direction
+	- [N]fx or opposite direction [N]Fx eg. 4fp ; repeat last f/F: ";" ; , inverse of ";"
+	- :.= : current-linenumber ; := total-numberOfLines
+	-! no-scrolling:	H/M/L line of the current SCREEN (no scrolling)
+	-! */#  (g*/g#):  search forward/back the word under the cursor (g :also partially)
 
 	_______:  -- marks:	--->   :h mark-motions
 	- "marks" are ONLY a cursor.position in the file and  is not visible in any way.
@@ -970,12 +977,13 @@ _______________________- VIMs_dnts _____________________________________________
 	- :wb N /OR  :sb : buffer N in new Window/split; ...
 	- :bunload  <  :bdelete  <  :bwipeout  [buffer]:      :h :buffers :
 	   :bun[load]   N/name XX : buffer-memory free, BUT name ramins in the buffer-list/:ls. (so switching to it with :b N/name possible!)
-	   :bd[elete]   N/name XX : buffer unloded AND deleted from buffer-list/:ls
+	   :bd[elete]   N/name XX : buffer unloded AND deleted from buffer-list/:ls ; the N MUST be given, otherwise no effect!
 	   :bw[wipeout] N/name XX : buffer delete  AND everything related to the buffer, as marks, jums,....
 	   -!! the Numbering of buffers does NOT change anyway!! so delete/unload has no effekts on buffer-No!
 	- :rewind/:brewind   bzw.  :first/:bfirst  bzw.  :last/:blast :Rewind argument-/buffer-list and begin editing the first/last file in the list.
 	- :e #  ; :n  :prev ; ctrl+G current-file-infos ;
-	- :all == :sall bzw. :ball == :sball  : Open a window for every file in the arg bzw. buffer list
+	- :all == :sall bzw. :ball == :sball  : Open a window for every file in the arg bzw. buffer list ; OR prefixed with :vertical xxx as:
+	-! :vertical ball  : Open/split vertically a window for every file in the  buffer list
 
 	_______:  -- tags.windowing:  --> !see :h  window-tag 
 	- goto-tag-under-cursor in new-window:   CTRL-W CTRL-]  bzw. with listing: CTRL-W g ]
@@ -1109,7 +1117,7 @@ _______________________- VIMs_dnts _____________________________________________
 	-! current-modified-buffer-not.Saved.Yet  diffs with  original-saved-file  (org-file must be copied first):
 	   (!! autowrite must be off, otherwise the curr-buffer will be saved automatically and so org-file overwritten, ans so no diffs!!)
 	   :set noautowrite  ;then:  :!cp % tmp1  ;then:  :vertical diffsplit tmp1  
-	- jumping to diffs: [c , ]c
+	- jumping to previous/next diffs: [c , ]c
 	- get/obtain-diffs  do bzw. :diffget bzw. keys  "do"  ;(also, abgleichen/uebernehmen the diffs); eg :1,$+1diffget :gets all diffs from the other buffer
 	- put/senden-diffs  dp bzw. :diffput bzw. keys  "dp"  ; 
 	-  :diffupdate   :force the differences to be updated and viewed, eg after a few adaptions,...
@@ -1340,6 +1348,7 @@ _______________________- VIMs_dnts _____________________________________________
 	_______:  --
 	- :h  Explore
 	- :h  netrw    -->Netrw makes reading files, writing files, browsing over a network, and local browsing easy! ...
+	- !! :Lexplore 30  : typical-file-explorer-win: opens a left-files-explorer of 30-chars-wide ! with <enter> opens the file in other side window! closing explorer with again :Lexplore
 	-!! file-exploring-in-parallel-window:   :Lexplore  toggles a full height Explorer window on the left hand side of the current tab.  It will open a netrw window on the current directory if [dir] is omitted; a :Lexplore [dir] will show the specified directory in the left-hand side browser display no matter from which window the command is issued.
 	-!! by all variables: diff between open and preview files!! most explXXXX-vars are for openFiles not for preview functionality!!
 	-!! diff between Explore <---> preview !!

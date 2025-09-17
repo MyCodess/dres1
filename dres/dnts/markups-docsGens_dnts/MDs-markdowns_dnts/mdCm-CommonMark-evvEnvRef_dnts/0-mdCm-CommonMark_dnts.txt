@@ -18,10 +18,20 @@ CommonMark  Markdown notes:
 #####  ==========  setup /parser /cmds /...:
 
 	_______:  Linux-setup:
-    - pacman -Sy  cmark   ##--parser
+    - pacman -Sy  cmark   cmark-gfm   ##--parser
     - man cmark (commonMark) , cmark-gfm (github-flavor-commonMark)
+
+	_______:  convert MD-docs/MD-dir-tree into html,...:
     - cmark      --to html  --hardbreaks  0-mdCm-CommonMark_dnts.md   >|  0-mdCm-CommonMark_dnts.md.html   ##--also  --safe  , but is default! (cmark-gfm ahs only --unsafe param !)
     - cmark-gfm  --to html  --hardbreaks  0-mdCm-CommonMark_dnts.md   >|  0-mdCm-CommonMark_dnts.md.html   ##--just to get sure that it is fine also with mdGFM !
+	---
+	- pandoc which converts all doc-types ..., eg: pip install pandoc;  python -m  pandoc -s  --data-dir=. -i README.md  -o README.md.html
+	---
+	- mkdocs (converts whole tree , ...),  https://www.mkdocs.org/user-guide  :
+	- create docs with mkdocs (requires a tiny config file  mkdocs.yml ! from its docs just copy 2 lines into it! set docs_dir to the root of your MD-tree)
+	pip install mkdocs # (https://www.mkdocs.org/) ; 
+	vi ../mkdocs.yml (replace ; by \n):  site_name: ai1-ms1-docs ; docs_dir: ./lessons/ ; theme: readthedocs
+	cpt ../mkdocs.yml . ; mkdocs build  #--> docs in ./site !
 
 	_______:  python-addies-mdCm :
     - pacman  -Ss commonmark  ;

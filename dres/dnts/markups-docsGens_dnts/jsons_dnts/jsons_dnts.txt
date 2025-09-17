@@ -1,7 +1,5 @@
 ________________________ json dnts: __________________________________________________
 
-
-
 #####  ==========  nts/urls/...:
 	Ref:  https://www.json.org/
 	PyRefDocs/html/library/json.html
@@ -10,6 +8,8 @@ ________________________ json dnts: ____________________________________________
 
 
 #####  ========== validate / reformat/ /pretty/ beautyfiers/... :
+	--- cmds:
+	-  cat t1.json  | jq   #-validates the file end prints out beautified!
 	--- Py: 
 	- python -m json.tool  -h   ;  pydoc json.tool ;PyRefDoc-StdLib: json package
 	-- eg:
@@ -20,7 +20,19 @@ ________________________ json dnts: ____________________________________________
 
 
 #####  ==========  cmdline-utils,...:
-	- jo : create jsons out of x=y,...   , https://github.com/jpmens/jo
-	- jq : jq is like sed for JSON data! extracting/filtering/replacing/pretty-printing/... , https://jqlang.github.io/jq/
+	_______:  jo : create jsons out of x=y,...   :  see eg in man jo , https://github.com/jpmens/jo
+		- creates json (dict or list) from stdin/args ! eg:
+		- jo a=b c=d xx=yy   #-->  {"a":"b","c":"d","xx":"yy"}
+		- pretty-print with -p :    jo -p a=b c=d xx=yy
+		- Pretty-print an array with a list of files in the current directory:    jo -p -a *
+
+	_______:  jq : jq is like sed for JSON data! validating/extracting/filtering/replacing/pretty-printing/... , https://jqlang.github.io/jq/
+
+	_______:  json_pp : converts + format/prettyPrint/beautify json files ; man json_pp :, eg:
+		- cat sa-services.log.1 | json_pp >| sa-services.log.2
+		- cat sa-services.log.1 | json_pp  -json_opt pretty,canonical  >| sa-services.log.2
+
+	_______:  vim-json:
+		- beautify/reformatting:   :%! jq   #-OR selct lines and  :<>! jq   #--! jq MUST be preinstalled on OS!
 ##________________________________________  ___________________________
 

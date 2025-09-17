@@ -1,9 +1,0 @@
-___________________ cygwins on mswins dnts : __________________________________
-- ! see also here wt1-windowsTerminals_dnts.md  for calling cygwin in wt instead its mintty terminal window !
-
-
-
-#####  ==========  setups:
-    -  cygwin-setup-x86_64.exe  --help   ##--its installation-app ! to show its params ...!
-##________________________________________  ___________________________
-
