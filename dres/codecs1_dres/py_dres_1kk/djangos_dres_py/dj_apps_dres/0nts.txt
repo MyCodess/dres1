@@ -1,4 +1,4 @@
-- !! see also the main ones in prj-ofc1-dres-dir:  /c/var/tmp/tmpu/up1/prjs/ofc1/codes_cores_1kk/djangos1
+- !! see also the main ones in /c/var/tmp/tmpu/up1/prjs/ofc1/cod1/wkscod1/dj*  !
 
-- ! all apss WITHOUT sqlite3-DB (deleted) ! so have to do makemigrate/migrate again !! /:240507  ;
+- ! here all djapps WITHOUT sqlite3-DB file (deleted) ! so have to do makemigrate/migrate again !! /:240507  ;
 

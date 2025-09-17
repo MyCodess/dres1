@@ -38,14 +38,14 @@ for now prj and app1 on the same dir-level.
     $ vi netserv11/settings.py   ## TZ , DB-Engine/Adapter if required.
     $ vi ./ix1/models.py  ##--> add model-CLASSES ...
     $ python manage.py makemigrations ix1
-    $ [python manage.py sqlmigrate ix1 0001]  ##-just to see the SQL-stmts of next step/migrate!; if have more than 0001 generted-Models, just take all!
+    $ [ python manage.py sqlmigrate ix1 0001 ]  ##-just to see the SQL-stmts of next step/migrate!; if have more than 0001 generted-Models, just take all!
     $ python manage.py migrate  ix1
     
     --- [...]:
     - [playing with the api]
     - ! py-shell with django:  python manage.py shell  ##--here  manage.py sets the DJANGO_SETTINGS_MODULE environment variable, which gives Django the Python import path to your <prj>/settings.py file. see django-docs/intro/tutorial02.html
     - AdminUser-create:   python manage.py createsuperuser  --help  ;  python manage.py createsuperuser  --username u11  --email u11@test1.io   ##--PW: same: u11 !
-    - AdminPortal-Reg:  vi ix1/admin.py  ##--> admin.site.register(some ix1-model-class-name to be managed online.)
+    - AdminPortal-Reg:  vi ix1/admin.py  ##--> admin.site.register(<some ix1-model-class-name to be managed online>)
     - check prj-status...:  "python manage.py check" : this checks for any problems in your project without making migrations or touching the database.
 
     --- runserver:
@@ -55,7 +55,7 @@ for now prj and app1 on the same dir-level.
     --- dnts:
     - app-dir/tree could be also anywhere else and not definitely in prj-dir !!
     - makemigrations : you’re telling Django that you’ve made some changes to your models (in this case, you’ve made new ones) and that you’d like the changes to be stored as a migration.
-    - sqlmigrate / SQL-stmt-show/query after makemigrations (before migrate, for chk) :  python manage.py sqlmigrate ix1 0001
+    - sqlmigrate : show SQL-stmts after makemigrations (before migrate, justt for chk) :  python manage.py sqlmigrate ix1 0001
     - sqlmigrate command doesn’t actually run the migration on your database - instead, it prints it to the screen so that you can see what SQL Django thinks is required.
     - DB-foreigKey-fields: xxxx_id added by default to filed-name ! as question_id here!
     ---

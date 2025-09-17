@@ -19,7 +19,7 @@ ___________________ strings: formattings/searching/manipulating/handling/... py 
 
 ##  ############################ print-strings / formatting-strings /formatted-outputs: ######################
 #####  ==========  docs/refs-stringsformatting :
-	-! refdocsStdLib: Text Processing Services !! : Format String Syntax , ...
+	-!! REF: refdocsStdLib: "Text Processing Services : "Format String Syntax" , bzw. "Format Specification Mini-Language" :  Py3/Doc/html/library/string.html#format-string-syntax !
 	-! RefDocs_Tut:  7.1. Fancier Output Formatting  ,  /tutorial/inputoutput.html#
 	-! python-course.eu/python-tutorial/formatted-output.php.html
 	-! refdocsStdLib: Text Sequence Type — str --> ...,  printf-style String Formatting , ...

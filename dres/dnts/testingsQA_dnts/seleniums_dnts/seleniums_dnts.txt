@@ -1,28 +1,42 @@
-_____________________ Seleniums_dnts /testingsQA ____________________________________________
-/:230400  :  try1
-
+______________________________ selenium_dnts ... ________________________________________________
 
 #####  ==========  urls/docs/helps/... :
+	_______:  REFs:
+	- https://selenium-python.readthedocs.io/index.html
 	- https://www.selenium.dev/
-	- https://github.com/SeleniumHQ/seleniumhq.github.io/
 	- https://pypi.org/project/selenium/
+	- https://github.com/SeleniumHQ/seleniumhq.github.io/
 	- https://www.selenium.dev/selenium/docs/api/py/index.html    ##--apiDocs
 	- https://github.com/SeleniumHQ/seleniumhq.github.io/tree/trunk/examples/python
-    - ! HTML-OL_pages-for-tryling-selm-py-scripts:  https://the-internet.herokuapp.com/
+	- REF-eg: download/clone https://github.com/SeleniumHQ/seleniumhq.github.io , then goto ./examples/python/tests
+	
+	_______:  docs_Ref:
+	- docs-site: https://www.selenium.dev/documentation/  (generated from SeleniumHQ/seleniumhq.github.io Repo! see below)
+	- docs_ref_github (raw; GOLang-based-make!): SeleniumHQ / seleniumhq.github.io : https://github.com/SeleniumHQ/seleniumhq.github.io  : generates its docs-site (NUT NOT with makefiles/sphinx, but with GOlang,.. ! so take online-docs!)
+	- py-eg-in-docs: in examples/python/tests/ of /seleniumhq.github.io Repo
+	
+	_______:   testing-sites for requests / HTML-OL-pages-for-trying-sel-py-scripts:
+	https://www.selenium.dev/selenium/web/  , eg: webform:  https://www.selenium.dev/selenium/web/web-form.html
+	https://httpbin.io/
+	https://the-internet.herokuapp.com/
+	http://www.example.com/
 ##________________________________________  ___________________________
 
 
-#####  ==========  setup/install :
-	_______:  Selenium-WebDriver_py setup:
-	- pip  install  --user  Selenium   ##-- https://pypi.org/project/selenium/
-	_______:  Browser-WebDriver:
-	- ! https://www.selenium.dev/documentation/webdriver/getting_started/install_drivers/ :
-	- usu. istalled with the browser, but check it if there/in-path?? bzw. if manually start-able? :
-	eg chromium, just try to start it:   chromedriver  ##-- /usr/bin/chromedriver ,  is in extra/chromium package dabei !
-	-- otherwise 4 ways to install Browser-WebDrivers (but do manually-install/dw !):
-	- PATH:  DW them and add to path 
-	- with  Selenium-webdriver-manager (auto-install):  pip install webdriver-manager    ##-- to manage/install browser-webdrivers ...
-	- ... see above link!
+#####  ==========
+_______:  setups/installs  /:250718 :
+- sel-engine:     pip install selenium   #-includes also "Selenium Manager" to install drivers
+
+_______:  webdriver setup: manually or automatically by "Selenium Manager" :
+	- ! see https://www.selenium.dev/documentation/selenium_manager/  (+  https://pypi.org/project/selenium/ )  :
+	1- Selenium Manager will do it for you automatically and puts the webdrivers in your cache ready
+	Selenium Manager (CLI command) automatically discovers, downloads, and caches the drivers required by Selenium when these drivers are unavailable.
+	Selenium Manager is a command-line tool implemented in Rust that provides automated driver and browser management for Selenium. Selenium bindings use this tool by default, so you do not need to download it or add anything to your code or do anything else to use it
+	- in mswin: cd $q_pyyHome1_DP ; ./Lib/site-packages/selenium/webdriver/common/windows/selenium-manager.exe --version / --help / ...
+	- configs/params/args/details of "Selenium Manager"  see above link!
+	2- /OR-manually explicitly DW + add to your PATH (old-style; error-prone!) as:  $selmgm_FP  --browser chrome --debug  #-see below in trys ...!
+	3- /OR manually explicitly DW + set envvar to tell sel where locally the drivers are, as: export SE_CHROMEDRIVER=<FP> ... see https://www.selenium.dev/documentation/selenium_manager/#using-an-environment-variable-for-the-driver-path
+
 ##________________________________________  ___________________________
 
 
@@ -37,5 +51,32 @@ _____________________ Seleniums_dnts /testingsQA _______________________________
 ##________________________________________  ___________________________
 
 
-##############################  1coll/... : ######################################################
+
+
+############################## trys/dones/...: ##################################################
+#####  ==========  /:250719 :  try1-in-ifc1-msw-devvdi:
+mkdircd   /c/var/tmp/tmpu/up1/varu/varau/wks/sel1
+
+_______:  install sel:
+pip install selenium
+
+_______:  webdriver setup: manually or by sel-manager:
+- !see https://www.selenium.dev/documentation/selenium_manager/  :
+export selmgm_FP="${q_pyyHome1Lib_DP}/site-packages/selenium/webdriver/common/windows/selenium-manager.exe"
+$selmgm_FP  --version     #- --help
+#- sel-manager setups webdrivers in runtime on call; but could do it also manually! here eg manual setup
+# opt: check your browser version:  (Get-Command 'C:\Program Files\Google\Chrome\Application\chrome.exe').Version.ToString()  #-wmic cmd is deprecated /did not work!?
+setProxysOfc1
+$selmgm_FP  --browser chrome --debug
+	[2025-07-19T09:56:30.508Z DEBUG] chromedriver not found in PATH
+	[2025-07-19T09:56:30.509Z DEBUG] chrome detected at C:\Program Files\Google\Chrome\Application\chrome.exe
+	[2025-07-19T09:56:30.510Z DEBUG] Detected browser: chrome 138.0.7204.158
+	[2025-07-19T09:56:30.511Z DEBUG] Discovering versions from https://googlechromelabs.github.io/chrome-for-testing/known-good-versions-with-downloads.json
+	[2025-07-19T09:56:30.790Z DEBUG] Required driver: chromedriver 138.0.7204.157
+	[2025-07-19T09:56:30.792Z DEBUG] Acquiring lock: C:\Users\DKX8H1N\.cache\selenium\chromedriver\win64\138.0.7204.157\sm.lock
+	[2025-07-19T09:56:30.793Z DEBUG] Downloading chromedriver 138.0.7204.157 from https://storage.googleapis.com/chrome-for-testing-public/138.0.7204.157/win64/chromedriver-win64.zip
+	[2025-07-19T09:56:31.436Z INFO ] Driver path: C:\Users\DKX8H1N\.cache\selenium\chromedriver\win64\138.0.7204.157\chromedriver.exe
+	[2025-07-19T09:56:31.437Z INFO ] Browser path: C:\Program Files\Google\Chrome\Application\chrome.exe
+	
+##________________________________________  ___________________________
 

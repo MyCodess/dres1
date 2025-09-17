@@ -31,5 +31,8 @@ ________________________ json dnts: ____________________________________________
 	_______:  json_pp : converts + format/prettyPrint/beautify json files ; man json_pp :, eg:
 		- cat sa-services.log.1 | json_pp >| sa-services.log.2
 		- cat sa-services.log.1 | json_pp  -json_opt pretty,canonical  >| sa-services.log.2
+
+	_______:  vim-json:
+		- beautify/reformatting:   :%! jq   #-OR selct lines and  :<>! jq   #--! jq MUST be preinstalled on OS!
 ##________________________________________  ___________________________
 

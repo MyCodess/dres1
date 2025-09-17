@@ -4,7 +4,20 @@ ______________ NWs-cmds .... _________________________________________
 
 
 #####  ==========  IP-Address finding/queryin/scannong/...
-- own local IP addresse?:  hostname -i
+--- my public/WAN ip address? (using DNS request):
+	--
+	dig +short A myip.opendns.com @resolver2.opendns.com       #-OR -6 for IPv6 bzw. -4 for ipv4 !
+	dig +short TXT o-o.myaddr.l.google.com @ns3.google.com
+	-- aliases:
+	alias wanip='dig @resolver4.opendns.com myip.opendns.com +short'
+	alias wanip4='dig @resolver4.opendns.com myip.opendns.com +short -4'
+	alias wanip6='dig @resolver1.ipv6-sandbox.opendns.com AAAA myip.opendns.com +short -6'
+	-- or using external web-pages/web-services as:
+	curl https://ipinfo.io/ip     ; echo
+	curl https://ipecho.net/plain ; echo
+
+
+- my local/private IP address?: ip addr #OR:  hostname -i
 - MAC adr:  ethtool -P wlan0 /eth0 ...  ##OR:  ip link
 - nmap (IP and ports scannong): see extra dnts here in NWs-sec.txt ... ! eg: find all IPs in my subnet:  nmap -sn 192.168.1.0/24
 ##________________________________________  ___________________________

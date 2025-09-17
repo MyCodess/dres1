@@ -2,6 +2,10 @@ ________________________ MSys2_dnts on MsWins __________________________________
 - !! see also ofc1-mys1-stat-nts !!
 
 
+#####  ==========  ursls/nts/...:
+	https://www.msys2.org/
+##________________________________________  ___________________________
+
 
 #####  ==========  LANG probelem!? (at least in ifc1-msw-devvdi-env):/:250320  :
 	--- LANG problem for grep/sort ... with UTF8 setting! :
@@ -15,6 +19,7 @@ ________________________ MSys2_dnts on MsWins __________________________________
 
 #####  ==========  symlinks / ln -s :
     - !! TERRIBLE ! stupid ! FATAL !! just DISABLE msys2 default setting !!
+    - !! ln -s : really COPIES the Stuff !! terrible!! NEVER USE !! bzw. deactivate it !
     - as default it is so stupid, that it COPIES instead SYMLINK!! so as default if you use "ln -s" then it replace it with "cp -a" !! terrible!
     - so to disable it: vide-org  /c/msys64/msys2_shell.cmd  #(for wt start), and  vide-org /c/msys64/ucrt64.ini  bzw. *.ini there  #-for windows-startmenu-start , ALL .ini files there, as:
     and activate/UNcomment line of: set MSYS=winsymlinks:nativestrict  ##so remove the "REM" 
@@ -28,12 +33,6 @@ ________________________ MSys2_dnts on MsWins __________________________________
     declare -x https_proxy="myserver.xx.yy:8080" ...
     BUT some apps, eg w3m ,.... work only if the format incl. "http[s]://" !! so ok as:
     declare -x https_proxy="https://myserver.xx.yy:8080/" ...
-##________________________________________  ___________________________
-
-
-#####  ==========  ursls/nts/...:
-	https://www.msys2.org/
-    - !! ln -s : really COPIES the Stuff !! terrible!! NEVER USE !!
 ##________________________________________  ___________________________
 
 
@@ -69,7 +68,7 @@ ________________________ MSys2_dnts on MsWins __________________________________
 
 	_______:  NOT-path-converting / preventing converting of "/" into pathes (eg for openssl cmds with '/CS=xxx/...'):
 	- export  MSYS_NO_PATHCONV=1 ...  ##-to prevent converting "/" to pathes ! eg. in openssl cmds/CSRs ... ! mybe that just prepending it to the cmd not works , eg if piping,...! so try then with export ...!
-	- könnte sien dass starten mit doppel-slash // anstatt / funktionieren würde !?
+	- könnte sein dass starten mit doppel-slash // anstatt / funktionieren würde !?
 	- if not working, try also:  export  MSYS2_ARG_CONV_EXCL="*"
 	- https://stackoverflow.com/questions/7250130/how-to-stop-mingw-and-msys-from-mangling-path-names-given-at-the-command-line
 
@@ -80,5 +79,6 @@ ________________________ MSys2_dnts on MsWins __________________________________
 
 #####  ==========  python-msys2:
     - https://www.msys2.org/docs/python/
+	- !! the msys2-py is NOT the same as win-py! it is msys2-fork: Since the official CPython implementation doesn't support building with GCC/Clang on Windows and has its own Windows specific directory layout, we maintain a friendly fork of CPython at https://github.com/msys2-contrib/cpython-mingw/
 ##________________________________________  ___________________________
 

@@ -6,10 +6,12 @@ _____________ sed one-liners quickies, short scripts,... _____________
 	- /sed_manual_Ref.html#Examples    in  w/docs/Unix/SEDs/sed_manual_Ref.html#Examples
 	- devres/codesColl_devres.. (not much there yet, but comes...)
 
-	_______:  put ALL line between two tags (here eg "itemX") together: (good eg for structured texts, as xml-files,...):
+	_______:  join/put ALL line between two tags (here eg "itemX") together: (good eg for structured texts, as xml-files,...):
 sed -ne '$ba;/^itemX/!{H;d};:a;x;s/\n/ :: /g;p;' t1.txt
 /bzw. with the branch-label  "a"  ausgeschrieben as  "lastline" :
 sed -ne '$blastline;/^itemX/!{H;d};:lastline;x;s/\n/ :: /g;p;' t1.txt
+
+--- join all lines of a file:   sed -i.1org ':a; N; s/\n/ /; ta' t1.txt
 
 	_______:  numbering file lines in one line and aligned right  (like cat -n)
 - not aligned, but then for files of all sizes:

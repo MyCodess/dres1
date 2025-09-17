@@ -18,7 +18,7 @@ class P:
 
     @property
     def x(self):
-        return self.__x + 5
+        return self.__x + 1
 
     @x.setter
     def x(self, x):
@@ -27,13 +27,18 @@ class P:
         elif x > 1000:
             self.__x = 1000
         else:
-            self.__x = x + 21
+            self.__x = x + 2
 
 j1=P(1100)
 print (j1.x)
-j2=P(10)
+j2=P(-1)
 print (j2.x)
-##--ERROR- x-setter not callable:   j1.x(12) ; 
+j3=P(10)
+print (j3.x)
+j3.x=50
+print (j3.x)
+##--2try.ERROR: x-setter not callable:   j3.x(12) ; 
+##--2try.ERROR: print (j3.__x)
 
 ##-------------------------------------------------
 print ("\n========== rather javaesque-syntax without decorators, but still using property() method, to define the property (not-pythonic!) : ----------")
@@ -61,7 +66,8 @@ p2.x = 10
 print (p2.x)
 
 ##-------------------------------------------------
-print ("\n========== showing that:\n   - for props ALWAYS the getter/setter methods are applied, even in __init__ ! and:\n   - the prop x1 is NOT accesible directly as __x1 outside the class-definition ! NOT even through the instance-obj itself! : ----------" )
+print ("\n========== showing that:\n   - for props ALWAYS the getter/setter methods are applied, even in __init__ ! and:\n\
+       - the prop x1 is NOT accesible directly as __x1 outside the class-definition ! NOT even through the instance-obj itself! : ----------" )
 class C1:
     def __init__(self, p1):
         self.x1= p1
@@ -72,7 +78,7 @@ class C1:
 
     @x1.setter
     def x1(self, p1):
-        self.__x1 = p1+10   ##--II-just add something to its value, so that you can follow, the setter method here was applied by setting x1 value !
+        self.__x1 = p1 + 2  ##--II-just add something to its value, so that you can follow, the setter method here was applied by setting x1 value !
 
 print ("\n--- the property x1 is internally/bytecode/compiler renamed in _C1__x1 , so _<classname>__<propertyname> ! so NOT even accessible through o1.__x1 !! ---")
 o1= C1(0)
@@ -82,7 +88,7 @@ o1.x1 = 2
 print (o1.x1)
 print("o1-dict:  ", o1.__dict__)
 print ("\n--- here ONLY a new instance-var __x1 will be defined, which hat got nothing to do with the property x1 !: ---")
-o1.__x1 = 4
+o1.__x1 = 30
 print (o1.x1)
 print (o1.__x1)
 print (o1._C1__x1)

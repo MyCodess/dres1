@@ -1,0 +1,34 @@
+______________________________  Embedded Systems ... ____________________________________________
+
+
+#####  ==========  URLs/...:
+	https://en.wikipedia.org/wiki/Category:Embedded_systems
+	https://en.wikipedia.org/wiki/Embedded_system
+	https://en.wikipedia.org/wiki/Linux_on_embedded_systems
+	---
+	https://embeddedhash.in/operating-systems-for-embedded-systems/
+##________________________________________  ___________________________
+
+
+#####  ==========  testing Embedded Systems:
+	- https://www.code-intelligence.com/blog/embedded-security-tooling-guide  :
+	- Common Issues in C/C++-Based Software : memory management and resource overflows
+	- embedded testing tools: static analysis and dynamic analysis.
+		- Static analysis approaches examine and test source code before it is executed, whereas 
+		- dynamic analysis approaches examine code while executing it. Both approaches complement each other and are not mutually exclusive.
+	--- static:
+	- static analysis, two types: linters, which check the quality of the code, and static application security testing (SAST), which focuses on security analysis.
+	- static analysis limitaions:
+		- False negatives: some bugs and vulnerabilities cannot be identified through static analysis. as: Runtime or Dynamic Behavior Issues, and Input-Dependent Flaws.
+		- too many false positives of security issues
+	--- dynamcis:
+	- Dynamic Analysis tools test software for bugs and vulnerabilities by executing the code and evaluating its behavior during runtime.
+	- Black-box testing	White-box testing
+	--- fuzzy:
+	- Fuzz testing involves feeding invalid or random data, known as "fuzzy" data, into the software under test and observing how it behaves, aiming to uncover vulnerabilities or crash the application.
+	- fuzz testing is non-deterministic or exploratory, meaning that the expected outcome is not necessarily known ahead of time.
+	--- tools:
+	- https://sam-solutions.com/blog/five-best-tools-to-improve-embedded-software-testing/  :
+	- testing tools as: TESSY, Eggplant (TestPlant), Parasoft DTP, Klocwork Insight,  VectorCAST
+##________________________________________  ___________________________
+

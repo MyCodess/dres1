@@ -25,6 +25,9 @@ _______________ git_dnts ___________________________________________________
 	--- merges:
 		- merge and overwrite with ALL theirs files/changes:   git merge [-s ort] -X theirs  master1
 	
+	_______:  logs:
+	- git log --oneline --decorate --graph --pretty --date=iso-local
+
 	_______:  undos/restores/back-to/...:
 	- ! back/restore to certain commit for a file:  git checkout c5f567xxx -- fp1  fp2 ...
 
@@ -44,6 +47,7 @@ _______________ git_dnts ___________________________________________________
 	- !! https://www.git-tower.com/learn/git/faq  , https://www.git-tower.com/learn/git/ebook
 	- REF:  https://git-scm.com/doc
 	- git on GitHub.com : https://docs.github.com/en/get-started/using-git/about-git
+	- ! https://www.atlassian.com/git/tutorials/
 	- man  gittutorial / ...
 	- chat-forum:    Libera Chat IRC server:  https://libera.chat/ and try the #git, #github, or #gitlab channels !
 
@@ -216,6 +220,11 @@ _______________ git_dnts ___________________________________________________
 	git config --global core.autocrlf true    ##--if your worktree on MsWindows machine, set it to true — this converts LF endings into CRLF when you check out code: auto-converting CRLF line endings into LF when you add a file to the index, and vice versa when it checks out code onto your filesystem
 	git config --global core.autocrlf input   ##--if your worktree on Lx : convert CRLF to LF on commit but not the other way around by setting core.autocrlf to input:
 	git config --global core.autocrlf false   ##--if your team working ONLY-on-MsWindows !
+
+	_______:  aliases:
+	https://www.atlassian.com/git/tutorials/git-alias  :   two ways to create git-aliases:
+	1- vi .../.gitconfig /OR vi .git/config  ;  [alias] co = checkout ...   # -Directly editing Git config files
+	2- git config --global alias.co checkout
 ##________________________________________  ___________________________
 
 
@@ -319,7 +328,7 @@ _______________ git_dnts ___________________________________________________
 	- git reset   :  undo-stage  /UNstage            : can also be used to restore the index (overlapping funcs with git restore)
 	- git revert  :  undo-commits /UNcommits (+remote) : revert a commit, by producing a new commit with contrary changes, so back to the previous commit ! making a new commit that reverts the changes made by other commits
 	--
-	--- reset <--> revert for UN-commits , back to prev/older commits:
+	--- DIFF:  reset <--> revert  : for UN-commits , back to prev/older commits:
 		- ! see https://stackoverflow.com/questions/19032296/how-to-use-git-revert  :
 		-- ! DIFF:
 		- remove the commit-ID xxx :  git revert xxx  #so: git revert requires the id of the commit you want to REMOVE keeping it into your history
@@ -328,8 +337,7 @@ _______________ git_dnts ___________________________________________________
 		- git revert: all follbacks visible in history! creates new commit going back to pre-bad-commit <---> git reset: removes all from hist and sets all back to commit-id argument!
 		--
 		- git revert creates a new commit with the changes that are rolled back <--> git reset erases your Git history instead of making a new commit.
-		git revert simply creates a new commit that is the opposite of an existing commit. So, it keeps the bad-commit in the history and creates a new commit after that which rolls back to prev commit! but all visible in the history!
-		git reset <
+		- git revert simply creates a new commit that is the opposite of an existing commit. So, it keeps the bad-commit in the history and creates a new commit after that which rolls back to prev commit! but all visible in the history!
 		--
 		- for UNcommits:  git revert will make sure that a new commit is created to revert the effects of that unwanted merge. This is in contrast to git reset, where we effectively "remove" a commit from the history. That's also the reason why git revert is a better solution in cases where you've already pushed to a remote.
 
@@ -418,10 +426,12 @@ _______________ git_dnts ___________________________________________________
 
 #####  ==========  branching : checkout/query/diffs-branchs/... locally :
 
-    - !! switch/checkout CHANGES your worktree  <--->  git branch : NOT ! :
-	- !! It’s important to note that when you switch branches in Git, files in your working directory will CHANGE. !!
-    - !  git branch br1    : does NOT switch to br1 !! it ONLY creates it! checkit with git branch/status/log ...
-	- !! branching is extremely cheap! ONLY the SHA-1-code will be copied (as the branch pointer to a snapsho)! so only 40 chars copy !! branching is ONLY a pointer to a snapshot !!
+	_______:  nts-allg:
+	- ! Branches are merely pointers to commits. If you want to set one branch to point to the same commit as some other branch, use git reset.
+	- ! branching is extremely cheap! ONLY the SHA-1-code will be copied (as the branch pointer to a snapsho)! so only 40 chars copy !! branching is ONLY a pointer to a snapshot !!
+	--- ! DIFF:   git switch/checkout CHANGES your worktree  <--->  git branch : NOT :
+		- ! git branch br1    : does NOT switch to br1 !! it ONLY creates it! checkit with git branch/status/log ...
+		- ! It’s important to note that when you switch branches in Git, files in your working directory will CHANGE. !!
 
 	_______:  nts-creating/switching a branch:
 	- !! if conflicts by switching branches, then git will NOT switch! so will not change your workTree !
@@ -496,8 +506,10 @@ _______________ git_dnts ___________________________________________________
     - delete remote tag:    git push origin --delete <tagname>   #/OR second way:  git push origin  :mytagxx   ##--ACHTUNG: the : before the tag-name/-ref is MUST ! see  ProGit_BK--Taggingi-p.59
 
 	_______:  rebase :
-	- ! DIFF rebase <--> merge ! : https://www.git-tower.com/learn/git/faq/rebase
-	- ! Therefore, please never rebase PUBLISHED/pushed/remote-public commits!
+	- ! DIFF rebase <--> merge ! : https://www.git-tower.com/learn/git/faq/rebase , https://www.atlassian.com/git/tutorials/merging-vs-rebasing :
+	- ! NEVER rebase PUBLISHED/pushed/remote-public branches ansd commits! The golden rule of git rebase is to never use it on public branches.!
+	- the differece is only in commits-HISTORY! : git merge or git rebase : Merging is a safe option that preserves the entire history of your repository, while rebasing creates a linear history by moving your feature branch onto the tip of main. https://www.atlassian.com/git/tutorials/merging-vs-rebasing
+	- git pull [--rebase] : pull command performs a merge as default, but you can force it to rebase by passing it the --rebase option.
     - git rebase  :  Three tasks are performed by git rebase 
         1. Move all changes to master which are not in origin/master to a temporary area.
         2. Run all origin master commits.
@@ -518,18 +530,21 @@ _______________ git_dnts ___________________________________________________
 ##________________________________________  ___________________________
 
 
-
-#####  ==========  merge-locals/rebase/... in local-repos/local-branches :
+#####  ==========  merge/rebase/... in local-repos/local-branches :
 	- ! for remote-mergings/-rebasing see pull ... ! here merging local-repos/local-branches,.... after pull/fetch from remote!
 
-	_______:  merge-branches (syncs), modify, :
-    - ! git merge AND pull do both mergeing: merge for locals and pull for remote/origin ! so they take also same merge-strategy-options ... !
+	_______:  merge-branches together (sync/integrate chnages of one branch into the current branch) :
+    - ! git merge AND pull do both merging: merge for locals and pull for remote/origin ! so they take also same merge-strategy-options ... !
 	- git  merge  master  ##--Combines master into the current branch. This is usually done in pull requests ...
-	- aborting/cancel/undo-started-merge-try : git merge --abort ; 
 	- GUI:  git  mergetool ##--settiing of merge.tool ... ##-- tools:  https://www.git-tower.com/learn/git/ebook/en/command-line/tools-services/diff-merge-tools#start
-    -- ! overwriting one branch /old1 fully with another branch /new1 (instead renaming,...): git status ##all-clean! ; git checkout old1 ; git reset --hard new1 ; ##--:
+    -- ! overwriting one branch /old1 fully with another branch /new1 (instead renaming,...): 
+		- git status  ##all-clean! ; git checkout old1 ; git reset --hard new1 ;
         Branches are merely pointers to commits. If you want to set one branch to point to the same commit as some other branch, use git reset.
         The command git reset makes Git move the currently checked out branch to the specified commit. The option --hard makes Git set the index as well as the working tree to match that commit. For more information, check out man git-reset.
+
+	_______:  eg merge:
+	- git merge fixes enhancements        #-man git-merge:  Merge branches fixes and enhancements on top of the current branch, making an octopus merge
+	- git merge -s ours/theirs obsolete   #-man git-merge:  Merge branch obsolete into the current branch, using ours merge strategy:
 
 	_______:  merge-conflicts-solving:
 	- ! https://stackoverflow.com/questions/161813/how-do-i-resolve-merge-conflicts-in-a-git-repository :
@@ -537,18 +552,24 @@ _______________ git_dnts ___________________________________________________
 	- solve-conflict-with-canceling-merge:   aborting/cancel/undo-started-merge-try : git merge --abort ; 
 	- solve-conflict-with-ours/theirs:   git checkout  --ours/--theirs  path/to/conflict-file.css ;  git add my_file_name.txt ; git commit -a -m "conflict-solved-theirs" 
 	- solve-conflict-with-edit-file-manually (so mixed of -ours/theirs): edit+save file; git commit ...
+	- aborting/cancel/undo-started-merge-try : git merge --abort ; 
 	- ! undo-a-merge bzw. goback to pre-merge:  git reset --hard <commitID-before-merge> ###--bzw. if newly merge-point, then:  git reset --hard HEAD~1
 	- ! undo-a-pushed/remote-merge:  git revert -m 1 <merge-commit-hash>
-    --- strategies for merge-conflicts-solving:
-	- see man git-merge :
+
+	_______:  strategies for merge-conflicts-solving:
+	- see man git-merge /MERGE STRATEGIES:
+	- -s -X  :  git merge/pull -s <merge-strategy as /ort/...>  -X <strategy-args/options as theirs/subtree/... for ort strategy>
 	- git merge/pull -s ort -X ours/theirs/....    ##--!!-do NOT confuse the option -X ours/theirs (as an option of strategy ort) <--> with the strategy -s ours (but strategy -s theirs does NOT exist!) !! see: man git-merge !
+	- !! DIFF:  git merge -s ours/theirs obsolete   <--> git merge/pull -s ort -X ours/theirs/....  #-see man git-merge /MERGE STRATEGIES !
+		- "-s ours" strategy (not as ort options! but independent srategy:  git merge -s ours br1 : effectively ignoring all changes from all other branche!does not even look at what the other tree contains at all. It discards everything the other tree did, declaring our history contains all that happened in it.
+		- "-s ort -X ours" (ours as an option to ort strategy): git merge/pull -s ort -X ours br1 : "favoring" our version in conflict cases! Changes from the other tree that do not conflict with our side are reflected in the merge result. For a binary file, the entire contents are taken from our side.
 	- Pull code and default to the other version in case there are any conflicts : $ git pull -s ort/recursive -X theirs origin master
 	- Pull code and default to this/our version in case there are any conflicts :  $ git pull -s ort/recursive -X ours   origin master
 	- git checkout --ours my_file_name.txt   ; git add my_file_name.txt ; git commit -a -m "conflict-solved-ours"    ##--: Fix conflicts in a single file, using changes in this/our branch
 	- git checkout --theirs my_file_name.txt ; git add my_file_name.txt ; git commit -a -m "conflict-solved-theirs"  ##--: Fix conflicts in a single file, using changes in the other/their branch
-
-
+	- ff-merging (happens eg always with pull): see man git-merge/FAST-FORWARD MERGE
 ##________________________________________  ___________________________
+
 
 #####  ==========  remote-syncs: clone/pull/merge-remotes/push/sync-remote-repos :
 
@@ -648,16 +669,46 @@ _______________ git_dnts ___________________________________________________
 
 	_______:  see:
 	- ! see RefBK1--p.329-- Credential Storage  : saving/caching credentials !
-	- ! man  git-credential  git-credential-cache  git-credential-store ...
-	- ! alternatives:  cache | store | Git Credential Manager  ##--eg: git config --global credential.helper cache ; /OR git config --global credential.helper 'store --file ~/.my-credentials'
+	- ! cmds:  man  git-credential  git-credential-cache  git-credential-store ...
 
-	_______:  store:
-	git config --global credential.helper store   ##--stores them in ~/.git-credentials   #/OR with own file:  git config --global credential.helper 'store --file ~/.my-credentials'
+	_______:  modes/alternatives of credentials.helper :
+	- alternative modes:     cache | store | manager ; so eg:  git config --global credential.helper cache/store/...
+	- default: No-cache/NO-save at all! everytime ask user for id+pw !
+	- cache mode : keep PW in RAM/memory (NO saving!) for 15 min.!
+	- store mode : saves the credentials to a CLEARTEXT/plain-text/NOT-encrypted file on disk, and they never expire.
+	- encrypted store: mswin/macos : see above link!
+	--- multiple credential modes configured:
+	- Git even allows you to configure SEVERAL helpers.
+	- read/use PW.  Git will query them in order, and stop after the FIRST answer is provided.
+	- write/save PW: Git will send the username and password to ALL of the helpers in the list, and they can choose what to do with them. 
+	--- helpers:
+	- ! git-credential-store/... are separate programs from Git! so, any program can be a Git credential helper ! see Pro-book--p.333/A Custom Credential Cache !
+
+	_______:  "store" mode :  save PW in file as CLEARTEXT/plain-text/NOT-encrypted :
+	- for encrypted store git must be configured to use OS/external services: for mswin/macos : see above link!
+	git config --global credential.helper store         ##--stores them in ~/.git-credentials
+	git config --global credential.helper 'store --file ~/.my-credentials'   ##-
+
+	_______:  cmds credentials eg:
+	- ! cmds:  man  git-credential-cache , git-credential-store , (git-credential),  ...
+	- printout the saved credentials/PW for certain host:   git credential fill <host=.., ...>  #-see book-Pro--p.331 /Under the Hood
+	
+	_______:  config credentials eg:
+	--- config cmds eg:
+	git config --global credential.helper cache ;
+	git config --global credential.helper store
+	git config credential.helper 'cache --timeout=3600'
+	git config --global credential.helper 'store --file ~/.my-credentials'
+	--- config file eg:
+	[credential]
+	helper = store --file /<my-priv-dir>/.git-pw
+	helper = cache --timeout 30000
 ##________________________________________  ___________________________
 
 
 #####  ==========  Utils/... : ===================================================
 	
+	- gitk  :  git-GUI , std in git-package dabei!
     - gitweb  ; man gitweb
 ##________________________________________  ___________________________
 
@@ -685,11 +736,43 @@ _______________ git_dnts ___________________________________________________
 ##________________________________________  ___________________________
 
 
+
 #################  trys git all: ####################################################################################
+#####  ==========  /:250329 :  create+merge two new branches in new repo in ofc1:
+/c/var/tmp/tmpu/up1/varu/varau/wks/gt1
+export GIT_CONFIG_SYSTEM=""   GIT_CONFIG_GLOBAL=""    ##--use ONLY local-conf in .git/conf !
+git init rep11
+cdla rep11
+cat .git/config  #- git config -l
+git config user.name "gt-u11"
+git config user.email  "gt-u11@loc1"
+#---
+el1d >> f1.txt
+git add .
+git commit -m "init1-commit1"
+git branch -vva
+#--- new branch br1 based on master:
+git switch -c br1  #-create+switch to br1 based on master!
+el1d >>  b1.txt
+git add . ; git commit -m "br1-commit1" ;
+git switch - #-> back to master
+#--- new branch br2 based on master:
+git switch -c br2
+el1d >>  b2.txt
+git add . ; git commit -m "br2-commit1" ;
+git switch - #-> back to master
+#--- merge both on master:
+git log --oneline ;
+lla;
+git merge br1 br2  #-merge both branches into current one /master! and in this sequence also br1 then br2 !
+lla;   #--> see b1.txt/b2.txt files!
+git log --oneline
+##________________________________________  ___________________________
+
 #####  ==========  try-GItHub-with-"git"-cmds-/:230321  :
 
     cdlla  /up1/varu/varau/tests/gh1
-    git config [ --global ] credential.helper store   ##--/OR with own file:  git config [ --global ] credential.helper 'store --file ~/.my-credentials'
+    git config [ --global ] credential.helper store   ##--/OR with own file:  git config [ --global ] credential.helper 'store --file ~/.my-credentials' #-/OR: cache
     git clone  https://github.com/MyCodess/py-dres1
     git config user.name "gt_loc1"
     git config user.email  "gt_loc1@2209arx.l1nw"
@@ -728,8 +811,8 @@ _______________ git_dnts ___________________________________________________
     cdlla grepo1  ##--  /up1/varu/varau/wks/gt1/grepo1
     git config --list  ##--bzw.   cat  .git/config
     cp -a /up1/w1/dc1k/dres/codecs1_dres/py_dres*   .
-    [u1@2209arx grepo1]$ git config user.name "gt-u1"
-    [u1@2209arx grepo1]$ git config user.email  "gt-u1@2209arx"
+    git config user.name "gt-u1"
+    git config user.email  "gt-u1@2209arx"
     git commit  --dry-run
     git commit -m "init1-commit1"
     ##--- clone loc try: (open a fully new terminal):
@@ -769,7 +852,6 @@ _______________ git_dnts ___________________________________________________
 ##________________________________________  ___________________________
 
 
-#########################################################################################################
 
 #################  1coll-gits-all : #################################################################################
 #####  ==========  steps-usu (github-docs): https://docs.github.com/en/get-started/using-git/about-git :
@@ -792,7 +874,6 @@ _______________ git_dnts ___________________________________________________
     # push changes to github
     git push --set-upstream origin my-branch
 ##________________________________________  ___________________________
-
 
 
 #####  ==========  github-default-cmds-drafts/-suggestions after creating a new empty repo:

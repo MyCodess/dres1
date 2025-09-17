@@ -1,4 +1,4 @@
-________________ MS_wsl_dnts / WLXs /  Windows Subsystem for Linux (WSL) : ________________________________________________________
+________________ Windows Subsystem for Linux (WSL) / MS_wsl_dnts / WLXs : ___________________________________________
 - start: 2402
 
 ---  acrons/abbrv_evv:
