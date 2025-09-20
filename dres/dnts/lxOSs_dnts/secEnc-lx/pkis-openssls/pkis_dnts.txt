@@ -1,6 +1,6 @@
 __________________________ PKIs-dnts: ______________________________________________
 #-!- here ONLY ALLg.-PKI-Grundlagen! for openssl cmds,... see  extra openssl-dnts !
-
+#-! see also  ofc1_vwb--codes_cores  :  /up1/w1/ofc1_vwb_w1/codes_cores_1kk/tests/integration/lib/pki  !!
 
 ##############################  encodings: PEM/DER/... : ########################################
 #####  ==========  PEM encoding :
