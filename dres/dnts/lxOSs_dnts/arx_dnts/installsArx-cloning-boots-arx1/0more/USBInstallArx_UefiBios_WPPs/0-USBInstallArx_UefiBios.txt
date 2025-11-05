@@ -1,6 +1,6 @@
 _________________ bootable-USB-stick-creation for both EFFI+MBR , and  arx-install on it . ________________________
 
-	_______:  docs:
+_______:  docs:
     - !! https://wiki.archlinux.org/title/Install_Arch_Linux_on_a_removable_medium
     - ! https://wiki.archlinux.org/title/Multiboot_USB_drive#Hybrid_UEFI_GPT_+_BIOS_GPT/MBR_boot  ---> partitioning + formating !
     - ! http://valleycat.org/linux/arch-usb.html
@@ -14,7 +14,7 @@ _________________ bootable-USB-stick-creation for both EFFI+MBR , and  arx-insta
 #####  ==========  partitioning+formating forHybrid UEFI GPT + BIOS GPT/MBR boot :
     -!! see  https://wiki.archlinux.org/title/Multiboot_USB_drive#Hybrid_UEFI_GPT_+_BIOS_GPT/MBR_boot :
 
-    _______:  1--- partitioning:   see the next section below, the gdisk-protocoll !!
+_______:  1--- partitioning:   see the next section below, the gdisk-protocoll !!
     - GPT part-table ! gdisk --> o , ...
     - need at lease 3 partitions, 1kk: 4 parts incl. T1FS (see protocol in above link! ) :
     1- A BIOS boot partition (gdisk type code EF02). This partition must be 1 MiB in size --> NOT-format-it !
@@ -28,38 +28,48 @@ _________________ bootable-USB-stick-creation for both EFFI+MBR , and  arx-insta
     3         6293504        83886080   37.0 GiB    8300  Linux filesystem
     4        83888128       244455423   76.6 GiB    0700  Microsoft basic data
 
-    _______:  2--- formating:
+_______:  2--- formating:
     (the steps of valleycat.org a bit diifferent, but probably better!? the mountpoint there is /boot insted /boot/EFI for ESP-part !) :
     - part-1 /BIOS :  NOT-formatting  /dev/sdX1 , 
     - part-2 /EFI  :  mkfs.fat   -F32  -n ESP1 /dev/sdX2      ##--ESP : EFI system partition
     - part-3 /OS   :  mkfs.ext4  -L  2004ARX_P  /dev/sdX3    ##--OS-arx-part + data-up1-ext4
     - part-4 /T1FS :  mkfs.exfat -L  T1FS_P   /dev/sdX4 
 
-    _______:  3--- GRUB-installing (ONLY from INSEIDE-new-System! so, after chroot to it!) for both EFFI+MBR , making bootable-usb-stick:
-    - for USB/removable boot-Medias:    https://www.gnu.org/software/grub/manual/grub/grub.html#Installing-GRUB-using-grub_002dinstall  :
-	For removable installs you have to use --removable and specify both --boot-directory (kk: for Lagacy-BIOS) and --efi-directory (kk: for UEFI): 
-	grub-install --efi-directory=/mnt/usX --boot-directory=/mnt/usX/boot --removable
---
-You can now install GRUB to support both EFI + GPT and BIOS + GPT/MBR. The GRUB configuration (--boot-directory) can be kept in the same place.
-First, you need to mount the EFI system partition and the data partition of your USB drive.
-An example of this would be as follows:
-# mount /dev/sdX3 /mnt       ##--new-syssOS-part
-# mkdir -p /mnt/boot/EFI     ##--mount-point for EFI-part
-# mount /dev/sdX2 /mnt/boot/EFI
-##!! the  grub-install cmds MUST be done later after chroot!! here jus as nts from  .../Multiboot_USB_drive :
+_______:  grub-install-nts (and chroot requirement for UEFI systems!) :
+	-! UEFIgrub-install must be /either from inside the target system (so after chroot eg from live-system) /OR specifying --boot-directory=xxx :
+	https://wiki.archlinux.org/title/GRUB#UEFI_systems ::
+	Make sure to install the packages and run the grub-install command from the system in which GRUB will be installed as the boot loader. That means if you are booting from the live installation environment, you need to be inside the chroot when running grub-install. If for some reason it is necessary to run grub-install from outside of the installed system, append the --boot-directory= option with the path to the mounted /boot directory, e.g --boot-directory=/mnt/boot.
+	--
+	You can now install GRUB to support both EFI + GPT and BIOS + GPT/MBR. The GRUB configuration (--boot-directory) can be kept in the same place.
+	First, you need to mount the EFI system partition and the data partition of your USB drive.
+	An example of this would be as follows:
+	mount /dev/sdX3 /mnt       ##--new-syssOS-part
+	mkdir -p /mnt/boot/EFI     ##--mount-point for EFI-part
+	mount /dev/sdX2 /mnt/boot/EFI
+	! the  grub-install cmds MUST be done later after chroot!! here jus as nts from  .../Multiboot_USB_drive :
 	grub-install for EFI-part works ONLY from inside of the target system (so after arch-chroot bzw. manualy mount --bind /dev /mnt/dev ,.., and chroot /mnt bash ; ...)
+	--- bzw. CT:
 	-! CT: Dazu müssen Sie zuerst ein Rettungs- oder Live-Linux mit UEFI-Mechanismen starten. Mounten Sie damit die Root-Partition des installierten Linux (beispielsweise in /mnt/),um die Pseudo-dateisysteme /dev/, /dev/ptc/ /sys/ und /proc/ per Bind-Mount darunter einzuhängen – etwa mit Befehlen wie mount --bind /dev/ /mnt/dev/. Wechseln Sie anschließendper chroot in die so eingerichtete Dateisystemumgebung des installierten Linux, um dort noch alle in der Fstab definierten Dateisysteme per mount -a zu mounten (auch die ESP-part,which musst be in fstab). ERST dann hängt auch auch die ESP an der vorgesehenen Stelle, womit alles bereit für grub-install ist.
 	-Then after chroot to the target system, you can install GRUB for UEFI with:
 	-In most cases EFI_MOUNTPOINT will correspond to the /mnt/boot/EFI subdirectory on your mounted USB disk.
-# grub-install --target=x86_64-efi --recheck --removable --efi-directory=/EFI_MOUNTPOINT --boot-directory=/DATA_MOUNTPOINT/boot  ##--d.h.:
-# grub-install --target=x86_64-efi --recheck --removable --efi-directory=/mnt/boot/EFI/   --boot-directory=/mnt/boot/
+	grub-install --target=x86_64-efi --recheck --removable --efi-directory=/EFI_MOUNTPOINT --boot-directory=/DATA_MOUNTPOINT/boot  ##--d.h.:
+	grub-install --target=x86_64-efi --recheck --removable --efi-directory=/mnt/boot/EFI/   --boot-directory=/mnt/boot/
 	-And for MBR-BIOS with:
-# grub-install --target=i386-pc --recheck --boot-directory=/DATA_MOUNTPOINT/boot /dev/sdX    ##--d.h.:
-# grub-install --target=i386-pc --recheck --boot-directory=/mnt/boot /dev/sdX    ##--d.h.:
+	grub-install --target=i386-pc --recheck --boot-directory=/DATA_MOUNTPOINT/boot /dev/sdX    ##--d.h.:
+	grub-install --target=i386-pc --recheck --boot-directory=/mnt/boot /dev/sdX    ##--d.h.:
 	-As an additional fallback, you can also install GRUB on your MBR-bootable data partition:
-# grub-install --target=i386-pc --recheck --boot-directory=/DATA_MOUNTPOINT/boot /dev/sdX3
+	grub-install --target=i386-pc --recheck --boot-directory=/DATA_MOUNTPOINT/boot /dev/sdX3
 
-	_______:  CPU-microcodes (Intel , AMD):
+_______:  3--- GRUB-installing (ONLY from INSEIDE-new-System! so, after chroot to it!) for both EFFI+MBR , making bootable-usb-stick:
+    - for USB/removable boot-Medias:    https://www.gnu.org/software/grub/manual/grub/grub.html#Installing-GRUB-using-grub_002dinstall  :
+	For removable installs you have to use --removable and specify both --boot-directory (kk: for Lagacy-BIOS) and --efi-directory (kk: for UEFI): 
+	grub-install --efi-directory=/mnt/usX --boot-directory=/mnt/usX/boot --removable
+	---
+	https://wiki.archlinux.org/title/Install_Arch_Linux_on_a_removable_medium#GRUB ::
+	grub-install --target=i386-pc /dev/sdX --recheck
+	grub-install --target=x86_64-efi --efi-directory=esp --removable --recheck
+
+_______:  CPU-microcodes (Intel , AMD):
 	- see https://wiki.archlinux.org/index.php/Microcode :
 	-! For Arch Linux on a removable drive, which could be run on any of these processors, install both packages and add both microcode files as initrd to the boot loader configuration. Their order does not matter as long as they both are specified before the initramfs image.
 ##________________________________________  ___________________________

@@ -1,0 +1,135 @@
+______________________________  wirless setu/check/...arx1 : _______________________________________
+
+_______:  REFs:
+	- !!  https://wiki.archlinux.org/title/NetworkManager  !! all the needed stuff is there!
+	- ! https://networkmanager.dev/docs/
+	- https://wiki.archlinux.org/title/Wpa_supplicant
+
+
+#####  ==========  install/setup
+pacman -Sy networkmanager
+-- Additional interfaces
+nm-connection-editor for a graphical user interface,
+network-manager-applet for a system tray applet (see the #nm-applet section).
+pacman -Sy network-manager-applet
+pacman -Sy   nm-connection-editor
+if liked vpn-openconn: pacman -Sy  extra/networkmanager-openconnect
+#- more:  pacman -Ss | grepi networkmanager
+##________________________________________  ___________________________
+
+
+#####  ==========  switching betweenn networkmanager  <--->  wpa+dhcpd :
+- hier networkmanager is using dhcpcd ! inserted in its config-file! see below!)
+- if want persistent-switch/change, then  + systemctl enable/disable  !!
+
+_______:  goto networkmanager:
+systemctl   stop  dhcpcd.service  wpa_supplicant.service      #--or also "disable" if want persistent
+systemctl  restart  NetworkManager      #--or also "enable" if want persistent
+
+_______:  goto wpa+dhcpd :
+systemctl  stop  NetworkManager         #--or also "disable" if want persistent
+systemctl   restart  dhcpcd.service  wpa_supplicant.service      #--or also "enable" if want persistent
+
+-- https://www.reddit.com/r/archlinux/comments/1abq6bp/internet_wifi_connection_involving_networkmanager/   :  NW-manager <--> dhcpcd + wpa_supplicant 
+	You need to either:
+	a) stick with your original setup of dhcpcd + wpa_supplicant
+	b) or, if you really want to use NetworkManager, you disable dhcpcd and wpa_supplicant, now, NetworkManager uses wpa_supplicant for the wifi but it shouldn't need to be enabled by the user himself.
+##________________________________________  ___________________________
+
+
+#####  ==========  configs, ...:
+_______:  config NetworkManager service itself::
+	https://wiki.archlinux.org/title/NetworkManager#Configuration
+	/etc/NetworkManager/NetworkManager.conf  +  /etc/NetworkManager/conf.d/
+	- global configuration file at /etc/NetworkManager/NetworkManager.conf
+	- Additional configuration files can be placed in /etc/NetworkManager/conf.d/ : Usually no configuration needs to be done to the global     defaults.
+	- dhcpcd instead ...:  vi /etc/NetworkManager/conf.d/dhcp-client.conf   ##--the fiel did NOT exist! evv created it and inserted:  [main] dhcp=dhcpcd  , see https://wiki.archlinux.org/title/NetworkManager#DHCP_client
+
+_______:  config/edit a connection/profile: 
+	- ! https://wiki.archlinux.org/title/NetworkManager#Edit_a_connection  , man  nm-settings (5)  /RO two above GUIs bzw see https://wiki.archlinux.org/title/NetworkManager#Front-ends  !
+	- many alternatives ! see there!
+	- profiles in :  /etc/NetworkManager/system-connections/  #-!! if editing them then MUST:  nmcli connection reload  ##-OR systemctl restart  NetworkManager
+	- checking connectivity:  /usr/lib/NetworkManager/conf.d/20-connectivity.conf  , see https://wiki.archlinux.org/title/NetworkManager#Checking_connectivity
+##________________________________________  ___________________________
+
+
+#####  ==========  OS-cmds:
+	systemctl status / enable / restart / ...  NetworkManager
+##________________________________________  ___________________________
+
+
+#####  ==========  CLI-cmds / nmcli  , __CP-from-evv-bin:  :
+	- ! all from:  https://wiki.archlinux.org/title/NetworkManager#Usage  :
+	- scan/listing all available APNs/wifis and their features (also their authentication system):  nmcli device wifi list
+	- show cu-connection and also configured connections ...:  nmcli connection show
+	- Connect to [a hidden] Wi-Fi network:  nmcli device wifi connect SSID_or_BSSID password password  [ hidden yes]
+	- Connect to a Wi-Fi on the wlan1 interface: $ nmcli device wifi connect SSID_or_BSSID password password ifname wlan1 profile_name
+	- Disconnect an interface: $ nmcli device disconnect ifname  wlan0
+	- Activate a connection (i.e. connect to a network with an existing profile): $ nmcli connection up name_or_uuid
+	- Delete a connection: $ nmcli connection delete name_or_uuid
+	- list of network devices and their state: $ nmcli device
+	- Turn off Wi-Fi: $ nmcli radio wifi off
+##________________________________________  ___________________________
+
+
+
+##############################  dones/trys/protocols/1coll/....: ##########################################################
+#####  ==========  /:251009 :  coll : first-install-OK : switch to networkmanager :
+pacman -Sy networkmanager
+-- Additional interfaces
+nm-connection-editor for a graphical user interface,
+network-manager-applet for a system tray applet (see the #nm-applet section).
+pacman -Sy network-manager-applet
+pacman -Sy   nm-connection-editor
+if liked vpn-openconn: pacman -Sy  extra/networkmanager-openconnect
+--
+dhcpcd instead ...:  vi /etc/NetworkManager/conf.d/dhcp-client.conf   ##--the fiel did NOT exist! evv created it and inserted:  [main] dhcp=dhcpcd  , see https://wiki.archlinux.org/title/NetworkManager#DHCP_client
+--
+# NetworkManager has a global configuration file at /etc/NetworkManager/NetworkManager.conf.
+#  Additional configuration files can be placed in /etc/NetworkManager/conf.d/. Usually no configuration needs to be done to the global defaults.
+--
+~ : systemctl   stop   dhcpcd.service  wpa_supplicant.service
+~ : systemctl   disable  dhcpcd.service  wpa_supplicant.service
+Removed '/etc/systemd/system/multi-user.target.wants/wpa_supplicant.service'.
+Removed '/etc/systemd/system/multi-user.target.wants/dhcpcd.service'.
+Removed '/etc/systemd/system/dbus-fi.w1.wpa_supplicant1.service'.
+--
+systemctl status  NetworkManager
+systemctl enable  NetworkManager
+Created symlink '/etc/systemd/system/multi-user.target.wants/NetworkManager.service' → '/usr/lib/systemd/system/NetworkManager.service'.
+Created symlink '/etc/systemd/system/dbus-org.freedesktop.nm-dispatcher.service' → '/usr/lib/systemd/system/NetworkManager-dispatcher.service'.
+Created symlink '/etc/systemd/system/network-online.target.wants/NetworkManager-wait-online.service' → '/usr/lib/systemd/system/NetworkManager-wait-online.service'.
+
+systemctl status  NetworkManager
+ NetworkManager.service - Network Manager
+     Loaded: loaded (/usr/lib/systemd/system/NetworkManager.service; enabled; preset: disabled)
+     Active: inactive (dead)
+       Docs: man:NetworkManager(8)
+ip a / r / l / ...
+-- dhcp:
+https://wiki.archlinux.org/title/NetworkManager#DHCP_client
+systemctl --type=service  | grepi dhcp  ##--should be empty! no dhcp-client may run!
+( ?? without rebooting one-run was needed or not!?!?: - at least for now, without rebooting, I had to start dhcpcd manually (maybe be rebooting, NWmgm has a hook to do that!? 2chk!) systemctl   restart  dhcpcd.service )
+use dhcpcd instead NetworkManager internal-dhcp-client (default), create file :  vi /etc/NetworkManager/conf.d/dhcp-client.conf  #--insert: [main] dhcp=dhcpcd  ##--see above link!
+--
+ip a / r / l / ...
+--
+nm-applet &  ##--> connect to aour WiFi!
+--
+
+_______:  !!  cmds / nmcli see: https://wiki.archlinux.org/title/NetworkManager#Usage  ::
+	nmcli connection show		# -show cu-connection and also configured connections ...
+	nmcli device wifi list		#-scan/list APNs/wifis and their features (also their authentication system)
+	...
+
+_______:  config/edit a connection/profile: 
+	https://wiki.archlinux.org/title/NetworkManager#Edit_a_connection  , man  nm-settings (5)  /RO two above GUIs bzw see https://wiki.archlinux.org/title/NetworkManager#Front-ends  !
+	- many alternatives ! see there!
+	- profiles in :  /etc/NetworkManager/system-connections/
+	- checking connectivity:  /usr/lib/NetworkManager/conf.d/20-connectivity.conf  , see https://wiki.archlinux.org/title/NetworkManager#Checking_connectivity
+
+_______:  config NetworkManager service itself::
+	https://wiki.archlinux.org/title/NetworkManager#Configuration
+	/etc/NetworkManager/NetworkManager.conf  +  /etc/NetworkManager/conf.d/
+##________________________________________  ___________________________
+

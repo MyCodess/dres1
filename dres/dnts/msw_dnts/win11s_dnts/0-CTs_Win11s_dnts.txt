@@ -1,6 +1,7 @@
 ________________ CTs for MsWin11s ___________________________________________
 
 	_______:  CTs:
+- c't 10/2023, Windows 10: Der Upgrade-Skandal, 062--078 ,  Hardware checks: S. 70
 - ! c't 26/2021--016-030	:  Umsteigen/Install/Configs/HW-Umgehen/...-Win11 !
 -   c’t 22/2021 S. 20-24  :  Windows 11: Hardwareanforderungen
 

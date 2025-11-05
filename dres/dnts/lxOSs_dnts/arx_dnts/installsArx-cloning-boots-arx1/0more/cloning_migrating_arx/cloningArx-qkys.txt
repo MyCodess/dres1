@@ -15,7 +15,7 @@ ________________ cloning-syys-shorties/qckys/... ; for _RF-protocols see syys-cl
 		mkfs.vfat  -v -n ESP1   -i 04B6A1D4  -c  /dev/sdb2    ##-- the param of  -i / UUID/Volume-ID  must be WITHOUT "-", so ONLY hex! so delete it from lsblk1-output !
 		fsck.fat  -p  -v -V /dev/sdb2
 	- mkfs.ext4:
-		date;  mkfs.ext4  -L  2004ARX_P   -v  -c -U dac2d4ce-28e3-4a5c-93de-1f7f227155d9   /dev/sda9 ; date ##--iwith -cc then ca. 5 hours done !
+		date;  mkfs.ext4  -L  2004ARX_P   -v  -c -U dac2d4ce-28e3-4a5c-93de-1f7f227155d9   /dev/sdb3 ; date ##--with -cc then ca. 5 hours done !
 		##--longer, ca. 20 min, if needed:   fsck.ext4  -p -D  -k -f -E optimize_extents  -c  /dev/sdb3
 	- mkfs.exfat--cu-version  :
 		mkfs.exfat   -L  T1FS_P   /dev/sdb4     ##-has-so-UUID-setting

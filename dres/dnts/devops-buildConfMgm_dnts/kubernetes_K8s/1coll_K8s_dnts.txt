@@ -1,0 +1,13 @@
+______________________________  Kubernetes / K8s 1coll....: _____________________________________
+
+
+#####  ==========  namespaces :
+_______:  CT ct.22.25.162-167--Kubernetes-Einstieg-Teil_3--Containervernetzer.pdf ::
+-! Der Namespace ist Teil des vollständigen Hostnames eines Service/pod/.... Ein Service namens my-service, der im Namespace default liegt, heißt mit vollem Namen my-service.default.svc.cluster.local !
+	Die Endung .svc.cluster.local wird als Standard-Domain for services angenommen und kann weggelassen werden.
+	Sucht ein Pod einen Service im selben Namespace, kann er auch diesen weglassen. Namespace-intern würde auch eine Anfrage für my-service zum Erfolg führen.
+- welche Pods darin in namespace xxx:   kubectl get pods -n  xxx
+- in allen namespaces suchen/abfragen for pods listing:   kubectl get pods/services/...  --all-namespaces    ##-ansonsten sucht nur in "default" namespace!
+- cu-default-namspace für die weiteren Befehle ändern:    kubectl config set-context --current --namespace=xxx
+##________________________________________  ___________________________
+

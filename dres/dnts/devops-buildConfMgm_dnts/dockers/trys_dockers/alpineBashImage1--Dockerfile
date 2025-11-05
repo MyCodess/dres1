@@ -1,0 +1,23 @@
+FROM  alpine:latest
+WORKDIR  /
+
+# install pkgs:
+RUN  apk add  bash vim  mandoc man-pages sudo coreutils shadow
+RUN  apk add  mandoc man-pages mandoc-apropos less less-doc
+RUN  apk add  apk-tools apk-tools-doc apko-bash-completion bash-doc bash-completion bash-completion-doc 
+RUN  apk add  python3 curl lynx w3m
+
+# evv:
+COPY  ./share1/up1/ /up1/
+RUN  cp  /etc/bash/bashrc /etc/bash/bashrc_1org
+RUN  echo "source  /up1/setevv_alp1.sh" >> /etc/bash/bashrc
+
+CMD  /bin/bash
+
+######################### more: ################################################
+##----- user-magm/sudo  too fancy in alpine!! : no sudo but doas !! ...
+# -!-in alpine it is NOT useradd, but adduser! : 
+# RUN  adduser -s /bin/bash -D  u11
+# RUN  usermod  -aG  sudo  u11
+# USER  u11
+

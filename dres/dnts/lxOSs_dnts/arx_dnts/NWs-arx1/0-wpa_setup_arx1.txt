@@ -7,6 +7,9 @@ https://wireless.wiki.kernel.org/
 
 	_______:  
 https://github.com/nicolaka/netshoot
+---
+
+##--!!-  ALL strings ALWAYS with " !! NOT even with ' !!
 ############################# __CP__ von 2209arx-NW-setupo see _RF there! : #################################
 
 	_______:  NW-HWs/adapters :
@@ -16,18 +19,32 @@ https://github.com/nicolaka/netshoot
 	--!! RF-Kill errors  : check the physical-Schalter for NW-cards ! 
 	any error-msg with "due to rf-kill ..." usu. means the NW-hardware is physically disabled (with schalter/switch or is in Flugmodus)! so turn the schalter/switch on!
 	and with "ip link" : you must see it is <...,UP> !! check if all hardwares are on (not-turned-off physically):  rfkill list
+	--- so fo  HW-driver/module:
+	- HW-wireless-driver/module loaded at all?  ::  lspci  -k | grepi wireless   ##---if USB-attached-NW-HW, then use instead:  lsusb -v  /OR:  dmesg | grep usbcore as root sh
+	- ip link :: to see if a wireless interface was created  +  to find the NW_HW-adapter-name (eg wlan0 , ...)
+	- if not, bring the HW-adater up:  ip link set <interface> up   /eg:  ip link set wlan0  up ! #-if  "RF-kill" errors: probably wlan-HW is physically deactivated (with Fn + ... or in Bios,...!?
+
 
 	_______:  Not-parallel-NW-services !!:
+	- !! ONLY ONE dhcp-client and NW-manager may be installd to manage certain adapter/HW !! Each network interface should be managed by only one DHCP client or network manager!
+	--- checking which dhcp-client/NW-manager/resolver is enabled/running...:
+		- a listing of dhcp-clinets/NW-managers/resolvers in :   https://wiki.archlinux.org/title/Network_configuration !
+		- eg for dhcp-clinets-check:  systemctl --type=service  | grepi dhcp  #--BUT is NOT really ganz ok, since some of them are not called dhcp...! so have to grep them also! see listing of dhcp-clients in
+		- eg for NW-managers:   same cmd/procedure to check if any of NW-managers are running or not! for a listing of them see previous link !
+		- eg for resolvers/DNS: check if systemd-dns-resolver enabled/running/....:   systemctl status  systemd-resolved
+		- ...
 	- we use ONLY   dhcpcd.service  wpa_supplicant.service  (managed by systemd/systemctl) !! wpa_supplicant for (wireless-)cards-configs and WPA-keys-Mgm, and dhcpcd as dhcp-client-daemon to retrieve the IP from the router!
 	- so we are not using systemd-NW-managers or Gnome-NW-Managers! so check them:
 	so MUSt be DISabled:   systemctl status   systemd-networkd.service   systemd-resolved.service  ##--if not disabled, then systemctl disable .... ! not-only stop, but disable !!
 	Gnome-NW-managers may NOT be installed at all !
 
 	_______:  setup wpa:
-	- nedd two wpa-file: wpa-wlans-config-file (known-wlans PWs,names,...) + wpa-start-systemd-file (cmdline-to-start-service) :
+	- need two config-files for config-wpa + systemd-wpa:
+		1- config-wpa-deamon:  /etc/wpa_supplicant/<my-wifis-confs-wpa.conf> (known-wlans PWs,names,... and also general-wpa-params)
+		2- systemd-start-service-wpa:   /etc/systemd/system/wpa_supplicant.service.d/<my-wpa_systemd_start.conf>  : contains how to start wpa-service, with which params,...
 	- systemctl   stop  dhcpcd.service  wpa_supplicant.service
-	- wpa-config-file:   cpt  uue-wpa-config-file.conf  /etc/wpa_supplicant/0-uue-wpa-wlans1.conf  ##--is the uue-wpa-config-file containing params for kúue-known-wlans/bibs/...!
-	- systemd-wpa-start-file:  /either-with:  systemctl edit  wpa_supplicant.service  /OR-manually:  cpt  uue-wpa-start.conf /etc/systemd/system/wpa_supplicant.service.d/0-uue_wpa_systemd_start.conf , containing exactly:
+	- wpa-config-file:   cpt  1q_wpa-wlans1.conf  /etc/wpa_supplicant/1q_wpa-wlans1.conf  ##--is the uue-wpa-config-file containing params for kúue-known-wlans/bibs/...!
+	- systemd-wpa-start-file:  /either-with:  systemctl edit  wpa_supplicant.service  /OR-manually:  cpt  uue-wpa-start.conf /etc/systemd/system/wpa_supplicant.service.d/1q_wpa_systemd_start.conf  , containing exactly:
 	Service]
 	ExecStart=
 	ExecStart=/usr/bin/wpa_supplicant -u  -s  -c  /etc/wpa_supplicant/0-uue-wpa-wlans1.conf  -i wlan0
@@ -40,6 +57,16 @@ https://github.com/nicolaka/netshoot
 	other terminal:   journalctl -fe -n5   ##check the output os starts:
 	systemctl   start  dhcpcd.service  wpa_supplicant.service
 	checks:  ip a/r/l ; ping 9.9.9.9 ; ping  google.de ; ...
+
+	_______:  wpa-GUIs if wanted (AUR):
+	- sudo wpa_gui , sudo wpa-cute  : Optionally, also install the official wpa_supplicant_guiAUR which provides wpa_gui, a graphical front-end for wpa_supplicant, or wpa-cuteAUR which is a fork from an earlier version of wpa_gui with a couple of fixes and improvements. see https://wiki.archlinux.org/title/Wpa_supplicant
+	- AUR:  wpa_gui , wpa-cute  :    : Optionally, also install the official wpa_supplicant_gui/AUR which provides wpa_gui, a graphical front-end for wpa_supplicant, or wpa-cute/AUR which is a fork from an earlier version of wpa_gui with a couple of fixes and improvements. see https://wiki.archlinux.org/title/Wpa_supplicant
+	- invoke ONLY with sudo!!:  sudo wpa_gui , sudo wpa-cute
+	--- applets for systray (not really admin-/editor-full-GUIs, but just to show wifi status and simple actions maybe ...):
+	- xfce4-internal:  xfce4-wavelan-plugin 0.7.0-2 (xfce4-goodies) :: Plugin to monitor wifi connectivity for the Xfce4 panel
+	- eg: for Gnome-networmanager:  nm-applet : network-manager-applet is a GTK 3 front-end which works under Xorg environments with a systray.
+
+
 ############################## 2004arx-firtst-trys--200400 : ##################################################
 ########## systemd-networkd + systemd-resolved (DNS) + wpa (wirless-conn): ######################################
 	--- docs/nts:
@@ -89,6 +116,8 @@ https://github.com/nicolaka/netshoot
 	networkctl status ;
 	resolvectl query archlinux.org  ; ##--like nslookup
 	ll /sys/class/net/
+
+
 ########## wpa_supplicant + dhcpcd.service : ###############################################################
 	----- docs:
 	-! man wpa_supplicant , wpa_supplicant.conf , wpa_passphrase , wpa_cli , dhcpcd/dhclient ,  systemd.network
@@ -153,10 +182,19 @@ https://github.com/nicolaka/netshoot
 		--- OR us resolvecon serivice of systemd for naming:
 		systemctl   enable systemd-resolved.service
 
-	_______:  /OR:
-	----- interactively connect to an AP with wpa_cli  (after already having started wpa_supplicant):
+	_______:  /OR: interactively connect to an AP with wpa_cli  (after already having started wpa_supplicant):
+		- !! all ssid-names OW ... in "..."  ! NOT even '...' !
+		- !! authentication DIFF for  "WPA2 Personal"  <-->  "WPA2 Enterprise" which requires more , also company-server-cert,...! see https://wiki.archlinux.org/title/Network_configuration/Wireless#Authentication
+		https://wiki.archlinux.org/title/Wpa_supplicant  ::
+		- ! In order to use wpa_cli, a control interface must be specified for wpa_supplicant, and it must be given the rights to update the configuration.
+		Do this by creating a minimal configuration file, as eg  /etc/wpa_supplicant/wpa_supplicant.conf :
+			ctrl_interface=/run/wpa_supplicant
+			update_config=1
+		- then start it:   wpa_supplicant -B -i interface -c /etc/wpa_supplicant/wpa_supplicant.conf   ##--I-OR without -B (so NO daemon, but in fg) for debuggin/observing/.... 
+			- -p :: The default location of the control socket is /var/run/wpa_supplicant/. A custom path can be set manually with the -p option to match the wpa_supplicant configuration.
+			- -i :: It is possible to specify the interface to be configured with the -i option; otherwise, the first found wireless interface managed by wpa_supplicant will be used.
 		- listing of availablae APs/SSIDs : wpa_cli ; >scan ; > scan_results ;  ##-after already having started wpa_supplicant
-		# wpa_cli  ##--> goes into interactive shell.
+		# wpa_cli  ##--> goes into interactive shell. teminating with:  wpa_cli terminate
 		> scan
 		OK ...
 		> scan_results
@@ -165,12 +203,15 @@ https://github.com/nicolaka/netshoot
 		11:11:11:11:11:11 2437 -64 [WPA2-PSK-CCMP][ESS] ANOTHERSSID
 		> add_network
 		0                       ##--Each network is indexed numerically, so the first network will have index 0.
-		> set_network 0 ssid "MYSSID"
+		> set_network 0 ssid "MYSSID"  ##--!! ALL strings ALWAYS with " !! NOT even with ' !!
 		> set_network 0 psk "MY-Password-1"  ##--PW-nts:  /OR the PSK key generated by wpa_passphrase, then NOT-quoted ! if no PW needed then replace the line with:  > set_network 0 key_mgmt NONE
+			- ! f the SSID does not have password authentication, you must explicitly configure the network as keyless by replacing the command set_network 0 psk "passphrase" with set_network 0 key_mgmt NONE.
+			- "pw1" is clear-text-PW <--> pw1 is encrypted! ::  If a passphrase is given to set_network, the PSK will be computed from the quoted "passphrase" string. Alternatively, you can use the wpa_passphrase command and enter the PSK directly by passing it to psk without quotes.
 		> enable_network 0
 		<2>CTRL-EVENT-CONNECTED - Connection to 00:00:00:00:00:00 completed (reauth) [id=0 id_str=]
 		> save_config
 		OK
+		- disable_network 0   command will stop the periodic attempts and return to a steady user prompt.
 		> quit
 		- Once association is complete, you must obtain an IP address, for example, using dhcpcd ... (wpa does NOT do dhcp stuff automatically !!)
 	----- config-file:

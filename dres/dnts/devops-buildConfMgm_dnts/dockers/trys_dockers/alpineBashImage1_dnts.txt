@@ -1,0 +1,44 @@
+
+
+#####  ==========  alp1-bash+evv:
+- ! requires here also the dir./share1/up1/ , which has also minimal following adaptions and also  ./share1/up1/setevv_alp1.sh
+- alp1-bash-evv-call with share (could also copy the evv to the image, so without host-share, but so ok!):
+	docker run --rm  -it --name alp1bash  --hostname  alp1bash  -v  /up1/varu/varau/docks1_var/share1:/mnt/host11  alpine:bash1  /bin/bash
+
+_______:  alp1-bash-image:
+##- it has no bach; so start it with sh :
+docker run --rm  -it --name alp1bash  --hostname  alp1    alpine /bin/sh   ##--or without --rm , in case that you forget commit ...!?
+apk add  bash vim  mandoc man-pages sudo coreutils shadow
+apk add  mandoc man-pages mandoc-apropos less less-doc
+apk add  apk-tools apk-tools-doc apko-bash-completion bash-doc bash-completion bash-completion-doc
+apk add  python3 curl lynx w3m
+
+_______:  evv-adapts-nts:
+--- evv-modifs:   in evv-profs all ok except:
+aliases : ls1 : does NOT have date-iso!
+vimrc :  commentout pathogen#infect
+
+---
+mkdir  ./share1/up1/  ; cp -a /up1/.ev13  /up1/.cev  ./share1/up1/ ; mkdir ./share1/up1/w1  ./share1/up1/prjs ;
+cp ./setevv_alp1.sh  ./share1/up1/ ;
+#-I- evv-for-alp1-bash--modifs:
+	only ls1 alias : no date-iso-arg ! (empty DIRs there as w1 , prj has to be created! in evv there are "cd ..." or realpath ... !)
+	vi vimrc  #-commentout pathogen#infect
+
+--- build+run the image:
+docker build  -t alpine:bash2  .
+docker run --rm --name alp1bash1wk  --hostname alp1bash1wk -it sha256:30efbcdf7f0ac4e7857a760b18297e9c8bfce831895791fbdd49ddb1ac6d4a3e
+##________________________________________  ___________________________
+
+
+_______:  previous try, the up1-dir as a share-dir on host!  evv-adapts-nts:
+--- evv-profs (put on the share  /up1/varu/varau/docks1_var/share1):
+cd /up1/varu/varau/docks1_var/share1/ ;  cp -a /up1/.cev  /up1/.cev . ; mkdir w1 prjs ; 
+cp  /etc/bash/bashrc /etc/bash/bashrc_1org
+vi /etc/bash/bashrc  ##--:  source  /mnt/host11/setevv_alp1.sh  ##--evv could be copied to the image, but so as share is ok!
+#-I- evv-for-alp1-bash--modifs:  only ls1 alias : no date-iso-arg ! (empty DIRs there as w1 , prj has to be created! in evv there are "cd ..." or realpath ... !)
+ln -s /mnt/host11/up1 /up1   ##--just to have same pathes, otherwise is ok also without ...
+docker commit alp1bash  alpine:bash1   ##-so save the status, BEFORE leaving the container, to alpine:bash1  !
+-! before leaving test the new image in another terminal with:
+docker run --rm  -it --name alp1bash_1  --hostname  alp1bash  -v  /up1/varu/varau/docks1_var/share1:/mnt/host11  alpine:bash1  /bin/bash
+
