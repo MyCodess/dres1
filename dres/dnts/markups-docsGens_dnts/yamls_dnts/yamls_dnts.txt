@@ -1,0 +1,33 @@
+______________________________  YAMLs-dnts: _______________________________________________________
+
+
+
+#####  ==========  URLs/allgs...:
+_______:  URLs
+	- ! https://spacelift.io/blog/yaml
+	- pacman -Ss  yaml :  pacman -Sy  yamllint  
+
+_______:  Allg /syntax-nts::
+	- no TABs but only spaces !
+	- indentation defines the elements contained in the upper tag! the number of spaces is irrelevant as long as consistent! but take 4 !
+	- indentations and maps same as python! but array not (indentation + "- ") !
+	- Lists are denoted by a dash+space (“- ”), while maps are key-value pairs using ":" same as in python.
+	- comments with "# "
+##________________________________________  ___________________________
+
+
+#####  ==========  YAML vs JSON :   https://spacelift.io/blog/yaml#yaml-vs-json
+	- !! YAML > JSON , so: YAML is, in fact, a UPPER-/SUPERset of JSON. All JSON files are valid YAML files, but not the other way around.
+	- YAML has more than json:  comments/#, anchors/&, referencing-anchors-with *, several documents in a file with "---" , KEYs can be anything,  ...
+	- JSON always require a ROOT-wrapper-element (as [] of {})! YAML not!
+	- YAML structures enable storage of multiple documents within a single file, usage of references for repeated nodes, and usage of arbitrary nodes as keys.[
+	- For clarity, compactness, and avoiding data entry errors, YAML provides node anchors (using &) and references (using *).
+	- YAML has many additional features not present in JSON, including comments, extensible data types, relational anchors, strings without quotation marks, and mapping types preserving key order.
+	- Due to the conciseness, JSON serialization and deserialization is much faster than YAML.
+##________________________________________  ___________________________
+
+
+#####  ==========  Py-Yaml:
+	from pyyaml import load ; load('myfile.yml'); ...
+##________________________________________  ___________________________
+

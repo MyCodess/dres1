@@ -1,0 +1,168 @@
+
+==================== 20250925-020349 : ==================_________ 
+---> not fully completed due to defekt USB-Sticks at the end, be rsync OS ! but here the nts up to ...!
+
+arx-clone, USB128-to-usb128, attached to XPS17-older-arx1 , all to USB-3.0 !
+target-syys /NEW : /dev/sdb
+source_RF-syys   : /dev/sdc
+target was already ready partitioned and bootable! so only cp -a ...; (also OS-part was already formatted with mkfs.ext4 ... !)
+-----
+
+========== first on source-boot-org-cleanings:  pacman -S -cc ; t1var/... ; varau/... ; home/cashes... ; /var/log/ ... ; ...!
+
+========== mkfs of new target: (extra vorher gemacht! ready!): ================================
+--- target:
+NAME        FSTYPE FSVER LABEL     UUID                                 FSAVAIL FSUSE% MOUNTPOINTS   SIZE TYPE
+/dev/sdb                                                                                           114.6G disk
+├─/dev/sdb1                                                                                          100M part
+├─/dev/sdb2 vfat   FAT32 ESP1      67A4-F1EE                                                           3G part
+├─/dev/sdb3 ext4   1.0   2209ARX_P b556c4a6-b8b5-4640-ab76-86f0ce77500a                               50G part
+└─/dev/sdb4 exfat  1.0   T1FS_P    77FB-B7D0                                                        61.5G part
+#---
+root@2004arx ~]# mkfs.vfat  -v -n ESP1    -c  /dev/sdb2 -i 67A4F1EE      ##--the param of  -i / UUID/Volume-ID  must be WITHOUT "-", so ONLY hex! ca 2-3 min
+fsck.fat  -p  -v -V /dev/sdb2
+#-
+root@2004arx ~]# mkfs.exfat   -L  T1FS_P   /dev/sdb4
+root@2004arx ~]# tune.exfat   /dev/sdb4  -I  0x77FBB7D0   ##--!!-the param to -I MUST: start with 0x (for Hex) AND NO "-" !
+#-
+[root@2004arx ~]# date;  mkfs.ext4  -L  2209ARX_P  -v  -c -U b556c4a6-b8b5-4640-ab76-86f0ce77500a  /dev/sdb3 ; date  ##-ca. 30 min on x17-USBs ; with -cc last time ca. 5 hours done (on   x17?) !
+--!!:
+NO grub-instal ...! needed!?!? due to formatting /dev/sdb2 !? really not!
+
+========== CPs of parts + conf: =====================================================================================
+# lsblk1                                                                                         /                      
+/dev/sdb                                                                                                  114.6G disk  ##--target-new_CP
+├─/dev/sdb1                                                                                                 100M part
+├─/dev/sdb2 vfat   FAT32 ESP1         67A4-F1EE                                 3G     0% /mnt/t1             3G part
+├─/dev/sdb3 ext4   1.0   2209ARX_P    b556c4a6-b8b5-4640-ab76-86f0ce77500a                                   50G part
+└─/dev/sdb4 exfat  1.0   T1FS_P       77FB-B7D0                                                            61.5G part
+/dev/sdc                                                                                                  114.6G disk  ##-->source/org:
+├─/dev/sdc1                                                                                                 100M part
+├─/dev/sdc2 vfat   FAT32 ESP1         4361-3230                                                               3G part
+├─/dev/sdc3 ext4   1.0   2004ARX_P    8eadf68b-ed69-4dfe-948a-9fe297645142                                   50G part  ##--->!! tha label still the old one! wrong labeel, but working since in grub.cfg also the same ! but now in new copy will be updated to 2209ARX_P !!
+└─/dev/sdc4 exfat  1.0   T1FS_P       67FF-921F                                                            61.5G part
+
+-!! ##--> problem with umount/sync on all NBs ! so?? so for now NOT 3sync/umount !! just at the end shut down!
+
+--- boot-part /sdb2  
+# -?-did NOT come back the prompt!!:  3sync
+mount         /dev/sdb2  /mnt/t1
+mount  -o ro  /dev/sdc2  /mnt/s1
+date;  cp -a /mnt/s1  /mnt/t1/ ; date  ##-ca 1 min
+#-?: 3sync  #-ca ??
+[root@2209arx ~]# mvi /mnt/t1/s1/*  /mnt/t1/
+[root@2209arx ~]# rmdir /mnt/t1/s1/
+[root@2004arx  ]# sed -i-$($cuds)  -e "s@4361-3230@67A4-F1EE@g"  -e "s@8eadf68b-ed69-4dfe-948a-9fe297645142@b556c4a6-b8b5-4640-ab76-86f0ce77500a@g"  -e "s@67FF-921F@77FB-B7D0@g"  /mnt/t1/grub/grub.cfg
+[root@2209arx ~]# diff /mnt/t1/grub/grub.cfg  /mnt/t1/grub/grub.cfg-$($cuds)
+
+#-- sdb3 / OS-part:
+mount         /dev/sdb3  /mnt/t3
+mount  -o ro  /dev/sdc3  /mnt/s3
+date;  cp -a /mnt/s3  /mnt/t3/ ; date
+mv /mnt/t3/s3/*  /mnt/t3/ ; rmdir /mnt/t3/s3/ ;
+sed -i-$($cuds)  -e "s@4361-3230@67A4-F1EE@g"  -e "s@8eadf68b-ed69-4dfe-948a-9fe297645142@b556c4a6-b8b5-4640-ab76-86f0ce77500a@g"  -e "s@67FF-921F@77FB-B7D0@g"  /mnt/t1/etc/fstab
+
+
+##############################  1coll-logs:  ###############################################
+[root@2004arx ~]# lsblk1 /dev/sdb
+NAME        FSTYPE FSVER LABEL     UUID                                 FSAVAIL FSUSE% MOUNTPOINTS   SIZE TYPE
+/dev/sdb                                                                                           114.6G disk
+├─/dev/sdb1                                                                                          100M part
+├─/dev/sdb2 vfat   FAT32 ESP1      67A4-F1EE                                                           3G part
+├─/dev/sdb3 ext4   1.0   2209ARX_P b556c4a6-b8b5-4640-ab76-86f0ce77500a                               50G part
+└─/dev/sdb4 exfat  1.0   T1FS_P    77FB-B7D0                                                        61.5G part
+[root@2004arx ~]# 
+[root@2004arx ~]# mkfs.vfat  -v -n ESP1    -c  /dev/sdb2 -i 67A4F1EE
+mkfs.fat 4.2 (2021-01-31)
+Auto-selecting FAT32 for large filesystem
+/dev/sdb2 has 255 heads and 63 sectors per track,
+hidden sectors 0x32800;
+logical sector size is 512,
+using 0xf8 media descriptor, with 6291432 sectors;
+drive number 0x80;
+filesystem has 2 32-bit FATs and 8 sectors per cluster.
+FAT size is 6136 sectors, and provides 784891 clusters.
+There are 32 reserved sectors.
+Volume ID is 67a4f1ee, volume label ESP1.
+Searching for bad blocks 212688... 420176... 630480... 848208... 1057616... 1251920... 1442384... 1631440... 1822288... 2009808... 2198992... 2396496... 2588752... 2772432... 2963280... 
+
+[root@2004arx ~]# 
+# ---------
+[root@2004arx ~]# fsck.fat  -p  -v -V /dev/sdb2
+fsck.fat 4.2 (2021-01-31)
+Checking we can access the last sector of the filesystem
+Boot sector contents:
+System ID "mkfs.fat"
+Media byte 0xf8 (hard disk)
+       512 bytes per logical sector
+      4096 bytes per cluster
+        32 reserved sectors
+First FAT starts at byte 16384 (sector 32)
+         2 FATs, 32 bit entries
+   3141632 bytes per FAT (= 6136 sectors)
+Root directory start at cluster 2 (arbitrary size)
+Data area starts at byte 6299648 (sector 12304)
+    784891 data clusters (3214913536 bytes)
+63 sectors/track, 255 heads
+    206848 hidden sectors
+   6291432 sectors total
+Starting check/repair pass.
+Reclaiming unconnected clusters.
+Checking free cluster summary.
+Starting verification pass.
+Checking for unused clusters.
+/dev/sdb2: 1 files, 1/784891 clusters
+[root@2004arx ~]#
+# --------
+
+root@2004arx ~]# mkfs.exfat   -L  T1FS_P   /dev/sdb4
+exfatprogs version : 1.1.3
+Creating exFAT filesystem(/dev/sdb4, cluster size=131072)
+
+Writing volume boot record: done
+Writing backup volume boot record: done
+Fat table creation: done
+Allocation bitmap creation: done
+Upcase table creation: done
+Writing root directory entry: done
+Synchronizing...
+
+exFAT format complete!
+[root@2004arx ~]# 
+# --------
+
+[root@2004arx ~]# date;  mkfs.ext4  -L  2209ARX_P  -v  -c -U b556c4a6-b8b5-4640-ab76-86f0ce77500a  /dev/sdb3 ; date
+2025-09-25T02:29:10 CEST
+mke2fs 1.46.5 (30-Dec-2021)
+fs_types for mke2fs.conf resolution: 'ext4'
+/dev/sdb3 contains a ext4 file system labelled '2209ARX_P'
+	last mounted on / on Thu Oct 26 14:37:30 2023
+Proceed anyway? (y,N) y
+Filesystem label=2209ARX_P
+OS type: Linux
+Block size=4096 (log=2)
+Fragment size=4096 (log=2)
+Stride=0 blocks, Stripe width=0 blocks
+3276800 inodes, 13107200 blocks
+655360 blocks (5.00%) reserved for the super user
+First data block=0
+Maximum filesystem blocks=2162163712
+400 block groups
+32768 blocks per group, 32768 fragments per group
+8192 inodes per group
+Filesystem UUID: b556c4a6-b8b5-4640-ab76-86f0ce77500a
+Superblock backups stored on blocks: 
+	32768, 98304, 163840, 229376, 294912, 819200, 884736, 1605632, 2654208, 
+	4096000, 7962624, 11239424
+
+Running command: badblocks -b 4096 -X -s /dev/sdb3 13107199
+Checking for bad blocks (read-only test): done                                                 
+Allocating group tables: done                            
+Writing inode tables: done                            
+Creating journal (65536 blocks): done
+Writing superblocks and filesystem accounting information: done   
+
+2025-09-25T03:01:15 CEST
+[root@2004arx ~]# 
+# ----------
+

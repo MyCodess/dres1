@@ -1,0 +1,104 @@
+##________________________________________ dockers :: _______________ ___________________________
+
+
+#####  ==========  docs/urls/...:
+	REF-cmds:  https://docs.docker.com/reference/
+	https://wiki.archlinux.org/title/Docker
+	https://docs.docker.com/get-started/ , https://docs.docker.com/
+##________________________________________  ___________________________
+
+
+#####  ==========  VOCABs /DEFs /DIFFs:
+_______:  VOCABs
+	https://docs.docker.com/get-started/docker-overview/
+	https://docs.docker.com/reference/glossary/
+	https://wiki.archlinux.org/title/Docker#Usag
+	---
+	Docker consists of multiple/4 parts:
+	1- server: docker daemon/engine : "dockerd" /  docker.service :: manages Docker containers/images ; serves the Docker API (through CLI cmds) and manages Docker containers.
+	2- client: docker CLI command: "docker" ::  which allows users to interact with the Docker API via the command line and control the Docker daemon.
+		- The Docker client (docker) is the primary way that many Docker users interact with Docker. When you use commands such as docker run, the client sends these commands to dockerd, which carries them out. The docker command uses the Docker API. The Docker client can communicate with more than one daemon. https://docs.docker.com/get-started/docker-overview/
+	3- docker containers/images, which are namespaced processes that are started and managed by the Docker daemon/engine as requested through the Docker API /CLI.
+	4- docker socket: By default, the Docker daemon serves the Docker API using a Unix socket at /var/run/docker.sock. This is an appropriate option for most use cases.
+		It is possible to configure the Daemon to additionally listen on a TCP socket, which can allow remote Docker API access from other computers. [7] This can be useful for allowing docker commands on a host machine to access the Docker daemon on a Linux virtual machine, such as an Arch virtual machine on a Windows or macOS system. https://wiki.archlinux.org/title/Docker#Daemon_socket
+	- ! Typically, users use Docker by running docker CLI commands, which in turn request the Docker daemon to perform actions which in turn result in management of Docker containers. Understanding the relationship between the client (docker), server (docker.service) and containers is important to successfully administering Docker.  https://wiki.archlinux.org/title/Docker#Usage
+	---
+	- Docker registries: A Docker registry stores Docker images. Docker Hub is a public registry that anyone can use, and Docker looks for images on Docker Hub by default. You can even run your own private registry.
+		- docker pull/push/run uses the required images from your configured registry.
+	- Docker objects :: images, containers, networks, volumes, plugins, and other objects.
+	- image :: is a read-only template with instructions for creating a Docker container.
+	- container :: is a runnable instance of an image. You can create, start, stop, move, or delete a container using the Docker API or CLI. Y
+		- eg: docker run -i -t ubuntu /bin/bash  #-:  runs an ubuntu container, attaches interactively to your local command-line session, and runs /bin/bash.
+##________________________________________  ___________________________
+
+
+#####  ==========  install/setup-arx1-docker on 2209arx  /:251016 :  
+	- https://wiki.archlinux.org/title/Docker
+	- ! many cmds require sudo /OR a user in "docker" group (user has to re-login if ihis group assignment is new!)! so if not ok try with sudo all stuff ! here only install cmds done by root:
+	- pacman -Suy  docker
+		- to compose/create own images, also: [ docker-compose  docker-buildx 
+		- for "Docker Desktop" of docker.com  see also arx-nts in:  https://wiki.archlinux.org/title/Docker#Docker_Desktop
+	- non-root user if  will run docker-cli/-cmds: then add the user to the docker user group, re-login and restart docker.service.
+		- usermod -a -G docker  u1    ##--!!- u1 must re-login !! check u1 groups in terminal with:  groups /OR id -a ; to relogin without xwin-restart:  exec sudo --login --user $USER
+	- vpn-active-note: starting the docker service may fail if you have an active VPN connection due to IP conflicts ! so better cmcli down vpn1 ;
+		-try disconnecting the VPN before starting the docker service. You may reconnect the VPN immediately afterwards. 
+	- config docker-images/date-root-dir :
+		 - default : /var/lib/docker/ #-to change it: systemctl stop docker ; [mkdircd /etc/docker/ ] ; vi /etc/docker/daemon.json #-: { "data-root": "/up1/varu/varau/dockers_var/images" }  ##--I-NO exfat/fat! dockerd will set permissions! see:  https://wiki.archlinux.org/title/Docker#Images_location
+		 - if already some images in its folder there, for Relocating the Docker root directory: stop all docker-services; mv old to new dir; edit /etc/docker/daemon.json; restart them! see:   https://www.ibm.com/docs/en/z-logdata-analytics/5.1.0?topic=software-relocating-docker-root-directory
+		 - check:  docker info | grep "Docker Root Dir"
+	- systemctl status docker ;   systemctl start docker.service [ docker.socket ] ;   ##--OR if wanted auto-start, then: systemctl  enable  docker ;
+		 -! docker.service starts the service on boot, whereas docker.socket starts Docker on first usage which can decrease boot times.
+	- verify Docker's status:   docker info ;  psg docker ; systemctl status docker ; 
+	- verify  docker-images/date-root-dir :   docker info | grepi root
+	- [ stopping: systemctl stop docker docker.socket ; ]
+	---
+	- ! if the Docker daemon stops or restarts, all currently running Docker containers are also stopped or restarted.
+	- more packages/utils/GUIs/apps see there! as Docker Compose , Docker Desktop , Front-ends , ...!
+##________________________________________  ___________________________
+
+
+#####  ==========  configs docker-daemon/-engine
+	https://wiki.archlinux.org/title/Docker#Configuration
+	https://docs.docker.com/reference/cli/dockerd/#daemon-configuration-file
+	- configs docker-daemon/-engine:   /etc/docker/daemon.json   or by adding command line flags to the docker.service systemd unit. prefere conf-file !  https://wiki.archlinux.org/title/Docker#Configuration
+	- config docker.socket  ::  https://wiki.archlinux.org/title/Docker#Daemon_socket
+	- config docker-images/date-root-dir  : https://wiki.archlinux.org/title/Docker#Images_location
+##________________________________________  ___________________________
+
+
+#####  ==========  volumes:
+https://spacelift.io/blog/docker-volumes  ::
+Volumes are a mechanism for storing data outside containers.
+All volumes are managed by Docker in : <data-root>/volumes , default:  /var/lib/docker/volumes ##--bzw. in my/adapted-case:  docks1_var/images/volumes/
+---
+docker volume ls / rm 
+docker volume inspect vol1
+clean up all unused volumes with docker volume prune
+##________________________________________  ___________________________
+
+
+##############################  dones/trys:  ###################################################################################
+#####  ==========  alp1-bash+evv __CP  (notes in /up1/varu/varau/docks1_var/0nts.txt) :
+- alp1-bash-evv-call with share (could also copy the evv to the image, so without host-share, but so ok!):
+	docker run --rm  -it --name alp1bash  --hostname  alp1bash  -v  /up1/varu/varau/docks1_var/share1:/mnt/host11  alpine:bash1  /bin/bash
+
+_______:  alp1-bash-image:
+##- it has no bach; so start it with sh :
+docker run --rm  -it --name alp1bash  --hostname  alp1    alpine /bin/sh   ##--or without --rm , in case that you forget commit ...!?
+apk add bash vim python3  curl
+--- evv-profs (put on the share  /up1/varu/varau/docks1_var/share1):
+cd /up1/varu/varau/docks1_var/share1/ ;  cp -a /up1/.cev  /up1/.cev . ; mkdir w1 prjs ; 
+cp  /etc/bash/bashrc /etc/bash/bashrc_1org
+vi /etc/bash/bashrc  ##--:  source  /mnt/host11/setevv_alp1.sh  ##--evv could be copied to the image, but so as share is ok!
+#-I- evv-for-alp1-bash--modifs:  only ls1 alias : no date-iso-arg ! (empty DIRs there as w1 , prj has to be created! in evv there are "cd ..." or realpath ... !)
+ln -s /mnt/host11/up1 /up1   ##--just to have same pathes, otherwise is ok also without ...
+docker commit alp1bash  alpine:bash1   ##-so save the status, BEFORE leaving the container, to alpine:bash1  !
+-! before leaving test the new image in another terminal with:
+docker run --rm  -it --name alp1bash_1  --hostname  alp1bash  -v  /up1/varu/varau/docks1_var/share1:/mnt/host11  alpine:bash1  /bin/bash
+--- in evv-profs all ok except:
+aliases : ls1 : does NOT have date-iso!
+vimrc :  commentout pathogen#infect
+##________________________________________  ___________________________
+
+
+

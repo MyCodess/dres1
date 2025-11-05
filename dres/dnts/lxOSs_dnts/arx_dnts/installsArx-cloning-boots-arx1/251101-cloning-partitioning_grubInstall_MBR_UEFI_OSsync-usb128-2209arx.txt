@@ -1,0 +1,154 @@
+2025-11-01T19:36:15 CET
+target-medium: new clean 128GB-usb-stick on /dev/sdb , attached to arx1-usb-HP13-on-/dev/sda3 : partionining+formatting+syncs ...
+- ausser-for--OS-sync : alles on arx1-HP13 : /dev/sda : src ;  /dev/sdb : new-target !
+- for OS-sync-offline : HP13 booted from Fed-usb-stick ( and then both src+target attached to HP3: sdb + sdc) ! BUT later on again for configs of new-stick again booted from src-arx1-on-HP13 !
+---
+-!! ALWAYS check again and again OS-time !! each boot ins MsWIn reset it again to MS-time/local-time (if registry-modif not done!!
+---
+
+#####  ==========  src: (arx1-on-HP13)
+NAME                   FSTYPE FSVER LABEL       UUID                                 FSAVAIL FSUSE% MOUNTPOINTS        SIZE TYPE
+/dev/sda                                                                                                             114,6G disk
+├─/dev/sda1                                                                                                            100M part
+├─/dev/sda2            vfat   FAT32 ESP1        4361-3230                               2,6G    15% /boot                3G part
+├─/dev/sda3            ext4   1.0   2004ARX_P   8eadf68b-ed69-4dfe-948a-9fe297645142   24,1G    46% /home               50G part
+│                                                                                                   /up1/mnt/VARUfs         
+│                                                                                                   /                       
+└─/dev/sda4            exfat  1.0   T1FS_P      67FF-921F                              38,5G    37% /up1/mnt/T1fs     61,5G part
+
+#####  ==========  partitioning , new stick attached to HP13-arx1 as /dev/sdb :
+- new-usb-stick (neu-ausgepackt! fabrik-zusatnd; so full-empty) /dev/sdb eingesteckt (new stick, no GUID, org only MBR), so first delete all and generate a new GUID disk :
+gdisk /dev/sdb  #- o, w
+---
+- create parts:
+sudo  sgdisk -o -n 1:0:+100M  -n 2:0:+3G  -n 3:0:+50G  -n 4:0:-0  -t 1:EF02  -t 2:EF00 -t 3:8300 -t 4:0700  /dev/sdb
+The operation has completed successfully.
+---
+sudo gdisk -l /dev/sdb
+GPT fdisk (gdisk) version 1.0.10
+
+Partition table scan:
+  MBR: protective
+  BSD: not present
+  APM: not present
+  GPT: present
+
+Found valid GPT with protective MBR; using GPT.
+Disk /dev/sdb: 244457472 sectors, 116.6 GiB
+Model: SanDisk 3.2 Gen1
+Sector size (logical/physical): 512/512 bytes
+Disk identifier (GUID): 383134C1-4495-43E8-868E-83AE39C9D681
+Partition table holds up to 128 entries
+Main partition table begins at sector 2 and ends at sector 33
+First usable sector is 34, last usable sector is 244457438
+Partitions will be aligned on 2048-sector boundaries
+Total free space is 2014 sectors (1007.0 KiB)
+
+Number  Start (sector)    End (sector)  Size       Code  Name
+   1            2048          206847   100.0 MiB   EF02  
+   2          206848         6498303   3.0 GiB     EF00  
+   3         6498304       111355903   50.0 GiB    8300  
+   4       111355904       244457438   63.5 GiB    0700 
+---
+
+#####  ==========  formatting:
+#- the UUIDs : first-four-digits: Medium/usb-stick-id (here 1111) + next four-digits: part-Nr (as for sdb2 : 11112222) !
+--
+sudo   mkfs.vfat  -v -n ESP1   -i 11112222  -c  /dev/sdb2
+#- if forgotten to set UUID , then:  sudo mlabel -N  1111-2222 -i /dev/sdb2  ::
+sudo  fsck.fat  -p  -v -V /dev/sdb2
+--
+date;  sudo  mkfs.ext4  -L  2209ARX_P   -v  -c -U  11113333-1111-1111-1111-111111111111   /dev/sdb3 ; date  ##-- since NEW stick, then 5 min., otherwise ca. 20 min, with -cc maybe 5 hours! 
+#- if forgotten to set UUID , then:  sudo  tune2fs  -U   11113333-1111-1111-1111-111111111111  /dev/sdb3
+fsck.ext4  -p -D  -k -f -E optimize_extents  -c  /dev/sdb3    ##--ca. 3 min beim leeren part!
+--
+sudo  mkfs.exfat   -L  T1FS_P   /dev/sdb4       ##-has-so-UUID-setting
+sudo  tune.exfat   -I  0x11114444  /dev/sdb4    ##--!!-the param to -I MUST: start with 0x (for Hex) AND NO "-" !(otherwise recalculates it as minus and converting to Hex !)
+--
+lsblk1  /dev/sdb
+NAME        FSTYPE FSVER LABEL     UUID                                 FSAVAIL FSUSE% MOUNTPOINTS   SIZE TYPE
+/dev/sdb                                                                                           116,6G disk
+├─/dev/sdb1                                                                                          100M part
+├─/dev/sdb2 vfat   FAT32           1111-2222                                                           3G part
+├─/dev/sdb3 ext4   1.0   2209ARX_P 11113333-1111-1111-1111-111111111111                               50G part
+└─/dev/sdb4 exfat  1.0   T1FS_P    1111-4444                                                        63,5G part
+--
+
+#####  ==========  grub-install:
+sudo  mkdir /mnt/hd1 ; sudo mount /dev/sdb3  /mnt/hd1 ; sudo mkdir /mnt/hd1/boot ; sudo mount /dev/sdb2  /mnt/hd1/boot/ ;
+- BIOS:  sudo  grub-install  --boot-directory=/mnt/hd1/boot/  --efi-directory=/mnt/hd1/boot/  --removable --recheck  --target=i386-pc  -v    /dev/sdb    ##--for BIOS-systems or [-v] ? ;
+- UEFI:  sudo  grub-install  --boot-directory=/mnt/hd1/boot/  --efi-directory=/mnt/hd1/boot/  --removable --recheck  -v  /dev/sdb                        ##--for UEFI-systems, [-v] ?
+lla /mnt/hd1/boot
+
+_______:  check-it if bootable:(even before copying/settingup any OSs/grub.cfg, just to see if the medium is bootable:
+	3sync;  umount  /dev/sdb* ; ##--> and attach to two NBs (eg MBR: x17/rosa , UEFI: Lv13/HP13 ) : even WITHOU any OS or grub.cfg the grub-shell has to start!
+---
+- vide-org  /mnt/t1/grub/grub.cfg
+
+
+#####  ==========  rsync/cp (here in case of fully NEW/empty target-usb-stick then just cp ....):
+- !! multiple-exclude with {} ALWAYS require COMMA after last arg {xxxx,} !! otherwise ignored !!
+--- boot-part: cp -a ... (/dev/sda2 to /dev/sdb2/ ... )
+--- OS-sync-offline (both offline attached to HP13)
+	#- added std-err-piping nachträglich here! correct !? : for both piping to tee:   2>&1 | tee -a log  #/OR-ab-bash-4:   |& tee -a log 
+	date;  rsync [-n] -aAXHvx --exclude={"/dev/*","/proc/*","/sys/*","/tmp/*","/run/*","/mnt/*","/media/*","/lost+found",}  --delete  --exclude={"/VARUfs_P/2209arx/home/*","/VARUfs_P/2209arx/varu/varau/*","/boot/*",}  /mnt/s1/  /mnt/t1/  | tee -a rsync1.log  2>  rsync1.err.log ; date ;  ##-and-in-another-terminal:  tail -f rsync1.err.log 
+
+	--- otherwise for online-OS-sync consider the followings:
+	- ! see:  "Full system backup"  in:  https://wiki.archlinux.org/title/Rsync#Full_system_backup  : nts from there:
+	- ! see  https://wiki.archlinux.org/title/Install_Arch_Linux_from_existing_Linux#Create_a_copy_of_an_existing_Arch_installation ::
+	- ! achten auf:  -bind-mounts :: nicht doppelt copy, in case of online-rsync (but usu. anyway do offline-cloning!)
+	- ! The directories /dev, /proc, /sys, /tmp, and /run are included in the above command, but the contents of those directories are excluded. This is because they are populated on boot, but the directories themselves are not created.
+	- ! If there are any bind mounts in the system, they should be excluded as well so that the bind mounted contents is copied only once.
+	- ! If GVFS is installed, /home/*/.gvfs must be excluded to prevent rsync errors! (but prefer: /home/ exclude fully! and only copy what is required!)
+	- ! If Dhcpcd ≥ 9.0.0 is installed, exclude the /var/lib/dhcpcd/* directory as it mounts several system directories as sub-directories there.
+	- ! do not forget rsync's --delete , if target not new/empty !
+		rsync -aAXHv [kk -x --delete]  --exclude='/dev/*' --exclude='/proc/*' --exclude='/sys/*' --exclude='/tmp/*' --exclude='/run/*' --exclude='/mnt/*' --exclude='/media/*' --exclude='/lost+found/'  /  /path/to/backup ##-- bzw.:
+		rsync -aAXHv [kk -x --delete]  --exclude={"/dev/*","/proc/*","/sys/*","/tmp/*","/run/*","/mnt/*","/media/*","/lost+found"}  /src   /path/to/backup
+		--- kk:
+		rsync -aAXHv -x --delete  --exclude={"/dev/*","/proc/*","/sys/*","/tmp/*","/run/*","/mnt/*","/media/*","/lost+found"}  /src   /path/to/backup
+			??: "*/home/*/vivaldi/*","*/home/*/chromium/*"
+
+--- t1 : in this case NO cp/sync for t1 yet, but only later creating the tree (for mounts, cd,...):
+	 since the cp will not be uptodate anyway! the latest better copiey are bups1-tars and can be unpacked if the new usb-stick will go really online ...
+
+#####  ==========  confs-new/target-OS:
+	- mount   /dev/sdb2  /mnt/t1; ... ; umount /dev/sdb*  ::
+	sed -i-$($cuds)  -e 's@4361-3230@1111-2222@g'  -e 's@8eadf68b-ed69-4dfe-948a-9fe297645142@11113333-1111-1111-1111-111111111111@g'  -e 's@67FF-921F@1111-4444@g'  /mnt/t1/grub/grub.cfg
+	- mount   /dev/sdb3  /mnt/t1; ... ; umount /dev/sdb*  ::
+	sed -i-$($cuds)  -e 's@4361-3230@1111-2222@g'  -e 's@8eadf68b-ed69-4dfe-948a-9fe297645142@11113333-1111-1111-1111-111111111111@g'  -e 's@67FF-921F@1111-4444@g'  /mnt/t1/etc/fstab
+
+#####  ==========  missing-stuff unpacking/creating/....:
+	- /home--tree :  cdla /mnt/t1/VARUfs_P/2209arx ; mkdircd unp1; tar -xzpvf /up1/varu/varau/bups11_P/bupsvar1/home_2209arx--251104-130000--offline.tgz ; mv ./home/ ../ ; ...
+	- varau--tree :  cdla /mnt/t1/VARUfs_P/2209arx/varu/varau  ;  mkdir  $(ls /up1/varu/varau) ;
+	- T1FS-tree   :  mount /dev/sdb4 /mnt/t4 ; cdla /mnt/t4 ;  mkdir -p  $(cd /up1/mnt/T1fs &&  tree -dif -L2 ./t1_RF/) ;  ##--/OR -L3 ???
+		- so for now t1 rather empty; later if live/online, just untar w1-bups, syys-bups, .... ! for now ausreichend just to boot/mount properly without errors,...!
+
+############################## 1coll...: ########################################################
+
+#####  ==========  /:251104 :  pos-formats/syncs-lsblk:
+#-- src:  /dev/sda   ,   target/new: /dev/sdb  :
+2So : lsblk1
+NAME             FSTYPE FSVER LABEL     UUID                                 FSAVAIL FSUSE% MOUNTPOINTS       SIZE TYPE
+/dev/sda                                                                                                    114,6G disk
+├─/dev/sda1                                                                                                   100M part
+├─/dev/sda2      vfat   FAT32 ESP1      4361-3230                               2,5G    17% /boot               3G part
+├─/dev/sda3      ext4   1.0   2004ARX_P 8eadf68b-ed69-4dfe-948a-9fe297645142   28,6G    36% /home              50G part
+│                                                                                           /up1/mnt/VARUfs        
+│                                                                                           /                      
+└─/dev/sda4      exfat  1.0   T1FS_P    67FF-921F                              38,5G    37% /up1/mnt/T1fs    61,5G part
+##--
+/dev/sdb                                                                                                    116,6G disk
+├─/dev/sdb1                                                                                                   100M part
+├─/dev/sdb2      vfat   FAT32           1111-2222                               2,5G    17% /mnt/t1             3G part
+├─/dev/sdb3      ext4   1.0   2209ARX_P 11113333-1111-1111-1111-111111111111                                   50G part
+└─/dev/sdb4      exfat  1.0   T1FS_P    1111-4444                                                            63,5G part
+##----------
+/dev/nvme0n1                                                                                                238,5G disk
+├─/dev/nvme0n1p1 vfat   FAT32           F4CF-A671                                                             100M part
+├─/dev/nvme0n1p2                                                                                               16M part
+├─/dev/nvme0n1p3 ntfs                   2CCAD09CCAD0641C                                                     81,2G part
+├─/dev/nvme0n1p4 exfat  1.0   T1FS      440C-0003                                                           156,2G part
+└─/dev/nvme0n1p5 ntfs                   92A6C48EA6C473EF                                                      968M part
+
+##________________________________________  ___________________________
+

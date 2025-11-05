@@ -5,6 +5,7 @@ ____________________ SmartCards/PKI-Cards-setup on arx (for ofc1-/:240000): ____
 	systemctl start   pcscd.service   pcscd.socket
 	systemctl status  pcscd.service   pcscd.socket
 	- start brows + logg !
+	-# alias sc1='sudo systemctl status   pcscd.service   pcscd.socket'   #-smartcard/pki-start
 ---
 
 -!! in Browser: it asks 3-4... times for PIN for several slots/Tokens (in MsWIn nur einmal) !

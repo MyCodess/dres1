@@ -5,7 +5,7 @@ _______________ git_dnts ___________________________________________________
 #####  ==========  oneliners_1coll_all:
 	_______:  configs:
 	- show config-files: git config -l  --show-origin
-	- ! use ONLY LOCAL configs (./git/config), NOT using OS-System/Global-user config files:  export GIT_CONFIG_SYSTEM=""   GIT_CONFIG_GLOBAL=""  ##--or set to /dev/null  , see /doc/git-doc/git-config.html  :ENVIRONMENT !
+	- ! use ONLY LOCAL-dir-configs (./git/config), NOT using OS-System/Global-user config ~/.gitconfig :  export GIT_CONFIG_SYSTEM=""   GIT_CONFIG_GLOBAL=""  ##--or set to /dev/null  , see /doc/git-doc/git-config.html  :ENVIRONMENT !
 	- git config  --global diff.tool vimdiff ; git config  --global  diff.guitool  gvimdiff ; #-gui with -g : gvim NOT working yet in msys!
 
 	_______:  another-branch-stuffs....:
@@ -444,12 +444,12 @@ _______________ git_dnts ___________________________________________________
 	_______:  "Tracking Branches" / “Upstream Branch" with :
 	- ! see https://www.git-tower.com/learn/git/faq/track-remote-upstream-branch
     - DEF:  "tracking branch"  <--->  "upstream branch"  :
-	- "Tracking" binds/connects/assocciates a local-branch to a remote-branch, as counterparts for each other :
+	- "Tracking" binds/connects/assocciates a local-branch to a remote-branch, as counterparts for each other : RefBK1-p.92 + man git-checkout :
 	In theory, local and remote branches in Git are completely separate items. In practice, however, in makes lots of sense to see them as counterparts - connected in a so-called "tracking connection".
 	you can do all thing also without Tracking, but Tracking makes remotes-cmds (pull/push/diff/...) just easier, otherwise have to specify params for remote-cmds !
 	when you tell a local branch to "track" a remote branch, you create a connection between these two branches. Your local branch now has a "counterpart" on the remote server.
 	Checking out a local branch from a remote-tracking branch automatically creates what is called a "tracking branch" (and the branch it tracks is called an "upstream branch").
-	"tracking branch" is the local branch that has a direct relationship to a remote branch. If you’re on a tracking branch and type git pull, Git automatically knows which server to fetch from and which branch to merge in. RefBK1-p.92 + man git-checkout !
+	"tracking branch" is the local branch that has a direct relationship to a remote branch. If you’re on a tracking branch and type git pull, Git automatically knows which server to fetch from and which branch to merge in.
 	- -u  ==  --set-upstream  ,as cmds-params to identify upstream for tracking! eg git push -u /OR git branch -u ; ...
 	- git push -u origin  br1  ##--first-time publishing/pushin of loc-branch br1 into the remote-repo! tracking is now set by -u !!
 	- git checkout --track  <remote>/<branch>  ==  git checkout -b <branch> <remote>/<branch>  ==  git checkout -b <branch> --track <remote>/<branch>  ##--: crate a new LOCAL-branch-based-on-remote/branch and track it as upstream ! so, with these cmds sets git the tracking-connection between local-->remote-branch !

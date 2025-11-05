@@ -1,0 +1,87 @@
+______________________________  1coll cmds ... docker : _________________________________________
+
+---
+https://spacelift.io/blog/docker-commands-cheat-sheet
+
+
+#####  ==========  helps...:
+https://docs.docker.com/reference/cli/docker/      ##--REF-CLI
+man  docker  docker-info  docker-pull  docker-run  docker-search ...
+docker  help   ##--> list of all docker-cmds !
+docker  <cmd1  --help>    ##--eg:  docker run --help
+##________________________________________  ___________________________
+
+
+#####  ==========  system infos/stat/...:
+man docker-system  docker-info  docker-inspect docker-stat ...
+systemctl status docker ;   systemctl start docker.service [ docker.socket ] 
+---
+docker info / docker system info / docker system  df
+docker info | grep "Docker Root Dir"
+docker inspect ...
+docker stat  container1
+---
+docker ps
+docker container ls -a
+docker image     ls
+##________________________________________  ___________________________
+
+
+#####  ==========  run/rm/attach/... containers :
+--- run images/containers:
+ubuntu-image-in-terminal-run  ::  docker run --rm  -it --name ubt1  ubuntu /bin/bash        ##--terminal-ubuntu as root logged in! After running the container, you’ll be inside the container’s shell (in this example, a Bash shell). You can interact with it just like a regular Linux system.
+fedora-image-in-terminal-run  ::  docker run --rm  -it --name fed1  fedora /bin/bash
+alpine-image-in-terminal-run  ::  docker run --rm  -it --name alp1  alpine:latest /bin/sh   ##-OR+shares,...:
+	docker run --rm  -it --name alp1  --hostname  alp1dock  -v  /up1/varu/varau/docks1_var/d11:/mnt/host11  alpine:latest /bin/sh
+	docker run --rm  -it --name alp1bash  --hostname  alp1bash  -v  /up1/varu/varau/docks1_var/share1:/mnt/host11  alpine:bash1  /bin/bash
+	docker run --rm  -it --name alp1bash  --hostname  alp1bash  -v  /up1/varu/varau/docks1_var/share1:/mnt/host11  alpine:bash1  python --version  ##--just to check ...!
+	#-!!- By default, bash is not included with BusyBox and Alpine Linux! alpine is in busybox, so is in a big /bin/sh file ! ---> apk add bash vim
+---
+docker run --rm example-image:latest            ##– The --rm flag instructs Docker to automatically remove the container when it exits instead of allowing it to remain as a stopped container.
+docker run example-image:latest demo-command    ##– Supplying an argument after the image name sets the command to run inside the container; it will be appended to the image’s entrypoint. (It’s possible to override the entrypoint with the docker run command’s --entrypoint flag.)
+docker run -p 8080:80 example-image:latest      ##– Bind port 8080 on your Docker host to port 80 inside the container. It allows you to visit localhost:8080 to access the network service listening on port 80 inside the container.
+docker run -v /host-directory:/container-directory example-image:latest   ##– Bind mount /host-directory on your host to /container-directory inside the container. The directory’s contents will be visible on both sides of the mount.
+---
+docker kill <container> – Send a SIGKILL signal to the foreground process running in a container, to force it to stop.
+---
+docker attach <container> – Attach your terminal to the foreground process of the container with the ID or name <container>
+
+_______:   removings / cleanings :
+https://www.digitalocean.com/community/tutorials/how-to-remove-docker-images-containers-and-volumes  ::
+docker rm	: Removes one or more containers
+docker rmi	: Removes one or more images
+--- prune :
+docker image/container/volume/network/...  prune  #-OR: docker prune ...
+docker container prune  ::  remove all stopped containers ##-OR-with-bash:  docker container rm  $(docker ps -a -q)
+remove containers that have been inactive for a specified time : docker rm $(docker ps -a -q --filter "status=exited" --filter "status=created")
+docker system prune  ::  Docker will remove all stopped containers and all networks not used by at least one container. Additionally, if you use the -a flag, Docker will also remove all unused images. This command is useful for freeing up disk space and cleaning up your Docker environment.
+docker system prune -a  : #-!!- removies all not being now used! basically remove everything which is not running/used now, so also not being used images! remove all stopped containers (/OR  docker-compose  down )
+docker system prune --all --volumes  ::   Note: This command will delete everything related to Docker, including all stopped containers and volumes.
+##________________________________________  ___________________________
+
+
+
+#####  ==========  containers-manage (show, kill, rm, attach, ...):
+docker ps -a ;
+docker attach <container> – Attach your terminal to the foreground process of the container with the ID or name <container> #-as:  docker attach alp1
+docker commit <container> new-image:latest – Save the current state of <container> to a new image called new-image:latest
+docker inspect <container> – Obtain all the information Docker holds about a container, in JSON format.
+docker rename <container> my-container – Rename a specified container to my-container.
+docker image/container inspect  xxx
+##________________________________________  ___________________________
+
+#####  ==========  host <--> container  copy,execs,cmds, ... :
+--- copys:
+docker cp /up1/varu/varau/tsts/t1   alp1:/tmp/        #--copy t1 from host to container alp1
+--- execs:
+docker exec my-container demo-command    ##– Run demo-command inside my-container; the process’ output will be shown in your terminal
+##________________________________________  ___________________________
+
+
+#####  ==========  build image:
+docker build .                            ##– Build the Dockerfile in your working directory into a new image.
+docker build -t example-image:latest .    ##– Build the Dockerfile in your working directory and tag the resulting image as example-image:latest.
+docker build -f docker/app-dockerfile     ##– Build the Dockerfile at the docker/app-dockerfile path.
+docker build --pull .                     ##– Instructs Docker to pull updated versions of the images referenced in FROM instructions in your Dockerfile, before building your new image.
+##________________________________________  ___________________________
+

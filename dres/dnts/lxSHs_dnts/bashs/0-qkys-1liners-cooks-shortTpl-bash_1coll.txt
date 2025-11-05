@@ -23,6 +23,7 @@ exit 3
 	_______:  while :
 	n1=3;  while ((n1>0)); do echo $n1; n1=$(($n1-1)); done;
 	ii=0;  while (( ii++ < 10)); do echo $ii; done
+	while true; do date; sleep 2 ; done
 ##________________________________________  ___________________________
 
 
