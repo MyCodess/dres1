@@ -49,6 +49,7 @@ _______________________________ curl _dnts...: ________________________
 
 	_______:  POSTs:
 	- https://everything.curl.dev/http/post/index.html
+	- https://reqbin.com/req/c-sma2qrvp/curl-post-form-example
 	- POSTs covert to GET and vs. : -G  , https://everything.curl.dev/http/post/convert-to-get.html
 	- ! -d vs. -F  : https://everything.curl.dev/http/post/postvspost.html  : -F for enctype=multipart Forms !
 	- for redirects (3xx codes / Location: in Header) and the problem with GET/POST see the redirections section below!

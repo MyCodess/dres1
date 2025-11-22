@@ -1,0 +1,75 @@
+____________________ nmcli / NetworkManager-CLI _______________________________
+
+#####  ==========  URLs / nmcli examples/Listings...:
+	- ! man nmcli-examples  ;   man nmcli /EXAMPLES
+	- https://wiki.archlinux.org/title/NetworkManager#Usage  :
+	- ! https://github.com/daskol/networkmanager-openconnect  : for vpn/openconn plugin !
+	
+_______:  arx-qkys-lisintg of CLI-cmds / nmcli :
+	- ! all from:  https://wiki.archlinux.org/title/NetworkManager#Usage  :
+	- scan/listing all available APNs/wifis and their features (also their authentication system):  nmcli device wifi list
+	- show cu-connection and also configured connections ...:  nmcli connection show
+	- Connect to [a hidden] Wi-Fi network:  nmcli device wifi connect SSID_or_BSSID password password  [ hidden yes]
+	- Connect to a Wi-Fi on the wlan1 interface: $ nmcli device wifi connect SSID_or_BSSID password password ifname wlan1 profile_name
+	- Disconnect an interface: $ nmcli device disconnect ifname  wlan0
+	- Activate a connection (i.e. connect to a network with an existing profile): $ nmcli connection up name_or_uuid
+	- Delete a connection: $ nmcli connection delete name_or_uuid
+	- list of network devices and their state: $ nmcli device
+	- Turn off Wi-Fi: $ nmcli radio wifi off
+
+_______:  show status/configs/...:
+	- status of nwmgm??:  nmcli  general   ##--only if it is running:  nmcli -t -f RUNNING general
+	- status of all interfaces/adapters:  nmcli device status
+	- show all NM profiles/configured-connections:   nmcli connection show
+	- show configs/profile oy connection xxx :: nmcli -p -m multiline -f all  connection  show  xxx
+	- show all NM profiles/configured-connections configs-summary:  nmcli -p -m multiline -f all connection show  ##--basically: cat  /etc/NetworkManager/system-connections/*
+	- show all NM profiles/configured-connections details/fully also dynamically added fields:    nmcli -p -m multiline -f all connection show  <my-wlan1>
+	- show all NM profiles/configured-connections details/fully only statically configured:    nmcli -f profile connection show a3s-wl1
+	- show all connection profile names and their auto-connect property:  - nmcli -f name,autoconnect c s  ## == ... connection show
+	- show active connection:   nmcli  connection show --active
+
+_______:  switch/change/up,down/...
+	- down/disconnect:   nmcli -p conn down xxx  ;  nmcli connection show ;
+	- up/switch to another connection-profile:  nmcli -p connection up  a3s-wl1  [ ifname wlan0]  ; nmcli connection show ;
+	- Wi-Fi off :    nmcli radio wifi off
+	- reload the connection-profiles/configs after eg manuallly editing the config files:   nmcli connection reload  ##--or restart the service fully: systemctl restart network-manager.service
+
+_______:  PWs-/secrets-configs , ...:
+	- "--ask" : this will allow nmcli to prompt for the VPN password on the command line when the password-flags are set to '0x02' ('always ask', see nm-settings-nmcli(5) ).   see man nmcli-examples
+	-!! ONLY if "nmcli --ask ..." ,then nmcli will interactively ask for PW!! otherwise if PW required, then error/fails !! 
+	--- password-file ("passwd-file"):
+	man nmcli /passwd-file
+	- ! contains key:value  both, seperated with colon : !!
+	- eg wlan-/wifi-pw in passwd-file as key:val ::  802-11-wireless-security.psk:secret12345
+
+_______:  VPNs:
+	-1 openconnect-plugin for VPNs: Inability to activate a VPN connection without typing as password ! so have to --ask ! see https://github.com/daskol/networkmanager-openconnect
+	nmcli --ask con up my-vpn-con   ##--without --ask it will not ask for PWs/credentials and so fails,.. or ...
+	--- vpn-connections-/profiles-settings:
+	- connections-/profiles-settings see:  man  nm-settings-nmcli  /"vpn setting"
+	- eg modifying a saved-connection-profile and add pw/secrets to it for vpn:    nmcli con mod CON_NAME vpn.secrets "password=YourPassword"  ##--?? worked??
+	- vpn.secrets :: Dictionary of key/value pairs of VPN plugin specific secrets like passwords or private keys. Both keys and values must be strings. : man  nm-settings-nmcli
+	- vpn.user-name /  Alias: user  :: If the VPN connection requires a user name for authentication, that name should be provided here. : man  nm-settings-nmcli 
+	---??:: work??:
+	password-flags=0
+    cert-pass-flags=0
+    [vpn-secrets]
+    password=my_secret_password
+    cert-pass=my_secret_certificate_password
+	---
+
+_______:  configs/setting of profiles (for nwm service itself configs see extra dnts here!)
+	- man  nm-settings-nmcli
+
+##________________________________________  ___________________________
+
+
+##############################  1coll nmcli ...: ################################################
+_______:  NetworkManager persistant routing set / nmcli:
+https://www.cyberciti.biz/faq/ip-route-add-network-command-for-linux-explained/ ::
+Set default IPv4 gateway syntax:    $ sudo nmcli connection modify {connection_name_here} ipv4.gateway {gateway_ipv4_address_here}
+Step 3 – Set default IPv6 gateway:  $ sudo nmcli connection modify {connection_name_here} ipv6.gateway {gateway_ipv6_address_here}
+_______:  
+
+
+

@@ -1,0 +1,93 @@
+-! here qkys-/shorties-cmds, and also done by cp -a xxx instead rsync! for full-cmds/steps, also with rsync, see prev-setup!
+
+
+#####  ==========  /:251105 :  final parting this system:
+lsblk1 /dev/sdb
+NAME        FSTYPE FSVER LABEL     UUID                                 FSAVAIL FSUSE% MOUNTPOINTS   SIZE TYPE
+/dev/sdb                                                                                           114,6G disk
+├─/dev/sdb1                                                                                          100M part
+├─/dev/sdb2 vfat   FAT32 ESP1      2222-2222                                                           3G part
+├─/dev/sdb3 ext4   1.0   2209ARX_P 22223333-2222-2222-2222-222222222222   31,5G    30% /mnt/t1        50G part
+└─/dev/sdb4 exfat  1.0   T1FS_P    2222-4444                                                        61,5G part
+##________________________________________  ___________________________
+
+
+
+#####  ==========  /:251105 : cloning/setup:  arx1-BP1 --> arx1-BP2 , with cp -a, offline, both on Lv13, booted from Fed-Stick:
+_______:  
+- both on Lv13+Hub_5hz , target: sdb, src: sdc :
+gdisk /dev/sdb : o
+sgdisk -o -n 1:0:+100M  -n 2:0:+3G  -n 3:0:+50G  -n 4:0:-0  -t 1:EF02  -t 2:EF00 -t 3:8300 -t 4:0700  /dev/sdb
+
+_______:  
+mkfs.vfat  -v -n ESP1   -i 22222222  -c  /dev/sdb2
+date;  mkfs.ext4  -L  2209ARX_P   -v  -c -U 22223333-2222-2222-2222-222222222222   /dev/sdb3 ; date  ###-- ca. 10 Min (also an Hub doppel so lange!)
+kfs.exfat   -L  T1FS_P   /dev/sdb4 ; tune.exfat   -I  0x22224444  /dev/sdb4 ;
+--
+~ : lsblk1
+/dev/sdb                                                                                                            114.6G disk
+├─/dev/sdb1      vfat   FAT32 MPS_RF                C1DC-1519                                                         100M part
+├─/dev/sdb2      vfat   FAT32 ESP1                  2222-2222                                                           3G part
+├─/dev/sdb3      ext4   1.0   2209ARX_P             22223333-2222-2222-2222-222222222222                               50G part
+└─/dev/sdb4      exfat  1.0   T1FS_P                2222-4444                                                        61.5G part
+
+_______:  grub-install:
+sudo  mkdir /mnt/hd1 ; sudo mount /dev/sdb3  /mnt/hd1 ; sudo mkdir /mnt/hd1/boot ; sudo mount /dev/sdb2  /mnt/hd1/boot/ ;
+- BIOS:  sudo  grub-install  --boot-directory=/mnt/hd1/boot/  --efi-directory=/mnt/hd1/boot/  --removable --recheck  --target=i386-pc  -v    /dev/sdb    ##--for BIOS-systems or [-v] ? ;
+- UEFI:  sudo  grub-install  --boot-directory=/mnt/hd1/boot/  --efi-directory=/mnt/hd1/boot/  --removable --recheck  -v  /dev/sdb                        ##--for UEFI-systems, [-v] ?
+lla /mnt/hd1/boot
+- vide-org  /mnt/t1/grub/grub.cfg
+---
+-! check-it if bootable:(even before copying/settingup any OSs/grub.cfg, just to see if the medium is bootable:
+	3sync;  umount  /dev/sdb* ; ##--> and attach to two NBs (eg MBR: x17/rosa , UEFI: Lv13/HP13 ) : even WITHOU any OS or grub.cfg the grub-shell has to start!
+
+---
+#- target sdb (arx1-BP2: 2222xxxx) , src: sdc (arx1-BP1: 1111xxxx) , now both attached directly to Lv13 :
+/dev/sdb                                                                                                            114.6G disk
+├─/dev/sdb1                                                                                                           100M part
+├─/dev/sdb2      vfat   FAT32 ESP1                  2222-2222                                                           3G part
+├─/dev/sdb3      ext4   1.0   2209ARX_P             22223333-2222-2222-2222-222222222222                               50G part
+└─/dev/sdb4      exfat  1.0   T1FS_P                2222-4444                                                        61.5G part
+/dev/sdc                                                                                                            116.6G disk
+├─/dev/sdc1                                                                                                           100M part
+├─/dev/sdc2      vfat   FAT32                       1111-2222                                                           3G part
+├─/dev/sdc3      ext4   1.0   2209ARX_P             11113333-1111-1111-1111-111111111111                               50G part
+└─/dev/sdc4      exfat  1.0   T1FS_P                1111-4444                                                        63.5G part
+
+_______:  
+mount       /dev/sdb2  /mnt/t1 ; lla /mnt/t1 ;
+mount -o ro /dev/sdc2  /mnt/s1 ; lla /mnt/s1 ;
+mount /dev/sdc2  /mnt/s1 ; lla /mnt/s1 ;
+cp -a /mnt/s1/  /mnt/t1/ ;
+mv /mnt/t1/s1/*   /mnt/t1/ ; rmdir /mnt/t1/s1/ ; lla /mnt/t1/
+3sync; umount /dev/sdb* ; umount /dev/sdc* ;
+mountg sdb ;  mountg sdc ;
+---
+#- now first T1FS, ist almost empty not full-T1FS), only the tree is there! so:
+mount       /dev/sdb4  /mnt/t1 ; lla /mnt/t1 ;
+mount -o ro /dev/sdc4  /mnt/s1 ; lla /mnt/s1 ;
+cp -a /mnt/s1/  /mnt/t1/ ;
+mv /mnt/t1/s1/*   /mnt/t1/ ; rmdir /mnt/t1/s1/ ; lla /mnt/t1/
+3sync; umount /dev/sdb* ; umount /dev/sdc* ;
+mountg sdb ;  mountg sdc ;
+---
+#-OS:
+mount       /dev/sdb3  /mnt/t1 ; lla /mnt/t1 ;
+mount -o ro /dev/sdc3  /mnt/s1 ; lla /mnt/s1 ;
+	- df -h /mnt/s1
+	Filesystem      Size  Used Avail Use% Mounted on
+	/dev/sdc3        49G   15G   32G  33% /mnt/s1
+date;  cp -a /mnt/s1/  /mnt/t1/ ; date  ##--genau 30 min!
+mv /mnt/t1/s1/*   /mnt/t1/ ; rmdir /mnt/t1/s1/ ; lla /mnt/t1/
+3sync; umount /dev/sdb* ; umount /dev/sdc* ;
+mountg sdb ;  mountg sdc ;
+
+_______:  conigs-boot/mounts/...:
+mount   /dev/sdb2  /mnt/t1 ; vi /mnt/t1/grub/grub.cfg  ##--replace 1111 with 2222
+3sync; umount /dev/sdb* ; mountg sdb ;
+mount   /dev/sdb3  /mnt/t1 ; vi /mnt/t1/etc/fstab  ##--replace 1111 with 2222
+3sync; umount /dev/sdb* ; mountg sdb ;
+
+--------> attach to a NB and check the boot !
+##________________________________________  ___________________________
+

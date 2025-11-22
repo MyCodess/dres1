@@ -1,0 +1,143 @@
+________________ ip cmd exp coll!  net-tool pkg : __________________________________
+
+
+#####  ==========  help:
+	https://www.cyberciti.biz/faq/linux-ip-command-examples-usage-syntax/
+	https://phoenixnap.com/kb/linux-ip-command-examples
+	---
+	-!  ip addr/link/neigh/...  help   #-so help-per-cmd/obj
+	ip a/l/r/n  help
+	-!! use TAB for bash-completion!! works by all subcommands !!
+
+_______:  Allg-nts:
+	-  reboot and ip configs : Be aware that configuration made using ip will be lost after a reboot. For persistent configuration, you can use a network manager or automate ip commands using scripts and systemd units ! https://wiki.archlinux.org/index.php/Network_configuration
+	-!  add a new (dummy) link/interface (for trys,...) and assign addr to it (eg for trys/testies/...):
+		sudo ip link add eth31 type dummy ; sudo  ip l set  eth31 up ; sudo ip a add  10.167.126.24/21 dev eth31 ;
+##________________________________________  ___________________________
+
+
+#####  ==========  formatting/output of all: (see man ip)
+_______:  
+	-!  "-c" for color/pretty listing, as :  ip -c   a/l/r/n ;  /OR:  ip -c=always//auto/never ...
+	-!  "-br" :  TAB/table-formatted, short , as:  ip -c  -br a/l
+	-!  "-d"  : more details output
+	-!  "-r"  : hostnames instead IPs, eg by ip -r -c addr
+	-  "-j -p" : json-output and Prettyi-json-formatting !
+	-  -4 / -6  : IPv4/6
+
+_______:  
+	short-tabular: 	ip -br addr / route / link ...  ; eg ip  -j -p route          ##--on-ubuntu without ???
+	detailes:     	ip   -s -s  -h  -d   -N  -c   addr / route / link ...         ##--on-ubuntu without -N
+	details-in-json-aber-pretty-formatted:  ip  -j -p  addr / route / link ...    ##--on-ubuntu without -p
+	show status of the interface eth0:    ip link show dev eth0
+##________________________________________  ___________________________
+
+
+#####  ==========  links /interfaces :  man ip-link
+	- add a new (dummy) link/interface (for trys,...) and assign addr to it (eg for trys/testies/...):
+		sudo ip link add eth31 type dummy ; sudo  ip l set  eth31 up ; sudo ip a add  10.167.126.24/21 dev eth31 ;
+	ip link show dev [device]  ##-- ip -d a show dev wlan0
+	up/down (Enabling/disabling network interfaces)  :  ip link set <interface-name> up/down
+	statistics for all network interfaces :  ip -s link
+	MAC-addr-seting/changin:  ip l set wlan0 address 36:a7:fb:c0:1d:a5  ##--maybe must first down and then up !?
+##________________________________________  ___________________________
+
+
+#####  ==========  address/a : IP-addresses :  man ip-address
+	ip  a
+	ip  -4 a  ##--nur IPv4 ; -6 for IPv6
+	ip --brief addr show   ##--show only IPs
+	ip addr show dev [interface]
+	only-up-interfaces-show:   ip link ls/show up
+	add/del IP:	ip addr add/del [ip_address] dev [interface] ##--ip a del 192.168.1.200/24 dev eth0
+	eg: add/assign 192.168.1.200/255.255.255.0 to eth0, enter: ip a add 192.168.1.200/255.255.255.0 dev eth0
+	add a broadcast address to an interface:  ip addr add brd [ip_address] dev [interface] ;-eg:  ip addr add broadcast 172.20.10.255 dev wlan0
+	add the standard broadcast ( "brd +" :by setting/resetting the host bits of the interface prex) + the address, eg 192.168.1.50 with netmask 255.255.255.0 (/24) with standard broadcast to the interface eth0: ip addr add 192.168.1.50/24 brd + dev eth0 ;
+##________________________________________  ___________________________
+
+
+#####  ==========  routing /r :  man ip-route 
+	_______:  
+	ip r help
+	ip route list [ip_address]  ##--only routeing of the ip_address
+	Display routing for 192.168.1.0/24: ip r list 192.168.1.0/24
+
+	_______:  add/del routes/gw :
+	- syntax: ip route add [default] {NETWORK/MASK} via {GATEWAYIP}   #-/OR through device:   ip route add [default]  {NETWORK/MASK} dev {DEVICE}
+	add-default-route:   ip route add default via 192.168.1.1
+	Add a plain route to network 192.168.1.0/24 via gateway 192.168.1.254:   ip route add 192.168.1.0/24 via 192.168.1.254
+	route all traffic for 192.168.1.0/24 network via eth0 network interface: # ip route add 192.168.1.0/24 dev eth0
+	--- del: 
+	ip route del default ;  ip route del 192.168.1.0/24 dev eth0
+	- old ifconfig compare:  "gw" bei ifconfig , ist praktisch "via" bei ip , so:  route add default gw 192.168.1.1  == ip route add default via 192.168.1.1
+
+	_______:  save/backup/restore routing:
+	ip route save > /root/routes/route_backup
+	ip route restore < /root/routes/route_backup
+
+	_______:  get/show the route to certain host/target/...:
+	ip route get to <ip-adr>   ##--eg: ip route get to 46.62.203.164
+##________________________________________  ___________________________
+
+
+#####  ==========  ARPs/neighbour/n (MAC-addr)  :  man ip-neighbour
+ip n help ; ip n ;
+add/del:   ip neigh add/del [ip_address] dev [interface]
+flush/delete ARP-entries for IP xx  eg:  ip -s -s n flush 192.168.1.5
+
+-  change manually MAC-addr of your dev/link:
+export NIC=eth31 ; ip link show $NIC ; ip link set dev $NIC down ; ip link set dev $NIC address XX:YY:ZZ:AA:BB:CC ; ip link set dev $NIC up ;
+##________________________________________  ___________________________
+
+
+
+############============ _1coll/exp ....: ================#####################################
+-!  add a new (dummy) link/interface (for trys,...) and assign addr to it (eg for trys/testies/...):
+	sudo ip link add eth31 type dummy ; sudo  ip l set  eth31 up ; sudo ip a add  10.167.126.24/21 dev eth31 ;
+
+_______:  
+ip route del  default via 10.167.120.1 dev wlan0
+ip route add  default via 10.167.120.1 dev wlan0
+
+_______:  IPv6 ::
+ip -6 ...   #-bzw  ip -4 ...
+#-: fd... : loopback , fe80::/64  LAN/local-NW/ULA
+ipv6 routing show (default not shown):  ip -6 r   #-  ip -d -6 route show
+
+_______:  NetworkManager persistant routing set / nmcli:
+Set default IPv4 gateway syntax:    $ sudo nmcli connection modify {connection_name_here} ipv4.gateway {gateway_ipv4_address_here}
+Step 3 – Set default IPv6 gateway:  $ sudo nmcli connection modify {connection_name_here} ipv6.gateway {gateway_ipv6_address_here}
+
+_______:  
+Only show running interfaces :  ip link show up
+
+_______:  addr add/mod/del/...:
+--- addassign IP:
+- add/Assigns the IP address to the interface # ip a add {ip_addr/mask} dev {interface}
+	To assign 192.168.1.200/255.255.255.0 to eth0, enter: # ip a add 192.168.1.200/255.255.255.0 dev eth0 #OR # ip a add 192.168.1.200/24 dev eth0
+- By default, the ip command does not set any broadcast address unless explicitly requested. :
+- add incl. broadcast addr:  ip addr add 192.168.1.50/24 brd + dev eth0 label eth0Home
+--- delete addr:
+ip a del {ipv6_addr_OR_ipv4_addr} dev {interface}  # To delete 192.168.1.200/24 from eth0, enter: # ip a del 192.168.1.200/24 dev eth0
+--- flush/delete addr-groups/sectioons (not only single IP):
+- flush/delete all the IP addresses from the private network 192.168.2.0/24 using the following command: # ip -s -s a f to 192.168.2.0/24
+- delete/flush/disable IP address on all the ppp (Point-to-Point) interfaces: # ip -4 addr flush label "ppp*"  ##-/OR from all vpn-interfaces:  ip -4 addr flush label 'vpn*'  #-OR from all ethernet-ones: ... "eth*"
+
+_______:  eg setting a VPN connection manually incl. routing ...:
+# https://www.cyberciti.biz/faq/ip-route-add-network-command-for-linux-explained/  ::
+Here is another example where I am setting up route for my VPN gateway:
+# ip link set dev tun0 up mtu 1500
+# ip addr add dev tun0 10.8.0.2/24 broadcast 10.8.0.255
+# ip route add 139.59.2.125/32 via 192.168.2.254
+# ip route add 0.0.0.0/1 via 10.8.0.1
+# ip route add 128.0.0.0/1 via 10.8.0.1
+
+_______:  misc:
+ip link set eth1 up/down
+ip route change default via 192.168.1.1 dev eth0  ##--change the default gateway to 192.168.1.1 using eth0? 
+ip addr add 192.168.50.5 dev eth1
+ip addr del 192.168.50.5/24 dev eth1
+Add Static Route:  ip route add 10.10.20.0/24 via 192.168.50.100 dev eth0
+Remove Static Route :  ip route del 10.10.20.0/24
+Add Default Gateway:   ip route add default via 192.168.50.100
+

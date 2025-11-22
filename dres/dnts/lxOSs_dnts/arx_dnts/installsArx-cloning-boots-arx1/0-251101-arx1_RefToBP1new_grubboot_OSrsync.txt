@@ -18,38 +18,11 @@ NAME                   FSTYPE FSVER LABEL       UUID                            
 
 #####  ==========  partitioning , new stick attached to HP13-arx1 as /dev/sdb :
 - new-usb-stick (neu-ausgepackt! fabrik-zusatnd; so full-empty) /dev/sdb eingesteckt (new stick, no GUID, org only MBR), so first delete all and generate a new GUID disk :
-gdisk /dev/sdb  #- o, w
----
-- create parts:
+sgdisk -o /dev/sdb   ##--/if-error, then:  gdisk /dev/sdb  #- o, w
+--- create parts:
 sudo  sgdisk -o -n 1:0:+100M  -n 2:0:+3G  -n 3:0:+50G  -n 4:0:-0  -t 1:EF02  -t 2:EF00 -t 3:8300 -t 4:0700  /dev/sdb
 The operation has completed successfully.
----
-sudo gdisk -l /dev/sdb
-GPT fdisk (gdisk) version 1.0.10
 
-Partition table scan:
-  MBR: protective
-  BSD: not present
-  APM: not present
-  GPT: present
-
-Found valid GPT with protective MBR; using GPT.
-Disk /dev/sdb: 244457472 sectors, 116.6 GiB
-Model: SanDisk 3.2 Gen1
-Sector size (logical/physical): 512/512 bytes
-Disk identifier (GUID): 383134C1-4495-43E8-868E-83AE39C9D681
-Partition table holds up to 128 entries
-Main partition table begins at sector 2 and ends at sector 33
-First usable sector is 34, last usable sector is 244457438
-Partitions will be aligned on 2048-sector boundaries
-Total free space is 2014 sectors (1007.0 KiB)
-
-Number  Start (sector)    End (sector)  Size       Code  Name
-   1            2048          206847   100.0 MiB   EF02  
-   2          206848         6498303   3.0 GiB     EF00  
-   3         6498304       111355903   50.0 GiB    8300  
-   4       111355904       244457438   63.5 GiB    0700 
----
 
 #####  ==========  formatting:
 #- the UUIDs : first-four-digits: Medium/usb-stick-id (here 1111) + next four-digits: part-Nr (as for sdb2 : 11112222) !
@@ -79,11 +52,9 @@ sudo  mkdir /mnt/hd1 ; sudo mount /dev/sdb3  /mnt/hd1 ; sudo mkdir /mnt/hd1/boot
 - BIOS:  sudo  grub-install  --boot-directory=/mnt/hd1/boot/  --efi-directory=/mnt/hd1/boot/  --removable --recheck  --target=i386-pc  -v    /dev/sdb    ##--for BIOS-systems or [-v] ? ;
 - UEFI:  sudo  grub-install  --boot-directory=/mnt/hd1/boot/  --efi-directory=/mnt/hd1/boot/  --removable --recheck  -v  /dev/sdb                        ##--for UEFI-systems, [-v] ?
 lla /mnt/hd1/boot
-
+- vide-org  /mnt/t1/grub/grub.cfg
 _______:  check-it if bootable:(even before copying/settingup any OSs/grub.cfg, just to see if the medium is bootable:
 	3sync;  umount  /dev/sdb* ; ##--> and attach to two NBs (eg MBR: x17/rosa , UEFI: Lv13/HP13 ) : even WITHOU any OS or grub.cfg the grub-shell has to start!
----
-- vide-org  /mnt/t1/grub/grub.cfg
 
 
 #####  ==========  rsync/cp (here in case of fully NEW/empty target-usb-stick then just cp ....):
@@ -116,6 +87,7 @@ _______:  check-it if bootable:(even before copying/settingup any OSs/grub.cfg, 
 	sed -i-$($cuds)  -e 's@4361-3230@1111-2222@g'  -e 's@8eadf68b-ed69-4dfe-948a-9fe297645142@11113333-1111-1111-1111-111111111111@g'  -e 's@67FF-921F@1111-4444@g'  /mnt/t1/grub/grub.cfg
 	- mount   /dev/sdb3  /mnt/t1; ... ; umount /dev/sdb*  ::
 	sed -i-$($cuds)  -e 's@4361-3230@1111-2222@g'  -e 's@8eadf68b-ed69-4dfe-948a-9fe297645142@11113333-1111-1111-1111-111111111111@g'  -e 's@67FF-921F@1111-4444@g'  /mnt/t1/etc/fstab
+	- rm /etc/machine-id  #-and create a new one with systemd-machine-id-setup(1)  ,see  https://wiki.archlinux.org/title/Install_Arch_Linux_from_existing_Linux , man machine-id , man systemd-machine-id-setup , https://systemd.io/BUILDING_IMAGES
 
 #####  ==========  missing-stuff unpacking/creating/....:
 	- /home--tree :  cdla /mnt/t1/VARUfs_P/2209arx ; mkdircd unp1; tar -xzpvf /up1/varu/varau/bups11_P/bupsvar1/home_2209arx--251104-130000--offline.tgz ; mv ./home/ ../ ; ...
@@ -124,6 +96,35 @@ _______:  check-it if bootable:(even before copying/settingup any OSs/grub.cfg, 
 		- so for now t1 rather empty; later if live/online, just untar w1-bups, syys-bups, .... ! for now ausreichend just to boot/mount properly without errors,...!
 
 ############################## 1coll...: ########################################################
+
+#####  ==========  /:251104 :  pre-formats/syncs-lsblk, pos-partitioning
+sudo gdisk -l /dev/sdb
+GPT fdisk (gdisk) version 1.0.10
+
+Partition table scan:
+  MBR: protective
+  BSD: not present
+  APM: not present
+  GPT: present
+
+Found valid GPT with protective MBR; using GPT.
+Disk /dev/sdb: 244457472 sectors, 116.6 GiB
+Model: SanDisk 3.2 Gen1
+Sector size (logical/physical): 512/512 bytes
+Disk identifier (GUID): 383134C1-4495-43E8-868E-83AE39C9D681
+Partition table holds up to 128 entries
+Main partition table begins at sector 2 and ends at sector 33
+First usable sector is 34, last usable sector is 244457438
+Partitions will be aligned on 2048-sector boundaries
+Total free space is 2014 sectors (1007.0 KiB)
+
+Number  Start (sector)    End (sector)  Size       Code  Name
+   1            2048          206847   100.0 MiB   EF02  
+   2          206848         6498303   3.0 GiB     EF00  
+   3         6498304       111355903   50.0 GiB    8300  
+   4       111355904       244457438   63.5 GiB    0700 
+##________________________________________  ___________________________
+
 
 #####  ==========  /:251104 :  pos-formats/syncs-lsblk:
 #-- src:  /dev/sda   ,   target/new: /dev/sdb  :

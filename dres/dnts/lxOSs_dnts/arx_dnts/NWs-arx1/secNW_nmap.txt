@@ -1,5 +1,4 @@
 ____________________ NWs-Security .....: _______________________________________
-##________________________________________  ___________________________
 
 
 #####  ==========  
@@ -44,3 +43,5 @@ hosts-scanning in my NW (quick, no-ports-scanning with -sn , so hosts-listing-on
 	_______:  ARPs-scan-exp:
 - Nmap ARP scan main features belong now to Nping, a tool belonging to the Nmap suite, the following examples include 2 using Nmap and one using Nping.
 nmap -sn -PR 192.168.*.*
+##________________________________________  ___________________________
+
