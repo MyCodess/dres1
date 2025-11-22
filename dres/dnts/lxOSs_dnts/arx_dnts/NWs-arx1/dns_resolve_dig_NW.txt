@@ -1,0 +1,57 @@
+______________________________ DNS / resolve / nameservers / dns queries, ... : ___________________________
+-! for the old/legacy dns cmds (nslookup, ...) see cmds_1coll_NW.txt ! here only posY2015-cmds (dig, ...):
+
+
+
+#####  ==========  dig :
+	- dig output format contains sections:   your-Question/query, Answer, Authority, and Additional sections !  /OR do: dig +short  #-to get only the name/answer!
+	dig [-4 / -6] +short  www.vim.org  [type]     ##--show its IP using the in OS configured -dns-server (/etc/resolv.conf , ...)
+	dig  +short  @8.8.8.8  www.vim.org   ##--show its IP using the explicit-dns-server (here 8.8.8.8)
+	reverse-lookup:    dig -x <IP>   #-This option sets simplified reverse lookups, for mapping addresses to names.
+	dig +xxx  #-options! to show/hide/... ; eg:  dig ++noanswer / +short /... ; see man dig
+	DNSserver-port-added-query:   Query a specific port:   dig @8.8.8.8 -p 5353 example.com  #-so DNSserver:  @8.8.8.8:5353
+	Read queries from a file:    dig -f queries.txt
+##________________________________________  ___________________________
+
+
+#####  ==========  what is my public/WAN ip address? (using DNS request):
+	--- using external web-pages/web-services as:
+	curl https://ipinfo.io/ip     ; echo
+	curl https://ipecho.net/plain ; echo
+	--- /OR dig/dns :
+	dig +short A myip.opendns.com @resolver2.opendns.com       #-OR -6 for IPv6 bzw. -4 for ipv4 !
+	dig +short TXT o-o.myaddr.l.google.com @ns3.google.com
+	--- aliases:
+	alias wanip='dig @resolver4.opendns.com myip.opendns.com +short'
+	alias wanip4='dig @resolver4.opendns.com myip.opendns.com +short -4'
+	alias wanip6='dig @resolver1.ipv6-sandbox.opendns.com AAAA myip.opendns.com +short -6'
+	---
+	- my local/private IP address?: ip addr #OR:  hostname -i
+	- MAC adr:  ethtool -P wlan0 /eth0 ...  ##OR:  ip link
+	- nmap (IP and ports scannong): see extra dnts here in NWs-sec.txt ... ! eg: find all IPs in my subnet:  nmap -sn 192.168.1.0/24
+##________________________________________  ___________________________
+
+
+#####  ==========  DNS ,nslookups... cmds/... listing:
+	- dig  - DNS lookup utility  (in bind package)  ##-- pacman -Syu  bind
+	- conf-files-dns-relevant:  /etc/nsswitch.conf  /etc/hosts  /etc/resolv.conf   /etc/systemd/resolved.conf
+	- man systemd-resolved.service , resolved.conf , resolv.conf , nsswitch.conf , hosts , 
+	- host - DNS lookup utility  ,// ;
+	- nslookup itself is eher obsol!?
+##________________________________________  ___________________________
+
+
+
+##############################  1coll : ###############################################################
+#####  ==========  host cmd /DNS-lookup exp:
+host  heise.de
+host  www.vim.org   8.8.8.8    ##--no-local-DNS-server needed! queries directly google-DNS 8.8.8.8 !
+##________________________________________  ___________________________
+
+
+#####  ==========  dig  cmd /DNS-lookup exp:
+dig www.vim.org
+dig @8.8.8.8   www.vim.org     ##--no-local-DNS-server needed! queries directly google-DNS 8.8.8.8 !
+##________________________________________  ___________________________
+
+

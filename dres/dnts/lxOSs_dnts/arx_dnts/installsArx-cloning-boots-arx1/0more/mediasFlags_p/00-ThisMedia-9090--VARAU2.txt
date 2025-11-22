@@ -1,0 +1,31 @@
+________________________________
+-!! external-VARAU-media, but parted/formatted as arx1-media, in case want to boot,...
+	but now ONLY using as external-VARAU for arx! or exfat-part for transfer-data/docs/mswins/.... !
+	- stat: it is now "bootable"/grub-installed and also parted same as arx1-stick, but NOTs configured any more for OS,...; but coul be done if sometimes required! so all ready for OS-boot, but NOT OS-cpd,...!
+
+#####  ==========  /:251106 :  
+#--- parts:
+sgdisk -o /dev/sdb   ##--/if-error, then:  gdisk /dev/sdb  #- o, w
+sudo  sgdisk -o -n 1:0:+100M  -n 2:0:+3G  -n 3:0:+50G  -n 4:0:-0  -t 1:EF02  -t 2:EF00 -t 3:8300 -t 4:0700  /dev/sdb
+
+#--- formats:    tagID:  9090  (external-media; started by 9x ) :
+sudo   mkfs.vfat  -v -n ESP1   -i  90902222  -c  /dev/sdb2
+date;  mkfs.ext4  -L  VARAU_2   -v  -c -U  90903333-9090-9090-9090-909090909090  /dev/sdb3 ; date ;  ##--> 17 min , both on HP13-USB3-port
+mkfs.exfat   -L  t1b   /dev/sdb4 ; tune.exfat   -I  0x90904444  /dev/sdb4 ;
+#-
+dev/sdb                                                                                                             116,6G disk
+├─/dev/sdb1                                                                                                            100M part
+├─/dev/sdb2            vfat   FAT32 ESP1        9090-2222                                                                3G part
+├─/dev/sdb3            ext4   1.0   VARAU_2     90903333-9090-9090-9090-909090909090                                    50G part
+└─/dev/sdb4            exfat  1.0   t1b         9090-4444                                                             63,5G part
+
+#--- grub-install:
+sudo  mkdir /mnt/hd1 ; sudo mount /dev/sdb3  /mnt/hd1 ; sudo mkdir /mnt/hd1/boot ; sudo mount /dev/sdb2  /mnt/hd1/boot/ ;
+- BIOS:  sudo  grub-install  --boot-directory=/mnt/hd1/boot/  --efi-directory=/mnt/hd1/boot/  --removable --recheck  --target=i386-pc  -v    /dev/sdb    ##--for BIOS-systems or [-v] ? ;
+- UEFI:  sudo  grub-install  --boot-directory=/mnt/hd1/boot/  --efi-directory=/mnt/hd1/boot/  --removable --recheck  -v  /dev/sdb                        ##--for UEFI-systems, [-v] ?
+lla /mnt/hd1/boot
+- vide-org  /mnt/t1/grub/grub.cfg
+##________________________________________  ___________________________
+
+
+

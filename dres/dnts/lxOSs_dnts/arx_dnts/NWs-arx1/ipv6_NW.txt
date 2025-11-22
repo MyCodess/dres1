@@ -1,0 +1,72 @@
+____________________ IPv6 nts : ______________________________
+
+
+
+#####  ==========  docs/urls/...
+	- https://en.wikipedia.org/wiki/IPv6_address
+	- ! CT ct.22.07.pdf 056--074  :  IPv6-Grundlagen ..., VPN, ...
+##________________________________________  ___________________________
+
+#####  ==========  Addresses:
+_______:  Notation , IPv6-Adressformat :
+	- 128 bit == 16 Bytes,== 32 hex-digits in 8 Blöcken je 4-Hex-digits ! erste/links-8-bytes: Netz , letzterechts-8-bytes: Host-ID !
+	---
+	- 128 bit == 16 Bytes, shown by: 32 hex-digits as: 8 Blocks of jej 4 hex-digits, seperated by ':' eg: 2001:0db8:85a3:0000:0000:8a2e:0370:7334
+	- also: die 128 Bit (weil zu lang!) werden in 8 Blöcken je 16 Bit (2 Byte) unterteilt. Je 4 Bit werden als eine hexadezimale Zahl dargestellt. Je 4 Hexzahlen werden gruppiert und durch einen Doppelpunkt (":") voneinander getrennt.
+	- Omit leading zeros in each block: Within a group, leading zeros can be dropped. eg: 0db8 == db8 ; 000 == 0
+	- ...:0000:0000:0000:...  ==  ...::...  so: A single sequence of consecutive groups that are all zeros can be replaced with a double colon (::) ! BUT only once !
+		- So, The double colon '::' can only be used ONLY ONCE in an address to avoid ambiguity. 2001:0db8:0000:0000:8a2e:0370:7334 can be compressed to 2001:0db8::8a2e:0370:7334.
+		- So, Mehrere aufeinanderfolgende 4er Nullerblöcke werden durch zwei Doppelpunkte ("::") gekürzt.
+	- The last 32 bits can be written in dotted-decimal IPv4 format.  ::ffff:127.0.0.1 is an example of an IPv4-mapped addres
+	- eg:  2001:0db8:0000:0000:34f4:0000:0000:f3dd/64  ==  2001:db8::34f4:0000:0000:f3dd/64  ==  2001:db8::34f4:0:0:f3dd/64
+	---
+	- IPv6-Adressen werden hexadezimal mit Zeichen von 0 bis F dargestellt. 128 Bit entsprechen 32 Zeichen. Sie sind mittels Doppelpunkten in acht Blöcke von je vier Zeichen unterteilt.
+	- Führende Nullen eines Blocks darf man weglassen und einen durchgehenden Nullenblock kürzt man per :: ab (z. B. 2001:db8::1234).
+	--- IPv4 <--> IPv6 adressenformat:
+	- IPv4-Adressen bestehen aus 4 Byte,  die zu vier Blöcken mit Werten von 0 bis 255 unterteilt sind (32 Bit). 
+	- IPv6-Adressen bestehen aus 16 Byte, die zu je acht Blöcken aus vier Hexadezimalstellen von 0 bis F unterteilt sind (128 Bit).
+
+_______:  unterteilung: Netz und  Host IDs (host == interface ,in IPv6 vocabs):
+	- Die vorderen (links)  64 Bit sind der Präfix bzw. Network-IDSubnetzes, in dem sich ein Host befindet.
+	- Die hinteren (rechts) 64 Bit werden als Interface Identifier (IID) bezeichnet. Das ist der Host-Adressanteil einer IPv6-Adresse.
+	- So:  IPv6 address consists mainly of two 64-bit segments where the higher part of the bits is classified as the network part, and the lower 64 bits are classified as the client ID.
+	- The network part (erste/links 64 bits) is subdivided into the Global Unicast Address (GUA) and subnet ID !
+	- IPv6 has no notion of subnet masks like IPv4 has.
+	- From the end-user or end-site perspective, the network part (or network ID) is provided by your Internet Service Provider (ISP) and is static. If your ISP aggregates a /48 prefix to you, then 16-bit addresses could be used to create 216 (65535) subnets,
+
+_______:  (sub)Networks CIDR notation ipv6 :
+	- ! see https://en.wikipedia.org/wiki/IPv6_address#Networks
+	- ! The leading set of bits of the addresses are identical for all hosts in a given network, and are called the network's address or routing prefix.
+	- A network is denoted by the first address in the block (ending in all zeroes), a slash (/), and a decimal value equal to the size in bits of the prefix. For example, the network written as 2001:db8:1234::/48 starts at address 2001:db8:1234:0000:0000:0000:0000:0000 and ends at 2001:db8:1234:ffff:ffff:ffff:ffff:ffff !
+	- The routing prefix of an interface address may be directly indicated with the address using CIDR notation. For example, the configuration of an interface with address 2001:db8:a::123 connected to subnet 2001:db8:a::/64 is written as 2001:db8:a::123/64.
+
+_______:  private addresses /LAN-adr in IPv4  ==  ULA /Unique local addresses in IPv6 , but:
+	- https://en.wikipedia.org/wiki/Unique_local_address
+	- Difference: ULAs are designed to be unique, meaning if two organizations that used ULA-assigned addresses merged, their networks would have unique addresses. In contrast, private IPv4 addresses  are the same across all organizations using them, which can cause conflicts when private networks merg
+	- ULA prefix is fd...
+	- Routable only within the scope of the organization (private networks /LANs). These addresses are not routable globally. IPv4 equivalent private ranges are 10.0.0.0/8, 192.168.1.0/24, and so on. Unique local addresses in IPv6 start with: fc00::/7 but recommended fd00::/8 !
+	- Unique Local Adresses :  ULAs beginnen mit fdxx:: und sind weltweit eindeutig, aber auch nur für den Verkehr im eigenen Netz gedacht.
+	- They start with the prefix fc00::/7, with the currently recommended and officially allocated range being fd00::/8. 
+	- ULAs are independent of Internet Service Providers (ISPs). 
+	---
+	- fe80::/10 – Addresses in the link-local prefix are only valid and unique on the local subnet. This address range is comparable to the auto-configuration addresses 169.254.0.0/16 of IPv4.
+
+_______:  URLs:
+	- https://en.wikipedia.org/wiki/IPv6_address#Literal_IPv6_addresses_in_network_resource_identifiers  ::
+	- In URLs sind IPv6-Adressen problematisch, weil in URLs der Doppelpunkt (":") als Trennzeichen zwischen Host-Adresse (Domain-Name oder IP-Adresse) und Portnummer (optional) verwendet wird.
+	- Deshalb müssen IPv6-Adressen in eckige Klammern gesetzt werden ("[]"), wenn sie in URLs verwendet werden. Die Portnummer muss hinter der schließenden Klammer, mit einem Doppelpunkt abgetrennt, stehen.
+	- Weiterhin dient in URLs das Prozentzeichen (%) für die Kennzeichnung der hexadezimalen Zeichencodierung. Innerhalb der URL muss das Prozentzeichen durch seinen eigenen Hex-Code "%25" ersetzt werden (RFC 6874). Das ist dann notwendig, wenn man die Verbindung über eine bestimmte Schnittstelle erzwingen will: - eg:  http://[2001:db8::1%25eth0]/
+	- eg:  http://[2001:db8:85a3:8d3:1319:8a2e:370:7348]/  ,  https://[2001:db8:85a3:8d3:1319:8a2e:370:7348]:443/
+
+_______:  UNC pathes (MS):
+	- https://en.wikipedia.org/wiki/IPv6_address#Literal_IPv6_addresses_in_UNC_path_names
+	- UNC-Pfade dürfen nach der Definition von Microsoft keine Doppelpunkte enthalten. MS-workaround: UNC of  \\2001:db8::1\share  as:  \\2001-db8--1.ipv6-literal.net\share
+	- so eg:  2001:db8:85a3:8d3:1319:8a2e:370:7348 is written as 2001-db8-85a3-8d3-1319-8a2e-370-7348.ipv6-literal.net
+_______:  hosts/subnets eg:
+	- https://en.wikipedia.org/wiki/IPv6_address#Special_addresses  ::
+	- localhost	:  ::1  ,  ::1/128
+	- Loopback address: This is the equivalent to the IPv4 address 127.0.0.1/8, but in IPv6 it's ::1/128
+	- local-NW-addresses:  fe80::...  ::  beginnen mit fe80:: und dienen zum Verkehr im eigenen Netz.
+
+##________________________________________  ___________________________
+

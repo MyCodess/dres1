@@ -1,0 +1,26 @@
+_____________________ kubectl cmd dnts: _______________________________________________
+- 
+
+
+#####  ==========  URLs/helps/...:
+	-!! https://kubernetes.io/docs/reference/kubectl/
+	-! kubectl help
+	-! kubectl explain xxx   ##-eg:  kubectl explain pods  [ --recursive ]  #-!see:  kubectl explain --help
+	- man kubectl , kubectl-config , ...
+##________________________________________  ___________________________
+
+
+#####  ==========  confs:
+	man kubectl-config
+	-configs by:
+		cmdline-arg  "kubectl --kubeconfig" (NO-merge-in! ignores the rest!)  >  
+			$KUBECONFIG (merging-of-path-entries) >
+				Otherwise, ${HOME}/.kube/config  (no merging;  (mswin:  %USERPROFILE%\.kube\config)
+##________________________________________  ___________________________
+
+
+#####  ==========  call kubectl:
+	kubectl [command/action] [resource-TYPE] [NAME,...] [flags]    #--as:
+	kubectl [create, get, describe, delete, ...] [pods, nodes, cluster, ...] [mypod1,...., none==all]  [-s , ...]
+##________________________________________  ___________________________
+

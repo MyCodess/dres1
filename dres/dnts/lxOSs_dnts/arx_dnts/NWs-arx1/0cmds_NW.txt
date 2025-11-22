@@ -1,0 +1,91 @@
+
+
+
+#####  ==========  listing-shorties-NW-cmds:
+	ip			::  OS-NW-interfaces/IPs-management/configs : dev/links/addr/routing/... of OS-local NW-devices  (instead old ifconfig)
+	dig			::  DNS lookups (instead old nslookup)
+	ss			::  ports/sockets-traffic/statistics-monitoring/scanner of your local PC;  (instead old netstat);  inspecting the local system's current network connections and listening sockets. (Socket Statistics); check what services are currently listening for connections on your own machine.
+	traceroute  ::	show route-path to a destination/target
+	tcpdump		::  dump NW-packages-traffics (tcp/udp/icmp/ssh/... all)
+	Wireshark	::  dump NW-packages-traffics : network packets capture/analyze/monitor (also USB/... devices)
+	nmap [-sS]	::  port scanner of remote PC,..; discover services running on a network or a specific machine;   --> see dnts extra in NWs-sec.txt !
+##________________________________________  ___________________________
+
+
+#####  ==========  OS-DIRs/confs of NW-devices/interfaces ...:
+	- arch: udev dynamically managed/created! soi:  ls /sys/class/net/  ==  ip -br link  ##-see:   https://wiki.archlinux.org/title/Network_configuration#Network_interfaces
+	- Ubuntu/Debian/Mint:  /etc/network/interfaces            ##-bzw:  /etc/netplan/ :: On newer Ubuntu versions, Netplan is used for network configuration. 
+	- RHEL/CentOS/Fedora:  /etc/sysconfig/network-scripts/    ##-eg:  vi /etc/sysconfig/network-scripts/ifcfg-eth0
+##________________________________________  ___________________________
+
+
+#####  ==========  traceroute:
+_______:  
+	- traceroute : is a network diagnostic tool used to track the path that data packets take from your computer to a destination.
+	It sends packets across the internet and shows you every "hop" (router or server) it passes through along the way, as well as how long each step takes.
+	- pacman -Sy  traceroute
+
+_______:  
+	 traceroute [ -4 / -6]  google.com
+	 - use certain gateway: -g :  traceroute  -g 10.167.120.1   google.com
+	 - use certain gateway: -g ,and max 5 times: -m , and each time only two probes/trys :  traceroute  -g 10.167.120.1 -m 5 -q 2  google.com
+	 - no-dns-names ! show only IPs:  -n ...
+	-! if firewall/... blocks traceroute-functions (sending ICMP pakets ...), then use traceroute -T ... which uses TCP-SYN to find the route!
+##________________________________________  ___________________________
+
+
+#####  ==========  ss (instead netstat for ports-monitoring):
+	- ss  :  dump sockets/ports statistics (better than old netstat ...)
+	- ss -h
+	---
+	ss : Displays all open non-listening sockets.
+	ss -a: Shows both listening and non-listening sockets.
+	ss -t: Displays all TCP sockets.  #--> https,...  ##- -r  : hostnames/peer-names instead ip ! -n : port-no instead port-name !
+	ss -u: Displays all UDP sockets.
+	ss -x: Displays only Unix domain sockets.
+	ss -l: Displays only listening sockets.
+	ss -4: Displays only IPv4 sockets.
+	ss -6: Displays only IPv6 sockets.
+	ss -r: Resolves port numbers to service names (e.g., ssh instead of 22).
+	ss -n: Shows port numbers instead of service names.
+	ss -H: Suppresses the header line in the output.
+	ss -O: Prints each socket's data on a single line.
+	--- Filtering examples:
+	ss state established: Shows all established TCP connections.
+	ss dst :ssh: Filters for connections where the destination port is SSH.
+	ss -a dst :5228 or src :mysql: Filters for connections that have a destination port of 5228 or a source port of mysql.
+	ss -o state established '( dport = :ssh or sport = :ssh )': Finds all established SSH connections.
+	---
+	- filtering output with  -F /OR -A xxx   #-see ss -h
+	- ss -t for all TCP sockets, ss -u for all UDP sockets, and ss -l for listening  /OR-combined:  ss -tulnp to see TCP, UDP, and listening sockets with process information and port numbers. 
+	- list all established sockets (opened non-listening+listening ports/sockets) : ss  -a/--all   [ | sort -k 4 or 5 ]  ##--no args, then ss displays a list of open non-listening sockets (e.g. TCP/UNIX/UDP) that have established connection.
+	- list established/opened non-listening ports/sockets connections : ss    [ | sort -k 4 or 5 ]  ##--no args, then ss displays a list of open non-listening sockets (e.g. TCP/UNIX/UDP) that have established connection.
+	- list ONLY listenning ports:  ss -l
+	- list ONLY listenning ports and the processes using them:  ss -l -p/--processes  [ also their threads -T]
+##________________________________________  ___________________________
+
+
+#####  ==========  tcpdump :
+	- ! powerful/profi too to show/analyze all NW-packages-trafics (ICMP/hhtps/UDS/TCP/ssh/telnet/...)! but complex/profi! use instead wireshark !
+	pacman -Sy  tcpdump
+	---
+	- which interfaces are available for capture:  tcpdump  -D / --list-interfaces
+	- 'any' interface  allows capturing in any active interface.
+	- Capture all packets in any interface:  $ sudo tcpdump --interface any   #- ctrl-C to exit! /OR limit with: -c nnn
+	- no-dns / only IPs:  -n / -nn   ##-default shows DNS names!
+	- 
+##________________________________________  ___________________________
+
+
+#####  ==========  Wireshark :
+	-! https://www.wireshark.org/docs/ , https://wiki.wireshark.org/ , 
+	- Wireshark is a network packet analyzer. A network packet analyzer presents captured packet data in as much detail as possible.
+##________________________________________  ___________________________
+
+
+#####  ==========  lsof as ss-simailar (checking ports): ONLY as root/sudo !!:
+	sudo  lsof  -i  #for localhost; /OR with -P for port-numbers instead port-names in /etc/services
+	sudo  lsof  -Pi @[hostnameXX]:22 ; /OR  lsof -i @[hostnameXX] :ssh 
+	sudo  lsof  -i@192.168.1.7:22,80    ##checking ports 22 and 80
+##________________________________________  ___________________________
+
